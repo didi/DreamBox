@@ -27,6 +27,7 @@ public final class DreamBox {
     public static final String VERSION = BuildConfig.VERSION_NAME;
     public static int VERSION_CODE = -1;
     public static Set<String> accessKeys = new HashSet<>(1);
+    public static boolean Debug = true;
 
     private static Map<String, List<WeakReference<DreamBoxView>>> debugCache;
 
@@ -53,9 +54,9 @@ public final class DreamBox {
             throw new IllegalStateException(accessKey + " already register，don't need twice！");
         }
         if (!initWrapper) {
-            boolean debug = (application.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+            boolean debug = (application.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0 && Debug;
             VERSION_CODE = wrapperVersionCode(VERSION);
-            Wrapper.getInstance().init(application, VERSION, VERSION_CODE, debug);
+            Wrapper.getInstance().init(application, VERSION, debug);
             initWrapper = true;
         }
         Wrapper.getInstance().register(accessKey, impl);

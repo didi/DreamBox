@@ -51,13 +51,15 @@ public class DreamBoxView extends FrameLayout implements LifecycleOwner {
     private static final int FAIL_TEMPLATE_PROCESS = 102;   // 解析模板数据失败
     private static final int FAIL_RENDER_TEMPLATE = 103;    // 渲染模板视图失败
 
-    private IDBCoreView curCoreView;
+    @Nullable
+    private volatile IDBCoreView curCoreView;
     private Lifecycle curLifecycle;
     private String curAccessKey;
+
     private volatile String curTemplateId;
     private volatile String curExt;
 
-    private String storeExt;
+    private volatile String storeExt;
     private Map<String, String> storeSendEvent;
     private Map<String, IDBEventReceiver> storeRegisterEvent;
 
@@ -129,7 +131,7 @@ public class DreamBoxView extends FrameLayout implements LifecycleOwner {
         }
     }
 
-    public void render(@NonNull final String accessKey, @NonNull final String templateId, @Nullable String extJsonStr,
+    public void render(@NonNull final String accessKey, @NonNull final String templateId, @Nullable final String extJsonStr,
                        @Nullable final OnRenderCallback callback, @NonNull final Lifecycle lifecycle) {
         if (TextUtils.isEmpty(accessKey)) {
             throw new IllegalArgumentException("please set accessKey before use");
@@ -142,8 +144,8 @@ public class DreamBoxView extends FrameLayout implements LifecycleOwner {
         this.curTemplateId = templateId;
         this.curLifecycle = lifecycle;
         this.curCoreView = null;
+        this.storeExt = null;
 
-        setExtJsonStr(extJsonStr == null ? "" : extJsonStr);
         DBThreadUtils.runOnWork(new Runnable() {
             @Override
             public void run() {
@@ -164,7 +166,7 @@ public class DreamBoxView extends FrameLayout implements LifecycleOwner {
                         long loadTemplateTime = System.currentTimeMillis() - startLoadTemplate;
                         totalRenderReport.adder().add("get_temp_time", loadTemplateTime + "");
 
-                        renderWithTemplate(templateId, callback, template, totalRenderReport);
+                        renderWithTemplate(templateId, callback, template, extJsonStr, totalRenderReport);
                     }
                 });
             }
@@ -185,12 +187,20 @@ public class DreamBoxView extends FrameLayout implements LifecycleOwner {
                         Log.w(TAG, "render ext is not same cur-" + curExt + "，this-" + extJsonStr);
                         return;
                     }
+                    if (curCoreView == null) {
+                        Log.w(TAG, "update ext but core view is empty，wait next render");
+                        return;
+                    }
                     JsonObject ext = DBEngine.getInstance().extWrapper(extJsonStr);
                     curCoreView.setExtData(ext);
                     DBThreadUtils.runOnMain(new Runnable() {
                         @Override
                         public void run() {
-                            curCoreView.requestRender();
+                            if (curCoreView != null) {
+                                curCoreView.requestRender();
+                            } else {
+                                Log.w(TAG, "reload render but core view is empty，wait next render");
+                            }
                         }
                     });
                 }
@@ -200,7 +210,7 @@ public class DreamBoxView extends FrameLayout implements LifecycleOwner {
 
     @WorkerThread
     private void renderWithTemplate(final String templateId, final OnRenderCallback callback,
-                                    String template, final WrapperMonitor.ReportStart totalRenderReport) {
+                                    String template, final String extJsonStr, final WrapperMonitor.ReportStart totalRenderReport) {
         // 解析db模板数据，获取真正模板
         final String temp = DreamBox.getInstance().process(curAccessKey, template);
         if (TextUtils.isEmpty(temp)) {
@@ -210,6 +220,12 @@ public class DreamBoxView extends FrameLayout implements LifecycleOwner {
 
         // 后台解析模板
         final DBTemplate dbTemplate = DBEngine.getInstance().parser(curAccessKey, templateId, temp);
+
+        JsonObject ext = null;
+        if (extJsonStr != null) {
+            ext = DBEngine.getInstance().extWrapper(extJsonStr);
+        }
+        final JsonObject renderExt = ext;
 
         DBThreadUtils.runOnMain(new Runnable() {
             @Override
@@ -221,12 +237,13 @@ public class DreamBoxView extends FrameLayout implements LifecycleOwner {
                 }
 
                 // 构建核心视图
-                IDBCoreView coreView = DBEngine.getInstance().render(dbTemplate, null, getContext(), curLifecycle);
+                IDBCoreView coreView = DBEngine.getInstance().render(dbTemplate, renderExt, getContext(), curLifecycle);
                 if (coreView == null) {
                     renderCallbackOnMain(callback, false, FAIL_RENDER_TEMPLATE, "render view fail");
                     return;
                 }
 
+                curExt = extJsonStr;
                 // 替换为实际view
                 renderView(coreView);
 
@@ -341,13 +358,7 @@ public class DreamBoxView extends FrameLayout implements LifecycleOwner {
     @WorkerThread
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
     public void reloadWithTemplate(String template) {
-        renderWithTemplate(curTemplateId, null, template, null);
-        DBThreadUtils.runOnMain(new Runnable() {
-            @Override
-            public void run() {
-                setExtJsonStr(curExt);
-            }
-        });
+        renderWithTemplate(curTemplateId, null, template, curExt, null);
     }
 
     public String getCurAccessKey() {

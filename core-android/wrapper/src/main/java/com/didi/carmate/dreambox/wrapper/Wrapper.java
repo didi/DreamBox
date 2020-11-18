@@ -48,7 +48,7 @@ public class Wrapper {
     private Wrapper() {
     }
 
-    public void init(Application application, String version, int versionCode, boolean debug) {
+    public void init(Application application, String version, boolean debug) {
         this.application = application;
         this.version = version;
         this.debug = debug;
