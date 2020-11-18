@@ -1,7 +1,7 @@
 <dbl>
     <meta />
     <render>
-        <list id="stud_list" leftToLeft="parent" rightToRight="parent" width="fill" topToTop="parent" bottomToBottom="parent" marginTop="0dp" marginBottom="0dp" orientation="vertical" src="${ext.db_list}" backgroundColor="#EEEEEE">
+        <list id="stud_list" leftToLeft="parent" rightToRight="parent" width="fill" topToTop="parent" bottomToBottom="parent" height="fill" marginTop="0dp" marginBottom="0dp" orientation="vertical" src="${ext.db_list}" backgroundColor="#EEEEEE">
             <header>
                 <text  width="fill" height="60dp" leftToLeft="parent" rightToRight="parent"
                     src="I'm header View" gravity="center"/>

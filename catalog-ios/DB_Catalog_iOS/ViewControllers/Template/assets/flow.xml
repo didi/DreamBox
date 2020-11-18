@@ -2,7 +2,7 @@
  >
     <meta bg="https://static.didialift.com/pinche/gift/resource/3p5vf8r9d68-1596784035946-tag_bg.png"/>
 	<render>
-        <flow  id="flow1" src="${ext.tabs}"  hSpace="5dp" bSpace="10dp" >
+        <flow  id="flow1" src="${ext.tabs}"  hSpace="5dp" bSpace="10dp" width="200">
            <text id="item_name"  src="${title}" topToTop="parent"
                bottomToBottom="parent" leftToLeft="parent" rightToRight="parent" marginTop="5dp"
                marginBottom="5dp" marginLeft="5dp" marginRight="5dp" backgroundColor="#56634567"/>
