@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.didi.carmate.dreambox.core.base.DBConstants;
 import com.didi.carmate.dreambox.core.base.DBContext;
 import com.didi.carmate.dreambox.core.base.INodeCreator;
+import com.didi.carmate.dreambox.core.utils.DBScreenUtils;
 import com.didi.carmate.dreambox.core.utils.DBUtils;
 
 import java.util.Map;
@@ -16,6 +17,11 @@ import java.util.Map;
  * date: 2020/4/30
  */
 public class DBText extends DBBaseText<TextView> {
+    private int minWidth;
+    private int maxWidth;
+    private int minHeight;
+    private int maxHeight;
+
     protected DBText(DBContext dbContext) {
         super(dbContext);
     }
@@ -29,6 +35,10 @@ public class DBText extends DBBaseText<TextView> {
     public void onAttributesBind(TextView selfView, Map<String, String> attrs) {
         super.onAttributesBind(selfView, attrs);
 
+        minWidth = DBScreenUtils.processSize(mDBContext, attrs.get("minWidth"), 0);
+        maxWidth = DBScreenUtils.processSize(mDBContext, attrs.get("maxWidth"), 0);
+        minHeight = DBScreenUtils.processSize(mDBContext, attrs.get("minHeight"), 0);
+        maxHeight = DBScreenUtils.processSize(mDBContext, attrs.get("maxHeight"), 0);
         doRender(selfView);
     }
 
@@ -56,6 +66,22 @@ public class DBText extends DBBaseText<TextView> {
             } else if (style.equals(DBConstants.STYLE_TXT_BOLD)) {
                 textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
             }
+        }
+        // minWidth
+        if (minWidth != 0) {
+            textView.setMinWidth(minWidth);
+        }
+        // maxWidth
+        if (maxWidth != 0) {
+            textView.setMaxWidth(maxWidth);
+        }
+        // minHeight
+        if (minHeight != 0) {
+            textView.setMinHeight(minHeight);
+        }
+        // maxHeight
+        if (maxHeight != 0) {
+            textView.setMaxHeight(maxHeight);
         }
     }
 

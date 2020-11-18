@@ -6,6 +6,7 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
@@ -33,14 +34,7 @@ public class DBRichView extends View {
 
     private Drawable mDrawable;
 
-    /**
-     * Bitmap Paint
-     */
     private Paint mBitmapPaint;
-
-    /**
-     * 边框 Paint
-     */
     private Paint mBorderPaint;
 
     /**
@@ -50,55 +44,27 @@ public class DBRichView extends View {
 
     private Shader mBitmapShader;
 
-    /**
-     * 变换矩阵
-     */
     private Matrix mShaderMatrix;
 
-    /**
-     * 形状
-     */
     private int mShape;
-
-    /**
-     * Rect Bitmap
-     */
     private RectF mRcBitmap;
-
-    /**
-     * Rect Border
-     */
     private RectF mRcBorder;
 
     /**
      * 圆角半径
      */
-    private float mRoundRadius;
-
-    /**
-     * 边框半径
-     */
     private float mBorderRadius;
-
-    /**
-     * 图片半径
-     */
     private float mCircleRadius;
 
-    /**
-     * 边框color
-     */
     private int mBorderColor;
-
-    /**
-     * 边框大小
-     */
     private int mBorderWidth;
 
     /**
      * 按下态蒙层color
      */
     private int mCoverColor;
+    private Path mPath;
+    private float[] mCorners;
 
     /**
      * 默认形状
@@ -122,9 +88,16 @@ public class DBRichView extends View {
         mBorderPaint.setColor(mBorderColor);
         mBorderPaint.setStrokeWidth(mBorderWidth);
 
+        mPath = new Path();
         mRcBitmap = new RectF();
         mRcBorder = new RectF();
         mShaderMatrix = new Matrix();
+        mCorners = new float[]{
+                0, 0,        // Top left radius in px
+                0, 0,        // Top right radius in px
+                0, 0,        // Bottom right radius in px
+                0, 0         // Bottom left radius in px
+        };
     }
 
     public void setImageDrawable(Drawable drawable) {
@@ -259,8 +232,10 @@ public class DBRichView extends View {
                 canvas.drawCircle((float) getWidth() / 2, (float) getHeight() / 2, mCircleRadius, mBitmapPaint);
                 canvas.drawCircle((float) getWidth() / 2, (float) getHeight() / 2, mBorderRadius, mBorderPaint);
             } else if (mShape == SHAPE_REC) {
-                canvas.drawRoundRect(mRcBitmap, mRoundRadius, mRoundRadius, mBitmapPaint);
-                canvas.drawRoundRect(mRcBorder, mRoundRadius, mRoundRadius, mBorderPaint);
+                mPath.addRoundRect(mRcBitmap, mCorners, Path.Direction.CW);
+                canvas.drawPath(mPath, mBitmapPaint);
+                mPath.addRoundRect(mRcBorder, mCorners, Path.Direction.CW);
+                canvas.drawPath(mPath, mBorderPaint);
             }
         }
     }
@@ -305,13 +280,27 @@ public class DBRichView extends View {
         mCoverColor = coverColor;
     }
 
-    public void setShape(int shape) {
-        mShape = shape;
-        preDraw();
+    public void setRoundRadius(int lt, int rt, int rb, int lb) {
+        if (lt != 0) {
+            mCorners[0] = lt;
+            mCorners[1] = lt;
+        }
+        if (rt != 0) {
+            mCorners[2] = rt;
+            mCorners[3] = rt;
+        }
+        if (rb != 0) {
+            mCorners[4] = rb;
+            mCorners[5] = rb;
+        }
+        if (lb != 0) {
+            mCorners[6] = lb;
+            mCorners[7] = lb;
+        }
     }
 
-    public void setRoundRadius(float roundRadius) {
-        mRoundRadius = roundRadius;
+    public void setShape(int shape) {
+        mShape = shape;
         preDraw();
     }
 }

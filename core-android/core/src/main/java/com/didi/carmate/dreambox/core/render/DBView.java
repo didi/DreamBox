@@ -21,6 +21,10 @@ import java.util.Map;
 public class DBView extends DBBaseView<DBRichView> {
     private String shape; // 绘制形状
     private int radius; // 圆角半径
+    private int radiusLT; // 左上角圆角半径
+    private int radiusRT; // 右上角圆角半径
+    private int radiusRB; // 右下角圆角半径
+    private int radiusLB; // 左下角圆角半径
     private int borderWidth; // 边框宽度
     private String borderColor; // 边框颜色
     private String gradientColor; // 过渡颜色
@@ -41,6 +45,10 @@ public class DBView extends DBBaseView<DBRichView> {
 
         shape = attrs.get("shape");
         radius = DBScreenUtils.processSize(mDBContext, attrs.get("radius"), 0);
+        radiusLT = DBScreenUtils.processSize(mDBContext, attrs.get("radiusLT"), 0);
+        radiusRT = DBScreenUtils.processSize(mDBContext, attrs.get("radiusRT"), 0);
+        radiusRB = DBScreenUtils.processSize(mDBContext, attrs.get("radiusRB"), 0);
+        radiusLB = DBScreenUtils.processSize(mDBContext, attrs.get("radiusLB"), 0);
         borderWidth = DBScreenUtils.processSize(mDBContext, attrs.get("borderWidth"), 0);
         borderColor = getString(attrs.get("borderColor"));
         gradientColor = getString(attrs.get("gradientColor"));
@@ -52,6 +60,11 @@ public class DBView extends DBBaseView<DBRichView> {
     private void doRender(DBRichView richView) {
         // 覆写父类背景颜色
         richView.setBackgroundColor(Color.TRANSPARENT);
+        if (radius != 0) {
+            richView.setRoundRadius(radius, radius, radius, radius);
+        } else {
+            richView.setRoundRadius(radiusLT, radiusRT, radiusRB, radiusLB);
+        }
 //        // pressed颜色
 //        richView.setPressed(false);
 //        richView.setCoverColor(Color.parseColor("#66AAAA"));
@@ -105,7 +118,6 @@ public class DBView extends DBBaseView<DBRichView> {
         } else {
             richView.setShape(DBRichView.SHAPE_REC);
         }
-        richView.setRoundRadius(radius);
     }
 
     public static String getNodeTag() {
