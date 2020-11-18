@@ -41,3 +41,4 @@ Carthage/Build
 
 # VsCode
 .vscode
+**/bin/
