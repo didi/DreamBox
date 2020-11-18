@@ -1,0 +1,351 @@
+{
+    "dbl": {
+        "changeOn": "orderId",
+        "dismissOn": "canVisible",
+        "scroll": "vertical",
+        "meta": {
+            "imgDotNine": "https://static.didialift.com/pinche/gift/resource/glbmliqs4dg-1596195332643-bts_cm_hp_pub_corner.9.png"
+        },
+        "callbacks": [
+            {
+                "type": "onVisible",
+                "actions": [
+                    {
+                        "log": {
+                            "msg": "dbl onVisible",
+                            "level": "i",
+                            "tag": "TEST"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "onInVisible",
+                "actions": [
+                    {
+                        "log": {
+                            "msg": "dbl onInVisible",
+                            "level": "i",
+                            "tag": "TEST"
+                        }
+                    }
+                ]
+            }
+        ],
+        "onEvent": {
+            "eid": "1000",
+            "msgTo": "eventOn",
+            "actions": [
+                {
+                    "toast": {
+                        "src": "${eventOn.student.name}"
+                    }
+                }
+            ]
+        },
+        "render": [
+            {
+                "height": "80dp",
+                "marginTop": "30dp",
+                "src": "${imgDotNine}",
+                "srcType": "ninePatch",
+                "width": "200dp",
+                "type": "image",
+                "id": "1",
+                "leftToLeft": "0",
+                "rightToRight": "0",
+                "topToTop": "0",
+                "callbacks": [
+                    {
+                        "type": "onClick",
+                        "actions": [
+                            {
+                                "toast": {
+                                    "src": "我是一条trace"
+                                }
+                            },
+                            {
+                                "trace": {
+                                    "key": "beat_order_pv",
+                                    "attr": [
+                                        {
+                                            "key": "uid",
+                                            "value": "${uid}"
+                                        },
+                                        {
+                                            "key": "oid",
+                                            "value": "${oid}"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "changeOn": "responseRet",
+                "height": "80dp",
+                "marginTop": "30dp",
+                "src": "${responseRet.images.logo}",
+                "width": "80dp",
+                "type": "image",
+                "id": "2",
+                "leftToLeft": "0",
+                "rightToRight": "0",
+                "topToBottom": "1",
+                "callbacks": {
+                    "type": "onClick",
+                    "actions": [
+                        {
+                            "sendEvent": {
+                                "eid": "2001",
+                                "msg": {
+                                    "orderId": "123456",
+                                    "routeId": "654321"
+                                },
+                                "onSendEventCallback": {
+                                    "msgTo": "eventCbMsg",
+                                    "actions": [
+                                        {
+                                            "toast": {
+                                                "src": "${eventCbMsg.student.class.className}"
+                                            }
+                                        },
+                                        {
+                                            "log": {
+                                                "level": "d",
+                                                "src": "${eventCbMsg.student.class.className}"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "backgroundColor": "#789789",
+                "gravity": "center",
+                "height": "60dp",
+                "marginTop": "30dp",
+                "src": "\u7f51\u7edc\u52a0\u8f7d",
+                "width": "120dp",
+                "type": "text",
+                "callbacks": [
+                    {
+                        "type": "onDoubleClick",
+                        "actions": [
+                            {
+                                "trace": {
+                                    "key": "beat_order_pv",
+                                    "attr": {
+                                        "key": "uid",
+                                        "value": "${uid}"
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "onClick",
+                        "actions": [
+                            {
+                                "net": {
+                                    "to": "responseRet",
+                                    "url": "${netUrlSuccess}",
+                                    "callbacks": [
+                                        {
+                                            "type": "onSuccess",
+                                            "actions": [
+                                                {
+                                                    "toast": {
+                                                        "src": "net onSuccess"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "onError",
+                                            "actions": [
+                                                {
+                                                    "toast": {
+                                                        "src": "${responseRet.school}"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "invoke": {
+                                    "alias": "id_123",
+                                    "src": "${responseRet}"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "leftToLeft": "0",
+                "rightToRight": "0",
+                "topToBottom": "2"
+            },
+            {
+                "id": "1001",
+                "type": "flow",
+                "width": "0dp",
+                "height": "wrap",
+                "leftToLeft": "0",
+                "rightToRight": "0",
+                "topToBottom": "1000",
+                "marginTop": "30dp",
+                "changeOn": "responseRet",
+                "hSpace": "5dp",
+                "vSpace": "1dp",
+                "src": "${responseRet.students}",
+                "backgroundColor": "#EEEEEE",
+                "children": [
+                    {
+                        "type": "cell",
+                        "children": [
+                            {
+                                "id": "1000",
+                                "leftToLeft": "0",
+                                "topToTop": "0",
+                                "backgroundColor": "#FFFFFF",
+                                "size": "12dp",
+                                "color": "#333333",
+                                "style": "bold",
+                                "src": "${name}",
+                                "type": "text"
+                            },
+                            {
+                                "id": "1001",
+                                "leftToRight": "1000",
+                                "topToTop": "0",
+                                "backgroundColor": "#FF0000",
+                                "size": "12dp",
+                                "color": "#FFFFFF",
+                                "style": "bold",
+                                "src": "${age}",
+                                "type": "text"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "backgroundColor": "#EEEEEE",
+                "changeOn": "responseRet",
+                "height": "120dp",
+                "marginTop": "10dp",
+                "orientation": "vertical",
+                "src": "${responseRet.students}",
+                "width": "0dp",
+                "type": "list",
+                "id": "2",
+                "leftToLeft": "0",
+                "rightToRight": "0",
+                "topToBottom": "1",
+                "children": [
+                    {
+                        "type": "header",
+                        "children": [
+                            {
+                                "src": "I'm header View",
+                                "type": "text",
+                                "leftToLeft": "0",
+                                "rightToRight": "0"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "vh",
+                        "children": [
+                            {
+                                "style": "bold",
+                                "backgroundColor": "#FFFFFF",
+                                "color": "#333333",
+                                "size": "12dp",
+                                "src": "${name}",
+                                "type": "text",
+                                "id": "3",
+                                "leftToLeft": "0",
+                                "topToTop": "0"
+                            },
+                            {
+                                "style": "bold",
+                                "backgroundColor": "#FF0000",
+                                "color": "#FFFFFF",
+                                "marginLeft": "10dp",
+                                "size": "12dp",
+                                "src": "${age}",
+                                "type": "text",
+                                "id": "4",
+                                "leftToRight": "3",
+                                "topToTop": "0"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "footer",
+                        "children": [
+                            {
+                                "src": "I'm footer View",
+                                "type": "text"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "actionAlias": [
+            {
+                "id": "id_123",
+                "src": "${responseRet}",
+                "actions": [
+                    {
+                        "storage": {
+                            "key": "storage_test",
+                            "write": "${goods.foods.fruit.sour.orange}"
+                        }
+                    },
+                    {
+                        "dialog": {
+                            "title": "${school}",
+                            "msg": "${class}",
+                            "positiveBtn": "${goods.foods.fruit.sour.orange}",
+                            "negativeBtn": "${goods.foods.fruit.sour.pomegranate}",
+                            "callbacks": [
+                                {
+                                    "type": "onPositive",
+                                    "actions": [
+                                        {
+                                            "toast": {
+                                                "src": "I am dialog positive button",
+                                                "long": "false"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "onNegative",
+                                    "actions": [
+                                        {
+                                            "toast": {
+                                                "src": "I am dialog negative button",
+                                                "long": "false"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" id="dbl" elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xs:element name="dbl">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="meta" minOccurs="0" maxOccurs="1">
+                    <xs:complexType>
+                        <xs:anyAttribute processContents="skip" />
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="onVisible" minOccurs="0" maxOccurs="1" type="actionContainer"/>
+                <xs:element name="onInvisible" minOccurs="0" maxOccurs="1" type="actionContainer"/>
+                <xs:element name="render" minOccurs="1" maxOccurs="1" type="renderElt" />
+                <xs:element name="action-alias" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:complexContent>
+                            <xs:extension base="actionContainer">
+                                <xs:attributeGroup ref="srcElt"></xs:attributeGroup>
+                                <xs:attribute name="id" type="idPattern" use="required"></xs:attribute>
+                            </xs:extension>
+                        </xs:complexContent>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="id" type="idPattern" fixed="parent" />
+            <xs:attribute name="displayType" type="displayTypeDeclare" default="view" />
+            <xs:attribute name="dependOn" type="xs:string" />
+            <xs:attribute name="dismissOn" type="xs:string" />
+            <xs:attribute name="width" type="sizeType" />
+            <xs:attribute name="height" type="sizeType" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="displayTypeDeclare">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="view"></xs:enumeration>
+            <xs:enumeration value="pop"></xs:enumeration>
+            <xs:enumeration value="page"></xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="sizeType">
+        <xs:union memberTypes="sizeEnum sizePattern"></xs:union>
+    </xs:simpleType>
+
+    <xs:simpleType name="sizeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="0"></xs:enumeration>
+            <xs:enumeration value="wrap"></xs:enumeration>
+            <xs:enumeration value="fill"></xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="sizePattern">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[1-9][0-9]*(dp|px)"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:attributeGroup name="baseActionAttr">
+        <xs:attribute name="dependOn" use="optional" type="xs:string" />
+    </xs:attributeGroup>
+
+    <xs:complexType name="actionContainer">
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="log" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attributeGroup ref="baseActionAttr" />
+                    <xs:attribute name="msg" use="required"></xs:attribute>
+                    <xs:attribute name="tag" use="optional"></xs:attribute>
+                    <xs:attribute name="level" use="optional" default="d">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="e"></xs:enumeration>
+                                <xs:enumeration value="w"></xs:enumeration>
+                                <xs:enumeration value="i"></xs:enumeration>
+                                <xs:enumeration value="d"></xs:enumeration>
+                                <xs:enumeration value="v"></xs:enumeration>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="net" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:all>
+                        <xs:element name="onSuccess" type="actionContainer"></xs:element>
+                        <xs:element name="onError" type="actionContainer"></xs:element>
+                    </xs:all>
+                    <xs:attributeGroup ref="baseActionAttr" />
+                    <xs:attribute name="url" type="urlPattern" use="required"></xs:attribute>
+                    <xs:attribute name="to" type="xs:string" use="optional"></xs:attribute>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="trace" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="attr" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                                <xs:attribute name="key" type="idPattern" use="required"></xs:attribute>
+                                <xs:attribute name="value" type="xs:string" use="required"></xs:attribute>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                    <xs:attributeGroup ref="baseActionAttr" />
+                    <xs:attribute name="key" type="idPattern" use="required"></xs:attribute>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="nav" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:all>
+                        <xs:element name="onSuccess" type="actionContainer"></xs:element>
+                        <xs:element name="onError" type="actionContainer"></xs:element>
+                    </xs:all>
+                    <xs:attribute name="schema" type="xs:string" use="required"></xs:attribute>
+                    <xs:attributeGroup ref="baseActionAttr" />
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="cache" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attribute name="key" type="idPattern" use="required"></xs:attribute>
+                    <xs:attribute name="write" type="xs:string" use="optional"></xs:attribute>
+                    <xs:attribute name="readTo" type="xs:string" use="optional"></xs:attribute>
+                    <xs:attributeGroup ref="baseActionAttr" />
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="change-meta" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attributeGroup ref="baseActionAttr" />
+                    <xs:anyAttribute></xs:anyAttribute>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="dialog" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:all>
+                        <xs:element name="onPositive" type="actionContainer"></xs:element>
+                        <xs:element name="onNegative" type="actionContainer"></xs:element>
+                        <xs:element name="onNeutral" type="actionContainer"></xs:element>
+                    </xs:all>
+                    <xs:attributeGroup ref="baseActionAttr" />
+                    <xs:attribute name="title" type="xs:string" use="optional"></xs:attribute>
+                    <xs:attribute name="msg" type="xs:string" use="required"></xs:attribute>
+                    <xs:attribute name="icon" type="urlPattern" use="optional"></xs:attribute>
+                    <xs:attribute name="positiveBtn" type="xs:string" use="required"></xs:attribute>
+                    <xs:attribute name="positiveColor" type="colorPattern" use="optional"></xs:attribute>
+                    <xs:attribute name="negativeBtn" type="xs:string" use="optional"></xs:attribute>
+                    <xs:attribute name="negativeColor" type="colorPattern" use="optional"></xs:attribute>
+                    <xs:attribute name="neutralBtn" type="xs:string" use="optional"></xs:attribute>
+                    <xs:attribute name="neutralColor" type="colorPattern" use="optional"></xs:attribute>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="toast" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attributeGroup ref="baseActionAttr" />
+                    <xs:attributeGroup ref="srcElt"></xs:attributeGroup>
+                    <xs:attribute name="long" type="xs:boolean" use="optional" default="false"></xs:attribute>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="invoke" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attributeGroup ref="baseActionAttr" />
+                    <xs:attributeGroup ref="srcElt"></xs:attributeGroup>
+                    <xs:attribute name="alias" use="required" type="idPattern"></xs:attribute>
+                </xs:complexType>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="list">
+        <xs:complexContent>
+            <xs:extension base="baseUiElt">
+                <xs:sequence>
+                    <xs:element name="onPull" minOccurs="0" maxOccurs="1" type="actionContainer" />
+                    <xs:element name="onMore" minOccurs="0" maxOccurs="1" type="actionContainer" />
+                    <xs:element name="vh" minOccurs="1" maxOccurs="1" type="uiContainer">
+                        <xs:annotation>
+                            <xs:documentation>
+                                用来形容列表卡片布局
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attributeGroup ref="srcElt" />
+                <xs:attribute name="pullRefresh" use="optional" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                    是否支持下拉刷新，bool
+                </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="loadMore" use="optional" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                    是否支持底部自动加载更多，bool
+                </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="pageIndex" use="optional" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>表示当前页面的索引值，配合loadMore使用，值为字符串，指向meta中的某个变量，此变量只能存储整型数据，在加载更多执行后此值会被SDK执行+1操作</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="renderElt">
+        <xs:complexContent>
+            <xs:extension base="uiContainer">
+                <xs:choice maxOccurs="unbounded" minOccurs="0">
+                    <xs:element name="list" minOccurs="0" maxOccurs="unbounded" type="list" />
+                </xs:choice>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="uiContainer">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:element name="text" minOccurs="0" maxOccurs="unbounded" type="text" />
+            <xs:element name="button" minOccurs="0" maxOccurs="unbounded" type="text" />
+            <xs:element name="image" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="baseUiElt">
+                            <xs:attributeGroup ref="srcElt" />
+                            <xs:attribute name="type" use="optional" default="inside">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="crop">
+                                            <xs:annotation>
+                                                <xs:documentation>保持图片比例，必须在图片视图中保持铺版，不留黑边，在一边的尺寸不满足时会产生裁切动作</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:enumeration>
+                                        <xs:enumeration value="inside">
+                                            <xs:annotation>
+                                                <xs:documentation>
+                                            （默认）保持图片比例，可以在图片视图中完整展示，但是可能会有黑边存在，不会产生裁切动作
+                                        </xs:documentation>
+                                            </xs:annotation>
+                                        </xs:enumeration>
+                                        <xs:enumeration value="fitXY">
+                                            <xs:annotation>
+                                                <xs:documentation>
+                                            在图片尺寸被指定的情况下，会使图片内容被强制拉伸至指定尺寸，不会裁切，但会被拉伸，比例不会被保持
+                                        </xs:documentation>
+                                            </xs:annotation>
+                                        </xs:enumeration>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:attribute>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="view" type="baseUiElt" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="progress" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="baseUiElt">
+                            <xs:attribute name="style" use="optional" default="circle">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="circle" />
+                                        <xs:enumeration value="dot" />
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:attribute>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="text">
+        <xs:complexContent>
+            <xs:extension base="baseUiElt">
+                <xs:attributeGroup ref="srcElt" />
+                <xs:attribute name="color" type="colorPattern" use="optional" />
+                <xs:attribute name="size" type="sizePattern" use="optional" />
+                <xs:attribute name="style" use="optional" default="normal">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="normal"></xs:enumeration>
+                            <xs:enumeration value="bold"></xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:attributeGroup name="srcElt">
+        <xs:attribute name="src" type="xs:string" use="required" />
+        <xs:attribute name="srcMock" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>用于mock数据展示，在release时会被自动移除</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:attributeGroup>
+
+    <xs:complexType name="baseUiElt">
+        <xs:sequence>
+            <xs:element name="onClick" type="actionContainer" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>当此视图被点击</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="onVisible" type="actionContainer" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>当此视图可见</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="onInvisible" type="actionContainer" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>当此视图可见</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="id" type="idPattern" use="optional">
+            <xs:annotation>
+                <xs:documentation>全局唯一字符串ID</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="marginTop" type="sizePattern" use="optional" />
+        <xs:attribute name="marginBottom" type="sizePattern" use="optional" />
+        <xs:attribute name="marginLeft" type="sizePattern" use="optional" />
+        <xs:attribute name="marginRight" type="sizePattern" use="optional" />
+        <xs:attribute name="backgroundColor" type="colorPattern" use="optional" />
+        <xs:attribute name="backgroundUrl" type="urlPattern" use="optional" />
+        <xs:attribute name="visibleOn" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>值是bool型的数据，true则显示</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="leftToLeft" type="idPattern" use="optional" />
+        <xs:attribute name="leftToRight" type="idPattern" use="optional" />
+        <xs:attribute name="rightToLeft" type="idPattern" use="optional" />
+        <xs:attribute name="rightToRight" type="idPattern" use="optional" />
+        <xs:attribute name="topToTop" type="idPattern" use="optional" />
+        <xs:attribute name="topToBottom" type="idPattern" use="optional" />
+        <xs:attribute name="bottomToTop" type="idPattern" use="optional" />
+        <xs:attribute name="bottomToBottom" type="idPattern" use="optional" />
+    </xs:complexType>
+
+    <xs:simpleType name="colorPattern">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="(#([0-9]|[a-fA-F]){6})|(#([0-9]|[a-fA-F]){8})" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="urlPattern">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="(https?)://[a-zA-z0-9]+.(jpg|jpeg|png|svg|webp)" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="idPattern">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-z]{1}[a-zA-Z0-9_-]{2,15}"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

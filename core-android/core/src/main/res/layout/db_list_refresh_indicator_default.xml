@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?><!-- set gravity top or bottom -->
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="bottom"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <RelativeLayout
+        android:id="@+id/refresh_area_container"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp">
+
+        <TextView
+            android:id="@+id/txt_refresh_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/list_refresh_area_default"
+            android:textColor="#B5B5B5" />
+
+        <ImageView
+            android:id="@+id/image_refresh"
+            android:layout_width="12dp"
+            android:layout_height="16dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/txt_refresh_status"
+            android:src="@drawable/db_list_refresh_indicator_icon"
+            tools:visibility="visible" />
+
+        <com.didi.carmate.dreambox.core.render.view.DBDotLoading
+            android:id="@+id/loading_refresh"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/txt_refresh_status"
+            android:visibility="invisible"
+            tools:visibility="gone" />
+    </RelativeLayout>
+</merge>

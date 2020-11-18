@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "764C6F91-7714-4AC5-8067-6F9B0326A9EF"
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "766864C2-B4ED-4C1F-BECF-97E9E39C3B14"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/DreamBox_iOS/DreamBox_iOS/Classes/core/Engine/DBAction/DBActions.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
+            landmarkName = "-actWithDict:andPathId:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "766864C2-B4ED-4C1F-BECF-97E9E39C3B14 - 37deed2eeed51f54"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[DBNavAction actWithDict:andPathId:]"
+                  moduleName = "DreamBox_iOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangchu/Desktop/DB/Test/SmallPlayGround/DBPlayGround_iOS/Pods/DreamBox_iOS/DreamBox_iOS/Classes/core/Engine/DBAction/DBActions.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "150"
+                  endingLineNumber = "150"
+                  offsetFromSymbolStart = "295">
+               </Location>
+               <Location
+                  uuid = "766864C2-B4ED-4C1F-BECF-97E9E39C3B14 - 1d40c2ee6e468842"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__37-[DBNavAction actWithDict:andPathId:]_block_invoke"
+                  moduleName = "DreamBox_iOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangchu/Desktop/DB/Test/SmallPlayGround/DBPlayGround_iOS/Pods/DreamBox_iOS/DreamBox_iOS/Classes/core/Engine/DBAction/DBActions.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "150"
+                  endingLineNumber = "150"
+                  offsetFromSymbolStart = "12">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CD353718-E005-494E-B9B1-B0CEF7C75C87"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/DreamBox_iOS/DreamBox_iOS/Classes/core/Engine/DBParser/DBCommonParser/DBParser.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "+modelToView:andPathId:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

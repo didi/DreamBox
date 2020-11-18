@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingLeft="30dp"
+    android:paddingTop="20dp"
+    android:paddingRight="30dp"
+    android:paddingBottom="20dp"
+    tools:context="com.didi.carmate.playground.page.PlayGroundActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:background="@drawable/db_playground_btn_bg">
+
+        <TextView
+            android:id="@+id/db_playground_scan"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="14dp"
+            android:text="@string/db_display_scan" />
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@color/db_bg_color" />
+
+        <TextView
+            android:id="@+id/db_playground_refresh"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="14dp"
+            android:text="@string/db_display_refresh" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+    <EditText
+        android:id="@+id/db_playground_content"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/db_playground_editor_bg"
+        android:hint="@string/db_display_edit_tip"
+        android:layout_marginRight="5dp"
+        android:paddingLeft="10dp"
+        android:textSize="14dp" />
+        <TextView
+            android:id="@+id/db_playground_confirm"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/debug_connect"
+            android:textSize="14dp"
+            android:background="@drawable/db_playground_btn_bg"/>
+    </LinearLayout>
+
+    <com.didi.carmate.playground.view.PlayGroundView
+        android:id="@+id/db_playground_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/db_playground_dbview_bg"/>
+
+</LinearLayout>

@@ -1,0 +1,11 @@
+/venv/
+dist/
+*.egg*
+build/
+*.xml
+*.yaml
+*.yml
+__pycache__
+.DS_Store
+*_test.py
+

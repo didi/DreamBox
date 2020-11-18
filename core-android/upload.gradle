@@ -1,0 +1,140 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    baseName "$ARTIFACT_ID"
+    classifier "sources"
+}
+
+task signArtifactAar() {
+    doLast {
+        signing.sign file("$buildDir/outputs/aar/$ARTIFACT_ID-release.aar")
+    }
+}
+
+task signArtifactSource(dependsOn: sourceJar) {
+    doLast {
+        signing.sign file("$buildDir/libs/$ARTIFACT_ID-sources.jar")
+    }
+}
+
+task signArtifactPom() {
+    doLast {
+        signing.sign file("$buildDir/publications/upload/pom-default.xml")
+    }
+}
+
+publishing {
+    publications {
+        upload(MavenPublication) {
+            groupId project.GROUP_ID
+            artifactId project.ARTIFACT_ID
+            version project.VERSION
+
+            artifact(sourceJar)
+            artifact("$buildDir/outputs/aar/$ARTIFACT_ID-release.aar")
+
+            def rootDir = project.getParent().getName()
+
+            pom.packaging = 'aar'
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+
+                // Iterate implementation dependencies
+                configurations.implementation.allDependencies.each {
+                    if (it.group != null) {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        if (it.group == rootDir) {
+                            dependencyNode.appendNode('groupId', project.GROUP_ID)
+                        } else {
+                            dependencyNode.appendNode('groupId', it.group)
+                        }
+                        if (it.version == 'unspecified') {
+                            dependencyNode.appendNode('version', project.VERSION)
+                        } else {
+                            dependencyNode.appendNode('version', it.version)
+                        }
+                        dependencyNode.appendNode('artifactId', it.name)
+                    }
+                }
+
+                asNode().appendNode('name', "DreamBox android SDK")
+                asNode().appendNode('description',
+                        "a project that can implement dynamic layout and data bind on Android&IOS system. " +
+                                "mobile device  render ui, bind data, add event listener... according to downloaded [bundle] file.")
+                asNode().appendNode('url', "https://github.com/didi/dreambox")
+
+                def licensesNode = asNode().appendNode('licenses')
+                def licenseNode = licensesNode.appendNode('license')
+                licenseNode.appendNode('name', "The Apache License, Version 2.0")
+                licenseNode.appendNode('url', "http://www.apache.org/licenses/LICENSE-2.0.txt")
+
+                def developersNode = asNode().appendNode('developers')
+                def developerNode1 = developersNode.appendNode('developer')
+                developerNode1.appendNode('name', "liukaikevin")
+                developerNode1.appendNode('email', "liukaikevin@didiglobal.com")
+                def developerNode2 = developersNode.appendNode('developer')
+                developerNode2.appendNode('name', "chenjingchenjing")
+                developerNode2.appendNode('email', "chenjingchenjing@didiglobal.com")
+                def developerNode3 = developersNode.appendNode('developer')
+                developerNode3.appendNode('name', "lizechen")
+                developerNode3.appendNode('email', "lizechen@didiglobal.com")
+                def developerNode4 = developersNode.appendNode('developer')
+                developerNode4.appendNode('name', "hanqingnuan")
+                developerNode4.appendNode('email', "hanqingnuan@didiglobal.com")
+
+                def scmNode = asNode().appendNode('scm')
+                scmNode.appendNode('connection', "scm:git:https://github.com/didi/dreambox.git")
+                scmNode.appendNode('developerConnection', "scm:git:https://github.com/didi/dreambox.git")
+                scmNode.appendNode('url', "https://github.com/didi/dreambox.git")
+            }
+
+            if (!project.VERSION.endsWith('-SNAPSHOT')) {
+                artifact(file("$buildDir/outputs/aar/$ARTIFACT_ID-release.aar.asc")) {
+                    classifier = null
+                    extension = 'aar.asc'
+                    builtBy(signArtifactAar)
+                }
+                artifact(file("$buildDir/libs/$ARTIFACT_ID-sources.jar.asc")) {
+                    classifier = 'sources'
+                    extension = 'jar.asc'
+                    builtBy(signArtifactSource)
+                }
+                artifact(file("$buildDir/publications/upload/pom-default.xml.asc")) {
+                    classifier = null
+                    extension = 'pom.asc'
+                    builtBy(signArtifactPom)
+                }
+            }
+        }
+    }
+
+//    这里就是在创建issue成功后，对方回复的地址
+    repositories {
+        maven {
+            name 'release'
+            url 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+            credentials {
+                username = properties.getProperty("oss.usr")
+                password = properties.getProperty("oss.pwd")
+            }
+        }
+
+        maven {
+            name 'snapshot'
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+            credentials {
+                username = properties.getProperty("oss.usr")
+                password = properties.getProperty("oss.pwd")
+            }
+        }
+    }
+}
+
+ext."signing.keyId" = properties.getProperty("signing.keyId")
+ext."signing.password" = properties.getProperty("signing.password")
+ext."signing.secretKeyRingFile" = properties.getProperty("signing.secretKeyRingFile")

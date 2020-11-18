@@ -1,0 +1,6 @@
+/build
+/src/main/assets/data
+/src/main/assets/xml
+/src/main/assets/json
+/src/main/java/com/airk/dreamhouse/TestRuntimeActivity.java
+/src/main/res/layout/activity_test_runtime.xml

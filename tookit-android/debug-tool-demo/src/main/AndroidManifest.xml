@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.didi.dreambox.tools.demo">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/dream_box_logo"
+        android:supportsRtl="true"
+        android:name="com.didi.carmate.db.common.utils.DbApplication"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.didi.dreambox.tools.demo.MainActivity"
+            android:label="DB-集成测试">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+
+</manifest>

@@ -1,0 +1,27 @@
+<dbl>
+    <meta />
+    <render>
+        <list id="stud_list" leftToLeft="parent" rightToRight="parent" width="fill" topToTop="parent" bottomToBottom="parent" marginTop="0dp" marginBottom="0dp" orientation="vertical" src="${ext.db_list}" backgroundColor="#EEEEEE">
+            <header>
+                <text  width="fill" height="60dp" leftToLeft="parent" rightToRight="parent"
+                    src="I'm header View" gravity="center"/>
+            </header>
+            <vh>
+                <view width="fill" height="1px" topToTop="parent" backgroundColor="#666666"/>
+                <image id="img" width="40dp" height="40dp" leftToLeft="parent" marginLeft="20dp"
+                    topToTop="parent"  marginTop="15dp" bottomToBottom="parent" marginBottom="15dp" src="${img}" />
+                <text id="title" leftToRight="img" marginLeft="12dp"  topToTop="img"  marginTop="-2dp"
+                    size="16dp" color="#333333" style="bold" src="${title}" />
+                <text id="sub_title" leftToRight="img" marginLeft="12dp"
+                    topToBottom="title"  marginTop="8dp"  size="12dp" color="#999999"  src="${subtitle}" />
+                <image id="arrow" width="10dp" height="wrap" topToTop="parent" bottomToBottom="parent"
+                rightToRight="parent" marginRight="30dp" src="${arrow}"/>
+            </vh>
+            <footer >
+                <view id="line" width="fill" height="1px" topToTop="parent" backgroundColor="#666666"/>
+                <text width="fill" height="60dp" topToBottom="line" leftToLeft="parent"
+                    rightToRight="parent" src="I'm footer View" gravity="center"/>
+            </footer>
+        </list>
+    </render>
+</dbl>

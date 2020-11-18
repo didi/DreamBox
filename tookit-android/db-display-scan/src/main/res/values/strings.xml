@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Lib-zxing</string>
+
+    <!-- TODO: Remove or change this placeholder text -->link_word
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="link_word">link_word</string>
+
+</resources>

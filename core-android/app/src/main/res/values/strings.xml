@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Dream House Demo</string>
+    <string name="smart_swipe_left">LEFT</string>
+    <string name="smart_swipe_top">TOP</string>
+    <string name="smart_swipe_right">RIGHT</string>
+    <string name="smart_swipe_bottom">BOTTOM</string>
+    <string name="smart_swipe_center">CENTER</string>
+</resources>

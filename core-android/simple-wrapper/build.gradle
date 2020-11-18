@@ -1,0 +1,60 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+apply from: "$project.rootDir/upload.gradle"
+
+android {
+    compileSdkVersion rootProject.ext.targetSDK
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSDK
+        targetSdkVersion rootProject.ext.targetSDK
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            android.libraryVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "${ARTIFACT_ID}-release.aar"
+                }
+            }
+        }
+    }
+
+    testOptions {
+        unitTests.includeAndroidResources = true
+        unitTests.all {
+            systemProperty 'robolectric.dependency.repo.url', 'https://repo1.maven.org/maven2/org'
+            systemProperty 'robolectric.dependency.repo.id', 'nexus'
+        }
+    }
+
+    useLibrary 'org.apache.http.legacy'
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation 'org.apache.httpcomponents:httpclient:4.5.7'
+    testImplementation "org.robolectric:robolectric:${rootProject.ext.roboletric}"
+    testImplementation "junit:junit:${rootProject.ext.junit}"
+    testImplementation "androidx.test:core:${rootProject.ext.testCore}"
+    androidTestImplementation "androidx.test.ext:junit:${rootProject.ext.extJunit}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${rootProject.ext.espresso}"
+
+    implementation "androidx.appcompat:appcompat:${rootProject.ext.appCompat}"
+    compileOnly "com.android.volley:volley:${rootProject.ext.volley}"
+    compileOnly("com.github.bumptech.glide:glide:${rootProject.ext.glide}") {
+        exclude group: "com.android.support"
+    }
+    implementation project(":wrapper")
+}
+repositories {
+    mavenCentral()
+}

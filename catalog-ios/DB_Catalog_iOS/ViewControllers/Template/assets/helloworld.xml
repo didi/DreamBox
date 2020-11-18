@@ -1,0 +1,6 @@
+<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    
+    <render>
+        <text  src="Hello World" size="50dp" style="bold" leftToLeft="parent" rightToRight="parent" topToTop="parent" marginTop="100dp"></text>
+    </render>
+</dbl>

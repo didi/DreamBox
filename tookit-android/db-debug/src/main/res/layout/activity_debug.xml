@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="30dp"
+    android:paddingTop="20dp"
+    android:paddingRight="30dp"
+    tools:context="com.didi.carmate.db_debug.DebugActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/db_playground_btn_bg"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/db_debug_bind"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/db_debug_bind"
+            android:textSize="14dp" />
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/db_bg_color"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/db_debug_refresh"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/db_display_refresh"
+            android:textSize="14dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="AccesssKey :"
+            android:textSize="16dp" />
+
+        <org.angmarch.views.NiceSpinner
+            android:id="@+id/db_debug_access_key"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/db_playground_editor_bg"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="模版id :"
+            android:textSize="16dp" />
+
+        <org.angmarch.views.NiceSpinner
+            android:id="@+id/db_debug_model_id"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/db_playground_editor_bg"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/db_debug_scan"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:text="调试地址 "
+            android:textSize="16dp"
+            android:gravity="center_vertical"
+            android:drawablePadding="5dp"/>
+
+        <EditText
+            android:id="@+id/db_debug_address"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:hint="@string/db_display_edit_tip"
+            android:paddingLeft="5dp"
+            android:textSize="12dp"
+            android:background="@drawable/db_playground_editor_bg"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:text="连接状态 "
+            android:textSize="16dp"
+            android:gravity="center_vertical"
+            android:drawablePadding="5dp"/>
+
+        <TextView
+            android:id="@+id/db_debug_tip"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:hint="未连接,请扫码连接"
+            android:paddingLeft="5dp"
+            android:textSize="12dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/db_playground_editor_bg"/>
+    </LinearLayout>
+
+
+</LinearLayout>

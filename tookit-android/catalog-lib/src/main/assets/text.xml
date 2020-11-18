@@ -1,0 +1,28 @@
+<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ >
+    <meta/>
+	<render>
+
+        <text id="size" src="我是14号字体" topToTop="parent" leftToLeft="parent" rightToRight="parent"  
+         marginTop="50dp" size="14dp"/>
+         <text id="color" src="我是16号带颜色字体" topToBottom="size" leftToLeft="parent" rightToRight="parent"  
+         marginTop="10dp" size="16dp" color="#c56784"/>
+         <text id="style1" src="我是18号带颜色正常体" topToBottom="color" leftToLeft="parent" rightToRight="parent"  
+         marginTop="10dp" size="18dp" color="#a56784" style="normal"/>
+         <text id="style2" src="我是20号带颜色粗体" topToBottom="style1" leftToLeft="parent" rightToRight="parent"  
+         marginTop="10dp" size="20dp" color="#656784" style="bold"/>
+
+         <text id="gravity1" width="fill" src="我是内部文字布局左对齐" topToBottom="style2" leftToLeft="parent" rightToRight="parent"  
+         marginTop="10dp"  backgroundColor="#cccccc"  gravity="left"/>
+         <text id="gravity2" width="fill" src="我是内部文字布局居中" topToBottom="gravity1" leftToLeft="parent" rightToRight="parent"  
+         marginTop="10dp"  backgroundColor="#cccccc"  gravity="center"/>
+         <text id="gravity3" width="fill" src="我是内部文字布局右对齐" topToBottom="gravity2" leftToLeft="parent" rightToRight="parent"
+         marginTop="10dp"  backgroundColor="#cccccc"  gravity="right"/>
+
+        <text id="wrap" width="wrap" src="我是wrap属性" topToBottom="gravity3" leftToLeft="parent" rightToRight="parent"
+            marginTop="10dp"  backgroundColor="#cccccc"  gravity="right"/>
+        <text id="fill" width="fill" src="我是fill属性" topToBottom="wrap" leftToLeft="parent" rightToRight="parent"
+            marginTop="10dp"  backgroundColor="#cccccc"  gravity="center"/>
+
+	</render>
+</dbl>

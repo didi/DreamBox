@@ -1,0 +1,78 @@
+<resources>
+    <string name="bts_widget_demo_name">BtsWidget</string>
+
+    <string-array name="item_first_name">
+        <item>Hello World</item>
+        <item>视图节点</item>
+        <item>动作节点</item>
+        <item>示范页面</item>
+        <item>拓展</item>
+    </string-array>
+
+    <integer-array name="item_first_int">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </integer-array>
+
+    <string-array name="item_view_name">
+        <item>布局逻辑</item>
+        <item>文字</item>
+        <item>图片</item>
+        <item>占位</item>
+        <item>加载</item>
+        <item>进度条</item>
+        <item>列表</item>
+        <item>流式瀑布</item>
+    </string-array>
+
+    <string-array name="item_view_dbname">
+        <item>layout</item>
+        <item>text</item>
+        <item>image</item>
+        <item>view</item>
+        <item>loading</item>
+        <item>progress</item>
+        <item>list</item>
+        <item>flow</item>
+    </string-array>
+
+    <string-array name="item_action_name">
+        <item>日志</item>
+        <item>埋点</item>
+        <item>持久化缓存</item>
+        <item>dialog弹窗</item>
+        <item>关闭页面</item>
+        <item>网络</item>
+        <item>跳转</item>
+        <item>数据变更</item>
+        <item>toast</item>
+        <item>动作领域/执行动作</item>
+    </string-array>
+
+    <string-array name="item_action_dbname">
+        <item>log</item>
+        <item>trace</item>
+        <item>storage</item>
+        <item>dialog</item>
+        <item>closePage</item>
+        <item>net</item>
+        <item>schema</item>
+        <item>changemeta</item>
+        <item>toast</item>
+        <item>alias</item>
+    </string-array>
+
+    <string-array name="item_expand_name">
+        <item>无拓展页面</item>
+    </string-array>
+
+
+    <string-array name="item_expand_dbname">
+        <item>null</item>
+    </string-array>
+
+
+</resources>

@@ -1,0 +1,8 @@
+include ':catalog-shell'
+rootProject.name='db-dispaly'
+include ':debug-tool-demo'
+include ':db-display-scan'
+include ':playground'
+include ':catalog-lib'
+include ':db-debug'
+include ':common'

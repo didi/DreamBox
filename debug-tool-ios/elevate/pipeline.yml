@@ -1,0 +1,24 @@
+name: dbdebugtool_ios
+mergeQueueEnabled: false
+stages: 
+    - name: 编译打包
+      jobs: 
+        - name: compile-job-centos6.7
+          tasks: 
+            - name: compile-task
+              type: oe-compile
+              params: 
+                osType: centos6.7
+        - name: compile-job-centos7.2
+          tasks: 
+            - name: compile-task
+              type: oe-compile
+              params: 
+                osType: centos7.2
+    - name: odin部署
+      trigger: manual
+      jobs: 
+        - name: deploy-odin-job
+          tasks: 
+            - name: deploy-odin
+              type: oe-deploy:odin

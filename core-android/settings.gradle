@@ -1,0 +1,13 @@
+include ':report'
+rootProject.name='DreamBox'
+// demo
+include ':app'
+
+//预处理层，下边是核心
+include ':shell'
+//引擎核心，包含渲染和执行引擎
+include ':core'
+//基础能力定义，通过反射找能力实现者
+include ':wrapper'
+//基础能力实现，日志埋点等
+include ':simple-wrapper'

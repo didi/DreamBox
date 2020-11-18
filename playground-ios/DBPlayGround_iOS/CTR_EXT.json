@@ -1,0 +1,41 @@
+{
+    "bg_image": "https://static.didialift.com/pinche/gift/resource/%E7%A9%BA%E5%9B%BE2-543e0697cd96e7cffcd31a2410d1cfd1.png",
+    "width": "1053",
+    "height": "462",
+    "right_image": "https://static.didialift.com/pinche/gift/c3e9f8145735a7b4875370ae1618319c-540e203a67f1ddcf92baf46f0229809e.png?mk_version=5.4.14&mk_cityid=1&mk_os=1&mkach=102&mk_uid=17592225531948&cid=14796&mkch=983508",
+    "corner_icon_text": "",
+    "corner_icon_bg": "",
+    "corner_icon_text_color": "",
+    "left_title": {
+        "message": "严禁进出京跨城合乘"
+    },
+    "left_content": {
+        "message": "齐心协力 共同抗击疫情"
+    },
+    "left_content_arrow": "https://static.didialift.com/pinche/gift/3fb61deeb28987c0b829cf3e37dd0bd0-52cb668687748095e934b40c42776b2c.png?mk_version=5.4.16&mk_cityid=1&mk_os=2&mk_uid=17592578391828&cid=15100&mkch=983505",
+    "target_url": "https://static.didialift.com/pinche/gift/5e5f4f5353cb91d0410501c1.html?mk_version=5.4.16&mk_cityid=1&mk_os=2&mk_uid=17592578391828&cid=15100&mkch=983505",
+    "action_area": {
+        "bg_color": "",
+        "desc": {
+            "message": ""
+        },
+        "btn_text": "点击查看",
+        "btn_text_color": "",
+        "btn_bg_color_start": "",
+        "btn_bg_color_end": "",
+        "arrow": "https://static.didialift.com/pinche/gift/506783c6a8c44814d6498f5e1ae00327-6346ab4a31fc66448953b2cc465eec3e.png?mk_version=5.4.16&mk_cityid=1&mk_os=2&mk_uid=17592578391828&cid=15100&mkch=983505",
+        "target_url": "https://static.didialift.com/pinche/gift/5e5f4f5353cb91d0410501c1.html?mk_version=5.4.16&mk_cityid=1&mk_os=2&mk_uid=17592578391828&cid=15100&mkch=983505"
+    },
+    "mk_id": "15100",
+    "rank": "1",
+    "mk_flag": "0",
+    "channel_id": "983505",
+    "dbd": {
+        "icon": "https://img-ys011.didistatic.com/static/zhuancheimg/upload/20171101/c128f17583051f3d6532680da0edda651509523767.png",
+        "time": "今天 16:50。50%顺路",
+        "level": "黄金车主 五项认证",
+        "connect": "联系车主",
+        "desc": "正在寻找顺路乘客",
+        "right_image": "https://static.didialift.com/pinche/gift/4b25e2cf96d7174b72621e27b4d42afe-5bea44fe69e4cf06be319fa0b0432b1e.gif?mk_version=5.4.14&mk_cityid=1&mk_os=1&mkach=102&mk_uid=17592225531948&cid=14694&mkch=983503"
+    }
+}

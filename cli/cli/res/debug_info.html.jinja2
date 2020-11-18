@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta id="dbc" cstr="{{ cstr }}" cjson="{{ cjson }}" wss="{{ wss }}">
+    <title>DB本地调试信息</title>
+    <script type="text/javascript">
+        var wssInstance = null
+
+        function getMeta(id, akey) {
+            const metas = document.getElementsByTagName('meta');
+
+            for (let i = 0; i < metas.length; i++) {
+                if (metas[i].id === id) {
+                    return metas[i].attributes[akey].value
+                }
+            }
+            return '';
+        }
+
+        function shifttext() {
+            let btn = document.getElementById('shift_btn')
+            let jsonString = window.atob(getMeta('dbc', 'cjson'))
+            let codeContainer = document.getElementsByClassName('content')[0]
+            for (let i = 0; i < codeContainer.children.length; i++) {
+                let c = codeContainer.children[i]
+                codeContainer.removeChild(c)
+            }
+            let showJson = false
+            if (btn.innerText.startsWith("查看Json")) {
+                btn.innerText = '查看编译码'
+                showJson = true
+            } else {
+                btn.innerText = '查看Json码'
+                showJson = false
+            }
+            if (showJson) {
+                //show json code
+                let preElement = document.createElement('pre')
+                preElement.id = 'json-content'
+                preElement.innerHTML = syntaxHighlight(jsonString)
+                codeContainer.appendChild(preElement)
+            } else {
+                //show compiled code
+                let te = document.createElement('textarea')
+                te.id = 'cstr-container'
+                te.innerText = getMeta('dbc', 'cstr')
+                codeContainer.appendChild(te)
+            }
+        }
+
+        function syntaxHighlight(json) {
+            if (typeof json != 'string') {
+                json = JSON.stringify(json, undefined, 2);
+            }
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                let cls = 'number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'key';
+                    } else {
+                        cls = 'string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+
+        function showSnackbar(tips) {
+            let snackbar = document.getElementById('snackbar')
+            snackbar.innerText = tips
+
+            snackbar.className = 'show'
+            setTimeout(function () {
+                snackbar.className = snackbar.className.replace('show', '')
+            }, 3000)
+        }
+
+        function copystr() {
+            copytext('编译码', getMeta('dbc', 'cstr'))
+        }
+
+        function copyjson() {
+            copytext('Json码', window.atob(getMeta('dbc', 'cjson')))
+        }
+
+        function submitext() {
+            let inputBlock = document.getElementById('input-block')
+            let inputExtData = inputBlock.value
+            var inputExtJson = null
+            try {
+                inputExtJson = JSON.parse(inputExtData)
+            } catch (e) {
+                console.debug(e)
+            }
+            if (inputExtJson == null || typeof inputExtJson != 'object') {
+                showSnackbar('请输入正确的JSON结构')
+                return
+            }
+            if (wssInstance != null) {
+                wssInstance.send("ext:" + inputExtData)
+                wssInstance.onmessage = function (event) {
+                    var respJson = ""
+                    try {
+                        console.debug(JSON.parse(event.data))
+                        respJson = JSON.parse(event.data).data
+                    } catch (e) {
+                    }
+                    if (respJson === inputExtData) {
+                        showSnackbar('传输成功')
+                    } else {
+                        showSnackbar('传输失败：' + respJson)
+                    }
+                    console.debug('receive wss msg:', respJson)
+                }
+            }
+        }
+
+        function copytext(type, text) {
+            let ipt = document.querySelector('#hidinput')
+            ipt.setAttribute('type', 'text')
+            ipt.value = text
+            ipt.select()
+            ipt.setSelectionRange(0, 9999)
+            document.execCommand('copy')
+
+            ipt.setAttribute('type', 'hidden')
+            window.getSelection().removeAllRanges()
+
+            showSnackbar('"' + type + '" 已复制')
+        }
+
+        window.onload = function (callback) {
+            console.debug('window ready')
+            let wssAddress = getMeta('dbc', 'wss')
+            wssInstance = new WebSocket(wssAddress)
+            wssInstance.onopen = function () {
+                let title = document.getElementById('input-title')
+                title.innerText += '(已连接)'
+                console.debug('wss connected.')
+                document.getElementById('input-block').disabled = false
+                document.getElementById('input-submit').disabled = false
+            }
+        }
+    </script>
+    <style>
+        body {
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            width: 100%;
+            /* background-color: teal; */
+            padding: 20px;
+            padding-left: 2rem;
+            border-bottom: 2px solid #212121;
+        }
+
+        .header > a {
+            color: #212121;
+            font-size: 2.2rem;
+            text-decoration: none;
+        }
+
+        #title {
+            font-size: 27px;
+            font-weight: bold;
+            color: #4FAC7B;
+            font-family: Monaco, monospace;
+        }
+
+        .content-wrapper {
+            padding-top: 10px;
+            height: auto;
+            /* background-color: antiquewhite; */
+        }
+
+        .navbar {
+            width: 255px;
+            text-align: center;
+            float: left;
+            height: auto;
+            color: #212121;
+        }
+
+        .content {
+            height: 800px;
+            overflow-y: scroll;
+            float: left;
+            padding-right: 20px;
+            padding-bottom: 12px;
+            width: 800px;
+        }
+
+        .input-area {
+            height: 100%;
+            float: left;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-bottom: 12px;
+            width: auto;
+        }
+
+        #input-submit {
+            padding: 5px 10px;
+            margin-top: 10px;
+            float: right;
+        }
+
+        .input-area > textarea {
+            width: 400px;
+            overflow-y: scroll;
+            height: 600px;
+            resize: none;
+            margin-top: 10px;
+        }
+
+        pre {
+            outline: 1px solid #ccc;
+            padding: 5px;
+            margin: 5px;
+        }
+
+        .string {
+            color: green;
+        }
+
+        .number {
+            color: darkorange;
+        }
+
+        .boolean {
+            color: blue;
+        }
+
+        .null {
+            color: magenta;
+        }
+
+        .key {
+            color: red;
+        }
+
+        #json-content {
+            overflow-y: scroll;
+            height: auto;
+            background-color: #212121;
+            color: #f2f2f2;
+            padding-left: 20px;
+            font-size: 14px;
+            font-family: Monaco, monospace;
+            padding-bottom: 10px;
+            scroll-behavior: auto;
+        }
+
+        #cstr-container {
+            width: 100%;
+            height: 100%;
+            resize: none;
+        }
+
+        .button-container {
+            padding-left: 0px;
+            list-style-type: none;
+            list-style-position: inside;
+        }
+
+        .button-container > li {
+            padding-top: 3px;
+            padding-bottom: 3px;
+        }
+
+        /* The snackbar - position it at the bottom and in the middle of the screen */
+        #snackbar {
+            visibility: hidden; /* Hidden by default. Visible on click */
+            height: 22px;
+            min-width: 150px; /* Set a default minimum width */
+            margin-left: -75px; /* Divide value of min-width by 2 */
+            background-color: #333; /* Black background color */
+            color: #fff; /* White text color */
+            text-align: center; /* Centered text */
+            border-radius: 2px; /* Rounded borders */
+            padding: 16px; /* Padding */
+            position: fixed; /* Sit on top of the screen */
+            z-index: 1; /* Add a z-index if needed */
+            left: 50%; /* Center the snackbar */
+            bottom: 30px; /* 30px from the bottom */
+        }
+
+        /* Show the snackbar when clicking on a button (class added with JavaScript) */
+        #snackbar.show {
+            visibility: visible; /* Show the snackbar */
+            /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+            However, delay the fade out process for 2.5 seconds */
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        /* Animations to fade the snackbar in and out */
+        @-webkit-keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+            to {
+                bottom: 30px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+            to {
+                bottom: 30px;
+                opacity: 1;
+            }
+        }
+
+        @-webkit-keyframes fadeout {
+            from {
+                bottom: 30px;
+                opacity: 1;
+            }
+            to {
+                bottom: 0;
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeout {
+            from {
+                bottom: 30px;
+                opacity: 1;
+            }
+            to {
+                bottom: 0;
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="header">
+    <div id="title">
+        DreamBox本地调试信息
+    </div>
+    <i>生成于{{ now_time }}</i>
+</div>
+<div class="content-wrapper">
+    <div class="navbar">
+        <ul class="button-container">
+            <li>
+                <button id="shift_btn" onclick="shifttext()">查看Json码</button>
+            </li>
+            <li>
+                <button id="copy_btn" onclick="copystr()">复制编译码</button>
+            </li>
+            <li>
+                <button id="copy_json_btn" onclick="copyjson()">复制Json码</button>
+            </li>
+        </ul>
+        <div class="qr-content" style="margin-top:20px">
+            <img style="width: 175px;height: 175px; background-color: yellowgreen;"
+                 src="data:image/png;base64, {{ img_64 }}" alt="wss adress">
+        </div>
+        <div class="bottom-right">
+            <h5>{{ md5 }}</h5>
+            <h5>{{ cli_ver }}</h5>
+            <h5>{{ runtime_ver }}</h5>
+        </div>
+    </div>
+    <div class="content">
+        <textarea id="cstr-container">{{ cstr }}</textarea>
+    </div>
+    <div class="input-area">
+        <div id="input-title">
+            输入你的自定义数据（对应ext节点）
+        </div>
+        <textarea id="input-block" disabled></textarea>
+        <div>
+            <button id="input-submit" onclick="submitext()" disabled>提交数据</button>
+        </div>
+    </div>
+    <div id="snackbar">已复制</div>
+    <input id="hidinput" type="hidden">
+</div>
+
+</body>

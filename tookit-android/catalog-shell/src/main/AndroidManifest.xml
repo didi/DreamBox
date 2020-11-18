@@ -1,0 +1,18 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.didi.dreambox.catalog.shell">
+
+    <application android:name="com.didi.carmate.db.common.utils.DbApplication">
+
+        <activity
+            android:name="com.didi.carmate.catalog.page.CatalogMainActivity"
+            android:icon="@drawable/dream_box_logo"
+            android:label="DB-catalog"
+            android:screenOrientation="portrait"
+            android:theme="@style/DBCustomTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

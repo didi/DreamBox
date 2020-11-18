@@ -1,0 +1,8 @@
+# 自定义节点配置
+ext:
+  # 自定义了哪些view，填写其tag name，以逗号分隔
+  views: customViewA
+  # 自定义了哪些action节点，填写其tag name，以逗号分隔
+  actions: customActionA
+  # 自定义的view节点中有哪些属性的值是id的，因为id会自动转化为int，这里显式声明后在runtime中能获取明文的ID
+  idref_attrs: customIdAttr

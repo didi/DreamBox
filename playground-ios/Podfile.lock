@@ -1,0 +1,38 @@
+PODS:
+  - DreamBox_iOS (0.1.0):
+    - Masonry
+    - SDWebImage (> 5.0)
+  - Masonry (1.1.0)
+  - SDWebImage (5.9.1):
+    - SDWebImage/Core (= 5.9.1)
+  - SDWebImage/Core (5.9.1)
+  - SocketRocket (0.5.1)
+
+DEPENDENCIES:
+  - "DreamBox_iOS (from `git@git.xiaojukeji.com:DreamBox/dreambox_ios.git`)"
+  - SocketRocket
+
+SPEC REPOS:
+  trunk:
+    - Masonry
+    - SDWebImage
+    - SocketRocket
+
+EXTERNAL SOURCES:
+  DreamBox_iOS:
+    :git: "git@git.xiaojukeji.com:DreamBox/dreambox_ios.git"
+
+CHECKOUT OPTIONS:
+  DreamBox_iOS:
+    :commit: 57d909b5573eb331e37cad3105301add2ae32054
+    :git: "git@git.xiaojukeji.com:DreamBox/dreambox_ios.git"
+
+SPEC CHECKSUMS:
+  DreamBox_iOS: 3b1406a0b873139be2beec55ed52ebe5adf262d1
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  SDWebImage: a990c053fff71e388a10f3357edb0be17929c9c5
+  SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
+
+PODFILE CHECKSUM: 9ebaf6256cdb624bb2023fecb6d843bb6ee42487
+
+COCOAPODS: 1.8.4

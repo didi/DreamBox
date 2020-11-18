@@ -1,0 +1,18 @@
+<resources>
+    <string name="debug_content_hint">连接断开，请重新连接</string>
+    <string name="debug_connect">绑定</string>
+    <string name="db_display_edit_tip">  扫描或者手动输入web socket地址</string>
+    <string name="db_display_scan">扫码</string>
+    <string name="db_display_scan_fail">扫码失败，请检查网络连接</string>
+    <string name="db_display_refresh">刷新</string>
+    <string name="db_debug_bind">绑定</string>
+    <string name="db_debug_cancel">取消</string>
+
+    <string name="debug_connect_ask">发送ask指令</string>
+    <string name="debug_connect_close">关闭连接</string>
+    <string name="debug_toast_new_msg">接收到新消息</string>
+    <string name="debug_toast_close_tip">连接断开</string>
+    <string name="debug_toast_connect_tip">连接成功</string>
+    <string name="debug_toast_send_tip">请先扫码链接</string>
+    <string name="debug_toast_connect_error">连接超时，请检查网络</string>
+</resources>

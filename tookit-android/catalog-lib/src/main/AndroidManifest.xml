@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.didi.dreambox.catalog">
+
+    <application
+        android:name="com.didi.carmate.db.common.utils.DbApplication"
+        android:allowBackup="true">
+        <activity
+            android:name="com.didi.carmate.catalog.page.DBDisplayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DBCustomTitleBar" />
+        <activity
+            android:name="com.didi.carmate.catalog.page.ExpandListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DBCustomTitleBar">
+        </activity>
+        <activity
+            android:name="com.didi.carmate.catalog.page.ActionListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DBCustomTitleBar">
+        </activity>
+        <activity
+            android:name="com.didi.carmate.catalog.page.ViewListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DBCustomTitleBar">
+        </activity>
+        <activity
+            android:name="com.didi.carmate.catalog.page.CatalogMainActivity"
+            android:screenOrientation="portrait"
+            android:label="DB-catalog"
+            android:icon="@drawable/dream_box_logo"
+            android:theme="@style/DBCustomTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

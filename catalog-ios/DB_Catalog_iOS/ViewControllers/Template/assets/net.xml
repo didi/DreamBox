@@ -1,0 +1,21 @@
+<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ >
+    <meta/>
+	<render>
+        <text id="btn"  width="180dp" height="50dp" topToTop="parent" leftToLeft="parent" rightToRight="parent"  
+        marginTop="30dp" size="14dp" src="click me, 我是net" backgroundColor="#cccccc" gravity="center">
+        <onClick>
+            <net url="http://ip.taobao.com/service/getIpInfo.php?ip=8.8.8.8" to="net_result" >
+                <onSuccess>
+                    <toast src="数据获取成功" />
+                </onSuccess>
+                <onError>
+                    <toast src="网络数据获取失败" />
+                </onError>
+            </net>
+        </onClick>
+        </text>
+        <text  width="fill" topToBottom="btn" leftToLeft="parent" rightToRight="parent"
+        marginTop="30dp" size="14dp" src="${net_result}" gravity="center"  changeOn="net_result" />
+    </render>
+</dbl>
