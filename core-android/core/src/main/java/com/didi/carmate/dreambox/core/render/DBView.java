@@ -78,7 +78,7 @@ public class DBView extends DBBaseView<DBRichView> {
         }
         // 背景色
         int[] colors = null;
-        boolean checkColorsOK = true;
+        boolean checkColorsOK = false;
         if (!DBUtils.isEmpty(gradientColor)) {
             // 过渡颜色
             String[] colorsStr = gradientColor.split("-");
@@ -86,10 +86,12 @@ public class DBView extends DBBaseView<DBRichView> {
             for (int i = 0; i < colorsStr.length; i++) {
                 String color = colorsStr[i];
                 if (!DBUtils.isColor(color)) {
-                    checkColorsOK = false;
                     break;
                 } else {
                     colors[i] = Color.parseColor(color);
+                }
+                if (i == colorsStr.length - 1) {
+                    checkColorsOK = true;
                 }
             }
         }
