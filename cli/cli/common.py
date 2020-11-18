@@ -34,6 +34,10 @@ class RawInput:
     debug = True
 
     """
+    只输出编译后的字符串
+    """
+    only_compile_str = False
+    """
     是否是Release状态，需要用户手动打开，若打开：
     1. 默认检查DSL有效性
     2. 默认进行混淆压缩
@@ -75,7 +79,6 @@ class RawInput:
         raw.checkRule = False
         raw.proguard = False
         raw.release = False
-        raw.force_compat_v1 = False
         with open('../ext.yaml', 'r', encoding='utf-8') as cfg_file:
             raw.ext_cfg = yaml.load(cfg_file, Loader=yaml.FullLoader)
         return raw
@@ -97,9 +100,8 @@ class RawInput:
             self.checkRule = False
         if args.noproguard:
             self.proguard = False
-        self.force_compat_v1 = False
-        if args.compat_v1:
-            self.force_compat_v1 = True
+        if self.debug and args.onlystr:
+            self.only_compile_str = True
         if args.extcfg:
             with open(args.extcfg, 'r', encoding='utf-8') as cfg_file:
                 self.ext_cfg = yaml.load(cfg_file)

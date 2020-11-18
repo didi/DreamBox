@@ -18,13 +18,13 @@ def cli():
     parser.add_argument('--nocheck', action='store_true', default=False, help='是否强制关闭校验检查')
     parser.add_argument('--noproguard', action='store_true', default=False, help='是否强制关闭压缩混淆')
     parser.add_argument('--extcfg', help='接收开发者自定义的view节点相关配置')
-    parser.add_argument('--compat-v1', action='store_true', default=False, help='强制适配v1版本DSL，根据其规则进行编译产出')
+    parser.add_argument('--onlystr', action='store_true', default=False, help='DEBUG模式下生效，开启后只输出编译码字符串')
     parser.add_argument('-v', '--version', action='version',
                         version='DreamBox CLI Version: %s , for RUNTIME: %s' % (
                             constant.CLI_VER, constant.TARGET_RUNTIME_VER))
 
     args = parser.parse_args()
-    if args.release:
+    if args.release or args.onlystr:
         init_logging()
     else:
         init_logging(logging.DEBUG)

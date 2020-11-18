@@ -58,6 +58,11 @@ class CompileTask:
             raise Exception('无效的编译输入')
         self.result = self._compileString(raw_xml_string)
 
+        if self.raw_input.only_compile_str:
+            # DEBUG状态下只要求输出编译字符串
+            print(self.result.compiled_str)
+            return
+
         if self.raw_input.debug:
             if self.bridge is not None:
                 self.bridge.update(self.result)

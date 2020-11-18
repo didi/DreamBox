@@ -193,8 +193,6 @@ class _Converter:
 
     def convert(self):
         # 首先，确认下使用者是否强制了适配v1版本DSL
-        if self.raw_cfg.force_compat_v1:
-            constant.FORCE_TARGET = constant.RUNTIME_VER_1
         self._xml()
         self._make_id_as_int()
         self._try_gen_proguard_map()
