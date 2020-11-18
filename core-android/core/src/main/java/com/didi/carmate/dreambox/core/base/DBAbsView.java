@@ -48,7 +48,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     protected void onAttributesBind(V selfView, final Map<String, String> attrs) {
         // backgroundColor
         backgroundColor = getString(attrs.get("backgroundColor"));
-        if (!DBUtils.isEmpty(backgroundColor)) {
+        if (DBUtils.isColor(backgroundColor)) {
             mNativeView.setBackgroundColor(DBUtils.parseColor(this, backgroundColor));
         }
     }

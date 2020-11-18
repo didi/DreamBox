@@ -217,7 +217,7 @@ public abstract class DBNode implements IDBNode {
                     JsonObject ext = mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX);
                     if (null == ext) {
                         Wrapper.get(mDBContext.getAccessKey()).log().e("[ext] node is empty, but use it in: [" + rawKey + "]");
-                        if (DBUtils.isAppDebug(mDBContext.getApplication())) {
+                        if (Wrapper.getInstance().debug) {
                             return rawKey;
                         } else {
                             reportParserDataFail();
@@ -241,7 +241,7 @@ public abstract class DBNode implements IDBNode {
                 if (null != jsonPrimitive) {
                     return jsonPrimitive.getAsString();
                 } else {
-                    if (DBUtils.isAppDebug(mDBContext.getApplication())) {
+                    if (Wrapper.getInstance().debug) {
                         return rawKey;
                     } else {
                         reportParserDataFail();

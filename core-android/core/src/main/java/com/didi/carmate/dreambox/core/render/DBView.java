@@ -73,11 +73,27 @@ public class DBView extends DBBaseView<DBRichView> {
             richView.setBorderWidth(borderWidth);
         }
         // 边框颜色
-        if (!DBUtils.isEmpty(borderColor)) {
+        if (DBUtils.isColor(borderColor)) {
             richView.setBorderColor(DBUtils.parseColor(this, borderColor));
         }
         // 背景色
+        int[] colors = null;
+        boolean checkColorsOK = true;
         if (!DBUtils.isEmpty(gradientColor)) {
+            // 过渡颜色
+            String[] colorsStr = gradientColor.split("-");
+            colors = new int[colorsStr.length];
+            for (int i = 0; i < colorsStr.length; i++) {
+                String color = colorsStr[i];
+                if (!DBUtils.isColor(color)) {
+                    checkColorsOK = false;
+                    break;
+                } else {
+                    colors[i] = Color.parseColor(color);
+                }
+            }
+        }
+        if (checkColorsOK) {
             GradientDrawable dynamicDrawable = new GradientDrawable();
             dynamicDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
             dynamicDrawable.setUseLevel(false);
@@ -88,22 +104,6 @@ public class DBView extends DBBaseView<DBRichView> {
                 dynamicDrawable.setOrientation(GradientDrawable.Orientation.BOTTOM_TOP);
             }
             // 过渡颜色
-            String[] colorsStr = gradientColor.split("-");
-            int[] colors = new int[colorsStr.length];
-            for (int i = 0; i < colorsStr.length; i++) {
-                String color = colorsStr[i];
-                if (color.charAt(0) != '#' || (color.length() != 7 && color.length() != 9)) {
-                    StringBuilder errorMsg = new StringBuilder();
-                    if (id != DBConstants.DEFAULT_ID_VIEW) {
-                        errorMsg.append("id: ").append(id).append(",");
-                    }
-                    errorMsg.append(" type: ").append(getClass().getSimpleName())
-                            .append(", gradient color error: ").append(gradientColor);
-                    throw new IllegalArgumentException(errorMsg.toString());
-                }
-
-                colors[i] = Color.parseColor(color);
-            }
             dynamicDrawable.setColors(colors);
             richView.setImageDrawable(dynamicDrawable);
         } else if (!DBUtils.isEmpty(backgroundColor)) {

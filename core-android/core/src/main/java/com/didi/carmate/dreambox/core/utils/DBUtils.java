@@ -1,19 +1,14 @@
 package com.didi.carmate.dreambox.core.utils;
 
-import android.app.Application;
-import android.content.pm.ApplicationInfo;
 import android.graphics.Color;
 
 import com.didi.carmate.dreambox.core.base.DBAbsView;
 import com.didi.carmate.dreambox.core.base.DBConstants;
-import com.didi.carmate.dreambox.core.base.DBBaseView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 public class DBUtils {
-
-
 
     public static boolean isEmpty(final CharSequence cs) {
         return cs == null || cs.length() == 0;
@@ -51,6 +46,11 @@ public class DBUtils {
         return null;
     }
 
+    public static boolean isColor(String color) {
+        // 简单检查
+        return !isEmpty(color) && color.charAt(0) == '#' && (color.length() == 7 || color.length() == 9);
+    }
+
     public static int parseColor(DBAbsView<?> view, String color) {
         if (color.charAt(0) != '#' || (color.length() != 7 && color.length() != 9)) {
             StringBuilder errorMsg = new StringBuilder();
@@ -62,9 +62,5 @@ public class DBUtils {
             throw new IllegalArgumentException(errorMsg.toString());
         }
         return Color.parseColor(color);
-    }
-
-    public static boolean isAppDebug(Application application) {
-        return 0 != (application.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE);
     }
 }

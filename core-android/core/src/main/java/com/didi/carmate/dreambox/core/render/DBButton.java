@@ -41,7 +41,7 @@ public class DBButton extends DBBaseText<Button> {
             button.setText(src);
         }
         // color
-        if (!DBUtils.isEmpty(color)) {
+        if (DBUtils.isColor(color)) {
             button.setTextColor(DBUtils.parseColor(this, color));
         }
         // size

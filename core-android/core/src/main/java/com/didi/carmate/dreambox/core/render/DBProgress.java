@@ -49,7 +49,7 @@ public class DBProgress extends DBBaseView<DBProgressView> {
 
     @Override
     protected DBProgressView onCreateView() {
-        if (!DBUtils.isEmpty(barBgColor) && !DBUtils.isEmpty(barFgColor)) {
+        if (DBUtils.isColor(barBgColor) && DBUtils.isColor(barFgColor)) {
             return new DBProgressView(mDBContext.getContext(), radius, DBUtils.parseColor(DBProgress.this, barFgColor));
         } else {
             return new DBProgressView(mDBContext.getContext(), patchType, radius);
@@ -102,7 +102,9 @@ public class DBProgress extends DBBaseView<DBProgressView> {
         // 背景drawable
         RoundRectShape bgShape = new RoundRectShape(bgOuterRadius, null, null);
         ShapeDrawable bgDrawable = new ShapeDrawable(bgShape);
-        bgDrawable.getPaint().setColor(DBUtils.parseColor(DBProgress.this, barBgColor));
+        if (DBUtils.isColor(barBgColor)) {
+            bgDrawable.getPaint().setColor(DBUtils.parseColor(DBProgress.this, barBgColor));
+        }
         bgDrawable.getPaint().setAntiAlias(true);
         bgDrawable.getPaint().setStyle(Paint.Style.FILL_AND_STROKE);//描边
         progressView.setBackground(bgDrawable);

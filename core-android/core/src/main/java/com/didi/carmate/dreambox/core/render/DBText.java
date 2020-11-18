@@ -52,7 +52,7 @@ public class DBText extends DBBaseText<TextView> {
             textView.setText(src);
         }
         // color
-        if (!DBUtils.isEmpty(color)) {
+        if (DBUtils.isColor(color)) {
             textView.setTextColor(DBUtils.parseColor(this, color));
         }
         // size
