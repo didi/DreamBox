@@ -38,3 +38,6 @@ Carthage/Build
 **/.project
 **/.settings
 **/.classpath
+
+# VsCode
+.vscode
