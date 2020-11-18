@@ -29,6 +29,10 @@ from DSLv1.0
   - `middle` 显示省略号，且在中间显示
   - `end` 显示省略号，且在结尾显示
 - `maxLines` 设置文本显示的行数
+- `minWidth` 设置文本显示的最小宽度
+- `maxWidth` 设置文本显示的最大宽度
+- `minHeight` 设置文本显示的最小高度
+- `maxHeight` 设置文本显示的最大高度
 
 ### 交互响应
 
