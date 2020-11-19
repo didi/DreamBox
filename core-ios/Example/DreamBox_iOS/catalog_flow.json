@@ -1,0 +1,90 @@
+{
+    "dbl": {
+        "meta": {
+            "students": [
+                {
+                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
+                    "name": "小王1",
+                    "age": 16
+                },{
+                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
+                    "name": "小王2",
+                    "age": 16
+                },{
+                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
+                    "name": "小王3",
+                    "age": 16
+                },{
+                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
+                    "name": "小王3",
+                    "age": 16
+                },{
+                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
+                    "name": "小王3",
+                    "age": 16
+                },{
+                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
+                    "name": "小王3",
+                    "age": 16
+                },{
+                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
+                    "name": "小王3",
+                    "age": 16
+                },{
+                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
+                    "name": "小王3",
+                    "age": 16
+                },{
+                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
+                    "name": "小王3",
+                    "age": 16
+                },{
+                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
+                    "name": "小王3",
+                    "age": 16
+                }
+            ]
+        },
+        "render": [
+            {
+                "src": "${students}",
+                "hSpace": "10dp",
+                "bSpace": "10dp",
+                "type": "flow",
+                "id": "1",
+                "topToTop": "0",
+                "leftToLeft": "0",
+                "rightToRight": "0",
+                "marginTop": "0dp",
+                "marginLeft": "0dp",
+                "children": [
+                    {
+                        "marginTop": "5dp",
+                        "src": "${img}",
+                        "scaleType": "crop",
+                        "width": "20dp",
+                        "height": "20dp",
+                        "type": "image",
+                        "id": "2",
+                        "topToTop": "0",
+                        "leftToLeft": "0",
+                        "rightToRight": "0",
+                    },
+                    {
+                        "src": "${name}",
+                        "marginTop": "5dp",
+                        "type": "text",
+                        "id": "3",
+                        "topToBottom": "2",
+                        "width":"wrap",
+                        "marginLeft": "15dp",
+                        "marginRight": "15dp",
+                        "leftToLeft": "0",
+                        "rightToRight": "0",
+                        "bottomToBottom":"0"
+                    }
+                ]
+            }
+        ]
+    }
+}

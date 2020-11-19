@@ -1,0 +1,184 @@
+{
+ "dbl": {
+  "meta": {
+   "head_image": "https://static.didialift.com/pinche/gift/resource/4f5opuqr4do-1594029757807-carDetect.gif",
+   "flash_image": "https://static.didialift.com/pinche/gift/resource/7tsruqgi4h-1593854827460-%E5%8F%8C%E9%97%AA%403x.png",
+   "light_image": "https://static.didialift.com/pinche/gift/resource/p9bi7hev7bo-1593854827460-%E5%85%89%E7%BA%BF%403x.png",
+   "car_image": "https://static.didialift.com/pinche/gift/resource/80jsn0d9e48-1593854827459-%E8%BD%A6%403x.png",
+   "button_bg_url": "https://static.didialift.com/pinche/gift/resource/6d8vmgbvfao-1594095244698-RectangleBack%403x.png"
+  },
+  "render": [
+   {
+    "width": "295dp",
+    "height": "148dp",
+    "src": "${head_image}",
+    "marginTop": "16dp",
+    "scaleType": "crop",
+    "type": "image",
+    "id": "1",
+    "leftToLeft": "0",
+    "rightToRight": "0",
+    "topToTop": "0"
+   },
+   {
+    "src": "\u8bf7\u6253\u5f00\u53cc\u95ea\uff0c\u6b63\u5bf9\u8f66\u8f86\u62cd\u6444",
+    "width": "0dp",
+    "marginTop": "32dp",
+    "marginLeft": "40dp",
+    "marginRight": "40dp",
+    "size": "22dp",
+    "color": "#212E33",
+    "style": "bold",
+    "type": "text",
+    "id": "2",
+    "topToBottom": "1",
+    "leftToLeft": "0",
+    "rightToRight": "0"
+   },
+   {
+    "src": "\u2022  \u8bf7\u62cd\u6444\u8f66\u724c\u53f7123456\u7684\u6ce8\u518c\u8f66\u8f86",
+    "width": "0dp",
+    "marginTop": "20dp",
+    "size": "14dp",
+    "color": "#4A555B",
+    "type": "text",
+    "id": "3",
+    "leftToLeft": "2",
+    "rightToRight": "2",
+    "topToBottom": "2"
+   },
+   {
+    "src": "\u2022  \u8bf7\u505c\u9760\u81f3\u5b89\u5168\u5730\u5e26\uff0c\u6253\u5f00\u53cc\u95ea\u5e76\u62cd\u6444\u8f66\u8f86",
+    "width": "0dp",
+    "marginTop": "12dp",
+    "size": "14dp",
+    "color": "#4A555B",
+    "type": "text",
+    "id": "4",
+    "leftToLeft": "2",
+    "rightToRight": "2",
+    "topToBottom": "3"
+   },
+   {
+    "src": "\u2022  \u8ddd\u79bb\u8f66\u8f86\u6b63\u524d\u65b91\u20132\u7c73\u5b8c\u6210\u62cd\u6444",
+    "width": "0dp",
+    "marginTop": "12dp",
+    "size": "14dp",
+    "color": "#4A555B",
+    "type": "text",
+    "id": "5",
+    "leftToLeft": "2",
+    "rightToRight": "2",
+    "topToBottom": "4"
+   },
+   {
+    "backgroundColor": "#ECEDF0",
+    "width": "0dp",
+    "height": "1px",
+    "marginTop": "30dp",
+    "type": "view",
+    "id": "6",
+    "leftToLeft": "2",
+    "rightToRight": "2",
+    "topToBottom": "5"
+   },
+   {
+    "src": "${flash_image}",
+    "width": "43dp",
+    "height": "43dp",
+    "marginLeft": "48dp",
+    "marginTop": "30dp",
+    "type": "image",
+    "id": "7",
+    "leftToLeft": "0",
+    "topToTop": "6"
+   },
+   {
+    "src": "\u6253\u5f00\u53cc\u95ea",
+    "marginTop": "6dp",
+    "size": "14dp",
+    "color": "#949FA5",
+    "gravity": "center",
+    "type": "text",
+    "leftToLeft": "7",
+    "rightToRight": "7",
+    "topToBottom": "7"
+   },
+   {
+    "src": "${light_image}",
+    "width": "43dp",
+    "height": "43dp",
+    "marginTop": "30dp",
+    "type": "image",
+    "leftToLeft": "0",
+    "rightToRight": "0",
+    "topToTop": "6"
+   },
+   {
+    "src": "\u5149\u7ebf\u5145\u8db3",
+    "marginTop": "6dp",
+    "size": "14dp",
+    "color": "#949FA5",
+    "gravity": "center",
+    "type": "text",
+    "leftToLeft": "0",
+    "rightToRight": "0",
+    "topToBottom": "8"
+   },
+   {
+    "src": "${car_image}",
+    "width": "43dp",
+    "height": "43dp",
+    "marginRight": "48dp",
+    "marginTop": "30dp",
+    "type": "image",
+    "id": "8",
+    "rightToRight": "0",
+    "topToTop": "6"
+   },
+   {
+    "src": "\u6b63\u5bf9\u8f66\u8f86",
+    "marginTop": "6dp",
+    "size": "14dp",
+    "color": "#949FA5",
+    "gravity": "center",
+    "type": "text",
+    "leftToLeft": "8",
+    "rightToRight": "8",
+    "topToBottom": "8"
+   },
+   {
+    "src": "${button_bg_url}",
+    "marginLeft": "16dp",
+    "marginBottom": "16dp",
+    "marginRight": "16dp",
+    "height": "50dp",
+    "scaleType": "fitXY",
+    "type": "image",
+    "onClick": {
+     "actions": [
+      {
+       "toast": {
+        "src": "button\u70b9\u51fb"
+       }
+      }
+     ]
+    },
+    "id": "9",
+    "leftToLeft": "0",
+    "rightToRight": "0",
+    "bottomToBottom": "0"
+   },
+   {
+    "src": "\u5f00\u59cb\u62cd\u6444",
+    "color": "#FFFFFF",
+    "size": "18dp",
+    "type": "text",
+    "leftToLeft": "0",
+    "rightToRight": "0",
+    "bottomToBottom": "9",
+    "topToTop": "9"
+   }
+  ]
+ }
+}
