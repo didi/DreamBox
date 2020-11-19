@@ -92,6 +92,8 @@ public class DBList extends DBBaseView<DBListView> {
     protected void onCallbackBind(final DBListView selfView, final List<DBCallback> callbacks) {
         super.onCallbackBind(selfView, callbacks);
 
+        // 下拉动作事件触发
+        selfView.setPullRefreshEnabled(pullRefresh);
         selfView.setOnRefreshListener(new IRefreshListener() {
             @Override
             public void onRefresh() {
@@ -106,6 +108,8 @@ public class DBList extends DBBaseView<DBListView> {
             }
         });
 
+        // 上拉动作事件触发
+        selfView.setLoadMoreEnabled(loadMore);
         selfView.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
@@ -169,10 +173,6 @@ public class DBList extends DBBaseView<DBListView> {
         if (null != listFooter) {
             mAdapter.addFooterView(listFooter.onCreateView());
         }
-        // 下拉动作事件触发
-        selfView.setPullRefreshEnabled(pullRefresh);
-        // 上拉动作事件触发
-        selfView.setLoadMoreEnabled(loadMore);
     }
 
     @Override

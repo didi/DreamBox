@@ -40,18 +40,18 @@ public class DBListInnerAdapter extends RecyclerView.Adapter<DBListViewHolder> {
     @Override
     public DBListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         DBListItemRoot itemRoot = mItemViewContainer.onCreateView();
-        ViewGroup.LayoutParams lp;
+        ViewGroup.LayoutParams lp = itemRoot.getLayoutParams();
         RecyclerView.LayoutManager layoutManager = ((DBListView) parent).getLayoutManager();
         if (mOrientation.equals(DBConstants.LIST_ORIENTATION_H)) {
             if (mParentHeight == 0 && null != layoutManager) {
                 mParentHeight = layoutManager.getHeight();
             }
-            lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, mParentHeight);
+            lp.height = mParentHeight;
         } else {
             if (mParentWidth == 0 && null != layoutManager) {
                 mParentWidth = layoutManager.getWidth();
             }
-            lp = new ViewGroup.LayoutParams(mParentWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.width = mParentWidth;
         }
         itemRoot.setLayoutParams(lp);
         return new DBListViewHolder(itemRoot);

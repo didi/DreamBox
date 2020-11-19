@@ -130,7 +130,7 @@ public class DBListAdapter extends RecyclerView.Adapter<DBListViewHolder> {
     @Override
     public DBListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.LayoutManager layoutManager = ((DBListView) parent).getLayoutManager();
-        if (viewType == TYPE_REFRESH_HEADER) {
+        if (viewType == TYPE_REFRESH_HEADER && null != mRefreshArea) {
             return new DBListViewHolder(mRefreshArea.getHeaderView());
         } else if (isHeaderType(viewType)) {
             DBRootView rootView = getHeaderViewByType(viewType);

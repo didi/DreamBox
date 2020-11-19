@@ -17,8 +17,8 @@ import com.didi.carmate.dreambox.core.render.view.DBRootView;
  * date: 2020/6/30
  */
 public class DBListView extends RecyclerView {
-    private boolean mPullRefreshEnabled = true;
-    private boolean mLoadMoreEnabled = true;
+    private boolean mPullRefreshEnabled = false;
+    private boolean mLoadMoreEnabled = false;
     private boolean mRefreshing = false;//是否正在下拉刷新
     private boolean mLoadingData = false;//是否正在加载数据
     private IRefreshListener mRefreshListener;
@@ -175,7 +175,7 @@ public class DBListView extends RecyclerView {
 
             if (mWrapAdapter != null) {
                 mWrapAdapter.notifyDataSetChanged();
-                if (mWrapAdapter.getInnerAdapter().getItemCount() < mPageSize) {
+                if (null != mLoaderView && mWrapAdapter.getInnerAdapter().getItemCount() < mPageSize) {
                     mLoaderView.setVisibility(GONE);
                 }
             }
@@ -496,12 +496,12 @@ public class DBListView extends RecyclerView {
      * 底部加载是否可用
      */
     public void setLoadMoreEnabled(boolean enabled) {
-        if (mWrapAdapter == null) {
-            throw new NullPointerException("DBListAdapter cannot be null");
-        }
+//        if (mWrapAdapter == null) {
+//            throw new NullPointerException("DBListAdapter cannot be null");
+//        }
         mLoadMoreEnabled = enabled;
         if (!enabled) {
-            mWrapAdapter.removeFooterView();
+//            mWrapAdapter.removeFooterView(); // 此处有bug，enable为false时
         }
     }
 
