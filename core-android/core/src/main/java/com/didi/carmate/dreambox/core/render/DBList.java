@@ -10,6 +10,7 @@ import com.didi.carmate.dreambox.core.base.DBConstants;
 import com.didi.carmate.dreambox.core.base.DBContainer;
 import com.didi.carmate.dreambox.core.base.DBContext;
 import com.didi.carmate.dreambox.core.base.INodeCreator;
+import com.didi.carmate.dreambox.core.data.DBData;
 import com.didi.carmate.dreambox.core.render.view.DBRootView;
 import com.didi.carmate.dreambox.core.render.view.list.AdapterCallback;
 import com.didi.carmate.dreambox.core.render.view.list.DBListAdapter;
@@ -19,6 +20,7 @@ import com.didi.carmate.dreambox.core.render.view.list.DBListView;
 import com.didi.carmate.dreambox.core.render.view.list.IAdapterCallback;
 import com.didi.carmate.dreambox.core.render.view.list.IRefreshListener;
 import com.didi.carmate.dreambox.core.render.view.list.OnLoadMoreListener;
+import com.didi.carmate.dreambox.core.utils.DBLogger;
 import com.didi.carmate.dreambox.core.utils.DBUtils;
 import com.google.gson.JsonObject;
 
@@ -31,6 +33,7 @@ import java.util.Map;
  */
 public class DBList extends DBBaseView<DBListView> {
     private String orientation;
+    private String rawSrc;
     private List<JsonObject> src;
     private boolean pullRefresh;
     private boolean loadMore;
@@ -79,7 +82,8 @@ public class DBList extends DBBaseView<DBListView> {
             orientation = DBConstants.LIST_ORIENTATION_V;
         }
         // 因为数据源需要从各个Item里获取，所以Item子节点属性处理在Adapter的[onBindItemView]回调里处理
-        src = getJsonObjectList(attrs.get("src"));
+        rawSrc = attrs.get("src");
+        src = getJsonObjectList(rawSrc);
 
         if (pullRefresh || loadMore) {
             selfView.setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -176,11 +180,22 @@ public class DBList extends DBBaseView<DBListView> {
     }
 
     @Override
-    public void changeOnCallback(DBListView selfView, String key, String oldValue, String newValue) {
-        if (null != newValue && null != mInnerAdapter) {
-            src = getJsonObjectList(newValue);
-            mInnerAdapter.setData(src);
-        }
+    protected void onDataChanged(final DBListView selfView, final String key) {
+        mDBContext.observeJsonObjectData(new DBData.IDataObserver<JsonObject>() {
+            @Override
+            public void onDataChanged(String key, JsonObject oldValue, JsonObject newValue) {
+                DBLogger.d(mDBContext, "key: " + key + " oldValue: " + oldValue + " newValue: " + newValue);
+                if (null != newValue && null != mInnerAdapter) {
+                    src = getJsonObjectList(rawSrc);
+                    mInnerAdapter.setData(src);
+                }
+            }
+
+            @Override
+            public String getKey() {
+                return key;
+            }
+        });
     }
 
     private static final class ListAdapterCallback extends AdapterCallback {

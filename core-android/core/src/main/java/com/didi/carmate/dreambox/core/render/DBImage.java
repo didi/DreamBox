@@ -6,7 +6,10 @@ import android.widget.ImageView;
 import com.didi.carmate.dreambox.core.base.DBBaseView;
 import com.didi.carmate.dreambox.core.base.DBContext;
 import com.didi.carmate.dreambox.core.base.INodeCreator;
+import com.didi.carmate.dreambox.core.data.DBData;
 import com.didi.carmate.dreambox.core.render.view.DBPatchDotNineView;
+import com.didi.carmate.dreambox.core.utils.DBLogger;
+import com.didi.carmate.dreambox.core.utils.DBScreenUtils;
 import com.didi.carmate.dreambox.core.utils.DBUtils;
 import com.didi.carmate.dreambox.wrapper.ImageLoader;
 import com.didi.carmate.dreambox.wrapper.Wrapper;
@@ -18,9 +21,10 @@ import java.util.Map;
  * date: 2020/4/30
  */
 public class DBImage extends DBBaseView<View> {
-    private String src;
     private String srcType;
     private String scaleType;
+    private int maxWidth;
+    private int maxHeight;
 
     protected DBImage(DBContext dbContext) {
         super(dbContext);
@@ -48,31 +52,62 @@ public class DBImage extends DBBaseView<View> {
     public void onAttributesBind(View selfView, Map<String, String> attrs) {
         super.onAttributesBind(selfView, attrs);
 
-        src = getString(attrs.get("src"));
+        String src = getString(attrs.get("src"));
         scaleType = getString(attrs.get("scaleType"));
+        maxWidth = DBScreenUtils.processSize(mDBContext, attrs.get("maxWidth"), 0);
+        maxHeight = DBScreenUtils.processSize(mDBContext, attrs.get("maxHeight"), 0);
 
-        loadImage(selfView);
+        loadImage(selfView, src);
     }
 
     @Override
-    public void changeOnCallback(View selfView, String key, String oldValue, String newValue) {
-        if (null != newValue) {
-            src = getString(newValue);
+    protected void onDataChanged(final View selfView, final String key) {
+        mDBContext.observeStringData(new DBData.IDataObserver<String>() {
+            @Override
+            public void onDataChanged(String key, String oldValue, String newValue) {
+                DBLogger.d(mDBContext, "key: " + key + " oldValue: " + oldValue + " newValue: " + newValue);
+                if (null != newValue) {
+                    loadImage(selfView, getString(newValue));
+                }
+            }
 
-            loadImage(selfView);
-        }
+            @Override
+            public String getKey() {
+                return key;
+            }
+        });
     }
 
-    private void loadImage(View view) {
+    private void loadImage(View view, String src) {
         ImageLoader imageLoader = Wrapper.get(mDBContext.getAccessKey()).imageLoader();
 
         if ("ninePatch".equals(srcType) && view instanceof DBPatchDotNineView) {
             DBPatchDotNineView ninePatchView = (DBPatchDotNineView) view;
+            // maxWidth
+            if (maxWidth != 0) {
+                ninePatchView.setMaxWidth(maxWidth);
+            }
+            // maxHeight
+            if (maxHeight != 0) {
+                ninePatchView.setMaxHeight(maxHeight);
+            }
             if (!DBUtils.isEmpty(src)) {
                 imageLoader.load(src, ninePatchView);
             }
         } else if (view instanceof ImageView) {
             ImageView imageView = (ImageView) view;
+            if (maxWidth != 0 || maxHeight != 0) {
+                imageView.setAdjustViewBounds(true);
+            }
+            // maxWidth
+            if (maxWidth != 0) {
+                imageView.setMaxWidth(maxWidth);
+            }
+            // maxHeight
+            if (maxHeight != 0) {
+                imageView.setMaxHeight(maxHeight);
+            }
+
             // scaleType
             if ("crop".equals(scaleType)) {
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);

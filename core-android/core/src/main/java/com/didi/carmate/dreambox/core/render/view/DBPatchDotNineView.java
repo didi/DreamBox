@@ -6,13 +6,14 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.AttributeSet;
-import android.view.View;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 /**
  * author: chenjing
  * date: 2020/6/28
  */
-public class DBPatchDotNineView extends View {
+public class DBPatchDotNineView extends AppCompatTextView {
     public DBPatchDotNineView(Context context) {
         this(context, null);
     }

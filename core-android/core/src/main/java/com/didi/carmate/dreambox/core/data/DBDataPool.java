@@ -77,6 +77,18 @@ public class DBDataPool {
         booleanDataPool.observeData(template, observeData);
     }
 
+    public void observeDataInt(DBTemplate template, DBData.IDataObserver<Integer> observeData) {
+        intDataPool.observeData(template, observeData);
+    }
+
+    public void observeDataJsonObject(DBTemplate template, DBData.IDataObserver<JsonObject> observeData) {
+        dictDataPool.observeData(template, observeData);
+    }
+
+    public void observeDataJsonArray(DBTemplate template, DBData.IDataObserver<JsonArray> observeData) {
+        dictArrayDataPool.observeData(template, observeData);
+    }
+
     public void unObserveDataString(DBTemplate template, DBData.IDataObserver<String> observeData) {
         stringDataPool.unObserveData(template, observeData);
     }

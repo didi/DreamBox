@@ -150,20 +150,12 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
         if (null != changeOn) {
             String[] keys = changeOn.split("\\|");
             for (final String key : keys) {
-                mDBContext.observeStringData(new DBData.IDataObserver<String>() {
-                    @Override
-                    public void onDataChanged(String key, String oldValue, String newValue) {
-                        DBLogger.d(mDBContext, "key: " + key + " oldValue: " + oldValue + " newValue: " + newValue);
-                        changeOnCallback(mNativeView, key, oldValue, newValue); // View 统一监听onChange事件
-                    }
-
-                    @Override
-                    public String getKey() {
-                        return key;
-                    }
-                });
+                onDataChanged(mNativeView, key);
             }
         }
+    }
+
+    protected void onDataChanged(final V selfView, final String key) {
     }
 
     @CallSuper
@@ -181,12 +173,6 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
                 });
             }
         }
-    }
-
-    /**
-     * subclass show override if has [changeOn] attribute
-     */
-    protected void changeOnCallback(V selfView, String key, String oldValue, String newValue) {
     }
 
     protected void doCallback(String callbackTag, List<DBCallback> callbacks) {

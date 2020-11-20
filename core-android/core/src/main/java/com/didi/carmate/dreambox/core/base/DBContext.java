@@ -23,7 +23,7 @@ public class DBContext {
     private Context mCurrentContext;
     private DBTemplate mDBTemplate;
     private DBDataPool mDataPool;
-    private Map<String, Integer> mViewIdMap = new HashMap<>();
+    private final Map<String, Integer> mViewIdMap = new HashMap<>();
     private final DBBridgeHandler mBridgeHandler;
     private final String mAccessKey;
     private final String mTemplateId;
@@ -174,6 +174,24 @@ public class DBContext {
     public void observeBooleanData(DBData.IDataObserver<Boolean> observeData) {
         if (null != mDataPool) {
             mDataPool.observeDataBoolean(mDBTemplate, observeData);
+        }
+    }
+
+    public void observeIntData(DBData.IDataObserver<Integer> observeData) {
+        if (null != mDataPool) {
+            mDataPool.observeDataInt(mDBTemplate, observeData);
+        }
+    }
+
+    public void observeJsonObjectData(DBData.IDataObserver<JsonObject> observeData) {
+        if (null != mDataPool) {
+            mDataPool.observeDataJsonObject(mDBTemplate, observeData);
+        }
+    }
+
+    public void observeJsonArrayData(DBData.IDataObserver<JsonArray> observeData) {
+        if (null != mDataPool) {
+            mDataPool.observeDataJsonArray(mDBTemplate, observeData);
         }
     }
 

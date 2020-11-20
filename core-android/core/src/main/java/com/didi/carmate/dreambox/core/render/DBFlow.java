@@ -4,6 +4,7 @@ import com.didi.carmate.dreambox.core.base.DBBaseView;
 import com.didi.carmate.dreambox.core.base.DBContainer;
 import com.didi.carmate.dreambox.core.base.DBContext;
 import com.didi.carmate.dreambox.core.base.INodeCreator;
+import com.didi.carmate.dreambox.core.data.DBData;
 import com.didi.carmate.dreambox.core.render.view.DBRootView;
 import com.didi.carmate.dreambox.core.render.view.flow.DBFlowAdapter;
 import com.didi.carmate.dreambox.core.render.view.flow.DBFlowLayout;
@@ -20,6 +21,7 @@ import java.util.Map;
  * date: 2020/5/11
  */
 public class DBFlow extends DBBaseView<DBFlowLayout> {
+    private String rawSrc;
     private DBFlowAdapter<JsonObject> mAdapter;
     private List<JsonObject> src;
     private int hSpace;
@@ -33,7 +35,8 @@ public class DBFlow extends DBBaseView<DBFlowLayout> {
     public void onParserAttribute(Map<String, String> attrs) {
         super.onParserAttribute(attrs);
 
-        src = getJsonObjectList(attrs.get("src"));
+        rawSrc = attrs.get("src");
+        src = getJsonObjectList(rawSrc);
         hSpace = DBScreenUtils.processSize(mDBContext, attrs.get("hSpace"), 0);
         vSpace = DBScreenUtils.processSize(mDBContext, attrs.get("vSpace"), 0);
         // 因为数据源需要从各个Item里获取，所以Item子节点属性处理在Adapter的[onBindItemView]回调里处理
@@ -66,11 +69,22 @@ public class DBFlow extends DBBaseView<DBFlowLayout> {
     }
 
     @Override
-    public void changeOnCallback(DBFlowLayout flowLayout, String key, String oldValue, String newValue) {
-        if (null != newValue && null != mAdapter) {
-            src = getJsonObjectList(newValue);
-            mAdapter.setData(src);
-        }
+    protected void onDataChanged(final DBFlowLayout selfView, final String key) {
+        mDBContext.observeJsonObjectData(new DBData.IDataObserver<JsonObject>() {
+            @Override
+            public void onDataChanged(String key, JsonObject oldValue, JsonObject newValue) {
+                DBLogger.d(mDBContext, "key: " + key + " oldValue: " + oldValue + " newValue: " + newValue);
+                if (null != newValue && null != mAdapter) {
+                    src = getJsonObjectList(rawSrc);
+                    mAdapter.setData(src);
+                }
+            }
+
+            @Override
+            public String getKey() {
+                return key;
+            }
+        });
     }
 
     private static final class FlowAdapterCallback extends AdapterCallback {
