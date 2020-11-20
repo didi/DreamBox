@@ -1,8 +1,7 @@
 package com.didi.carmate.dreambox.core.bridge;
 
-import com.didi.carmate.dreambox.core.base.DBContext;
-import com.didi.carmate.dreambox.core.base.INodeCreator;
 import com.didi.carmate.dreambox.core.base.DBCallback;
+import com.didi.carmate.dreambox.core.base.DBContext;
 
 import java.util.Map;
 
@@ -26,16 +25,5 @@ public class DBSendEventCallback extends DBCallback {
 
     public String getMsgTo() {
         return msgTo;
-    }
-
-    public static String getNodeTag() {
-        return "onSendEventCallback";
-    }
-
-    public static class NodeCreator implements INodeCreator {
-        @Override
-        public DBSendEventCallback createNode(DBContext dbContext) {
-            return new DBSendEventCallback(dbContext);
-        }
     }
 }

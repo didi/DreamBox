@@ -3,6 +3,7 @@ package com.didi.carmate.dreambox.core.bridge;
 import com.didi.carmate.dreambox.core.action.DBActionWithCallback;
 import com.didi.carmate.dreambox.core.action.IDBAction;
 import com.didi.carmate.dreambox.core.base.DBAction;
+import com.didi.carmate.dreambox.core.base.DBCallbacks;
 import com.didi.carmate.dreambox.core.base.DBContext;
 import com.didi.carmate.dreambox.core.base.IDBNode;
 import com.didi.carmate.dreambox.core.base.INodeCreator;
@@ -30,8 +31,13 @@ public class DBSendEvent extends DBActionWithCallback {
         for (IDBNode child : children) {
             if (child instanceof DBSendEventMsg) {
                 sendEventMsg = (DBSendEventMsg) child;
-            } else if (child instanceof DBSendEventCallback) {
-                eventCallback = (DBSendEventCallback) child;
+            } else if (child instanceof DBCallbacks) {
+                List<IDBNode> callbacks = child.getChildren();
+                for (IDBNode callback : callbacks) {
+                    if ("onSendEventCallback".equals(callback.getTagName())) {
+                        eventCallback = (DBSendEventCallback) callback;
+                    }
+                }
             }
         }
     }
