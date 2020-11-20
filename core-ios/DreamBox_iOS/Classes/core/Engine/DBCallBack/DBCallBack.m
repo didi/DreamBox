@@ -9,6 +9,7 @@
 #import "NSDictionary+DBExtends.h"
 #import "DBParser.h"
 #import "UIView+DBStrike.h"
+#import "DBTreeView.h"
 
 @implementation DBCallBack
 
@@ -33,6 +34,10 @@
             //绑定在弹窗组件上TODO
         } else if([type isEqual:@"onNegative"]){
             //绑定在弹窗组件上TODO
+        } else if([type isEqual:@"onEvent"]){
+            if([view isKindOfClass:[DBTreeView class]]){
+                [(DBTreeView *)view regiterOnEvent:callBack];
+            }
         }
 //        else if([type isEqual:@"onSuccess"]){
 //            

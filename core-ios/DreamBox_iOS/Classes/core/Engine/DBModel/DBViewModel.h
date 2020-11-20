@@ -46,6 +46,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic ,copy) NSString *gradientOrientation;
 @property (nonatomic ,copy) NSString *scroll;
 @property (nonatomic ,copy) NSString *userInteractionEnabled;
+@property (nonatomic ,copy) NSString *radiusLT;
+@property (nonatomic ,copy) NSString *radiusRT;
+@property (nonatomic ,copy) NSString *radiusLB;
+@property (nonatomic ,copy) NSString *radiusRB;
 
 //回调节点
 @property (nonatomic, strong) NSArray *callbacks;
@@ -84,6 +88,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,copy) NSString *gravity;
 @property (nonatomic,copy) NSString *maxLines;
 @property (nonatomic,copy) NSString *ellipsize;
+@property (nonatomic,copy) NSString *minWidth;
+@property (nonatomic,copy) NSString *maxWidth;
+@property (nonatomic,copy) NSString *minHeight;
+@property (nonatomic,copy) NSString *maxHeight;
 
 @end
 

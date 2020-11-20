@@ -62,6 +62,11 @@
     
     model2.callbacks = [dict db_objectForKey:@"callbacks"];
     model2.userInteractionEnabled = [dict db_objectForKey:@"userInteractionEnabled"];
+    model2.radiusRT = [dict db_objectForKey:@"radiusRT"];
+    model2.radiusLT = [dict db_objectForKey:@"radiusLT"];
+    model2.radiusRB = [dict db_objectForKey:@"radiusRB"];
+    model2.radiusLB = [dict db_objectForKey:@"radiusLB"];
+    
     //触发事件节点
 //    model2.onClick = [dict db_objectForKey:@"onClick"];
 //    model2.onVisible = [dict db_objectForKey:@"onVisible"];
@@ -101,6 +106,11 @@
     model.gravity = [dict db_objectForKey:@"gravity"];
     model.maxLines = [dict db_objectForKey:@"maxLines"];
     model.ellipsize = [dict db_objectForKey:@"ellipsize"];
+    model.maxWidth = [dict db_objectForKey:@"maxWidth"];
+    model.minWidth = [dict db_objectForKey:@"minWidth"];
+    model.maxHeight = [dict db_objectForKey:@"maxHeight"];
+    model.minHeight = [dict db_objectForKey:@"minHeight"];
+    
     return model;
 }
 

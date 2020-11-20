@@ -21,7 +21,6 @@
 #pragma mark - DBViewProtocol
 -(void)onCreateView{
     [super onCreateView];
-    
     _label = [UILabel new];
     [self addSubview:_label];
     self.contentV = _label;
@@ -85,15 +84,73 @@
 }
 
 - (CGSize)wrapSize {
+    CGFloat maxW = [DBDefines db_getUnit:_textModel.maxWidth];
+    CGFloat maxH = [DBDefines db_getUnit:_textModel.maxHeight];
+    //已知宽，适配高
     if(!_textModel.height ||  [_textModel.height isEqualToString:@"wrap"]){
         CGFloat width = [DBDefines db_getUnit:_textModel.width];
-        if(width <= 0){width = [UIScreen mainScreen].bounds.size.width;} //缺少测量方法，伪造宽度为屏幕宽
+        if(width <= 0){
+            if(_textModel.maxWidth){
+                width = maxW;
+            } else if (_textModel.minWidth){
+                [_label sizeToFit];
+                return [self fixedSizeWithSize:_label.frame.size];
+            } else {
+                //缺少测量方法,交给系统，不计算直接返回
+                return CGSizeZero;
+            }
+        }
         CGSize size = [_label sizeThatFits:CGSizeMake(width, CGFLOAT_MAX)];
-        return size;
-    } else {
-        CGSize size = [_label sizeThatFits:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
-        return size;
+        return [self fixedSizeWithSize:size];
     }
+    
+    //已知高，适配宽
+    if(!_textModel.width || [_textModel.width isEqualToString:@"wrap"]){
+        CGFloat height = [DBDefines db_getUnit:_textModel.height];
+        if(height <= 0){
+            if(_textModel.maxHeight){
+                height = maxH;
+            } else if (_textModel.minHeight){
+                [_label sizeToFit];
+                return [self fixedSizeWithSize:_label.frame.size];
+            } else {
+                //缺少测量方法,交给系统，不计算直接返回
+                return CGSizeZero;
+            }
+        }
+        CGSize size = [_label sizeThatFits:CGSizeMake(CGFLOAT_MAX, height)];
+        return [self fixedSizeWithSize:size];
+    }
+    
+    return CGSizeZero;
+}
+
+- (CGSize)fixedSizeWithSize:(CGSize)size{
+    CGFloat wrapWidth = size.width;
+    CGFloat wrapHeight = size.height;
+    
+    CGFloat minW = [DBDefines db_getUnit:_textModel.minWidth];
+    CGFloat maxW = [DBDefines db_getUnit:_textModel.maxWidth];
+    CGFloat minH = [DBDefines db_getUnit:_textModel.minHeight];
+    CGFloat maxH = [DBDefines db_getUnit:_textModel.maxHeight];
+    
+    //宽度约束
+    if((minW > 0) && (size.width < minW)){
+        wrapWidth = minW;
+    }
+    if((maxW > 0) && (size.width > maxW)){
+        wrapWidth = maxW;
+    }
+    
+    if((minH > 0) && (size.height < minH)){
+        wrapHeight = minH;
+    }
+    
+    if((maxH > 0) && (size.height > maxH)){
+        wrapHeight = maxH;
+    }
+    
+    return CGSizeMake(wrapWidth, wrapHeight);
 }
 
 #pragma mark - inherited

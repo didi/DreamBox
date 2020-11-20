@@ -204,27 +204,37 @@
         }];
     }
     
-    
-    if ([model.width isEqualToString:@"wrap"]) {
+    if (!model.width || [model.width isEqualToString:@"wrap"]) {
+        CGSize size = [view wrapSize];
         if([view isKindOfClass:[DBText class]]){
-            [view mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.size.mas_equalTo([view wrapSize]);
-            }];
+            if(size.height > 0 && size.width > 0){
+                [view mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.size.mas_equalTo(size);
+                }];
+            }
         } else {
-            [view mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.width.mas_equalTo([view wrapSize].width);
-            }];
+            if(size.width > 0){
+                [view mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.width.mas_equalTo(size.width);
+                }];
+            }
         }
     }
     
-    
-    if ([model.height isEqualToString:@"wrap"]) {
+    if (!model.height || [model.height isEqualToString:@"wrap"]) {
+        CGSize size = [view wrapSize];
         if([view isKindOfClass:[DBText class]]){
-            //如果text，给定宽度，自适应高，则让系统计算，放弃手算
+            if(size.height > 0 && size.width > 0){
+                [view mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.size.mas_equalTo(size);
+                }];
+            }
         } else {
-            [view mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.height.mas_equalTo([view wrapSize].height);
-            }];
+            if(size.height > 0){
+                [view mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.height.mas_equalTo(size.height);
+                }];
+            }
         }
     }
     

@@ -56,6 +56,12 @@ native触发D2N事件携带的回调
  - (void)handleDBCallBack:(NSDictionary *)callBackData data:(id)data;
 
 /**
+ 添加N2D  bridge事件监听
+
+@param onEventDict : N2D事件携带的回调
+*/
+- (void)regiterOnEvent:(NSDictionary *)onEventDict;
+/**-(void)regiterOnEvent:(NSDictionary *)onEventDict
 发送N2D事件
 
 @param eid           事件ID

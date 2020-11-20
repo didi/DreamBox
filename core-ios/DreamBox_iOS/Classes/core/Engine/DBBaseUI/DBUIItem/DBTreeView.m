@@ -670,12 +670,14 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     }
     NSString *key = [eventDict objectForKey:@"msgTo"];
     
-    if([data isKindOfClass:[NSDictionary class]]){
-        NSDictionary *dict = (NSDictionary *)data;
-        [[DBPool shareDBPool] setObject:@{key:dict} ToDBMetaPoolWithPathId:self.pathTid];
-    } else if([data isKindOfClass:[NSString class]]) {
-        NSString *dataStr = (NSString *)data;
-        [[DBPool shareDBPool] setObject:@{key:dataStr} ToDBMetaPoolWithPathId:self.pathTid];
+    if(key.length > 0){
+        if([data isKindOfClass:[NSDictionary class]]){
+            NSDictionary *dict = (NSDictionary *)data;
+            [[DBPool shareDBPool] setObject:@{key:dict} ToDBMetaPoolWithPathId:self.pathTid];
+        } else if([data isKindOfClass:[NSString class]]) {
+            NSString *dataStr = (NSString *)data;
+            [[DBPool shareDBPool] setObject:@{key:dataStr} ToDBMetaPoolWithPathId:self.pathTid];
+        }
     }
     
     [self callActionWithEventDict:eventDict];
