@@ -6,6 +6,7 @@ import com.didi.carmate.dreambox.core.action.DBActionAlias;
 import com.didi.carmate.dreambox.core.action.DBActionAliasItem;
 import com.didi.carmate.dreambox.core.action.DBTraceAttr;
 import com.didi.carmate.dreambox.core.action.DBTraceAttrItem;
+import com.didi.carmate.dreambox.core.bridge.DBOnEvent;
 import com.didi.carmate.dreambox.core.data.DBMeta;
 import com.didi.carmate.dreambox.core.render.DBChildren;
 import com.didi.carmate.dreambox.core.render.DBRender;
@@ -235,7 +236,12 @@ public class DBNodeParser {
                                 return;
                             }
                             String callbackTagName = typeElement.getAsString();
-                            DBCallback node = new DBCallback(mDBContext);
+                            DBCallback node;
+                            if ("onEvent".equals(callbackTagName)) {
+                                node = new DBOnEvent(mDBContext);
+                            } else {
+                                node = new DBCallback(mDBContext);
+                            }
                             node.setTagName(callbackTagName);
                             arrayNode.addChild(node);
                             node.setParent(arrayNode);

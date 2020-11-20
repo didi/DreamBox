@@ -25,7 +25,6 @@ import com.didi.carmate.dreambox.core.base.DBNodeRegistry;
 import com.didi.carmate.dreambox.core.base.DBPack;
 import com.didi.carmate.dreambox.core.base.DBTemplate;
 import com.didi.carmate.dreambox.core.base.INodeCreator;
-import com.didi.carmate.dreambox.core.bridge.DBOnEvent;
 import com.didi.carmate.dreambox.core.bridge.DBSendEvent;
 import com.didi.carmate.dreambox.core.bridge.DBSendEventCallback;
 import com.didi.carmate.dreambox.core.bridge.DBSendEventMsg;
@@ -190,7 +189,6 @@ public class DBEngine {
         DBNodeRegistry.registerNode(DBSendEvent.getNodeTag(), new DBSendEvent.NodeCreator());
         DBNodeRegistry.registerNode(DBSendEventMsg.getVNodeTag(), new DBSendEventMsg.VNodeCreator());
         DBNodeRegistry.registerNode(DBSendEventCallback.getNodeTag(), new DBSendEventCallback.NodeCreator());
-        DBNodeRegistry.registerNode(DBOnEvent.getNodeTag(), new DBOnEvent.NodeCreator());
         // meta
         DBNodeRegistry.registerNode(DBMeta.getNodeTag(), new DBMeta.NodeCreator());
         // callback
