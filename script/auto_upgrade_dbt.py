@@ -1,5 +1,15 @@
 import os
 from shutil import copyfile
+import hashlib
+from functools import partial
+
+
+def file_md5(path):
+    with open(path, mode='rb') as f:
+        d = hashlib.md5()
+        for buf in iter(partial(f.read, 128), b''):
+            d.update(buf)
+        return d.hexdigest()
 
 
 def check_dmb_cli_exist():
@@ -15,10 +25,13 @@ def get_all_origin_dbt():
     g = os.walk('.')
     dbt_list = {}
     source_dsl = {}
+    origin_xmls = {}
     # find origin DSL xml
     for path, dir_list, file_list in g:
         for f in file_list:
             file_path = path+'/'+f
+            if 'android' in file_path and 'intermediates' in file_path:
+                continue
             if 'cli' in file_path:
                 continue
             if f.endswith('.xml'):
@@ -33,7 +46,19 @@ def get_all_origin_dbt():
                     # print(f'Hit DSL at {file_path}')
                     raw_name = f[:len(f)-4]
                     source_dsl[raw_name] = file_path
+                    origin_xmls[file_path] = raw_name
     # print(raw_dsl_names)
+    # check whether the xmls in the same key got one md5
+    for file_path in origin_xmls:
+        a_key = origin_xmls[file_path]
+        for inter_file_path in origin_xmls:
+            if origin_xmls[inter_file_path] == a_key:
+                a_md5 = file_md5(file_path)
+                b_md5 = file_md5(inter_file_path)
+                if a_md5 != b_md5:
+                    # raise Exception(f'MD5 not match.\n {file_path}\n vs \n{inter_file_path}')
+                    print(f'MD5 not match.\n {file_path}\n vs \n{inter_file_path}')
+    
     # second to find the dbt file to be replace
     sg = os.walk('.')
     for path, dir_list, file_list in sg:
