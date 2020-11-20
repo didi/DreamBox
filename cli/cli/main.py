@@ -7,6 +7,7 @@ from common import RawInput
 import constant
 import compiler
 import logging
+from reverse_compile import reverse
 
 
 def cli():
@@ -19,6 +20,7 @@ def cli():
     parser.add_argument('--noproguard', action='store_true', default=False, help='是否强制关闭压缩混淆')
     parser.add_argument('--extcfg', help='接收开发者自定义的view节点相关配置')
     parser.add_argument('--onlystr', action='store_true', default=False, help='DEBUG模式下生效，开启后只输出编译码字符串')
+    parser.add_argument('--reverse', action='store_true', default=False, help='反解编译出来的模板文件')
     parser.add_argument('-v', '--version', action='version',
                         version='DreamBox CLI Version: %s , for RUNTIME: %s' % (
                             constant.CLI_VER, constant.TARGET_RUNTIME_VER))
@@ -30,17 +32,11 @@ def cli():
         init_logging(logging.DEBUG)
     logging.debug(f'print all arguments:  {vars(args)}')
 
-    src_file = None
-    b64_string = None
-
     if args.source is None or len(args.source) > 1:
         raise Exception('只能接受一个原始输入对象')
 
     cell = args.source[0]
-    if str(cell).endswith('.xml'):
-        src_file = cell
-    else:
-        b64_string = cell
+    src_file = cell
     if args.extcfg:
         extcfg = args.extcfg
         if type(extcfg) is not str:
@@ -49,7 +45,10 @@ def cli():
             raise Exception('{}不是文件或不存在'.format(extcfg))
         if not str(args.extcfg).endswith('.yml') and not str(args.extcfg).endswith('.yaml'):
             raise Exception('扩展配置文件必须以yml或yaml结尾，具体配置说明详见文档')
-    raw_input = RawInput(args, src_file=src_file, src_64=b64_string)
+    raw_input = RawInput(args, src_file=src_file)
+    if raw_input.reverse:
+        reverse(raw_input.src_file)
+        return
     if not raw_input.release:
         raw_input.printAttrs()
     c = compiler.CompileTask(raw_input)

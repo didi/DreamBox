@@ -60,6 +60,11 @@ class RawInput:
 
     ext_cfg = None
 
+    """
+    反解编译后的文件，方便调试问题
+    """
+    reverse = False
+
     def printAttrs(self):
         keys = self.__class__.__dict__.keys()
         try:
@@ -105,3 +110,5 @@ class RawInput:
         if args.extcfg:
             with open(args.extcfg, 'r', encoding='utf-8') as cfg_file:
                 self.ext_cfg = yaml.load(cfg_file)
+        if args.reverse:
+            self.reverse = True

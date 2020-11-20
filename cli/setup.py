@@ -19,7 +19,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    install_requires=['lxml', 'watchdog', 'websockets', 'jinja2', 'qrcode', 'Pillow', 'importlib-resources',
+    install_requires=['lxml', 'watchdog', 'websockets', 'jinja2', 'qrcode', 'importlib-resources',
                       'netifaces', 'PyYAML'],
     entry_points={
         'console_scripts': ["dmb-cli=cli.main:cli"]

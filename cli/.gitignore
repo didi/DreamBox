@@ -8,4 +8,5 @@ build/
 __pycache__
 .DS_Store
 *_test.py
+*.dbt
 
