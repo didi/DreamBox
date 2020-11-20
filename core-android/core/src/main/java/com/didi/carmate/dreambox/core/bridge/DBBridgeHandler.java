@@ -1,5 +1,7 @@
 package com.didi.carmate.dreambox.core.bridge;
 
+import com.didi.carmate.dreambox.core.action.IDBAction;
+import com.didi.carmate.dreambox.core.base.DBAction;
 import com.didi.carmate.dreambox.core.base.DBContext;
 import com.didi.carmate.dreambox.core.base.DBTemplate;
 import com.didi.carmate.dreambox.core.utils.DBUtils;
@@ -7,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,7 +46,11 @@ public class DBBridgeHandler {
                     dbContext.putStringValue(key, eventData); // 兼容传递普通字符串
                 }
             }
-            dbTemplate.onEvent(); // action invoke
+
+            List<DBAction> actions = onEvent.getActionNodes();
+            for (IDBAction action : actions) {
+                action.invoke();
+            }
         }
     }
 

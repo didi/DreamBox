@@ -68,9 +68,7 @@ public class DBLView extends DBNode {
 
         List<IDBNode> children = getChildren();
         for (IDBNode child : children) {
-            if (child instanceof DBOnEvent) {
-                mDBEvent = (DBOnEvent) child;
-            } else if (child instanceof DBRender) {
+            if (child instanceof DBRender) {
                 mDBRender = (DBRender) child;
             } else if (child instanceof DBActionAlias) {
                 DBActionAlias actionAliasVNode = (DBActionAlias) child;
@@ -130,7 +128,7 @@ public class DBLView extends DBNode {
 
     public void onPause() {
         for (final DBCallback callback : mCallbacks) {
-            if ("onInVisible".equals(callback.getTagName())) {
+            if ("onInvisible".equals(callback.getTagName())) {
                 List<DBAction> actions = callback.getActionNodes();
                 for (DBAction action : actions) {
                     action.invoke();
@@ -144,16 +142,20 @@ public class DBLView extends DBNode {
     }
 
     public DBOnEvent getDBOnEvent() {
-        return mDBEvent;
-    }
-
-    public void onEvent() {
-        if (null != mDBEvent) {
-            List<DBAction> actions = mDBEvent.getActionNodes();
-            for (IDBAction action : actions) {
-                action.invoke();
+        if (null == mDBEvent) {
+            List<IDBNode> children = getChildren();
+            for (IDBNode child : children) {
+                if (child instanceof DBCallbacks) {
+                    List<IDBNode> callbacks = child.getChildren();
+                    for (IDBNode callback : callbacks) {
+                        if ("onEvent".equals(callback.getTagName())) {
+                            mDBEvent = (DBOnEvent) callback;
+                        }
+                    }
+                }
             }
         }
+        return mDBEvent;
     }
 
     public IDBCoreView getDBCoreView() {

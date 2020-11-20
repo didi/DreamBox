@@ -88,12 +88,6 @@ public class DBTemplate extends DBNode implements LifecycleObserver {
         return null;
     }
 
-    public void onEvent() {
-        if (null != mDBL) {
-            mDBL.onEvent();
-        }
-    }
-
     /**
      * 重新刷新整个模板
      */
