@@ -1,17 +1,20 @@
-<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
- >
-    <meta bg="https://static.didialift.com/pinche/gift/resource/3p5vf8r9d68-1596784035946-tag_bg.png"/>
-	<render>
-        <flow  id="flow1" src="${ext.tabs}"  hSpace="5dp" bSpace="10dp" width="200">
-           <text id="item_name"  src="${title}" topToTop="parent"
-               bottomToBottom="parent" leftToLeft="parent" rightToRight="parent" marginTop="5dp"
-               marginBottom="5dp" marginLeft="5dp" marginRight="5dp" backgroundColor="#56634567"/>
-<!--            <view id="item_bg" leftToLeft="item_name" rightToRight="item_name"-->
-<!--                topToTop="item_name" bottomToBottom="item_name" radius ="5dp" backgroundColor="#56634567"/>-->
+<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://db-xsd.oss-cn-beijing.aliyuncs.com/dbl.xsd">
+    <meta bg="https://static.didialift.com/pinche/gift/resource/3p5vf8r9d68-1596784035946-tag_bg.png" />
+    <render>
+        <flow bSpace="10dp" hSpace="5dp" id="flow1" leftToLeft="parent" rightToRight="parent" src="${ext.tabs}"
+            width="0">
+            <cell>
+                <text backgroundColor="#56634567" bottomToBottom="parent" id="item_name" leftToLeft="parent" marginBottom="5dp"
+                    marginLeft="5dp" marginRight="5dp" marginTop="5dp" rightToRight="parent" src="${title}"
+                    topToTop="parent" />
+                <!--            <view id="item_bg" leftToLeft="item_name" rightToRight="item_name"-->
+                <!--                topToTop="item_name" bottomToBottom="item_name" radius ="5dp" backgroundColor="#56634567"/>-->
+            </cell>
         </flow>
-<!--        <flow  id="flow2" topToBottom="flow1" src="${ext.tabs}"  hSpace="10dp" bSpace="10dp" >-->
-<!--            <text src="${title}" marginTop="5dp" topToBottom="parent"-->
-<!--            leftToLeft="parent" rightToRight="parent" backgroundColor="#cccccc"/>-->
-<!--         </flow>-->
-	</render>
+        <!--        <flow  id="flow2" topToBottom="flow1" src="${ext.tabs}"  hSpace="10dp" bSpace="10dp" >-->
+        <!--            <text src="${title}" marginTop="5dp" topToBottom="parent"-->
+        <!--            leftToLeft="parent" rightToRight="parent" backgroundColor="#cccccc"/>-->
+        <!--         </flow>-->
+    </render>
 </dbl>
