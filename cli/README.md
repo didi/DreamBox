@@ -5,4 +5,4 @@ DreamBox CLI
 
 ### 流程设计
 
-![v2_design](assets/v2_design.png)
+![v2_design](https://raw.githubusercontent.com/didi/DreamBox/master/cli/assets/v2_design.png)
