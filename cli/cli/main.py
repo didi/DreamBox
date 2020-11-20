@@ -64,7 +64,3 @@ def init_logging(level=None):
 
 if __name__ == '__main__':
     cli()
-    # raw = RawInput.mock_for_debug()
-    # raw.src_file = '../demo.xml'
-    # c = compiler.CompileTask(raw)
-    # c.compile()

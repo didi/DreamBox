@@ -2,9 +2,9 @@ from lxml import etree
 from common import RawInput
 import re
 import logging
-import constant
 
 PROGUARD_KEYS = 'abcdefghigklmnopqrstuvwxyz' + 'abcdefghigklmnopqrstuvwxyz'.upper()
+PROGUARD_MAGIC_STR = '_'
 
 SPECIAL_TAGS = [
     'dbl',
@@ -247,6 +247,22 @@ class _Converter:
                 else:
                     super().__setitem__(k, v)
 
+            def keys(self):
+                maybe_proguard_keys = super().keys()
+                origin_keys = []
+                for mpk in maybe_proguard_keys:
+                    if mpk.startswith(PROGUARD_MAGIC_STR):
+                        hit = False
+                        for k in self.proguards:
+                            if self.proguards[k] == mpk:
+                                origin_keys.append(k)
+                                hit = True
+                        if not hit:
+                            raise Exception(f'UNLIKELY, 出现了错误的混淆key值，没能在混淆map中找到原值 ({mpk})')
+                    else:
+                        origin_keys.append(mpk)
+                return origin_keys
+
         if not _belong_to('meta', n) and self.proguard_keys:
             json_dict = AutoProguardDict(self.proguard_keys)
         else:
@@ -484,7 +500,7 @@ class _Converter:
                 # only i
                 if i < len(PROGUARD_KEYS) - 1 and j == -1:
                     if one not in self.proguard_keys.values():
-                        self.proguard_keys[key] = one
+                        self.proguard_keys[key] = PROGUARD_MAGIC_STR + one
                         i += 1
                         break
                     else:
@@ -496,7 +512,7 @@ class _Converter:
                 else:
                     combine = ''.join([one, two])
                     if combine not in self.proguard_keys.values():
-                        self.proguard_keys[key] = combine
+                        self.proguard_keys[key] = PROGUARD_MAGIC_STR + combine
                         break
                     if i < len(PROGUARD_KEYS) - 1:
                         i += 1

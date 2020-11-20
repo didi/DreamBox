@@ -1,4 +1,4 @@
-from xml2tree import Node, RuleChecker, V2_NEW_TAGS, ViewNode, V3_NEW_TAGS, PackNode, CallbackNode
+from xml2tree import Node, RuleChecker, V2_NEW_TAGS, ViewNode, V3_NEW_TAGS, PackNode, CallbackNode, PROGUARD_MAGIC_STR
 import constant
 import logging
 
@@ -33,6 +33,7 @@ class DBRC(RuleChecker):
         # self._check_only_callback_parent_all_view_and_action(n)
         self._check_list_and_flow_wh(n)
         self._check_pack_dsl(n)
+        self._check_any_node_named_with_magic_str(n)
 
     def _check_pack_dsl(self, n: Node):
         if isinstance(n, PackNode):
@@ -72,3 +73,7 @@ class DBRC(RuleChecker):
         if n.tag == 'flow':
             if w == 'wrap' and h == 'wrap':
                 raise Exception('flow控件的宽、高不能都是自适应')
+
+    def _check_any_node_named_with_magic_str(self, n):
+        if n.tag.startswith(PROGUARD_MAGIC_STR):
+            raise Exception(f'DSL中任意标签不能以 {PROGUARD_MAGIC_STR} 开头，这是内部保留特殊字符')
