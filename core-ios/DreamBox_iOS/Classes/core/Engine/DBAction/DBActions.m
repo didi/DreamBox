@@ -71,8 +71,21 @@
     
     NSString *accessKey = [[DBPool shareDBPool] getAccessKeyWithPathId:pathId];
     NSDictionary *netDict = [DBNetAction parseNetWithDict:originDict andPathId:pathId];
-    NSDictionary *onErrorDict = [originDict objectForKey:@"onError"];
-    NSDictionary *onSuccessDict = [originDict objectForKey:@"onSuccess"];
+    
+    NSDictionary *onErrorDict;
+    NSDictionary *onSuccessDict;
+    
+    NSArray *callBacks = [originDict db_objectForKey:@"callbacks"];
+    for(NSDictionary *dict in callBacks){
+        NSString *type = [dict db_objectForKey:@"type"];
+        if([type isEqual:@"onSuccess"]){
+            onSuccessDict = dict;
+        }
+        if([type isEqual:@"onError"]){
+            onErrorDict = dict;
+        }
+    }
+    
     [[DBWrapperManager sharedManager] netService:netDict accessKey:accessKey successBlock:^(id  _Nonnull data) {
     if ([originDict db_hasKey:@"to"]) {
         NSString *key = [originDict objectForKey:@"to"];
