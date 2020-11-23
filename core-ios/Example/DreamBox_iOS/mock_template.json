@@ -68,7 +68,9 @@
                             "type": "text",
                             "id": "4",
                             "leftToRight": "2",
-                            "topToBottom": "3"
+                            "topToBottom": "3",
+                            "height":"wrap",
+                            "minWidth":"300"
                         },
                         {
                             "width": "10dp",

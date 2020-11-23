@@ -158,9 +158,11 @@
     [self refreshText];
     //刷新size
     CGSize size = [self wrapSize];
-    [self mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(size);
-    }];
+    if(size.width > 0 && size.height > 0){
+        [self mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(size);
+        }];
+    }
 }
 
 #pragma mark - privateMethods

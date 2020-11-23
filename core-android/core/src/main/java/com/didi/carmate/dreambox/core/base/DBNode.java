@@ -227,7 +227,7 @@ public abstract class DBNode implements IDBNode {
 
                     if (keys.length == 2) {
                         JsonElement extValue = ext.get(keys[1]);
-                        if (extValue.isJsonPrimitive()) {
+                        if (extValue != null && extValue.isJsonPrimitive()) {
                             jsonPrimitive = extValue.getAsJsonPrimitive();
                         }
                     } else {

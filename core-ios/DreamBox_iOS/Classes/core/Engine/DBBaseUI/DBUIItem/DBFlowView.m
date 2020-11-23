@@ -12,6 +12,7 @@
 #import "DBDefines.h"
 #import "Masonry.h"
 #import "NSArray+DBExtends.h"
+#import "NSDictionary+DBExtends.h"
 
 @interface DBFlowView()
 
@@ -92,7 +93,9 @@
         NSDictionary *dict = [self.dataList db_ObjectAtIndex:i];
         DBTreeView *itemView = [self.itemViews db_ObjectAtIndex:i];
         if(!itemView){
-            itemView = [DBTreeView treeViewWithRender:flowModel.children meta:dict accessKey:self.accessKey tid:@"flowItem"];
+            NSDictionary *cell = [flowModel.children db_ObjectAtIndex:0];
+            NSArray *cellChildren = [cell db_objectForKey:@"children"];
+            itemView = [DBTreeView treeViewWithRender:cellChildren meta:dict accessKey:self.accessKey tid:@"flowItem"];
             [itemView hiddenDebugView];
         }
         [_contentView addSubview:itemView];
