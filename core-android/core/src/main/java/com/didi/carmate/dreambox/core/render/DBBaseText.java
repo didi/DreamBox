@@ -9,6 +9,8 @@ import androidx.annotation.CallSuper;
 import com.didi.carmate.dreambox.core.base.DBBaseView;
 import com.didi.carmate.dreambox.core.base.DBConstants;
 import com.didi.carmate.dreambox.core.base.DBContext;
+import com.didi.carmate.dreambox.core.data.DBData;
+import com.didi.carmate.dreambox.core.utils.DBLogger;
 import com.didi.carmate.dreambox.core.utils.DBScreenUtils;
 import com.didi.carmate.dreambox.core.utils.DBUtils;
 
@@ -58,6 +60,25 @@ public abstract class DBBaseText<V extends TextView> extends DBBaseView<V> {
         if (DBUtils.isNumeric(rawMaxLines)) {
             maxLines = Integer.parseInt(rawMaxLines);
         }
+    }
+
+    @Override
+    protected void onDataChanged(final V selfView, final String key, final Map<String, String> attrs) {
+        mDBContext.observeDataPool(new DBData.IDataObserver() {
+            @Override
+            public void onDataChanged(String key) {
+                DBLogger.d(mDBContext, "key: " + key);
+                if (null != selfView) {
+                    src = getString(attrs.get("src"));
+                    selfView.setText(src);
+                }
+            }
+
+            @Override
+            public String getKey() {
+                return key;
+            }
+        });
     }
 
     @CallSuper

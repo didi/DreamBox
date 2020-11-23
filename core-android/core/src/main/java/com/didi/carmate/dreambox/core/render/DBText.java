@@ -7,8 +7,6 @@ import android.widget.TextView;
 import com.didi.carmate.dreambox.core.base.DBConstants;
 import com.didi.carmate.dreambox.core.base.DBContext;
 import com.didi.carmate.dreambox.core.base.INodeCreator;
-import com.didi.carmate.dreambox.core.data.DBData;
-import com.didi.carmate.dreambox.core.utils.DBLogger;
 import com.didi.carmate.dreambox.core.utils.DBScreenUtils;
 import com.didi.carmate.dreambox.core.utils.DBUtils;
 
@@ -85,25 +83,6 @@ public class DBText extends DBBaseText<TextView> {
         if (maxHeight != 0) {
             textView.setMaxHeight(maxHeight);
         }
-    }
-
-    @Override
-    protected void onDataChanged(final TextView selfView, final String key) {
-        mDBContext.observeStringData(new DBData.IDataObserver<String>() {
-            @Override
-            public void onDataChanged(String key, String oldValue, String newValue) {
-                DBLogger.d(mDBContext, "key: " + key + " oldValue: " + oldValue + " newValue: " + newValue);
-                if (null != newValue && null != selfView) {
-                    src = getString(newValue);
-                    selfView.setText(src);
-                }
-            }
-
-            @Override
-            public String getKey() {
-                return key;
-            }
-        });
     }
 
     public static String getNodeTag() {

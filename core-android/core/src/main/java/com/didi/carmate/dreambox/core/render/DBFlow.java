@@ -21,7 +21,6 @@ import java.util.Map;
  * date: 2020/5/11
  */
 public class DBFlow extends DBBaseView<DBFlowLayout> {
-    private String rawSrc;
     private DBFlowAdapter<JsonObject> mAdapter;
     private List<JsonObject> src;
     private int hSpace;
@@ -35,8 +34,7 @@ public class DBFlow extends DBBaseView<DBFlowLayout> {
     public void onParserAttribute(Map<String, String> attrs) {
         super.onParserAttribute(attrs);
 
-        rawSrc = attrs.get("src");
-        src = getJsonObjectList(rawSrc);
+        src = getJsonObjectList(attrs.get("src"));
         hSpace = DBScreenUtils.processSize(mDBContext, attrs.get("hSpace"), 0);
         vSpace = DBScreenUtils.processSize(mDBContext, attrs.get("vSpace"), 0);
         // 因为数据源需要从各个Item里获取，所以Item子节点属性处理在Adapter的[onBindItemView]回调里处理
@@ -69,13 +67,13 @@ public class DBFlow extends DBBaseView<DBFlowLayout> {
     }
 
     @Override
-    protected void onDataChanged(final DBFlowLayout selfView, final String key) {
-        mDBContext.observeJsonObjectData(new DBData.IDataObserver<JsonObject>() {
+    protected void onDataChanged(final DBFlowLayout selfView, final String key, final Map<String, String> attrs) {
+        mDBContext.observeDataPool(new DBData.IDataObserver() {
             @Override
-            public void onDataChanged(String key, JsonObject oldValue, JsonObject newValue) {
-                DBLogger.d(mDBContext, "key: " + key + " oldValue: " + oldValue + " newValue: " + newValue);
-                if (null != newValue && null != mAdapter) {
-                    src = getJsonObjectList(rawSrc);
+            public void onDataChanged(String key) {
+                DBLogger.d(mDBContext, "key: " + key);
+                if (null != mAdapter) {
+                    src = getJsonObjectList(attrs.get("src"));
                     mAdapter.setData(src);
                 }
             }

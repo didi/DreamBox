@@ -61,14 +61,12 @@ public class DBImage extends DBBaseView<View> {
     }
 
     @Override
-    protected void onDataChanged(final View selfView, final String key) {
-        mDBContext.observeStringData(new DBData.IDataObserver<String>() {
+    protected void onDataChanged(final View selfView, final String key, final Map<String, String> attrs) {
+        mDBContext.observeDataPool(new DBData.IDataObserver() {
             @Override
-            public void onDataChanged(String key, String oldValue, String newValue) {
-                DBLogger.d(mDBContext, "key: " + key + " oldValue: " + oldValue + " newValue: " + newValue);
-                if (null != newValue) {
-                    loadImage(selfView, getString(newValue));
-                }
+            public void onDataChanged(String key) {
+                DBLogger.d(mDBContext, "key: " + key);
+                loadImage(selfView, getString(attrs.get("src")));
             }
 
             @Override

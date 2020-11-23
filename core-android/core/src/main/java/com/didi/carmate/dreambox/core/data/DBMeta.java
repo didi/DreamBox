@@ -32,6 +32,7 @@ public class DBMeta extends DBNode {
         for (Map.Entry<String, String> entry : kvEntries) {
             String value = entry.getValue();
             if (DBUtils.isNumeric(value)) {
+                mDBContext.putStringValue(entry.getKey(), value); // String Pool里也放一份
                 mDBContext.putIntValue(entry.getKey(), Integer.parseInt(value));
             } else if (value.equals("true")) {
                 mDBContext.putBooleanValue(entry.getKey(), true);

@@ -58,13 +58,13 @@ public class DBContext {
 
     public void setExtJsonObject(JsonObject extJsonObject) {
         if (null != mDataPool && null != extJsonObject) {
-            mDataPool.putData(mDBTemplate, DBConstants.DATA_EXT_PREFIX, extJsonObject);
+            mDataPool.putData(DBConstants.DATA_EXT_PREFIX, extJsonObject);
         }
     }
 
     public void setExtJsonObject(String key, JsonObject extJsonObject) {
         if (null != mDataPool && null != extJsonObject) {
-            mDataPool.putData(mDBTemplate, key, extJsonObject);
+            mDataPool.putData(key, extJsonObject);
         }
     }
 
@@ -83,26 +83,26 @@ public class DBContext {
     // ------------- meta pool -------------
     public void putStringValue(String key, String value) {
         if (null != mDataPool) {
-            mDataPool.putData(mDBTemplate, key, value);
+            mDataPool.putData(key, value);
         }
     }
 
     public String getStringValue(String key) {
         if (null != mDataPool) {
-            return mDataPool.getString(mDBTemplate, key);
+            return mDataPool.getString(key);
         }
         return "";
     }
 
     public void putBooleanValue(String key, boolean value) {
         if (null != mDataPool) {
-            mDataPool.putData(mDBTemplate, key, value);
+            mDataPool.putData(key, value);
         }
     }
 
     public boolean getBooleanValue(String key) {
         if (null != mDataPool && null != key) {
-            return mDataPool.getBoolean(mDBTemplate, key);
+            return mDataPool.getBoolean(key);
         } else {
             return false;
         }
@@ -110,88 +110,64 @@ public class DBContext {
 
     public void putIntValue(String key, int value) {
         if (null != mDataPool) {
-            mDataPool.putData(mDBTemplate, key, value);
+            mDataPool.putData(key, value);
         }
     }
 
     public int getIntValue(String key) {
         if (null != mDataPool) {
-            return mDataPool.getInt(mDBTemplate, key);
+            return mDataPool.getInt(key);
         }
         return -1;
     }
 
     public void putJsonValue(String key, JsonObject jsonObject) {
         if (null != mDataPool) {
-            mDataPool.putData(mDBTemplate, key, jsonObject);
+            mDataPool.putData(key, jsonObject);
         }
     }
 
     public JsonObject getJsonValue(String key) {
         if (null != mDataPool) {
-            return mDataPool.getDict(mDBTemplate, key);
+            return mDataPool.getDict(key);
         }
         return null;
     }
 
     public void putJsonArray(String key, JsonArray jsonArray) {
         if (null != mDataPool) {
-            mDataPool.putData(mDBTemplate, key, jsonArray);
+            mDataPool.putData(key, jsonArray);
         }
     }
 
     public JsonArray getJsonArray(String key) {
         if (null != mDataPool) {
-            return mDataPool.getDictArray(mDBTemplate, key);
+            return mDataPool.getDictArray(key);
         }
         return null;
     }
 
     public void changeStringValue(String key, String value) {
         if (null != mDataPool) {
-            mDataPool.changeStringData(mDBTemplate, key, value);
+            mDataPool.changeStringData(key, value);
         }
     }
 
     public void changeBooleanValue(String key, boolean value) {
         if (null != mDataPool) {
-            mDataPool.changeBooleanData(mDBTemplate, key, value);
+            mDataPool.changeBooleanData(key, value);
         }
     }
 
     public void changeIntValue(String key, int value) {
         if (null != mDataPool) {
-            mDataPool.changeIntData(mDBTemplate, key, value);
+            mDataPool.changeIntData(key, value);
         }
     }
 
-    public void observeStringData(DBData.IDataObserver<String> observeData) {
+    public void observeDataPool(DBData.IDataObserver observeData) {
         if (null != mDataPool) {
-            mDataPool.observeDataString(mDBTemplate, observeData);
-        }
-    }
-
-    public void observeBooleanData(DBData.IDataObserver<Boolean> observeData) {
-        if (null != mDataPool) {
-            mDataPool.observeDataBoolean(mDBTemplate, observeData);
-        }
-    }
-
-    public void observeIntData(DBData.IDataObserver<Integer> observeData) {
-        if (null != mDataPool) {
-            mDataPool.observeDataInt(mDBTemplate, observeData);
-        }
-    }
-
-    public void observeJsonObjectData(DBData.IDataObserver<JsonObject> observeData) {
-        if (null != mDataPool) {
-            mDataPool.observeDataJsonObject(mDBTemplate, observeData);
-        }
-    }
-
-    public void observeJsonArrayData(DBData.IDataObserver<JsonArray> observeData) {
-        if (null != mDataPool) {
-            mDataPool.observeDataJsonArray(mDBTemplate, observeData);
+            mDataPool.observeDataPool(observeData);
         }
     }
 

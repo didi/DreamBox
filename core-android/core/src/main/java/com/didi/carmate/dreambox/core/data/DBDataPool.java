@@ -1,8 +1,10 @@
 package com.didi.carmate.dreambox.core.data;
 
-import com.didi.carmate.dreambox.core.base.DBTemplate;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * author: chenjing
@@ -15,28 +17,54 @@ public class DBDataPool {
     private final IDBData<JsonObject> dictDataPool = new DBData<>(); // 字典类型数据池
     private final IDBData<JsonArray> dictArrayDataPool = new DBData<>(); // 字典数组数据池
 
-    public void putData(DBTemplate template, String key, String value) {
-        stringDataPool.addData(template, key, value);
+    private final List<DBData.IDataObserver> observerList = new ArrayList<>();
+
+    public DBDataPool() {
+        // 接收任何key值变化产生的事件
+        IDBData.IDataObserver dataObserver = new IDBData.IDataObserver() {
+            @Override
+            public void onDataChanged(String key) {
+                for (IDBData.IDataObserver observer : observerList) {
+                    if (observer.getKey().contains(key)) { // key路径是包含关系的，也进行通知
+                        observer.onDataChanged(key);
+                    }
+                }
+            }
+
+            @Override
+            public String getKey() {
+                return ""; // 接收任何key值变化产生的事件
+            }
+        };
+        stringDataPool.observeData(dataObserver);
+        booleanDataPool.observeData(dataObserver);
+        intDataPool.observeData(dataObserver);
+        dictDataPool.observeData(dataObserver);
+        dictArrayDataPool.observeData(dataObserver);
     }
 
-    public void putData(DBTemplate template, String key, int value) {
-        intDataPool.addData(template, key, value);
+    public void putData(String key, String value) {
+        stringDataPool.addData(key, value);
     }
 
-    public void putData(DBTemplate template, String key, boolean value) {
-        booleanDataPool.addData(template, key, value);
+    public void putData(String key, int value) {
+        intDataPool.addData(key, value);
     }
 
-    public void putData(DBTemplate template, String key, JsonObject value) {
-        dictDataPool.addData(template, key, value);
+    public void putData(String key, boolean value) {
+        booleanDataPool.addData(key, value);
     }
 
-    public void putData(DBTemplate template, String key, JsonArray value) {
-        dictArrayDataPool.addData(template, key, value);
+    public void putData(String key, JsonObject value) {
+        dictDataPool.addData(key, value);
     }
 
-    public String getString(DBTemplate template, String key) {
-        String value = stringDataPool.getData(template, key);
+    public void putData(String key, JsonArray value) {
+        dictArrayDataPool.addData(key, value);
+    }
+
+    public String getString(String key) {
+        String value = stringDataPool.getData(key);
         if (null == value) {
             return "";
         } else {
@@ -44,8 +72,8 @@ public class DBDataPool {
         }
     }
 
-    public int getInt(DBTemplate template, String key) {
-        Integer value = intDataPool.getData(template, key);
+    public int getInt(String key) {
+        Integer value = intDataPool.getData(key);
         if (null == value) {
             return -1;
         } else {
@@ -53,68 +81,54 @@ public class DBDataPool {
         }
     }
 
-    public boolean getBoolean(DBTemplate template, String key) {
-        Boolean value = booleanDataPool.getData(template, key);
+    public boolean getBoolean(String key) {
+        Boolean value = booleanDataPool.getData(key);
         if (null == value) {
             return false;
         }
         return value;
     }
 
-    public JsonObject getDict(DBTemplate template, String key) {
-        return dictDataPool.getData(template, key);
+    public JsonObject getDict(String key) {
+        return dictDataPool.getData(key);
     }
 
-    public JsonArray getDictArray(DBTemplate template, String key) {
-        return dictArrayDataPool.getData(template, key);
+    public JsonArray getDictArray(String key) {
+        return dictArrayDataPool.getData(key);
     }
 
-    public void observeDataString(DBTemplate template, DBData.IDataObserver<String> observeData) {
-        stringDataPool.observeData(template, observeData);
+    public void observeDataPool(DBData.IDataObserver observeData) {
+        if (!observerList.contains(observeData)) {
+            observerList.add(observeData);
+        }
     }
 
-    public void observeDataBoolean(DBTemplate template, DBData.IDataObserver<Boolean> observeData) {
-        booleanDataPool.observeData(template, observeData);
+//    public void unObserveDataString(DBTemplate template, DBData.IDataObserver observeData) {
+//        stringDataPool.unObserveData(template, observeData);
+//    }
+//
+//    public void unObserveDataBoolean(DBTemplate template, DBData.IDataObserver observeData) {
+//        booleanDataPool.unObserveData(template, observeData);
+//    }
+//
+//    public void removeObservers(DBTemplate template) {
+//        stringDataPool.removeObservers(template);
+//        intDataPool.removeObservers(template);
+//        booleanDataPool.removeObservers(template);
+//        dictDataPool.removeObservers(template);
+//        dictArrayDataPool.removeObservers(template);
+//    }
+
+    public void changeStringData(String key, String value) {
+        stringDataPool.changeData(key, value);
     }
 
-    public void observeDataInt(DBTemplate template, DBData.IDataObserver<Integer> observeData) {
-        intDataPool.observeData(template, observeData);
+    public void changeIntData(String key, int value) {
+        intDataPool.changeData(key, value);
     }
 
-    public void observeDataJsonObject(DBTemplate template, DBData.IDataObserver<JsonObject> observeData) {
-        dictDataPool.observeData(template, observeData);
-    }
-
-    public void observeDataJsonArray(DBTemplate template, DBData.IDataObserver<JsonArray> observeData) {
-        dictArrayDataPool.observeData(template, observeData);
-    }
-
-    public void unObserveDataString(DBTemplate template, DBData.IDataObserver<String> observeData) {
-        stringDataPool.unObserveData(template, observeData);
-    }
-
-    public void unObserveDataBoolean(DBTemplate template, DBData.IDataObserver<Boolean> observeData) {
-        booleanDataPool.unObserveData(template, observeData);
-    }
-
-    public void removeObservers(DBTemplate template) {
-        stringDataPool.removeObservers(template);
-        intDataPool.removeObservers(template);
-        booleanDataPool.removeObservers(template);
-        dictDataPool.removeObservers(template);
-        dictArrayDataPool.removeObservers(template);
-    }
-
-    public void changeStringData(DBTemplate template, String key, String value) {
-        stringDataPool.changeData(template, key, value);
-    }
-
-    public void changeIntData(DBTemplate template, String key, int value) {
-        intDataPool.changeData(template, key, value);
-    }
-
-    public void changeBooleanData(DBTemplate template, String key, boolean value) {
-        booleanDataPool.changeData(template, key, value);
+    public void changeBooleanData(String key, boolean value) {
+        booleanDataPool.changeData(key, value);
     }
 
     public void release() {

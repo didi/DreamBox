@@ -3,21 +3,17 @@ package com.didi.carmate.dreambox.core.render;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.didi.carmate.dreambox.core.action.DBActionAlias;
 import com.didi.carmate.dreambox.core.action.DBActionAliasItem;
-import com.didi.carmate.dreambox.core.action.IDBAction;
 import com.didi.carmate.dreambox.core.base.DBAction;
 import com.didi.carmate.dreambox.core.base.DBCallback;
+import com.didi.carmate.dreambox.core.base.DBCallbacks;
 import com.didi.carmate.dreambox.core.base.DBConstants;
 import com.didi.carmate.dreambox.core.base.DBContext;
 import com.didi.carmate.dreambox.core.base.DBNode;
 import com.didi.carmate.dreambox.core.base.IDBNode;
 import com.didi.carmate.dreambox.core.base.INodeCreator;
 import com.didi.carmate.dreambox.core.bridge.DBOnEvent;
-import com.didi.carmate.dreambox.core.base.DBCallbacks;
 import com.didi.carmate.dreambox.core.data.DBData;
 import com.didi.carmate.dreambox.core.render.view.DBCoreViewH;
 import com.didi.carmate.dreambox.core.render.view.DBCoreViewV;
@@ -96,6 +92,7 @@ public class DBLView extends DBNode {
      * 重新刷新整个模板
      */
     public void invalidate() {
+        mDBRender.parserAttribute(); // 视图节点部分属性放到此生命周期里解析，需要重新执行一遍
         mDBRender.bindView(mDBRootView);
         mDBRender.renderFinish();
     }
@@ -191,7 +188,7 @@ public class DBLView extends DBNode {
         }
 
         // dismissOn
-        if (null == dismissOn || mDBContext.getBooleanValue(dismissOn)) {
+        if (null == dismissOn || getBoolean(dismissOn)) {
             view.setVisibility(View.VISIBLE);
         } else {
             view.setVisibility(View.INVISIBLE);
@@ -199,12 +196,12 @@ public class DBLView extends DBNode {
 
         // observe meta [dismissOn]
         if (null != dismissOn) {
-            mDBContext.observeBooleanData(new DBData.IDataObserver<Boolean>() {
+            mDBContext.observeDataPool(new DBData.IDataObserver() {
                 @Override
-                public void onDataChanged(String key, @Nullable Boolean oldValue, @NonNull Boolean newValue) {
-                    DBLogger.d(mDBContext, "key: " + key + " oldValue: " + oldValue + " newValue: " + newValue);
+                public void onDataChanged(String key) {
+                    DBLogger.d(mDBContext, "key: " + key);
                     if (null != mDBCoreView) {
-                        mDBCoreView.getView().setVisibility(newValue ? View.GONE : View.VISIBLE);
+                        mDBCoreView.getView().setVisibility(getBoolean(dismissOn) ? View.GONE : View.VISIBLE);
                     }
                 }
 
@@ -219,11 +216,13 @@ public class DBLView extends DBNode {
         if (null != changeOn) {
             String[] keys = changeOn.split("\\|");
             for (final String key : keys) {
-                mDBContext.observeStringData(new DBData.IDataObserver<String>() {
+                mDBContext.observeDataPool(new DBData.IDataObserver() {
                     @Override
-                    public void onDataChanged(String key, @Nullable String oldValue, @NonNull String newValue) {
-                        DBLogger.d(mDBContext, "key: " + key + " oldValue: " + oldValue + " newValue: " + newValue);
-                        invalidate();
+                    public void onDataChanged(String key) {
+                        DBLogger.d(mDBContext, "key: " + key);
+                        if (null != mDBCoreView) {
+                            mDBCoreView.requestRender();
+                        }
                     }
 
                     @Override

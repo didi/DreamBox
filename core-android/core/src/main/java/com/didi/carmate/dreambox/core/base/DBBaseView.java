@@ -3,8 +3,6 @@ package com.didi.carmate.dreambox.core.base;
 import android.view.View;
 
 import androidx.annotation.CallSuper;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.didi.carmate.dreambox.core.action.IDBAction;
 import com.didi.carmate.dreambox.core.data.DBData;
@@ -129,13 +127,13 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
         } else {
             mNativeView.setVisibility(View.INVISIBLE);
         }
-        if (visibleOn) {
-            mDBContext.observeBooleanData(new DBData.IDataObserver<Boolean>() {
+        if (null != rawVisibleOn) {
+            mDBContext.observeDataPool(new DBData.IDataObserver() {
                 @Override
-                public void onDataChanged(String key, @Nullable Boolean oldValue, @NonNull Boolean newValue) {
-                    DBLogger.d(mDBContext, "key: " + key + " oldValue: " + oldValue + " newValue: " + newValue);
+                public void onDataChanged(String key) {
+                    DBLogger.d(mDBContext, "key: " + key);
                     if (null != mNativeView) {
-                        mNativeView.setVisibility(newValue ? View.VISIBLE : View.INVISIBLE);
+                        mNativeView.setVisibility(getBoolean(rawVisibleOn) ? View.VISIBLE : View.INVISIBLE);
                     }
                 }
 
@@ -150,12 +148,12 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
         if (null != changeOn) {
             String[] keys = changeOn.split("\\|");
             for (final String key : keys) {
-                onDataChanged(mNativeView, key);
+                onDataChanged(mNativeView, key, attrs);
             }
         }
     }
 
-    protected void onDataChanged(final V selfView, final String key) {
+    protected void onDataChanged(final V selfView, final String key, final Map<String, String> attrs) {
     }
 
     @CallSuper

@@ -42,7 +42,7 @@ import java.util.regex.Pattern;
  * protected void onParserAttribute(Map<String, String> attrs);<br/>
  * protected void onParserNode();<br/>
  * protected void onAttributesBind(Map<String, String> attrs);<br/>
- * ------------------------<br/>
+ * ------callback和action节点作为视图节点的基础能力，需要先解析完毕再开始自己特有的生命周期-----<br/>
  * protected abstract V onCreateView();<br/>
  * protected void onAttributesBind(V selfView, Map<String, String> attrs);<br/>
  * protected void onCallbackBind(V selfView, List<DBCallback> callbacks);

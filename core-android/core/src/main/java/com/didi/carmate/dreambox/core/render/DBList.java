@@ -33,7 +33,6 @@ import java.util.Map;
  */
 public class DBList extends DBBaseView<DBListView> {
     private String orientation;
-    private String rawSrc;
     private List<JsonObject> src;
     private boolean pullRefresh;
     private boolean loadMore;
@@ -82,8 +81,7 @@ public class DBList extends DBBaseView<DBListView> {
             orientation = DBConstants.LIST_ORIENTATION_V;
         }
         // 因为数据源需要从各个Item里获取，所以Item子节点属性处理在Adapter的[onBindItemView]回调里处理
-        rawSrc = attrs.get("src");
-        src = getJsonObjectList(rawSrc);
+        src = getJsonObjectList(attrs.get("src"));
 
         if (pullRefresh || loadMore) {
             selfView.setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -180,13 +178,13 @@ public class DBList extends DBBaseView<DBListView> {
     }
 
     @Override
-    protected void onDataChanged(final DBListView selfView, final String key) {
-        mDBContext.observeJsonObjectData(new DBData.IDataObserver<JsonObject>() {
+    protected void onDataChanged(final DBListView selfView, final String key, final Map<String, String> attrs) {
+        mDBContext.observeDataPool(new DBData.IDataObserver() {
             @Override
-            public void onDataChanged(String key, JsonObject oldValue, JsonObject newValue) {
-                DBLogger.d(mDBContext, "key: " + key + " oldValue: " + oldValue + " newValue: " + newValue);
-                if (null != newValue && null != mInnerAdapter) {
-                    src = getJsonObjectList(rawSrc);
+            public void onDataChanged(String key) {
+                DBLogger.d(mDBContext, "key: " + key);
+                if (null != mInnerAdapter) {
+                    src = getJsonObjectList(attrs.get("src"));
                     mInnerAdapter.setData(src);
                 }
             }
