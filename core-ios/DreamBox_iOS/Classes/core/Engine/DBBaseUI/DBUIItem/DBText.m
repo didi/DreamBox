@@ -46,7 +46,7 @@
     } else if([_textModel.ellipsize isEqual:@"end"]){
         _label.lineBreakMode = NSLineBreakByTruncatingTail;
     } else {
-        _label.lineBreakMode = NSLineBreakByCharWrapping;
+        _label.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     
     CGFloat textFontSize = 13;
