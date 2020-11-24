@@ -43,18 +43,18 @@ public class DBLoading extends DBBaseView<View> {
     }
 
     @Override
-    public void onAttributesBind(View selfView, Map<String, String> attrs) {
-        super.onAttributesBind(selfView, attrs);
+    public void onAttributesBind(Map<String, String> attrs) {
+        super.onAttributesBind(attrs);
 
-        doRender(selfView);
+        doRender();
     }
 
-    private void doRender(View view) {
-        if ((DBUtils.isEmpty(style) || "circle".equals(style)) && view instanceof DBCircleLoading) {
-            DBCircleLoading progress = (DBCircleLoading) view;
+    private void doRender() {
+        if ((DBUtils.isEmpty(style) || "circle".equals(style)) && mNativeView instanceof DBCircleLoading) {
+            DBCircleLoading progress = (DBCircleLoading) mNativeView;
             progress.setDrawable(R.drawable.db_loading_circle_anim);
         } else {
-            DBDotLoading progress = (DBDotLoading) view;
+            DBDotLoading progress = (DBDotLoading) mNativeView;
             progress.setBgColor(Color.GREEN);
             progress.startLoading();
         }

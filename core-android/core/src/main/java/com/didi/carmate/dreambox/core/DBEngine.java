@@ -106,7 +106,7 @@ public class DBEngine {
             // 节点树解析
             template.parserAttribute();
             template.parserNode();
-            template.attributesBind();
+            template.finishParserNode();
             // 绑定生命周期
             template.bindLifecycle(lifecycle);
             return template.getDBCoreView();

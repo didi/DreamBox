@@ -15,7 +15,7 @@ import java.util.Map;
  * date: 2020/11/10
  */
 public abstract class DBAbsView<V extends View> extends DBBindView {
-    protected V mNativeView;
+    protected View mNativeView;
     protected int id = DBConstants.DEFAULT_ID_VIEW;
     protected int width;
     protected int height;
@@ -42,10 +42,14 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         super(dbContext);
     }
 
-    protected abstract V onCreateView();
+    protected abstract View onCreateView();
+
+    protected V onGetParentNativeView() {
+        return null;
+    }
 
     @CallSuper
-    protected void onAttributesBind(V selfView, final Map<String, String> attrs) {
+    protected void onAttributesBind(final Map<String, String> attrs) {
         // backgroundColor
         backgroundColor = getString(attrs.get("backgroundColor"));
         if (DBUtils.isColor(backgroundColor)) {

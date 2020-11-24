@@ -201,8 +201,8 @@ public class DBRichView extends View {
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
         // 设置wrap_content的默认宽 / 高值
-        int mWidth = 10;
-        int mHeight = 10;
+        int mWidth = 0;
+        int mHeight = 0;
 
         // 当布局参数设置为wrap_content时，设置默认值
         if (getLayoutParams().width == ViewGroup.LayoutParams.WRAP_CONTENT

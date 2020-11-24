@@ -54,7 +54,10 @@ public interface IDBNode {
      */
     void parserNode();
 
-    void attributesBind();
+    /**
+     * 节点预处理完成后调用
+     */
+    void finishParserNode();
 
     /**
      * 设置数据对象

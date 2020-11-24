@@ -19,12 +19,17 @@ import java.util.Map;
 /**
  * author: chenjing
  * date: 2020/4/30
+ * <p>
+ * 第三方可扩展此类，<T> 为第三方扩展时需提供给DBImage用的native对象，具体做法：
+ * 第三方视图节点继承 DBImage 并覆写 onGetParentNativeView 方法并返回类型为 <T> 的对象即可
  */
-public class DBImage extends DBBaseView<View> {
-    private String srcType;
-    private String scaleType;
+public class DBImage<T extends View> extends DBBaseView<T> {
     private int maxWidth;
     private int maxHeight;
+
+    protected String src;
+    protected String srcType;
+    protected String scaleType;
 
     protected DBImage(DBContext dbContext) {
         super(dbContext);
@@ -49,24 +54,26 @@ public class DBImage extends DBBaseView<View> {
     }
 
     @Override
-    public void onAttributesBind(View selfView, Map<String, String> attrs) {
-        super.onAttributesBind(selfView, attrs);
+    public void onAttributesBind(Map<String, String> attrs) {
+        super.onAttributesBind(attrs);
 
-        String src = getString(attrs.get("src"));
+        src = getString(attrs.get("src"));
         scaleType = getString(attrs.get("scaleType"));
         maxWidth = DBScreenUtils.processSize(mDBContext, attrs.get("maxWidth"), 0);
         maxHeight = DBScreenUtils.processSize(mDBContext, attrs.get("maxHeight"), 0);
 
-        loadImage(selfView, src);
+        bindAttribute(getNativeView());
+        loadImage(getNativeView());
     }
 
     @Override
-    protected void onDataChanged(final View selfView, final String key, final Map<String, String> attrs) {
+    protected void onDataChanged(final String key, final Map<String, String> attrs) {
         mDBContext.observeDataPool(new DBData.IDataObserver() {
             @Override
             public void onDataChanged(String key) {
                 DBLogger.d(mDBContext, "key: " + key);
-                loadImage(selfView, getString(attrs.get("src")));
+                src = getString(attrs.get("src"));
+                loadImage(getNativeView());
             }
 
             @Override
@@ -76,9 +83,7 @@ public class DBImage extends DBBaseView<View> {
         });
     }
 
-    private void loadImage(View view, String src) {
-        ImageLoader imageLoader = Wrapper.get(mDBContext.getAccessKey()).imageLoader();
-
+    private void bindAttribute(View view) {
         if ("ninePatch".equals(srcType) && view instanceof DBPatchDotNineView) {
             DBPatchDotNineView ninePatchView = (DBPatchDotNineView) view;
             // maxWidth
@@ -88,9 +93,6 @@ public class DBImage extends DBBaseView<View> {
             // maxHeight
             if (maxHeight != 0) {
                 ninePatchView.setMaxHeight(maxHeight);
-            }
-            if (!DBUtils.isEmpty(src)) {
-                imageLoader.load(src, ninePatchView);
             }
         } else if (view instanceof ImageView) {
             ImageView imageView = (ImageView) view;
@@ -114,11 +116,28 @@ public class DBImage extends DBBaseView<View> {
             } else if ("fitXY".equals(scaleType)) {
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             }
+        }
+    }
+
+    protected void loadImage(View view) {
+        ImageLoader imageLoader = Wrapper.get(mDBContext.getAccessKey()).imageLoader();
+
+        if ("ninePatch".equals(srcType) && view instanceof DBPatchDotNineView) {
+            DBPatchDotNineView ninePatchView = (DBPatchDotNineView) view;
+            if (!DBUtils.isEmpty(src)) {
+                imageLoader.load(src, ninePatchView);
+            }
+        } else if (view instanceof ImageView) {
+            ImageView imageView = (ImageView) view;
             // src
             if (!DBUtils.isEmpty(src)) {
                 imageLoader.load(src, imageView);
             }
         }
+    }
+
+    private View getNativeView() {
+        return null == onGetParentNativeView() ? mNativeView : onGetParentNativeView();
     }
 
     public static String getNodeTag() {
@@ -127,8 +146,8 @@ public class DBImage extends DBBaseView<View> {
 
     public static class NodeCreator implements INodeCreator {
         @Override
-        public DBImage createNode(DBContext dbContext) {
-            return new DBImage(dbContext);
+        public DBImage<?> createNode(DBContext dbContext) {
+            return new DBImage<>(dbContext);
         }
     }
 }

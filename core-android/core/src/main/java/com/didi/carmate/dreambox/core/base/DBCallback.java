@@ -36,8 +36,8 @@ public class DBCallback extends DBNode implements IDBCallback {
     }
 
     @Override
-    protected void onAttributesBind(Map<String, String> attrs) {
-        super.onAttributesBind(attrs);
+    protected void onParserNodeFinished() {
+        super.onParserNodeFinished();
 
         // 在DBLView的onParserNode里解析完DBActionAlias节点后，才能获取到alias相关内容
         List<IDBNode> children = getChildren();

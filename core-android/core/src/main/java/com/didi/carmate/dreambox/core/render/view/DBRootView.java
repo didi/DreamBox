@@ -91,7 +91,7 @@ public class DBRootView extends ConstraintLayout {
                             DBConstants.STYLE_CHAIN_SPREAD_INSIDE.equals(chainStyle) ||
                             DBConstants.STYLE_CHAIN_PACKED.equals(chainStyle)) {
                         IDBNode nextNode = childNodes.get(i + 1);
-                        if (nextNode instanceof DBBaseView<?>) {
+                        if (nextNode instanceof DBBaseView) {
                             dbBaseView.setNextNode((DBBaseView<?>) nextNode);
                         }
                         chainHeader.add(dbBaseView);

@@ -54,7 +54,7 @@ public class DBData<T> implements IDBData<T> {
 
         // 通知观察者
         for (IDataObserver observer : mObservePool) {
-            if ("".equals(key) || key.equals(observer.getKey())) {
+            if ("".equals(observer.getKey()) || key.equals(observer.getKey())) {
                 observer.onDataChanged(key);
             }
         }

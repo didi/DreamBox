@@ -26,34 +26,34 @@ public class DBButton extends DBBaseText<Button> {
     }
 
     @Override
-    public void onAttributesBind(Button selfView, Map<String, String> attrs) {
-        super.onAttributesBind(selfView, attrs);
+    public void onAttributesBind(Map<String, String> attrs) {
+        super.onAttributesBind(attrs);
 
-        doRender(selfView);
+        bindAttribute();
     }
 
     @Override
-    protected void doRender(Button button) {
-        super.doRender(button);
+    protected void bindAttribute() {
+        super.bindAttribute();
 
         // text
         if (!DBUtils.isEmpty(src)) {
-            button.setText(src);
+            getNativeView().setText(src);
         }
         // color
         if (DBUtils.isColor(color)) {
-            button.setTextColor(DBUtils.parseColor(this, color));
+            getNativeView().setTextColor(DBUtils.parseColor(this, color));
         }
         // size
         if (size != DBConstants.DEFAULT_SIZE_TEXT) {
-            button.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+            getNativeView().setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
         }
         // style
         if (!DBUtils.isEmpty(style)) {
             if (style.equals(DBConstants.STYLE_TXT_NORMAL)) {
-                button.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                getNativeView().setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
             } else if (style.equals(DBConstants.STYLE_TXT_BOLD)) {
-                button.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                getNativeView().setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
             }
         }
     }
