@@ -1,0 +1,22 @@
+<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ >
+    <meta value=""/> 
+	<render>
+        <text id="btn_write"  width="200dp" height="50dp" topToTop="parent" leftToLeft="parent" rightToRight="parent"  
+        marginTop="30dp" size="14dp" src="click me, 我是storage-write" backgroundColor="#cccccc" gravity="center">
+        <onClick>
+            <storage key="storage_test" write="i am storage_test"/>
+            <toast src="写入缓存" />
+        </onClick>
+        </text>  
+        <text id="btn_read"  width="200dp" height="50dp" topToBottom="btn_write" leftToLeft="parent" rightToRight="parent"  
+        marginTop="60dp" size="14dp" src="click me, 我是storage-readTo" backgroundColor="#cccccc" gravity="center">
+        <onClick>
+            <storage key="storage_test" readTo="value"/>
+            <toast src="读取缓存值" />
+        </onClick>
+        </text>  
+        <text  topToBottom="btn_read" leftToLeft="parent" rightToRight="parent"  
+        marginTop="20dp" size="14dp" src="${value}" gravity="center" changeOn="value"/>
+	</render>
+</dbl>

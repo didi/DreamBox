@@ -1,0 +1,16 @@
+<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ >
+    <meta uid="111222" oid="12345678"/>
+	<render>
+        <text id="btn"  width="180dp" height="50dp" topToTop="parent" leftToLeft="parent" rightToRight="parent"
+        marginTop="30dp" size="14dp" src="click me, 我是trace" backgroundColor="#cccccc" gravity="center">
+        <onClick>
+            <toast src="我是一条trace"/>
+            <trace  key="beat_order_pv">
+                <attr key="uid" value="${uid}" />
+                <attr key="oid" value="${oid}" />
+            </trace>
+        </onClick>
+        </text>
+	</render>
+</dbl>
