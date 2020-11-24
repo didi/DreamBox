@@ -1,0 +1,31 @@
+<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <meta head_image="https://static.didialift.com/pinche/gift/resource/4f5opuqr4do-1594029757807-carDetect.gif" flash_image="https://static.didialift.com/pinche/gift/resource/7tsruqgi4h-1593854827460-%E5%8F%8C%E9%97%AA%403x.png" light_image="https://static.didialift.com/pinche/gift/resource/p9bi7hev7bo-1593854827460-%E5%85%89%E7%BA%BF%403x.png" car_image="https://static.didialift.com/pinche/gift/resource/80jsn0d9e48-1593854827459-%E8%BD%A6%403x.png" button_bg_url="https://static.didialift.com/pinche/gift/resource/6d8vmgbvfao-1594095244698-RectangleBack%403x.png" head_title="我是主标题" first_line="• 我是文案描述1" second_line="• 我是文案描述2" thrid_line="• 我是文案描述3" flash_text="打开双闪" light_text="光线充足" car_text="正对车辆" photo_button="开始拍摄" />
+    <render>
+        <image id="head_image" width="295dp" height="148dp" src="${head_image}" leftToLeft="parent" rightToRight="parent" topToTop="parent" marginTop="16dp" scaleType='crop' />
+
+        <text id="head_title" src="${head_title}" width="0dp" topToBottom="head_image" marginTop="32dp" leftToLeft="parent" marginLeft="40dp" rightToRight="parent" marginRight="40dp" size="22dp" color="#212E33" style="bold" />
+
+        <text id="first_line" src="${first_line}" width="0dp" leftToLeft="head_title" rightToRight="head_title" topToBottom="head_title" marginTop="20dp" size="14dp" color="#4A555B" />
+        <text id="second_line" src="${second_line}" width="0dp" leftToLeft="head_title" rightToRight="head_title" topToBottom="first_line" marginTop="12dp" size="14dp" color="#4A555B" />
+        <text id="thrid_line" src="${thrid_line}" width="0dp" leftToLeft="head_title" rightToRight="head_title" topToBottom="second_line" marginTop="12dp" size="14dp" color="#4A555B" />
+
+
+        <view id="line" backgroundColor="#ECEDF0" width="0dp" height="1px" leftToLeft="head_title" rightToRight="head_title" topToBottom="thrid_line" marginTop="30dp" />
+
+        <image id="flash_image" src="${flash_image}" leftToLeft="parent" topToTop="line" width="43dp" height="43dp" marginLeft="48dp" marginTop="30dp" />
+        <text src="${flash_text}" leftToLeft="flash_image" rightToRight="flash_image" topToBottom="flash_image" marginTop="6dp" size="14dp" color="#949FA5" gravity="center" />
+
+        <image src="${light_image}" leftToLeft="parent" rightToRight="parent" topToTop="line" width="43dp" height="43dp" marginTop="30dp" />
+        <text src="${light_text}" leftToLeft="parent" rightToRight="parent" topToBottom="car_image" marginTop="6dp" size="14dp" color="#949FA5" gravity="center" />
+
+        <image id="car_image" src="${car_image}" rightToRight="parent" topToTop="line" width="43dp" height="43dp" marginRight="48dp" marginTop="30dp" />
+        <text src="${car_text}" leftToLeft="car_image" rightToRight="car_image" topToBottom="car_image" marginTop="6dp" size="14dp" color="#949FA5" gravity="center" />
+
+        <image id="button_bg" src="${button_bg_url}" leftToLeft="parent" rightToRight="parent" bottomToBottom="parent" marginLeft="16dp" marginBottom="16dp" marginRight="16dp" height="50dp" scaleType='fitXY'>
+            <onClick>
+                <toast src="click button" />
+            </onClick>
+        </image>
+        <text src="${photo_button}" width="wrap" height="wrap" leftToLeft="parent" rightToRight="parent" bottomToBottom="button_bg" topToTop="button_bg" color="#FFFFFF" size="18dp" />
+    </render>
+</dbl>
