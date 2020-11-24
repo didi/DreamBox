@@ -71,10 +71,10 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
     @Override
     public void bindView(DBRootView parentView) {
         if (id != DBConstants.DEFAULT_ID_VIEW && null != parentView.getViewById(id)) {
-            mNativeView = (V) parentView.getViewById(id);
+            mNativeView = parentView.getViewById(id);
             if (null != mNativeView) {
                 // 绑定视图属性
-                onAttributesBind(mNativeView, getAttrs());
+                onAttributesBind(getAttrs());
             }
         } else {
             mNativeView = onCreateView(); // 回调子类View实现
@@ -88,14 +88,14 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
                 // layout 相关属性
                 parseLayoutAttr(getAttrs());
                 // 绑定视图属性
-                onAttributesBind(mNativeView, getAttrs());
+                onAttributesBind(getAttrs());
                 // 绑定视图回调事件
                 if (mCallbacks.size() > 0) {
-                    onCallbackBind(mNativeView, mCallbacks);
+                    onCallbackBind(mCallbacks);
                 }
                 // 绑定子视图
                 if (mChildContainers.size() > 0) {
-                    onChildrenBind(mNativeView, getAttrs(), mChildContainers);
+                    onChildrenBind(getAttrs(), mChildContainers);
                 }
                 // 添加到父容器
                 setPadding();
@@ -106,12 +106,12 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
         }
     }
 
-    protected void onChildrenBind(V selfView, Map<String, String> attrs, List<DBContainer<?>> children) {
+    protected void onChildrenBind(Map<String, String> attrs, List<DBContainer<?>> children) {
     }
 
     @Override
-    protected void onAttributesBind(V selfView, final Map<String, String> attrs) {
-        super.onAttributesBind(selfView, attrs);
+    protected void onAttributesBind(final Map<String, String> attrs) {
+        super.onAttributesBind(attrs);
 
         chainStyle = attrs.get("chainStyle");
         // visibleOn
@@ -148,19 +148,19 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
         if (null != changeOn) {
             String[] keys = changeOn.split("\\|");
             for (final String key : keys) {
-                onDataChanged(mNativeView, key, attrs);
+                onDataChanged(key, attrs);
             }
         }
     }
 
-    protected void onDataChanged(final V selfView, final String key, final Map<String, String> attrs) {
+    protected void onDataChanged(final String key, final Map<String, String> attrs) {
     }
 
     @CallSuper
-    protected void onCallbackBind(final V selfView, List<DBCallback> callbacks) {
+    protected void onCallbackBind(List<DBCallback> callbacks) {
         for (final DBCallback callback : callbacks) {
             if ("onClick".equals(callback.getTagName())) {
-                selfView.setOnClickListener(new View.OnClickListener() {
+                mNativeView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         List<DBAction> actions = callback.getActionNodes();

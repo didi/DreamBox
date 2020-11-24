@@ -46,8 +46,8 @@ public class DBFlow extends DBBaseView<DBFlowLayout> {
     }
 
     @Override
-    protected void onChildrenBind(DBFlowLayout selfView, Map<String, String> attrs, List<DBContainer<?>> children) {
-        super.onChildrenBind(selfView, attrs, children);
+    protected void onChildrenBind(Map<String, String> attrs, List<DBContainer<?>> children) {
+        super.onChildrenBind( attrs, children);
 
         // 子节点渲染处理在Adapter的[onBindViewHolder]回调里处理
         DBContainer<DBRootView> cell = null;
@@ -58,16 +58,17 @@ public class DBFlow extends DBBaseView<DBFlowLayout> {
             }
         }
 
+        DBFlowLayout flowLayout = (DBFlowLayout) mNativeView;
         FlowAdapterCallback adapterCallback = new FlowAdapterCallback(mDBContext, cell);
-        mAdapter = new DBFlowAdapter<>(mDBContext, selfView, src, adapterCallback, cell);
+        mAdapter = new DBFlowAdapter<>(mDBContext, flowLayout, src, adapterCallback, cell);
 
-        selfView.setAdapter(mAdapter);
-        selfView.setChildSpacing(hSpace);
-        selfView.setRowSpacing(vSpace);
+        flowLayout.setAdapter(mAdapter);
+        flowLayout.setChildSpacing(hSpace);
+        flowLayout.setRowSpacing(vSpace);
     }
 
     @Override
-    protected void onDataChanged(final DBFlowLayout selfView, final String key, final Map<String, String> attrs) {
+    protected void onDataChanged(final String key, final Map<String, String> attrs) {
         mDBContext.observeDataPool(new DBData.IDataObserver() {
             @Override
             public void onDataChanged(String key) {

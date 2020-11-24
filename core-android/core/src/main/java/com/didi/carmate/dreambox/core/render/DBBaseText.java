@@ -43,8 +43,8 @@ public abstract class DBBaseText<V extends TextView> extends DBBaseView<V> {
     }
 
     @Override
-    public void onAttributesBind(V selfView, Map<String, String> attrs) {
-        super.onAttributesBind(selfView, attrs);
+    public void onAttributesBind(Map<String, String> attrs) {
+        super.onAttributesBind(attrs);
 
         src = getString(attrs.get("src"));
         String rawSizePool = getString(attrs.get("size"));
@@ -63,14 +63,14 @@ public abstract class DBBaseText<V extends TextView> extends DBBaseView<V> {
     }
 
     @Override
-    protected void onDataChanged(final V selfView, final String key, final Map<String, String> attrs) {
+    protected void onDataChanged(final String key, final Map<String, String> attrs) {
         mDBContext.observeDataPool(new DBData.IDataObserver() {
             @Override
             public void onDataChanged(String key) {
                 DBLogger.d(mDBContext, "key: " + key);
-                if (null != selfView) {
+                if (null != getNativeView()) {
                     src = getString(attrs.get("src"));
-                    selfView.setText(src);
+                    getNativeView().setText(src);
                 }
             }
 
@@ -82,17 +82,21 @@ public abstract class DBBaseText<V extends TextView> extends DBBaseView<V> {
     }
 
     @CallSuper
-    protected void doRender(V view) {
+    protected void bindAttribute() {
         // gravity
         if (gravity != 0) {
-            view.setGravity(gravity);
+            getNativeView().setGravity(gravity);
         }
         if (null != ellipsize) {
-            view.setEllipsize(ellipsize);
+            getNativeView().setEllipsize(ellipsize);
         }
         if (maxLines > 0) {
-            view.setMaxLines(maxLines);
+            getNativeView().setMaxLines(maxLines);
         }
+    }
+
+    TextView getNativeView() {
+        return null == onGetParentNativeView() ? (TextView) mNativeView : onGetParentNativeView();
     }
 
     private TextUtils.TruncateAt convertEllipsize(String ellipsize) {

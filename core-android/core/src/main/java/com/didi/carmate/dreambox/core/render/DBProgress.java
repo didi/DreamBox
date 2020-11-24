@@ -57,17 +57,18 @@ public class DBProgress extends DBBaseView<DBProgressView> {
     }
 
     @Override
-    public void onAttributesBind(DBProgressView selfView, Map<String, String> attrs) {
-        super.onAttributesBind(selfView, attrs);
+    public void onAttributesBind(Map<String, String> attrs) {
+        super.onAttributesBind(attrs);
 
         value = attrs.get("value");
         barBg = getString(attrs.get("barBg"));
         barFg = getString(attrs.get("barFg"));
 
-        doRender(selfView);
+        doRender();
     }
 
-    private void doRender(final DBProgressView progressView) {
+    private void doRender() {
+        final DBProgressView progressView = (DBProgressView) mNativeView;
         final ImageLoader imageLoader = Wrapper.get(mDBContext.getAccessKey()).imageLoader();
         // progress
         final int progress;

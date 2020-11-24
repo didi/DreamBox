@@ -29,19 +29,19 @@ import java.util.regex.Pattern;
  * <p>callback</p>
  * protected void onParserAttribute(Map<String, String> attrs);<br/>
  * protected void onParserNode();<br/>
- * protected void onAttributesBind(Map<String, String> attrs);<br/>
+ * protected void onParserNodeFinished(Map<String, String> attrs);<br/>
  *
  * <p>action</p>
  * protected void onParserAttribute(Map<String, String> attrs);<br/>
  * protected void onParserNode();<br/>
- * protected void onAttributesBind(Map<String, String> attrs);<br/>
+ * protected void onParserNodeFinished(Map<String, String> attrs);<br/>
  * ------------------------<br/>
  * doInvoke(Map<String, String> attrs);<br/>
  *
  * <p>view</p>
  * protected void onParserAttribute(Map<String, String> attrs);<br/>
  * protected void onParserNode();<br/>
- * protected void onAttributesBind(Map<String, String> attrs);<br/>
+ * protected void onParserNodeFinished(Map<String, String> attrs);<br/>
  * ------callback和action节点作为视图节点的基础能力，需要先解析完毕再开始自己特有的生命周期-----<br/>
  * protected abstract V onCreateView();<br/>
  * protected void onAttributesBind(V selfView, Map<String, String> attrs);<br/>
@@ -129,13 +129,13 @@ public abstract class DBNode implements IDBNode {
 
     @CallSuper
     @Override
-    public void attributesBind() {
+    public void finishParserNode() {
         List<IDBNode> children = getChildren();
         for (IDBNode child : children) {
-            child.attributesBind();
+            child.finishParserNode();
         }
 
-        onAttributesBind(getAttrs());
+        onParserNodeFinished();
     }
 
     @CallSuper
@@ -149,7 +149,7 @@ public abstract class DBNode implements IDBNode {
     }
 
     @CallSuper
-    protected void onAttributesBind(Map<String, String> attrs) {
+    protected void onParserNodeFinished() {
 
     }
 

@@ -18,10 +18,10 @@ public abstract class DBViewGroup<V extends DBRootView> extends DBContainer<V> {
     @Override
     public void bindView(DBRootView parentView) {
         if (id != DBConstants.DEFAULT_ID_VIEW && null != parentView.getViewById(id)) {
-            mNativeView = (V) parentView.getViewById(id);
+            mNativeView = parentView.getViewById(id);
             if (null != mNativeView) {
                 // 绑定视图属性
-                onAttributesBind(mNativeView, getAttrs());
+                onAttributesBind(getAttrs());
             }
         } else {
             mNativeView = onCreateView(); // 回调子类View实现
@@ -35,7 +35,7 @@ public abstract class DBViewGroup<V extends DBRootView> extends DBContainer<V> {
                 // layout 相关属性
                 parseLayoutAttr(getAttrs());
                 // 绑定视图属性
-                onAttributesBind(mNativeView, getAttrs());
+                onAttributesBind(getAttrs());
                 // 添加到父容器
                 setPadding();
                 parentView.addView(mNativeView, getLayoutParams());
@@ -48,7 +48,7 @@ public abstract class DBViewGroup<V extends DBRootView> extends DBContainer<V> {
         List<IDBNode> children = getChildren();
         for (IDBNode child : children) {
             if (child instanceof IDBRender) {
-                ((IDBRender) child).bindView(mNativeView);
+                ((IDBRender) child).bindView((DBRootView) mNativeView);
             }
         }
     }

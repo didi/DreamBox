@@ -28,8 +28,8 @@ public class DBInvoke extends DBAction {
     }
 
     @Override
-    protected void onAttributesBind(Map<String, String> attrs) {
-        super.onAttributesBind(attrs);
+    protected void onParserNodeFinished() {
+        super.onParserNodeFinished();
 
         List<DBActionAliasItem> actionAliasItems = mDBContext.getActionAliasItems();
         for (DBActionAliasItem item : actionAliasItems) {

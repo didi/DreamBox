@@ -52,8 +52,8 @@ public class DBList extends DBBaseView<DBListView> {
     }
 
     @Override
-    protected void onAttributesBind(DBListView selfView, Map<String, String> attrs) {
-        super.onAttributesBind(selfView, attrs);
+    protected void onAttributesBind(Map<String, String> attrs) {
+        super.onAttributesBind(attrs);
         // pullRefresh
         String rawPullRefresh = attrs.get("pullRefresh");
         if (DBUtils.isEmpty(rawPullRefresh)) {
@@ -83,20 +83,22 @@ public class DBList extends DBBaseView<DBListView> {
         // 因为数据源需要从各个Item里获取，所以Item子节点属性处理在Adapter的[onBindItemView]回调里处理
         src = getJsonObjectList(attrs.get("src"));
 
+        final DBListView nativeView = (DBListView)mNativeView;
         if (pullRefresh || loadMore) {
-            selfView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+            nativeView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         } else {
-            selfView.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
+            nativeView.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
         }
     }
 
     @Override
-    protected void onCallbackBind(final DBListView selfView, final List<DBCallback> callbacks) {
-        super.onCallbackBind(selfView, callbacks);
+    protected void onCallbackBind(final List<DBCallback> callbacks) {
+        super.onCallbackBind(callbacks);
 
+        final DBListView nativeView = (DBListView)mNativeView;
         // 下拉动作事件触发
-        selfView.setPullRefreshEnabled(pullRefresh);
-        selfView.setOnRefreshListener(new IRefreshListener() {
+        nativeView.setPullRefreshEnabled(pullRefresh);
+        nativeView.setOnRefreshListener(new IRefreshListener() {
             @Override
             public void onRefresh() {
                 doCallback("onPull", callbacks);
@@ -111,8 +113,8 @@ public class DBList extends DBBaseView<DBListView> {
         });
 
         // 上拉动作事件触发
-        selfView.setLoadMoreEnabled(loadMore);
-        selfView.setOnLoadMoreListener(new OnLoadMoreListener() {
+        nativeView.setLoadMoreEnabled(loadMore);
+        nativeView.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 doCallback("onLoadMore", callbacks);
@@ -123,14 +125,14 @@ public class DBList extends DBBaseView<DBListView> {
 //                        //the end
 //                        recyclerView.setNoMore(true);
 //                    }
-                selfView.setNoMore(true);
+                nativeView.setNoMore(true);
             }
         });
     }
 
     @Override
-    protected void onChildrenBind(DBListView selfView, Map<String, String> attrs, List<DBContainer<?>> children) {
-        super.onChildrenBind(selfView, attrs, children);
+    protected void onChildrenBind(Map<String, String> attrs, List<DBContainer<?>> children) {
+        super.onChildrenBind(attrs, children);
 
         DBContainer<DBRootView> listHeader = null;
         DBContainer<DBListItemRoot> listVh = null;
@@ -152,12 +154,13 @@ public class DBList extends DBBaseView<DBListView> {
             throw new RuntimeException("[list] vh node cannot be empty!");
         }
 
+        final DBListView nativeView = (DBListView)mNativeView;
         // adapter
         IAdapterCallback mAdapterCallback = new ListAdapterCallback(listHeader, listVh, listFooter);
         mInnerAdapter = new DBListInnerAdapter(src, mAdapterCallback, orientation, listVh);
         DBListAdapter mAdapter = new DBListAdapter(mInnerAdapter, mAdapterCallback, orientation,
                 listHeader != null, listFooter != null);
-        selfView.setAdapter(mAdapter);
+        nativeView.setAdapter(mAdapter);
 
         // layout manager
         LinearLayoutManager managerVertical = new LinearLayoutManager(mDBContext.getContext());
@@ -166,7 +169,7 @@ public class DBList extends DBBaseView<DBListView> {
         } else {
             managerVertical.setOrientation(LinearLayoutManager.VERTICAL);
         }
-        selfView.setLayoutManager(managerVertical);
+        nativeView.setLayoutManager(managerVertical);
 
         // header & footer
         if (null != listHeader) {
@@ -178,7 +181,7 @@ public class DBList extends DBBaseView<DBListView> {
     }
 
     @Override
-    protected void onDataChanged(final DBListView selfView, final String key, final Map<String, String> attrs) {
+    protected void onDataChanged(final String key, final Map<String, String> attrs) {
         mDBContext.observeDataPool(new DBData.IDataObserver() {
             @Override
             public void onDataChanged(String key) {

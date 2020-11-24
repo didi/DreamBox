@@ -79,8 +79,8 @@ public class DBLView extends DBNode {
     }
 
     @Override
-    protected void onAttributesBind(Map<String, String> attrs) {
-        super.onAttributesBind(attrs);
+    protected void onParserNodeFinished() {
+        super.onParserNodeFinished();
 
         generateRootView();
         bindViewAttr();

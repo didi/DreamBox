@@ -3,6 +3,7 @@ package com.didi.carmate.dreambox.core.render;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.view.View;
 
 import com.didi.carmate.dreambox.core.base.DBBaseView;
 import com.didi.carmate.dreambox.core.base.DBConstants;
@@ -18,7 +19,7 @@ import java.util.Map;
  * author: chenjing
  * date: 2020/4/30
  */
-public class DBView extends DBBaseView<DBRichView> {
+public class DBView<T extends DBRichView> extends DBBaseView<T> {
     private String shape; // 绘制形状
     private int radius; // 圆角半径
     private int radiusLT; // 左上角圆角半径
@@ -35,13 +36,13 @@ public class DBView extends DBBaseView<DBRichView> {
     }
 
     @Override
-    protected DBRichView onCreateView() {
+    protected View onCreateView() {
         return new DBRichView(mDBContext.getContext());
     }
 
     @Override
-    public void onAttributesBind(DBRichView selfView, Map<String, String> attrs) {
-        super.onAttributesBind(selfView, attrs);
+    public void onAttributesBind(Map<String, String> attrs) {
+        super.onAttributesBind(attrs);
 
         shape = attrs.get("shape");
         radius = DBScreenUtils.processSize(mDBContext, attrs.get("radius"), 0);
@@ -54,7 +55,7 @@ public class DBView extends DBBaseView<DBRichView> {
         gradientColor = getString(attrs.get("gradientColor"));
         gradientOrientation = getString(attrs.get("gradientOrientation"));
 
-        doRender(selfView);
+        doRender(getNativeView());
     }
 
     private void doRender(DBRichView richView) {
@@ -122,14 +123,18 @@ public class DBView extends DBBaseView<DBRichView> {
         }
     }
 
+    private DBRichView getNativeView() {
+        return null == onGetParentNativeView() ? (DBRichView) mNativeView : onGetParentNativeView();
+    }
+
     public static String getNodeTag() {
         return "view";
     }
 
     public static class NodeCreator implements INodeCreator {
         @Override
-        public DBView createNode(DBContext dbContext) {
-            return new DBView(dbContext);
+        public DBView<?> createNode(DBContext dbContext) {
+            return new DBView<>(dbContext);
         }
     }
 }
