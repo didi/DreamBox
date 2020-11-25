@@ -484,6 +484,9 @@ class _Converter:
             self.rule_checker.on_tree_generated(self.tree_root)
 
     def _try_gen_proguard_map(self):
+        # 临时关闭混淆功能，待更换新的混淆算法
+        # TODO
+        return
         # 如果没要求混淆，则退出
         if not self.raw_cfg.proguard:
             return
