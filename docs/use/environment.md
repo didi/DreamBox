@@ -22,7 +22,7 @@ allprojects {
 ##### 2.  在对应模块的 build.gradle 中增加依赖即可
 ````
 dependencies {
-    api 'com.didiglobal.carmate:dreambox:0.2.8'
+    api 'com.didiglobal.carmate:dreambox:0.3.1'
 }
 ````
 
