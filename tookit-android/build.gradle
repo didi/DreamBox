@@ -3,7 +3,6 @@
 buildscript {
 
     repositories {
-        maven { url 'https://oss.sonatype.org/content/repositories/public/' }
         maven { url 'https://maven.aliyun.com/repository/public/' }
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin/' }
@@ -23,10 +22,10 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url 'https://oss.sonatype.org/content/repositories/public/' }
         maven { url 'https://maven.aliyun.com/repository/public/' }
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin/' }
-        maven { url 'https://oss.sonatype.org/content/repositories/public/' }
         maven { url "https://jitpack.io" }
         mavenCentral()
         google()
