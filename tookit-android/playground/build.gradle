@@ -43,8 +43,8 @@ dependencies {
     implementation "org.java-websocket:Java-WebSocket:1.5.1"
     implementation 'com.github.arcadefire:nice-spinner:1.4.4'
 
-    api project(':common')
-    implementation project(':db-display-scan')
+    api project(':tookit-common')
+    implementation project(':tookit-display-scan')
 
 
 }

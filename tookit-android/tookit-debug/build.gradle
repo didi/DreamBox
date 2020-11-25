@@ -40,6 +40,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation "org.java-websocket:Java-WebSocket:1.5.1"
     implementation 'com.github.arcadefire:nice-spinner:1.4.4'
-    implementation project(':common')
-    implementation project(':db-display-scan')
+    implementation project(':tookit-common')
+    implementation project(':tookit-display-scan')
 }
