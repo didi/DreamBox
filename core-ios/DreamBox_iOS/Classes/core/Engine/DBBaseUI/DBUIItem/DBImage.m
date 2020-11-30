@@ -17,7 +17,6 @@
 #import "UIImage+DBExtends.h"
 
 @implementation DBImage {
-    UIImageView * _imageView;
     DBImageModel * _imageModel;
 }
 
@@ -52,7 +51,7 @@
         _imageView.contentMode = UIViewContentModeScaleToFill;
     }
 
-    [self refreshImage];
+    [self reload];
 }
 
 - (CGSize)wrapSize {
