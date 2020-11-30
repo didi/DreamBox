@@ -13,6 +13,7 @@
 #import "DBCViewNodeController.h"
 #import "DBCActionNodeController.h"
 #import "DBCDataNodeController.h"
+#import "DBListFlowViewController.h"
 
 @interface DBCatalogViewController ()
 
@@ -31,7 +32,7 @@
                         kDBActionStr视图节点,
                         kDBActionStr动作节点,
 //                        kDBActionStr数据处理,
-                        kDBActionStr示范页面].mutableCopy;
+                        kDBActionStr示范页面,kDBActionStr列表flow].mutableCopy;
     [self setupSubview];
     [self.tableView reloadData];
 }
@@ -81,6 +82,9 @@
         cardetect.templateID = @"cardetect";
         vc = cardetect;
         
+    } else if ([actionStr isEqualToString:kDBActionStr列表flow]) {
+           
+        vc = [DBListFlowViewController new];
     }
     
     if (vc) {

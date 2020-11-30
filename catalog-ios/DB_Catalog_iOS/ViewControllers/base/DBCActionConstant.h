@@ -15,6 +15,7 @@ static NSString *const kDBActionStr视图节点 = @"视图节点";
 static NSString *const kDBActionStr动作节点 = @"动作节点";
 static NSString *const kDBActionStr数据处理 = @"数据处理";
 static NSString *const kDBActionStr示范页面 = @"示范页面";
+static NSString *const kDBActionStr列表flow = @"列表flow";
 
 // 视图节点
 static NSString *const kDBActionStr文本按钮 = @"文本";
