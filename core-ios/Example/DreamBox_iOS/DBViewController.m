@@ -51,6 +51,7 @@
     [self.view addSubview:self.dbView];
     [self.dbView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.bottom.equalTo(self.view);
-    }];}
+    }];
+}
 
 @end 
