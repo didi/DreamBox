@@ -45,18 +45,24 @@ iOS扩展一个动作组件，包含如下几个步骤：
 
 上述操作向Dream Box注册了一个名为`openSetting`的动作组件，至此编写dsl时，这个动作组件就可以使用了
 
-```
+```xml
 <dbl>
-
- <render>
-
- <text id="1" src="I am test string" size="12dp" style="blod" leftToLeft="parent" topToTop="parent" width="300dp" height="40dp" marginTop="50dp" marginLeft="50dp">
+    <render>
+        <text
+            id="1"
+            src="I am test string"
+            size="12dp"
+            style="blod"
+            leftToLeft="parent"
+            topToTop="parent"
+            width="300dp"
+            height="40dp"
+            marginTop="50dp"
+            marginLeft="50dp">
             <onClick>
                 <openSetting/>
             </onClick>
- </text>
-
- </render>
-
+        </text>
+    </render>
 </dbl>
 ```

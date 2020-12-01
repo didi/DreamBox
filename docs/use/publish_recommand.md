@@ -4,7 +4,7 @@
 
 ### 设计详情
 
-![how publish design](../assets/how_publish_design.png)
+<img src="../assets/how_publish_design.png" width="650">
 
 #### 索引维度
 

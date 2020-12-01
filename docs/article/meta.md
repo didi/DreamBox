@@ -86,7 +86,7 @@ By方绍晟、李泽琛
     ]
 }
 ````
-![list](https://static.didialift.com/pinche/gift/resource/g1lcoag50qo-1601002681234-ListY.png)
+<img src="https://static.didialift.com/pinche/gift/resource/g1lcoag50qo-1601002681234-ListY.png" width="300">
 
 
 ##### 1.2设置meta节点数据
@@ -103,7 +103,6 @@ By方绍晟、李泽琛
 ````
 
 ```` json
-//json
 "meta": {
 "person": {
 	"dog": {

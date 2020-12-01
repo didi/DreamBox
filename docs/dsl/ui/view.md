@@ -20,7 +20,7 @@ v0.2 | 支持形状设置(直角矩形/圆角矩形)，矩形边框设置(宽度
 - `gradientColor` 设置背景颜色为过渡色，此选项优先级高于 `backgroundColor` ，颜色数需大于等于2个且用 `-` 连接，例："#711234-#269869-#269869",
 - `gradientOrientation` 颜色过渡方向，可选，默认为垂直。取值[horizontal]表示水平，[vertical]表示垂直
 
-#### DSLv3.0
+#### Added in v0.3
 - `radiusLT` 矩形左上圆角半径
 - `radiusRT` 矩形右上圆角半径
 - `radiusRB` 矩形右下圆角半径

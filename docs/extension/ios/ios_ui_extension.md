@@ -74,11 +74,18 @@ iOS扩展一个视图组件，包含如下几个步骤：
 
 上述操作向Dream Box注册了一个名为`extensionTestView`的组件，至此编写dsl时，这个组件就可以使用了
 
-```
+```xml
 <dbl>
     <render>
-        <extensionTestView id="1" testString="I am test string" leftToLeft="parent" topToTop="parent" width="300dp" height="40dp" marginTop="50dp" marginLeft="50dp">
-        </extensionTestView>
+        <extensionTestView
+            id="1"
+            testString="I am test string"
+            leftToLeft="parent"
+            topToTop="parent"
+            width="300dp"
+            height="40dp"
+            marginTop="50dp"
+            marginLeft="50dp"/>
     </render>
 </dbl>
 ```

@@ -31,7 +31,7 @@ DB根据以下几点原则进行设计开发：
 
 ### DB框架设计
 
-![system design](../assets/db_system.png)
+<img src="../assets/db_system.png" width="680">
 
 - Runtime作为SDK对开发者提供服务，并且客户端发版上线，在线上提供视图动态渲染能力
 - Runtime中接入层提供对外API，并且对模板数据做校验和初步处理
