@@ -22,6 +22,7 @@
       * [进度条——progress](dsl/ui/progress.md)
       * [列表——list](dsl/ui/list.md)
       * [流式布局——flow](dsl/ui/flow.md)
+      * [虚拟容器——pack](dsl/ui/pack.md)
     * [动作节点](dsl/func/base.md)
       * [基础内容](dsl/func/base.md)
       * [日志——log](dsl/func/log.md)
