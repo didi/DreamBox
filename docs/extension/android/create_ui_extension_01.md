@@ -9,7 +9,7 @@ android扩展一个UI标签，包含如下几个步骤：
 
 接下来以一个简单的demo来描述UI标签的扩展过程，我们会扩展一个编辑框UI标签组件，然后在界面上放置两个扩展的编辑框，一个输入一些文字，另一个显示hint提示
 
-<img src="../../assets/db_extension_04.png" width="50%">
+![](../../assets/db_extension_04.png ':size=30%')
 
 ### 1. 基类继承
 定义类 `MyEditView` 继承至基类 `DBBaseView`，基类需要提供一个native标签实现类作为泛型参数，这里只是简单演示，所以使用了系统自带的 EditText 作为标签的实现类。
@@ -69,7 +69,7 @@ public class DemoApplication extends Application {
 
 如果此时调试查看节点树，会发现自定义的edit_view节点已经在其中了
 
-<img src="../../assets/db_extension_01.png" width="50%">
+![](../../assets/db_extension_01.png ':size=35%')
 
 
 ### 5. 功能实现
@@ -103,8 +103,9 @@ public class MyEditView extends DBBaseView<View> {
 
 此时通过 LayoutInspector 工具查看UI树，能看到EditText已经在UI树里了，运行程序已经可以查看到效果。点击输入框输入 `Hello EditorText`，得到如图效果
 
-<img src="../../assets/db_extension_02.png" width="300"> 
-<img src="../../assets/db_extension_03.png" width="300">
+![](../../assets/db_extension_02.png ':size=35%')
+
+![](../../assets/db_extension_03.png ':size=35%')
 
 #### 5.2 属性处理
 通过给MyEditText添加一个hint效果，来展示属性的扩展。
@@ -152,6 +153,6 @@ public class MyEditView extends DBBaseView<View> {
 }
 ```
 
-<img src="../../assets/db_extension_05.png" width="300">
+![](../../assets/db_extension_05.png ':size=30%')
 
 以上是android组件扩展的入门篇，以一个简单的小例子引领使用者快速理解一些基本概念。

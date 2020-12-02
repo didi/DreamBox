@@ -4,7 +4,7 @@
 
 欢迎加入官方沟通QQ群:
 
-<img src="../assets/db_qq_group.png" width="30%">
+![](assets/db_qq_qrcode.png ':size=20%')
 
 ### 设计与代码
 

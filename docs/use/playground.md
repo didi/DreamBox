@@ -11,14 +11,14 @@ pod install
 ````
 运行结果
 
-<img src="../assets/ios-playground2.png" width="30%">
+![](../assets/ios-playground2.png ':size=25%')
 
 
 #### Android ：
 
 扫码下载：
 
-<img src="../assets/playgroundv2.png" width="30%">
+![](../assets/playgroundv2.png ':size=30%')
 
 
 ### 二、使用
@@ -43,18 +43,19 @@ pod install
     dmb-cli demo.xml
     ```
 输出示例
-<img src="../assets/ios-playground1.png">
+
+    ![](../assets/ios-playground1.png ':size=60%')
 
 #### Step2 绑定长链接服务
 
 方式1：打开本地调试信息发布地址链接，获得二维码
-<img src="../assets/ios-playground4.png"> 
+
+![](../assets/ios-playground4.png ':size=80%')
 
 扫码；
 
-<img src="../assets/ios-playground5.png"  width="30%"><img src="../assets/ios-playground6.png"  width="30%"> 
-
+![](../assets/ios-playground5.png ':size=30%')![](../assets/ios-playground6.png ':size=30%')
 
 方式2：直接拷贝webSocket服务地址，输入，绑定；
 
-<img src="../assets/ios-playground3.png"  width="30%"><img src="../assets/ios-playground6.png"  width="30%"> 
+![](../assets/ios-playground3.png ':size=30%')![](../assets/ios-playground6.png ':size=30%')

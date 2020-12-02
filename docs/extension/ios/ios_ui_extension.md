@@ -9,8 +9,8 @@ iOS扩展一个视图组件，包含如下几个步骤：
 
 接下来以一个简单的demo来描述视图标签的扩展过程，我们会扩展一个打开带有一个按钮的视图组件，点击按钮后弹出alert弹窗展示dsl中携带的数据
 
-<img src="../../assets/db_iOS_extension_02.png" width="50%">
-<img src="../../assets/db_iOS_extension_01.png" width="30%">
+![](../../assets/db_iOS_extension_02.png ':size=40%')
+![](../../assets/db_iOS_extension_01.png ':size=30%')
 
 ### 1. 继承DBTreeView基类，并实现相关protocol方法
 

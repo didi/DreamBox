@@ -6,13 +6,11 @@ DB的demo APP，DSL编写快速入门，同时作为DB准出，包含DB视图节
 
 扫码下载：
 
-<img src="../assets/catalog_android.png" width="30%">
+![](../assets/catalog_android.png ':size=20%')
 
 App内容：
 
-<img src="../assets/catalog_app1.png" width="30%">
-<img src="../assets/catalog_app2.png" width="30%">
-<img src="../assets/catalog_app3.png" width="30%">
+![](../assets/catalog_app1.png ':size=20%')![](../assets/catalog_app2.png ':size=20%')![](../assets/catalog_app3.png ':size=20%')
 
 #### iOS ：
 
@@ -21,6 +19,4 @@ iOS无法通过扫码下载，但是可以通过demo的方式下载查看。`htt
 
 App内容：
 
-<img src="../assets/catalog_app1_iOS.png" width="30%">
-<img src="../assets/catalog_app2_iOS.png" width="30%">
-<img src="../assets/catalog_app3_iOS.png" width="30%">
+![](../assets/catalog_app1_iOS.png ':size=30%')![](../assets/catalog_app2_iOS.png ':size=30%')![](../assets/catalog_app3_iOS.png ':size=30%')

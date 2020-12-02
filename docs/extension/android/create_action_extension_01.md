@@ -9,8 +9,9 @@ android扩展一个动作标签，包含如下几个步骤：
 
 接下来以一个简单的demo来描述action标签的扩展过程，我们会扩展一个打开系统拨号盘的动作组件。界面上放置一个按钮，点击按钮后会打开系统拨号面板，效果如下：
 
-<img src="../../assets/db_extension_06.png" width="50%">
-<img src="../../assets/db_extension_07.png" width="30%">
+![](../../assets/db_extension_06.png ':size=25%')
+
+![](../../assets/db_extension_07.png ':size=25%')
 
 ### 1. 基类继承
 定义类 `MyActionDial` 继承至基类 `DBAction`
@@ -70,7 +71,7 @@ public class DemoApplication extends Application {
 
 如果此时调试查看节点树，会发现自定义的 `dial` 节点已经在其中了
 
-<img src="../../assets/db_extension_08.png" width="50%">
+![](../../assets/db_extension_08.png ':size=35%')
 
 ### 5. 功能实现
 接下来完成细节功能的实现

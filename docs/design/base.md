@@ -18,7 +18,7 @@ DB根据以下几点原则进行设计开发：
 
 ### DB节点设计
 
-<img src="../assets/elt_class_design.png" style="zoom:50%">
+![](../assets/elt_class_design.png ':size=50%')
 
 抽象上，为了遵循“节点即所有”的设计理念，节点的类图基础设计思路如上图所示。动作节点、视图节点都是基础节点的具体实现，包括未来接入方的扩展节点也是一样。
 <br>
@@ -31,7 +31,7 @@ DB根据以下几点原则进行设计开发：
 
 ### DB框架设计
 
-<img src="../assets/db_system.png" width="680">
+![](../assets/db_system.png ':size=75%')
 
 - Runtime作为SDK对开发者提供服务，并且客户端发版上线，在线上提供视图动态渲染能力
 - Runtime中接入层提供对外API，并且对模板数据做校验和初步处理

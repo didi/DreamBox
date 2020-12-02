@@ -10,7 +10,7 @@ iOS扩展一个动作组件，包含如下几个步骤：
 
 接下来以一个简单的demo来描述`动作标签`的扩展过程，我们会在一个text组件的点击事件中，调起自定义的`动作标签`，跳转进iOS的设置页，效果如下：
 
-<img src="../../assets/db_iOS_extension_04.png" width="50%"><img src="../../assets/db_iOS_extension_03.png" width="30%">
+![](../../assets/db_iOS_extension_04.png ':size=30%')![](../../assets/db_iOS_extension_03.png ':size=30%')
 
 【注：可以与扩展视图组件对比：`扩展视图组件`是自定义了一个视图以及内部动作；`扩展动作组件`只是单纯的扩展了一个动作】
 

@@ -12,15 +12,15 @@ DreamBox的布局逻辑受Android的约束布局启发，基本思想等同于�
 
 视图元素在横向上的排布为X轴：
 
-<img src="../assets/layout_logic_1.png" style="zoom:20%;" />
+![](../assets/layout_logic_1.png ':size=35%')
 
 视图元素在竖向上的排布为Y轴：
 
-<img src="../assets/layout_logic_2.png" style="zoom:20%;" />
+![](../assets/layout_logic_2.png ':size=20%')
 
 视图元素的层层覆盖关系可以理解为Z轴：
 
-<img src="../assets/layout_logic_3.png" style="zoom:20%;" />
+![](../assets/layout_logic_3.png ':size=25%')
 
 如上图所示，C在Z轴上的顺序最为优先。对于DSL来说，每个视图元素的声明顺序（行号）即为其最终视图展示的Z轴顺序。以上图为例，在DSL中应是先声明了A，后B，最后是C。
 
@@ -28,13 +28,13 @@ DreamBox的布局逻辑受Android的约束布局启发，基本思想等同于�
 
 假定已有视图元素A被放置在了画布的（0，0）处（左上角）：
 
-<img src="../assets/layout_logic_4.png" style="zoom:20%;" />
+![](../assets/layout_logic_4.png ':size=20%')
 
 新增视图元素B，在不允许直接指定坐标的情况下，要让B放置在画布上，那么一定需要依赖于画布上已有的元素作为基准元素，B与其产生相对位置关系才可以成功放置。
 
 假如，我们想将B放置在A的下方，抽象理解上应该是：
 
-<img src="../assets/layout_logic_5.png" style="zoom:20%;" />
+![](../assets/layout_logic_5.png ':size=20%')
 
 中间的箭头意为：B的顶端坐标依赖于A的底端坐标，即B在Y轴上依赖于A的位置。（暂时忽略B的X轴关系，认为会默认居左）。
 
@@ -42,7 +42,7 @@ DreamBox的布局逻辑受Android的约束布局启发，基本思想等同于�
 
 在上边，我们是通过假定确定了A可以是在画布的左上角。但实际上，在布局逻辑中认为画布本身也是一个抽象的视图元素，名为：`parent`，所以A可以置于画布左上角的布局逻辑实际上是因为：
 
-<img src="../assets/layout_logic_6.png" style="zoom:20%;" />
+![](../assets/layout_logic_6.png ':size=20%')
 
 （暂时忽略A与布局边界的间距尺寸）
 
@@ -50,13 +50,13 @@ DreamBox的布局逻辑受Android的约束布局启发，基本思想等同于�
 
 一个视图对象至少有一个基准对象，至多两个。并且在X轴和Y轴上都（分别）和基准对象有“关系”，才能构成一个合法的布局逻辑。这个关系就叫做**约束关系**。
 
-<img src="../assets/layout_logic_7.png" style="zoom:20%;" />
+![](../assets/layout_logic_7.png ':size=20%')
 
 如上图中，A是B的基准对象，B向A的左端对齐（X轴），B在A之下（Y轴）。三个元素（X轴、Y轴、基准元素）齐备，B的布局逻辑合理。在DSL中，如`leftToLeft`、`rightToRight`等为控制X轴的约束属性，`topToTop`、`bottomToBottom`等为控制Y轴的约束属性
 
 ## 2. 复杂约束示例
 
-<img src="../assets/layoug_logic_8.png" style="zoom:20%;" />
+![](../assets/layout_logic_8.png ':size=20%')
 
 上图中有三个视图元素A、B、C：
 
@@ -90,7 +90,7 @@ DreamBox的布局逻辑受Android的约束布局启发，基本思想等同于�
 
 假设是在X轴上`fill`，那么会在宽度上对齐父布局进行充满。其在X轴上的约束关系生效但不会影响其宽度。
 
-<img src="../assets/layout_logic_9.png" style="zoom:35%;" />
+![](../assets/layout_logic_9.png ':size=35%')
 
 注：
 
@@ -100,13 +100,13 @@ DreamBox的布局逻辑受Android的约束布局启发，基本思想等同于�
 
 #### 3.3.2 wrap+约束
 
-<img src="../assets/layout_logic_10.png" style="zoom:30%;" />
+![](../assets/layout_logic_10.png ':size=35%')
 
 我们看宽度。B会按照自己的规则在X轴向上自动测量尺寸。与其基准对象A的左边界进行对齐。
 
 若此时加入X轴上的右侧约束`rightToRight`：
 
-<img src="../assets/layout_logic_11.png" style="zoom:30%;" />
+![](../assets/layout_logic_11.png ':size=35%')
 
 因为左右对同一基准产生了约束，所以会自动寻求中值，最终的效果是在X轴上与A的中线对齐。（Y轴上是同样的布局原理）
 
@@ -118,6 +118,6 @@ DreamBox的布局逻辑受Android的约束布局启发，基本思想等同于�
 
 0表示此视图布局严格遵循约束关系为其限定的尺寸：
 
-<img src="../assets/layout_logic_12.png" style="zoom:30%;" />
+![](../assets/layout_logic_12.png ':size=35%')
 
 在X轴上，B与A的左右产生约束关系，同时宽度width声明为0，即：告诉布局系统它的宽度完全由约束关系决定。结果是，B的宽度会完全跟随A的宽度。（Y轴上是同样的布局原理）

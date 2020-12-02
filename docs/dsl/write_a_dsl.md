@@ -14,7 +14,7 @@ DreamBox的DSL书写采用XML格式，一切皆为节点。
 
 ### 基本的DB-DSL格式体现
 
-<img src="../assets/base_dsl_struct.png" style="zoom:50%;" />
+![](../assets/base_dsl_struct.png ':size=20%')
 
 - `dbl` XML的固定根节点，可以视作为最终生成的DBView的根布局，特殊之处在于可以包裹`meta`元数据、`alias`等非视图的特殊子节点
 - `render` 一样可以视作DBView的根布局，与`dbl`的关系是附属关系，区别是此节点只能直接包含视图节点。特点是全局（单个DSL内）只能有一个此节点的定义存在
@@ -22,7 +22,7 @@ DreamBox的DSL书写采用XML格式，一切皆为节点。
 
 ### 节点嵌套关系
 
-<img src="../assets/elt_relations.png" style="zoom:50%;" />
+![](../assets/elt_relations.png ':size=25%')
 
 节点之间通过层层嵌套，最终描述出一个完整的布局。如上图所示：
 
@@ -32,4 +32,4 @@ DreamBox的DSL书写采用XML格式，一切皆为节点。
 
 在XML中的嵌套体现大体为：
 
-<img src="../assets/elts_in_xml.png" style="zoom:50%;" />
+![](../assets/elts_in_xml.png ':size=35%')
