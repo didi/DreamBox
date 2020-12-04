@@ -12,7 +12,7 @@ v0.3 | 虚拟容器，用于包裹其他view对象，实现对多个对象的整
 ### 属性
 
 #### Added in v0.3
-支持基本属性里的位置属性和边距属性，以上图整体居中为例，[完整示例](../../assets/pack_demo_01.xml)：
+支持基本属性里的位置属性和边距属性，以上图整体居中为例，[完整示例](https://didi.github.io/DreamBox/assets/pack_demo_01.xml)：
 ```
 <dbl>
     <render>
