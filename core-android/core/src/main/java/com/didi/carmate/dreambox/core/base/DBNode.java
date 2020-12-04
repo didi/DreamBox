@@ -44,8 +44,8 @@ import java.util.regex.Pattern;
  * protected void onParserNodeFinished(Map<String, String> attrs);<br/>
  * ------callback和action节点作为视图节点的基础能力，需要先解析完毕再开始自己特有的生命周期-----<br/>
  * protected abstract V onCreateView();<br/>
- * protected void onAttributesBind(V selfView, Map<String, String> attrs);<br/>
- * protected void onCallbackBind(V selfView, List<DBCallback> callbacks);
+ * protected void onAttributesBind(Map<String, String> attrs);<br/>
+ * protected void onCallbackBind(List<DBCallback> callbacks);
  */
 public abstract class DBNode implements IDBNode {
     // 节点通过[type]字段来标识类型，如：text/image/onClick/cell
