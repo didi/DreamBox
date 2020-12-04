@@ -14,10 +14,16 @@ android扩展一个动作标签，包含如下几个步骤：
 ![](../../assets/db_extension_07.png ':size=25%')
 
 ### 1. 基类继承
-定义类 `MyActionDial` 继承至基类 `DBAction`
+定义类 `MyActionDial` 继承至基类 `DBAction`，实现构造器并实现`doInvoke`方法
 ```
-public class MyActionDial extends DBAction {
-}
+    public MyActionDial(DBContext dbContext) {
+        super(dbContext);
+    }
+
+    @Override
+    protected void doInvoke(Map<String, String> attrs) {
+
+    }
 ```
 
 ### 2. 实现相关模板方法
@@ -26,15 +32,24 @@ public class MyActionDial extends DBAction {
 
 ```
 public class MyActionDial extends DBAction {
-    public static String getNodeTag() {
-        return "dial";
-    }
-
+	public MyActionDial(DBContext dbContext) {
+	    super(dbContext);
+	}
+	
+	@Override
+	protected void doInvoke(Map<String, String> attrs) {
+	
+	}
+	
     public static class NodeCreator implements INodeCreator {
         @Override
-        public MyActionDial createNode() {
-            return new MyActionDial();
+        public MyActionDial createNode(DBContext dbContext) {
+            return new MyActionDial(dbContext);
         }
+    }
+
+    public static String getNodeTag() {
+        return "dial";
     }
 }
 ```
@@ -77,24 +92,15 @@ public class DemoApplication extends Application {
 接下来完成细节功能的实现
 
 #### 5.1 动作处理
-要想在某个事件发生时执行某个动作，需要覆写父类的 `doInvoke` 方法。
+要想在某个事件发生时执行某个动作，需要覆写父类的 `doInvoke` 方法。参数`attrs`里是`dial`节点的属性集合
 ```
 public class MyActionDial extends DBAction {
-    @Override
-    protected void doInvoke() {
-        // 点击文本按钮，将会调用此方法
-    }
-
-    public static String getNodeTag() {
-        return "dial";
-    }
-
-    public static class NodeCreator implements INodeCreator {
-        @Override
-        public MyActionDial createNode() {
-            return new MyActionDial();
-        }
-    }
+	......
+	@Override
+	protected void doInvoke(Map<String, String> attrs) {
+	
+	}
+	......
 }
 ```
 
@@ -118,23 +124,49 @@ public class MyActionDial extends DBAction {
 Java侧扩展组件代码，如下
 ```
 public class MyActionDial extends DBAction {
-    private String phoneNumber;
-
-    @DBDomAttr(key = "phoneNumber")
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public MyActionDial(DBContext dbContext) {
+        super(dbContext);
     }
 
     @Override
-    protected void doInvoke() {
-        MyDemo.getInstance().showDialPanel(mDBContext.getContext(), phoneNumber);
+    protected void doInvoke(Map<String, String> attrs) {
+        MyDemo.getInstance().showDialPanel(mDBContext.getContext(), attrs.get("phoneNumber"));
     }
-	......
+
+    public static class NodeCreator implements INodeCreator {
+        @Override
+        public MyActionDial createNode(DBContext dbContext) {
+            return new MyActionDial(dbContext);
+        }
+    }
+
+    public static String getNodeTag() {
+        return "dial";
+    }
 }
 ```
 
-这里有个新的知识点，`@DBDomAttr(key = "phoneNumber")` 注解。这个注解会自动抓取dsl里`key`指定的那个属性的值，同时调用被注解的方法，属性的值将作为参数传进来。
+```
+public class MyDemo {
+    //创建 SingleObject 的一个对象
+    private static MyDemo instance = new MyDemo();
 
-dsl属性 `phoneNumber` 被赋值 `13512345678`，所以 `13512345678` 会被作为参数传到 `setPhoneNumber` 方法。新增String类型的变量 `phoneNumber` ，用来保存dsl定义的 phoneNumber 的内容。接下来 `doInvoke` 方法里调用业务层提供的 `showDialPanel` 能力即可得到文章开头的展示效果。
+    //让构造函数为 private，这样该类就不会被实例化
+    private MyDemo() {
+    }
+
+    //获取唯一可用的对象
+    public static MyDemo getInstance() {
+        return instance;
+    }
+
+    public void showDialPanel(Context context, String phoneNumber) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + phoneNumber));
+        context.startActivity(intent);
+    }
+}
+
+```
 
 以上是android组件扩展的入门篇，以一个简单的小例子引领使用者快速理解一些基本概念。
