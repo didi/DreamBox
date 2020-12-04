@@ -60,7 +60,7 @@ public class DBProgress extends DBBaseView<DBProgressView> {
     public void onAttributesBind(Map<String, String> attrs) {
         super.onAttributesBind(attrs);
 
-        value = attrs.get("value");
+        value = getString(attrs.get("value"));
         barBg = getString(attrs.get("barBg"));
         barFg = getString(attrs.get("barFg"));
 
