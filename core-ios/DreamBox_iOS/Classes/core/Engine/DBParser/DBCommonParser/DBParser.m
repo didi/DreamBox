@@ -25,6 +25,7 @@
 #import "DBActions.h"
 #import "Masonry.h"
 #import "DBCallBack.h"
+#import "NSArray+DBExtends.h"
 
 @implementation DBParser
 
@@ -502,6 +503,39 @@
 }
 
 + (id)getRealValueByPathId:(NSString *)pathId andKey:(NSString *)key{
+
+    NSMutableString *finalValue = [[NSMutableString alloc] initWithString:key];
+
+    //字符串操作较密集，增加try-catch防崩
+    @try {
+        //正则匹配出${X}字符
+        NSError *error;
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(\\$)\\S*?(\\})"  options:NSRegularExpressionCaseInsensitive error:&error];
+        NSArray *matchs = [regex matchesInString:key options:0 range:NSMakeRange(0, [key length])];
+        //顺序用真实值替换掉${X}
+        if(matchs.count > 0){
+            for(NSTextCheckingResult *result in matchs){
+                NSRange range = result.range;
+                NSString *originKey = [key substringWithRange:range];
+                NSString *realValue = [self getRealValueByPathId:pathId andOriginKey:originKey];
+                if([realValue isKindOfClass:[NSString class]]){
+                    finalValue = [finalValue stringByReplacingOccurrencesOfString:originKey withString:realValue];
+                } else{
+                    return realValue;
+                }
+            }
+        }
+        return finalValue;
+    } @catch (NSException *exception) {
+#if DEBUG
+        NSAssert(NO, @"解析src数据异常，请排查相关json");
+#endif
+        return finalValue;
+    }
+}
+
+
++ (id)getRealValueByPathId:(NSString *)pathId andOriginKey:(NSString *)key{
     if (![DBValidJudge isValidString:key]) {
         return @"";
     }

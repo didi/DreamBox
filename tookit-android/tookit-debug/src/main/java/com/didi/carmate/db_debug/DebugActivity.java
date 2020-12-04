@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.didi.carmate.db.common.utils.DbUiThreadHandler;
 import com.didi.carmate.db.common.utils.DbViewUtil;
 import com.didi.carmate.dreambox.shell.DreamBox;
 import com.didi.carmate.dreambox.shell.DreamBoxView;
@@ -29,12 +28,10 @@ import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import org.angmarch.views.NiceSpinner;
 import org.angmarch.views.OnSpinnerItemSelectedListener;
-import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +47,6 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
     NiceSpinner accessKeySp, modelIdSp;
     private List<String> defaultData = new ArrayList<>();
     private List<String> accessKeyData = new ArrayList<>();
-    private WebSocketClient socketClient;
     private String selectedAccessKey;
     private String selectedModelId;
     private Map<String, List<String>> dreamBoxList;
@@ -205,6 +201,11 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
+        String address = addressEd.getText().toString();
+        if (!DBWebSocket.getWebSocket().isConnect()) {
+            connect(address);
+        }
+
         if (!TextUtils.isEmpty(selectedAccessKey) &&
                 !TextUtils.equals("无数据", selectedAccessKey) &&
                 !TextUtils.isEmpty(selectedModelId) &&
@@ -232,25 +233,15 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void connect(String address) {
-
-        if (socketClient != null && socketClient.isOpen()) {
-            Toast.makeText(DebugActivity.this,
-                    getString(R.string.debug_toast_connect_tip), Toast.LENGTH_LONG).show();
-            return;
-        }
-        socketClient = new WebSocketClient(URI.create(address)) {
-
+        DBWebSocket.getWebSocket().connect(address, new DBWebSocket.SocketEvent() {
             @Override
-            public void onOpen(ServerHandshake handshakedata) {
-                Log.i(tag, "打开通道： " + handshakedata);
-                DbUiThreadHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(DebugActivity.this,
-                                getString(R.string.debug_toast_connect_tip),
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
+            public void onOpen(ServerHandshake handshakeData) {
+                if (null != handshakeData) {
+                    Log.i(tag, "打开通道： " + handshakeData);
+                }
+                Toast.makeText(DebugActivity.this,
+                        getString(R.string.debug_toast_connect_tip),
+                        Toast.LENGTH_LONG).show();
             }
 
             @SuppressLint("RestrictedApi")
@@ -270,61 +261,31 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
                     dreamBoxView.reloadWithTemplate(templateStr);
                 }
                 Log.i(tag, "接受服务信息 解析完毕 ： " + templateStr);
-                DbUiThreadHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        statusTip.setHint("连接成功，请绑定进行调试");
-                        Toast.makeText(DebugActivity.this,
-                                getString(R.string.debug_toast_new_msg),
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
 
-
+                statusTip.setHint("连接成功，请绑定进行调试");
+                Toast.makeText(DebugActivity.this,
+                        getString(R.string.debug_toast_new_msg),
+                        Toast.LENGTH_LONG).show();
             }
-
 
             @Override
             public void onClose(int code, String reason, boolean remote) {
                 Log.i(tag, "通道关闭： " + reason);
-                DbUiThreadHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        statusTip.setHint("连接断开，请扫码连接");
-                        templateStr = "";
-                        Toast.makeText(DebugActivity.this,
-                                getString(R.string.debug_toast_close_tip), Toast.LENGTH_LONG).show();
-                    }
-                });
-
+                statusTip.setHint("连接断开，请扫码连接");
+                templateStr = "";
+                Toast.makeText(DebugActivity.this,
+                        getString(R.string.debug_toast_close_tip), Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onError(Exception ex) {
                 Log.i(tag, "错误： " + ex.toString());
-                DbUiThreadHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        statusTip.setHint("连接断开，请扫码连接");
-                        templateStr = "";
-                        Toast.makeText(DebugActivity.this,
-                                getString(R.string.debug_toast_connect_error), Toast.LENGTH_LONG).show();
-                    }
-                });
+                statusTip.setHint("连接断开，请扫码连接");
+                templateStr = "";
+                Toast.makeText(DebugActivity.this,
+                        getString(R.string.debug_toast_connect_error), Toast.LENGTH_LONG).show();
             }
-        };
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    socketClient.connectBlocking();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    Log.i(tag, "错误： " + e.toString());
-                }
-            }
-        }).start();
+        });
     }
 
 //    private void send(final String msg) {
@@ -337,9 +298,7 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
 //    }
 
     private void close() {
-        if (socketClient != null) {
-            socketClient.close();
-        }
+        DBWebSocket.getWebSocket().close();
         Toast.makeText(DebugActivity.this,
                 getResources().getString(R.string.debug_toast_close_tip), Toast.LENGTH_LONG).show();
     }
@@ -372,9 +331,9 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        close();
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        close();
+//    }
 }
