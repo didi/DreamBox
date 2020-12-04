@@ -45,7 +45,7 @@
 }
 
 - (void)wrapperTest {
-    NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"mock_template" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
+    NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"safe_task" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
     
     self.dbView = [[DBTreeView alloc] initWithJsonSting:mockDataString extMeta:[self pareseExt] accessKey:@"DEMO" tid:nil];
     [self.view addSubview:self.dbView];

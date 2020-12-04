@@ -1,100 +1,12 @@
 {
-    "db_list": [
-        {
-            "img": "https://static.didialift.com/pinche/gift/resource/b78l9o67vr4-1594955096192-qian.png",
-            "title": "主标题主标题",
-            "subtitle": "这是一段描述，四字弟弟超级帅",
-            "arrow":"https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png"
-        },
-        {
-            "img": "https://static.didialift.com/pinche/gift/resource/93oa0rfhol-1594955150780-changyongluxian.png",
-            "title": "主标题主标题",
-            "subtitle": "这是一段描述，四字弟弟超级帅",
-            "arrow":"https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png"
-        },
-        {
-            "img": "https://static.didialift.com/pinche/gift/resource/b78l9o67vr4-1594955096192-qian.png",
-            "title": "主标题主标题",
-            "subtitle": "这是一段描述，易洋千玺超级帅",
-            "arrow":"https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png"
-        },
-        {
-            "img": "https://static.didialift.com/pinche/gift/resource/93oa0rfhol-1594955150780-changyongluxian.png",
-            "title": "主标题主标题",
-            "subtitle": "这是一段描述，欢迎使用DB列表",
-            "arrow":"https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png"
-        },
-        {
-            "img": "https://static.didialift.com/pinche/gift/resource/b78l9o67vr4-1594955096192-qian.png",
-            "title": "主标题主标题",
-            "subtitle": "这是一段描述，易洋千玺超级帅",
-            "arrow":"https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png"
-        },
-        {
-            "img": "https://static.didialift.com/pinche/gift/resource/93oa0rfhol-1594955150780-changyongluxian.png",
-            "title": "主标题主标题",
-            "subtitle": "这是一段描述，易洋千玺超级帅",
-            "arrow":"https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png"
-        },
-        {
-            "img": "https://static.didialift.com/pinche/gift/resource/b78l9o67vr4-1594955096192-qian.png",
-            "title": "主标题主标题",
-            "subtitle": "这是一段描述，易洋千玺超级帅",
-            "arrow":"https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png"
-        },
-        {
-            "img": "https://static.didialift.com/pinche/gift/resource/b78l9o67vr4-1594955096192-qian.png",
-            "title": "主标题主标题",
-            "subtitle": "这是一段描述，易洋千玺超级帅",
-            "arrow":"https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png"
-        },
-        {
-            "img": "https://static.didialift.com/pinche/gift/resource/b78l9o67vr4-1594955096192-qian.png",
-            "title": "主标题主标题",
-            "subtitle": "这是一段描述，易洋千玺超级帅",
-            "arrow":"https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png"
-        },
-        {
-            "img": "https://static.didialift.com/pinche/gift/resource/93oa0rfhol-1594955150780-changyongluxian.png",
-            "title": "主标题主标题",
-            "subtitle": "这是一段描述，欢迎使用DB列表",
-            "arrow":"https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png"
-        },
-        {
-            "img": "https://static.didialift.com/pinche/gift/resource/93oa0rfhol-1594955150780-changyongluxian.png",
-            "title": "主标题主标题",
-            "subtitle": "这是一段描述，欢迎使用DB列表",
-            "arrow":"https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png"
-        },
-        {
-            "img": "https://static.didialift.com/pinche/gift/resource/93oa0rfhol-1594955150780-changyongluxian.png",
-            "title": "主标题主标题",
-            "subtitle": "这是一段描述，欢迎使用DB列表",
-            "arrow":"https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png"
-        },
-        {
-            "img": "https://static.didialift.com/pinche/gift/resource/b78l9o67vr4-1594955096192-qian.png",
-            "title": "主标题主标题",
-            "subtitle": "这是一段描述，欢迎使用DB列表",
-            "arrow":"https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png"
-        },
-        {
-            "img": "https://static.didialift.com/pinche/gift/resource/93oa0rfhol-1594955150780-changyongluxian.png",
-            "title": "主标题主标题",
-            "subtitle": "欢迎使用DB列表",
-            "arrow":"https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png"
-        },
-        {
-            "img": "https://static.didialift.com/pinche/gift/resource/93oa0rfhol-1594955150780-changyongluxian.png",
-            "title": "主标题主标题",
-            "subtitle":"这是一段朴素且空洞的描述",
-            "arrow":"https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png"
-        },
-        {
-            "img": "https://static.didialift.com/pinche/gift/resource/93oa0rfhol-1594955150780-changyongluxian.png",
-            "title": "主标题主标题",
-            "subtitle":"这是一段朴素的描述",
-            "arrow":"https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png"
-        }
-    ]
+    "double_btn": "1",
+    "alert_info": {
+        "confirm_btn": "立即注册",
+        "title": "注册车主即可邀请啦",
+        "confirm_url": "https://wap.didialift.com/pinche/tabguide?from_try=1&regfrom=6665",
+        "message": "注册车主后可邀请乘客，并能使用更多功能，享车主福利。",
+        "cancel_btn": "再想想"
+    },
+    "header_default_res": "Wait/bts_icon_waitPsg_ReciveInvitation_bg",
+    "single_btn": "0"
 }
