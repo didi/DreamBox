@@ -178,14 +178,14 @@
     //宽
     if ([model.width floatValue] != 0) {
         [view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo([DBDefines db_getUnit:model.width]).priority(MASLayoutPriorityRequired);
+            make.width.mas_equalTo([DBDefines db_getUnit:model.width]);
         }];
     }
     
     //高
     if ([model.height floatValue] != 0) {
         [view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo([DBDefines db_getUnit:model.height]).priority(MASLayoutPriorityRequired);
+            make.height.mas_equalTo([DBDefines db_getUnit:model.height]);
         }];
     }
     
@@ -193,7 +193,7 @@
     if ([model.width isEqualToString:@"fill"]) {
         UIView *relationView = [pool getItemWithIdentifier:@"0"];
         [view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(relationView.mas_width).priority(MASLayoutPriorityRequired);
+            make.width.mas_equalTo(relationView.mas_width);
         }];
     }
     
@@ -201,7 +201,7 @@
     if ([model.height isEqualToString:@"fill"]) {
         UIView *relationView = [pool getItemWithIdentifier:@"0"];
         [view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(relationView.mas_height).priority(MASLayoutPriorityRequired);
+            make.height.mas_equalTo(relationView.mas_height);
         }];
     }
     

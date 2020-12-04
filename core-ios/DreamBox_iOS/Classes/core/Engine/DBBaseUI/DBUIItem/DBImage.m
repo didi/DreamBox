@@ -72,7 +72,9 @@
     if ([DBValidJudge isValidString:src]) {
         [[DBWrapperManager sharedManager] imageLoadService:_imageView accessKey:accessKey setImageUrl:src callback:^(UIImage * _Nonnull image) {
             if([_imageModel.srcType isEqualToString:@"ninePatch"]){
-                _imageView.image = [_imageView.image getResizableImageWithPatchType:@""];
+                UIImage *image = [_imageView.image getResizableImageWithPatchType:@""];
+                image = [image OriginImage:image scaleToSize:CGSizeMake(self.frame.size.width, self.frame.size.height)];
+                _imageView.image = image;
             }
         }];
 

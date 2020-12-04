@@ -11,7 +11,7 @@
 
 -(UIImage *)getResizableImageWithPatchType:(NSString *)patchType{
     UIEdgeInsets insets = [self getresizableImageEdgeInsets:self];
-    UIImage *imageCut = [self cutimageFromImage:self inRect:CGRectMake(1, 1, self.size.width, self.size.height)];
+    UIImage *imageCut = [self cutimageFromImage:self inRect:CGRectMake(1, 1, self.size.width - 2, self.size.height - 2)];
     UIEdgeInsets insetsCut = UIEdgeInsetsMake(insets.top-1, insets.left-1, insets.top, insets.right);
     UIImage *image = nil;
     if([patchType isEqualToString:@"repeat"]){

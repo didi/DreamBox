@@ -172,8 +172,7 @@
     if (self.cellViews2.count > 0 && indexPath.item < self.cellViews2.count) {
         DBTreeView *cellContentView = self.cellViews2[indexPath.item];
         return CGSizeMake(self.frame.size.width, cellContentView.bounds.size.height);
-    }
-    else{
+    } else{
         return  CGSizeMake(self.frame.size.width, 66);
     }
 }
