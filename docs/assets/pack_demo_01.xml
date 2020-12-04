@@ -1,22 +1,33 @@
-## `<pack>`
-
-Added in v0.3
-
-### 设计
-版本 | 描述
----|---
-v0.3 | 虚拟容器，用于包裹其他view对象，实现对多个对象的整体布局。虚拟容器本身是不可见的，只是用来辅助布局一组UI元素。
-
-![](../../assets/pack_01.png ':size=50%')
-
-### 属性
-
-#### Added in v0.3
-支持基本属性里的位置属性和边距属性，以上图整体居中为例，[完整示例](../../assets/pack_demo_01.xml)：
-```
 <dbl>
     <render>
-        ......
+        <view
+            backgroundColor="#FFFFFF"
+            borderWidth="1dp"
+            bottomToBottom="parent"
+            height="0dp"
+            id="bg"
+            leftToLeft="parent"
+            marginLeft="10dp"
+            marginRight="10dp"
+            radius="4dp"
+            rightToRight="parent"
+            topToTop="parent"
+            width="0dp" />
+        <view
+            borderColor="#000000"
+            borderWidth="1dp"
+            bottomToBottom="bg"
+            height="0dp"
+            id="bg_border"
+            leftToLeft="bg"
+            marginBottom="10dp"
+            marginLeft="30dp"
+            marginRight="30dp"
+            marginTop="10dp"
+            radius="8dp"
+            rightToRight="bg"
+            topToTop="bg"
+            width="0dp" />
         <pack
             bottomToBottom="bg_border"
             id="pack_test"
@@ -49,10 +60,3 @@ v0.3 | 虚拟容器，用于包裹其他view对象，实现对多个对象的整
         </pack>
     </render>
 </dbl>
-```
-
-
-
-### 交互响应
-
-无特殊
