@@ -30,7 +30,7 @@
             android:src="@drawable/db_list_refresh_indicator_icon"
             tools:visibility="visible" />
 
-        <com.didi.carmate.dreambox.core.render.view.DBDotLoading
+        <com.didi.carmate.dreambox.core.constraint.render.view.DBDotLoading
             android:id="@+id/loading_refresh"
             android:layout_width="30dip"
             android:layout_height="30dip"

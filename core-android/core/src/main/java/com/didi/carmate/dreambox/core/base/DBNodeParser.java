@@ -8,10 +8,11 @@ import com.didi.carmate.dreambox.core.action.DBTraceAttr;
 import com.didi.carmate.dreambox.core.action.DBTraceAttrItem;
 import com.didi.carmate.dreambox.core.bridge.DBOnEvent;
 import com.didi.carmate.dreambox.core.bridge.DBSendEventCallback;
+import com.didi.carmate.dreambox.core.constraint.base.DBBaseView;
 import com.didi.carmate.dreambox.core.data.DBMeta;
-import com.didi.carmate.dreambox.core.render.DBChildren;
-import com.didi.carmate.dreambox.core.render.DBRender;
+import com.didi.carmate.dreambox.core.constraint.render.DBChildren;
 import com.didi.carmate.dreambox.core.utils.DBLogger;
+import com.didi.carmate.dreambox.core.yoga.render.DBRender;
 import com.didi.carmate.dreambox.wrapper.Wrapper;
 import com.didi.carmate.dreambox.wrapper.inner.WrapperMonitor;
 import com.google.gson.Gson;
@@ -36,8 +37,9 @@ import java.util.Set;
  */
 public class DBNodeParser {
     private static final String KEY_NODE_COUNT = "node_count";
-    private static final boolean DEBUG_PRINT_TREE_NODE = false;
+    private static final boolean DEBUG_PRINT_TREE_NODE = true;
 
+    private final DBNodeRegistry mNodeRegistry;
     private final Map<String, String> mProguardMap = new HashMap<>();
     private Gson mGson;
     private DBContext mDBContext;
@@ -45,6 +47,10 @@ public class DBNodeParser {
     // 性能统计
     private final Map<String, Integer> nodeStatistics = new HashMap<>(32);
     private final Map<String, Integer> nodeTypeCount = new HashMap<>(32);
+
+    public DBNodeParser(DBNodeRegistry nodeRegistry) {
+        mNodeRegistry = nodeRegistry;
+    }
 
     public DBTemplate parser(DBContext dbContext, String templateJson) {
         mDBContext = dbContext;
@@ -157,7 +163,7 @@ public class DBNodeParser {
                 printTreeNode(tagNamePrint + " value: JsonObject parent: " + parent.getTagName());
 
                 JsonObject subJsonObject = jsonElement.getAsJsonObject();
-                INodeCreator nodeCreator = DBNodeRegistry.getNodeMap().get(tagName);
+                INodeCreator nodeCreator = mNodeRegistry.getNodeMap().get(tagName);
                 if (null != nodeCreator) {
                     IDBNode node = nodeCreator.createNode(mDBContext);
                     node.setTagName(tagName);
@@ -186,7 +192,7 @@ public class DBNodeParser {
 
                 // 创建数组根节点，作为数组子节点的parent
                 IDBNode arrayNode;
-                INodeCreator nodeCreator = DBNodeRegistry.getNodeMap().get(tagName);
+                INodeCreator nodeCreator = mNodeRegistry.getNodeMap().get(tagName);
                 if (null != nodeCreator) {
                     arrayNode = nodeCreator.createNode(mDBContext);
                     arrayNode.setTagName(tagName);
@@ -205,7 +211,9 @@ public class DBNodeParser {
                         printTreeNode(getBlankByNum(spaceNum) + "---------------");
 
                         JsonObject subJsonObject = element.getAsJsonObject();
-                        if (arrayNode instanceof DBRender || arrayNode instanceof DBChildren) { // 视图数组节点
+                        if (arrayNode instanceof com.didi.carmate.dreambox.core.constraint.render.DBRender ||
+                                arrayNode instanceof DBRender ||
+                                arrayNode instanceof DBChildren) { // 视图数组节点
                             JsonElement typeElement = subJsonObject.get(getProguardKey());
                             if (null == typeElement) {
                                 printTreeNode("type should not be null: " + subJsonObject);
@@ -213,8 +221,8 @@ public class DBNodeParser {
                             }
 
                             String viewTagName = typeElement.getAsString();
-                            if (DBNodeRegistry.getNodeMap().containsKey(viewTagName)) {
-                                INodeCreator viewNodeCreator = DBNodeRegistry.getNodeMap().get(viewTagName);
+                            if (mNodeRegistry.getNodeMap().containsKey(viewTagName)) {
+                                INodeCreator viewNodeCreator = mNodeRegistry.getNodeMap().get(viewTagName);
                                 if (null != viewNodeCreator) {
                                     IDBNode node = viewNodeCreator.createNode(mDBContext);
                                     node.setTagName(viewTagName);
@@ -263,7 +271,7 @@ public class DBNodeParser {
                             looperCreateNode(subJsonObject, node); // 这里的父节点是view 节点
                         } else { // 其他数组节点
                             String elementTagName = getOriginKey(subJsonObject.keySet().iterator().next()); // 获取子节点的key
-                            INodeCreator arrSubNodeCreator = DBNodeRegistry.getNodeMap().get(elementTagName);
+                            INodeCreator arrSubNodeCreator = mNodeRegistry.getNodeMap().get(elementTagName);
                             if (null != arrSubNodeCreator) {
                                 IDBNode node = arrSubNodeCreator.createNode(mDBContext);
                                 node.setTagName(elementTagName);

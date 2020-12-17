@@ -2,8 +2,6 @@ package com.didi.carmate.dreambox.core.utils;
 
 import android.graphics.Color;
 
-import com.didi.carmate.dreambox.core.base.DBAbsView;
-import com.didi.carmate.dreambox.core.base.DBConstants;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
@@ -51,15 +49,11 @@ public class DBUtils {
         return !isEmpty(color) && color.charAt(0) == '#' && (color.length() == 7 || color.length() == 9);
     }
 
-    public static int parseColor(DBAbsView<?> view, String color) {
+    public static int parseColor(Object view, String color) {
         if (color.charAt(0) != '#' || (color.length() != 7 && color.length() != 9)) {
-            StringBuilder errorMsg = new StringBuilder();
-            if (view.getId() != DBConstants.DEFAULT_ID_VIEW) {
-                errorMsg.append("id: ").append(view.getId()).append(",");
-            }
-            errorMsg.append(" type: ").append(view.getClass().getSimpleName())
-                    .append(", Unknown color: ").append(color);
-            throw new IllegalArgumentException(errorMsg.toString());
+            String errorMsg = " type: " + view.getClass().getSimpleName() +
+                    ", Unknown color: " + color;
+            throw new IllegalArgumentException(errorMsg);
         }
         return Color.parseColor(color);
     }

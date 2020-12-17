@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <com.didi.carmate.dreambox.core.render.view.DBCircleLoading
+    <com.didi.carmate.dreambox.core.constraint.render.view.DBCircleLoading
         android:id="@+id/loading_progressbar"
         android:layout_width="30dip"
         android:layout_height="30dip"

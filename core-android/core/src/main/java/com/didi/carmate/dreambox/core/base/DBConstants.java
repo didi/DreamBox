@@ -70,4 +70,38 @@ public class DBConstants {
     static final String TRACE_PARSER_TEMPLATE = "tech_trace_parser_template"; // 节点计数上报
     static final String TRACE_PARSER_DATA_FAIL = "tech_trace_parser_data_fail"; // 数据解析失败计数上报
     public static final String TRACE_ACTION_ALIAS_NOT_FOUND = "tech_trace_action_alias_not_found"; // 触发动作
+
+    // -------FlexBox 相关常量定义-------
+    static final String FLEX_DIRECTION = "flex-direction";
+    static final String FLEX_DIRECTION_R = "row";
+    static final String FLEX_DIRECTION_C = "column";
+    static final String FLEX_DIRECTION_R_REVERSE = "row-reverse";
+    static final String FLEX_DIRECTION_C_REVERSE = "column-reverse";
+
+    static final String FLEX_WRAP = "flex-wrap";
+    static final String FLEX_WRAP_W = "wrap";
+    static final String FLEX_WRAP_NO_W = "nowrap";
+    static final String FLEX_WRAP_W_REVERSE = "wrap-reverse";
+
+    static final String JUSTIFY_CONTENT = "justify-content";
+    static final String JUSTIFY_CONTENT_START = "flex-start";
+    static final String JUSTIFY_CONTENT_END = "flex-end";
+    static final String JUSTIFY_CONTENT_CENTER = "center";
+    static final String JUSTIFY_CONTENT_S_BETWEEN = "space-between";
+    static final String JUSTIFY_CONTENT_S_AROUND = "space-around";
+
+    static final String ALIGN_ITEMS = "align-items";
+    static final String ALIGN_ITEMS_START = "flex-start";
+    static final String ALIGN_ITEMS_END = "flex-end";
+    static final String ALIGN_ITEMS_CENTER = "center";
+    static final String ALIGN_ITEMS_STRETCH = "stretch";
+    static final String ALIGN_ITEMS_BASELINE = "baseline";
+
+    static final String ALIGN_CONTENT = "align-content";
+    static final String ALIGN_CONTENT_START = "flex-start";
+    static final String ALIGN_CONTENT_END = "flex-end";
+    static final String ALIGN_CONTENT_CENTER = "center";
+    static final String ALIGN_CONTENT_STRETCH = "stretch";
+
+
 }

@@ -24,8 +24,8 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.didi.carmate.dreambox.core.DBEngine;
 import com.didi.carmate.dreambox.core.base.DBTemplate;
+import com.didi.carmate.dreambox.core.base.IDBCoreView;
 import com.didi.carmate.dreambox.core.bridge.IDBEventReceiver;
-import com.didi.carmate.dreambox.core.render.view.IDBCoreView;
 import com.didi.carmate.dreambox.core.utils.DBThreadUtils;
 import com.didi.carmate.dreambox.wrapper.Template;
 import com.didi.carmate.dreambox.wrapper.Wrapper;

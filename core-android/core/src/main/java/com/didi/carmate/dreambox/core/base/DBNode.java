@@ -2,6 +2,7 @@ package com.didi.carmate.dreambox.core.base;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
+import androidx.annotation.RestrictTo;
 
 import com.didi.carmate.dreambox.core.data.DBGlobalPool;
 import com.didi.carmate.dreambox.core.utils.DBUtils;
@@ -76,7 +77,8 @@ public abstract class DBNode implements IDBNode {
     /**
      * 获取节点所有属性，禁止外部类直接访问
      */
-    Map<String, String> getAttrs() {
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    public Map<String, String> getAttrs() {
         return attrs;
     }
 
