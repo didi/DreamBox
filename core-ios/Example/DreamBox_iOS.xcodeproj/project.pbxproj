@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0AB3A906258B76570049E7C6 /* tmp_yoga1.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AB3A905258B76570049E7C6 /* tmp_yoga1.json */; };
 		0AE6A24C255ABB5900BB6B73 /* mock_Data.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AE6A24B255ABB5900BB6B73 /* mock_Data.json */; };
 		0AE6A24E255AC03900BB6B73 /* mock_template.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AE6A24D255AC03900BB6B73 /* mock_template.json */; };
 		1B7294A3DA89081C5B0544B7 /* Pods_DreamBox_iOS_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D164075DD77D2D29618AFC /* Pods_DreamBox_iOS_Example.framework */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0AB3A905258B76570049E7C6 /* tmp_yoga1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tmp_yoga1.json; sourceTree = "<group>"; };
 		0AE6A24B255ABB5900BB6B73 /* mock_Data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mock_Data.json; sourceTree = "<group>"; };
 		0AE6A24D255AC03900BB6B73 /* mock_template.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mock_template.json; sourceTree = "<group>"; };
 		191BF004C691F1CC8C0C0829 /* Pods-DreamBox_iOS_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DreamBox_iOS_Tests.release.xcconfig"; path = "Target Support Files/Pods-DreamBox_iOS_Tests/Pods-DreamBox_iOS_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 		6003F593195388D20070C39A /* Example for DreamBox_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				0AB3A905258B76570049E7C6 /* tmp_yoga1.json */,
 				0AE6A24D255AC03900BB6B73 /* mock_template.json */,
 				0AE6A24B255ABB5900BB6B73 /* mock_Data.json */,
 				7AC7E3A124E148B400B1E254 /* DBExtension */,
@@ -310,6 +313,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AB3A906258B76570049E7C6 /* tmp_yoga1.json in Resources */,
 				0AE6A24C255ABB5900BB6B73 /* mock_Data.json in Resources */,
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
@@ -365,6 +369,8 @@
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SocketRocket/SocketRocket.framework",
+				"${BUILT_PRODUCTS_DIR}/Yoga/yoga.framework",
+				"${BUILT_PRODUCTS_DIR}/YogaKit/YogaKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -374,6 +380,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketRocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/yoga.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YogaKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

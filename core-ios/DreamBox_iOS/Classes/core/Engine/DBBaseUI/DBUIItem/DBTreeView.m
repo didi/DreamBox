@@ -30,6 +30,9 @@
 #import "Masonry.h"
 #import "DBCallBack.h"
 #import "NSArray+DBExtends.h"
+#import "UIView+Yoga.h"
+#import "DBFlexBoxLayout.h"
+#import "DBDefines.h"
 
 static NSString *const kDBMetaExtKey = @"ext";
 static NSString *const kDBMetaPoolKey = @"pool";
@@ -199,14 +202,14 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
 }
 
 - (void)bindExtensionMetaData:(NSDictionary *)ext {
-
+    
     [self p_bindExtensionMetaData:ext];
     [[DBPool shareDBPool] setObject:ext ToDBExtPoolWithPathId:self.pathTid];
     [self reloadTreeView];
 }
 
 - (void)updatePoolMetaData:(NSDictionary *)entries {
-   
+    
     if (![DBValidJudge isValidDictionary:entries]) {
         return;
     }
@@ -242,7 +245,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     
     self.modelID = @"0";
     if (!self.tid) {
-         self.tid = @"0";
+        self.tid = @"0";
     }
     self.extData = ext;
     self.pathTid = pathId;
@@ -251,7 +254,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     [self setCurrentData:treeModel.meta];
     [self p_bindExtensionMetaData:ext];
     
-//    [self p_debugView];
+    //    [self p_debugView];
     
     //Meta ext accesskey 存储进数据池
     if (self.accessKey != nil && ![treeModel.isSubTree isEqualToString:@"1"]) {
@@ -268,8 +271,8 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     [[DBPool shareDBPool] setObject:ext ToDBExtPoolWithPathId:self.pathTid];
     
     
-//    [self handleOnVisible:treeModel.onVisible];
-//    [self handleOnInVisible:treeModel.onInvisible];
+    //    [self handleOnVisible:treeModel.onVisible];
+    //    [self handleOnInVisible:treeModel.onInvisible];
     
     //绑定回调事件
     self.callBacks = treeModel.callbacks;
@@ -278,9 +281,16 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     [self regiterOnEvent:treeModel.onEvent];
     [self handleChangeOn:treeModel.changeOn];
     [self circulationAliasDict:treeModel.actionAlias];
-    [self circulationRenderArray:treeModel.render];
     [self makeContent];
-}
+    NSInteger dbVersion = 4;
+    if(dbVersion >= 4){
+        [self flexBoxcirCulationRender:treeModel];
+    } else {
+        [self circulationRenderArray:treeModel.render];
+    }
+    
+    
+    }
 
 - (NSString *)pathIdWithTid:(NSString *)tid accessKey:(NSString *)accessKey {
     return [accessKey stringByAppendingString:tid];
@@ -330,7 +340,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
 //+ (DBTreeView *)treeViewWithRender:(NSArray *)renderArray andTid:(NSString *)tid andMeta:(NSDictionary *)metaDict dataKeyPath:(NSString *)dataKeyPath
 + (DBTreeView *)treeViewWithRender:(NSArray *)renderArray meta:(NSDictionary *)metaDict accessKey:(NSString *)accessKey tid:(NSString *)tid;
 {
-//    NSDictionary *ext = [[DBPool shareDBPool] getObjectFromDBExtPoolWithPathId:pathId];
+    //    NSDictionary *ext = [[DBPool shareDBPool] getObjectFromDBExtPoolWithPathId:pathId];
     NSMutableDictionary *treeDict = [NSMutableDictionary dictionary];
     NSMutableDictionary *dblDict = [NSMutableDictionary dictionary];
     dblDict[@"render"] = renderArray;
@@ -355,7 +365,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
 
 + (DBTreeView *)treeViewWithRender:(NSArray *)renderArray accessKey:(NSString *)accessKey tid:(NSString *)tid
 {
-//    NSDictionary *ext = [[DBPool shareDBPool] getObjectFromDBExtPoolWithPathId:pathId];
+    //    NSDictionary *ext = [[DBPool shareDBPool] getObjectFromDBExtPoolWithPathId:pathId];
     NSMutableDictionary *treeDict = [NSMutableDictionary dictionary];
     NSMutableDictionary *dblDict = [NSMutableDictionary dictionary];
     dblDict[@"render"] = renderArray;
@@ -395,7 +405,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
 //数组遍历render节点执行
 - (void)circulationRenderArray:(NSArray *)itemArrays
 {
-//    array
+    //    array
     NSArray *packedRenderArray = [self restructRenderArrayWithOriginArray:itemArrays];
     for (int i = 0; i < packedRenderArray.count ; i ++) {
         NSDictionary *dict = packedRenderArray[i];
@@ -408,6 +418,47 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     }
     [self addSubDBViewLayouts];
 }
+
+- (void)flexBoxcirCulationRender:(DBTreeModel *)treeModel
+{
+    [DBParser flexLayoutView:self.backGroudView withModel:treeModel];
+    self.backGroudView.backgroundColor = [UIColor grayColor];
+    //    array
+    NSArray *renderArray = treeModel.render;
+    for (int i = 0; i < renderArray.count ; i ++) {
+        NSDictionary *dict = renderArray[i];
+        NSString *type = [dict objectForKey:@"type"];
+        Class cls = [[DBFactory sharedInstance] getModelClassByType:type];
+        DBViewModel *viewModel = [cls modelWithDict:dict];
+        UIView *view = [self modelToView:viewModel];
+        //添加到模型数组,渲染数组中
+        [self addToAllContainersView:view andModel:viewModel];
+        [DBParser flexLayoutView:view withModel:viewModel];
+//        view.backgroundColor = [UIColor clearColor];
+    }
+    [self.backGroudView.yoga applyLayoutPreservingOrigin:YES dimensionFlexibility:YGDimensionFlexibilityFlexibleWidth | YGDimensionFlexibilityFlexibleHeight];
+}
+
+- (void)flexBoxcirCulationRender2:(DBTreeModel *)treeModel
+{
+    [DBParser flexLayoutView:self.backGroudView withModel:treeModel];
+    self.backGroudView.backgroundColor = [UIColor grayColor];
+    //    array
+    NSArray *renderArray = treeModel.render;
+    for (int i = 0; i < renderArray.count ; i ++) {
+        NSDictionary *dict = renderArray[i];
+        NSString *type = [dict objectForKey:@"type"];
+        Class cls = [[DBFactory sharedInstance] getModelClassByType:type];
+        DBViewModel *viewModel = [cls modelWithDict:dict];
+        UIView *view = [self modelToView:viewModel];
+        //添加到模型数组,渲染数组中
+        [self addToAllContainersView:view andModel:viewModel];
+        [DBParser flexLayoutView:view withModel:viewModel];
+        view.backgroundColor = [UIColor clearColor];
+    }
+    [DBParser applyLayoutToView:self.backGroudView rreservingOrigin:YES dimensionFlexibility:YGDimensionFlexibilityFlexibleWidth | YGDimensionFlexibilityFlexibleHeight];
+}
+
 
 - (NSArray *)restructRenderArrayWithOriginArray:(NSArray *)itemArray{
     int k = 0;
@@ -490,7 +541,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
             self.maxHeight = CGRectGetMaxY(view.frame);
         }
     }
-   return self.maxHeight;
+    return self.maxHeight;
 }
 
 //lazy
@@ -528,25 +579,21 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
         _aliasDict = [[NSMutableDictionary alloc] init];
     }
     return _aliasDict;
-
+    
 }
 
 -(DBView *)backGroudView{
     if (!_backGroudView) {
         _backGroudView = [[DBView alloc] init];
         [self.bgView addSubview:_backGroudView];
-//         添加 width 约束和 height 约束
-//        NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:_backGroudView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.bgView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
-//        NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:_backGroudView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.bgView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
-//        NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:_backGroudView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.bgView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
-//        NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:_backGroudView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.bgView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
-//        leftConstraint.active = YES;
-//        topConstraint.active = YES;
-//        widthConstraint.active = YES;
-//        heightConstraint.active = YES;
-        [_backGroudView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.top.height.width.mas_equalTo(self.bgView);
-        }];
+        int dbVersion = 4;
+        if(dbVersion >= 4){
+            
+        } else {
+            [_backGroudView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.top.height.width.mas_equalTo(self.bgView);
+            }];
+        }
     }
     return _backGroudView;
 }
@@ -558,15 +605,15 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
             _bgView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         }
         [self addSubview:_bgView];
-//        _bgView.translatesAutoresizingMaskIntoConstraints = NO;
-//        NSLayoutConstraint *leftConstraint1 = [NSLayoutConstraint constraintWithItem:_bgView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
-//        NSLayoutConstraint *topConstraint1 = [NSLayoutConstraint constraintWithItem:_bgView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
-//        NSLayoutConstraint *widthConstraint1 = [NSLayoutConstraint constraintWithItem:_bgView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
-//        NSLayoutConstraint *heightConstraint1 = [NSLayoutConstraint constraintWithItem:_bgView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
-//        leftConstraint1.active = YES;
-//        topConstraint1.active = YES;
-//        widthConstraint1.active = YES;
-//        heightConstraint1.active = YES;
+        //        _bgView.translatesAutoresizingMaskIntoConstraints = NO;
+        //        NSLayoutConstraint *leftConstraint1 = [NSLayoutConstraint constraintWithItem:_bgView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
+        //        NSLayoutConstraint *topConstraint1 = [NSLayoutConstraint constraintWithItem:_bgView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
+        //        NSLayoutConstraint *widthConstraint1 = [NSLayoutConstraint constraintWithItem:_bgView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0];
+        //        NSLayoutConstraint *heightConstraint1 = [NSLayoutConstraint constraintWithItem:_bgView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
+        //        leftConstraint1.active = YES;
+        //        topConstraint1.active = YES;
+        //        widthConstraint1.active = YES;
+        //        heightConstraint1.active = YES;
         [_bgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.width.height.equalTo(self);
         }];
@@ -578,7 +625,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
 -(DBRecyclePool *)recyclePool
 {
     if (!_recyclePool) {
-         _recyclePool = [DBRecyclePool new];
+        _recyclePool = [DBRecyclePool new];
         self.backGroudView.modelID = @"0";
         [_recyclePool setItem:self.backGroudView withIdentifier:self.backGroudView.modelID];
     }
@@ -590,7 +637,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
 {
     NSLog(@"keyPath=%@,object=%@,change=%@,context=%@",keyPath,object,change,context);
     //有数据变化,刷新
-//    [self reloadTreeView];
+    //    [self reloadTreeView];
 }
 
 #pragma lifeCircle
@@ -646,12 +693,12 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
 - (void)handleDBCallBack:(NSDictionary *)callBackData data:(id)data{
     NSString *key = [callBackData objectForKey:@"msgTo"];
     
-//    //修改指定位置数据
-//    NSData *jsonData = [dataStr dataUsingEncoding:NSUTF8StringEncoding];
-//    NSError *err;
-//    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:jsonData
-//                                                        options:NSJSONReadingMutableContainers
-//                                                          error:&err];
+    //    //修改指定位置数据
+    //    NSData *jsonData = [dataStr dataUsingEncoding:NSUTF8StringEncoding];
+    //    NSError *err;
+    //    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:jsonData
+    //                                                        options:NSJSONReadingMutableContainers
+    //                                                          error:&err];
     if([data isKindOfClass:[NSDictionary class]]){
         NSDictionary *dict = (NSDictionary *)data;
         [[DBPool shareDBPool] setObject:@{key:dict} ToDBMetaPoolWithPathId:self.pathTid];
@@ -659,7 +706,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
         NSString *dataStr = (NSString *)data;
         [[DBPool shareDBPool] setObject:@{key:dataStr} ToDBMetaPoolWithPathId:self.pathTid];
     }
-
+    
     [self callActionWithEventDict:callBackData];
 }
 
@@ -702,10 +749,10 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     for (int i = 0; i < self.allRenderViewArray.count ; i ++) {
         if (i != 0) {
             DBBaseView *view = self.allRenderViewArray[i];
-//            DBViewModel *model = self.allRenderModelArray[i];
-//            if (model && [view respondsToSelector:@selector(setDataWithModel:andPathId:)]) {
-//                [(UIView<DBViewProtocol> *)view setDataWithModel:model andPathId:self.pathTid];
-//            }
+            //            DBViewModel *model = self.allRenderModelArray[i];
+            //            if (model && [view respondsToSelector:@selector(setDataWithModel:andPathId:)]) {
+            //                [(UIView<DBViewProtocol> *)view setDataWithModel:model andPathId:self.pathTid];
+            //            }
             [view reload];
         }
     }
@@ -762,7 +809,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     self.debugIcon = [[DBDeugSignView alloc] init];
     self.debugIcon.translatesAutoresizingMaskIntoConstraints = NO;
     [self insertSubview:self.debugIcon aboveSubview:self.backGroudView];
-
+    
     NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.debugIcon attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
     NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.debugIcon attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
     NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:self.debugIcon attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:53];
@@ -771,7 +818,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     topConstraint.active = YES;
     widthConstraint.active = YES;
     heightConstraint.active = YES;
-
+    
 #ifdef DEBUG
     [self.debugIcon showIcon];
 #endif
@@ -793,8 +840,8 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
 //view销毁时调用
 - (void)willMoveToWindow:(UIWindow *)newWindow {
     if (newWindow == nil) {
-    // Will be removed from window, similar to -viewDidUnload.
-    // Unsubscribe from any notifications here.
+        // Will be removed from window, similar to -viewDidUnload.
+        // Unsubscribe from any notifications here.
         [[DBPool shareDBPool] removeObjectFromMetaPoolWithPathId:self.pathId];
     }
 }

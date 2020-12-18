@@ -26,6 +26,7 @@
 #import "Masonry.h"
 #import "DBCallBack.h"
 #import "NSArray+DBExtends.h"
+#import "DBFlexBoxLayout.h"
 
 @implementation DBParser
 
@@ -33,6 +34,7 @@
 {
     NSDictionary *dictAll = [dict objectForKey:@"dbl"];
     DBTreeModel *treeModel2 = [[DBTreeModel alloc] init];
+    
     treeModel2.displayType = [dictAll db_objectForKey:@"displayType"];
     treeModel2.width = [dictAll db_objectForKey:@"width"];
     treeModel2.height = [dictAll db_objectForKey:@"height"];
@@ -46,6 +48,17 @@
     treeModel2.scroll = [dictAll db_objectForKey:@"scroll"];
     treeModel2.isSubTree = [dict db_objectForKey:@"isSubTree"];
     treeModel2.callbacks = [dictAll db_objectForKey:@"callbacks"];
+    
+    treeModel2.isEnabled = [dictAll db_objectForKey:@"isEnabled"];
+    treeModel2.flexDirection = [dictAll db_objectForKey:@"flex-direction"];
+    treeModel2.justifyContent = [dictAll db_objectForKey:@"justify-content"];
+    treeModel2.alignContent = [dictAll db_objectForKey:@"align-content"];
+    treeModel2.alignItems = [dictAll db_objectForKey:@"align-items"];
+    treeModel2.alignSelf = [dictAll db_objectForKey:@"align-self"];
+    treeModel2.position = [dictAll db_objectForKey:@"position"];
+    treeModel2.flexWrap = [dictAll db_objectForKey:@"flex-wrap"];
+    treeModel2.overflow = [dictAll db_objectForKey:@"overflow"];
+    
     return treeModel2;
     
 }
@@ -120,6 +133,10 @@
     DBBaseView *view = [[cls alloc] initWithFrame:CGRectZero];
     view.pathId = pathId;
     
+    if ([(NSObject<DBViewProtocol> *)view respondsToSelector:@selector(onCreateView)]) {
+        [(NSObject<DBViewProtocol> *)view onCreateView];
+    }
+    
     if ([(NSObject<DBViewProtocol> *)view respondsToSelector:@selector(setDataWithModel:andPathId:)]) {
         [(NSObject<DBViewProtocol> *)view setDataWithModel:model andPathId:pathId];
     }
@@ -135,8 +152,10 @@
         [(NSObject<DBViewProtocol> *)view onChildrenBind:view model:model];
     }
     
+    if(model.backgroundColor){
+        view.backgroundColor =  [UIColor db_colorWithHexString:model.backgroundColor];
+    }
     
-    view.backgroundColor =  [UIColor db_colorWithHexString:model.backgroundColor];
     view.modelID = model.modelID;
     
     //控制是否隐藏
@@ -616,6 +635,148 @@
     NSString *accessKey  = [[DBPool shareDBPool] getAccessKeyWithPathId:pathId];
     [[DBWrapperManager sharedManager] reportTid:pathId Key:@"tech_trace_action_alias_not_found" accessKey:accessKey params:@{@"alias_id":@""} frequency:DBReportFrequencyEVERY];
     //数据统计trace_action_alias_not_found结束
+}
+
++ (void)flexLayoutView:(UIView *)view withModel:(DBViewModel *)model{
+    [view configureLayoutWithBlock:^(YGLayout * _Nonnull layout) {
+        layout.isEnabled = YES;
+        if(model.flexDirection.length > 0){
+            layout.flexDirection = [DBFlexBoxLayout flexDirectionWithKey:model.flexDirection];
+        }
+        if(model.justifyContent.length > 0){
+            layout.justifyContent = [DBFlexBoxLayout justifyWithKey:model.justifyContent];
+        }
+        if(model.alignContent.length > 0){
+            layout.alignContent = [DBFlexBoxLayout alignWithKey:model.alignContent];
+        }
+        if(model.alignItems.length > 0){
+            layout.alignItems = [DBFlexBoxLayout alignWithKey:model.alignItems];
+        }
+        if(model.alignSelf.length > 0){
+            layout.alignSelf = [DBFlexBoxLayout alignWithKey:model.alignSelf];
+        }
+        if(model.position.length > 0){
+            layout.position = [DBFlexBoxLayout positionTypeWithKey:model.position];
+        }
+        if(model.flexWrap.length > 0){
+            layout.flexWrap = [DBFlexBoxLayout wrapWithKey:model.flexWrap];
+        }
+        if(model.overflow.length > 0){
+            layout.overflow = [DBFlexBoxLayout overflowWithKey:model.overflow];
+        }
+        if(model.display.length > 0){
+            layout.display = [DBFlexBoxLayout displayWithKey:model.display];
+        }
+        if(model.flexGrow.length > 0){
+            layout.flexGrow = [DBDefines db_getUnit:model.flexGrow];
+        }
+        if(model.flexShrink.length > 0){
+            layout.flexShrink = [DBDefines db_getUnit:model.flexShrink];
+        }
+        
+        if(model.flexBasis.length > 0){
+            if([model.flexBasis containsString:@"%"]){
+                layout.flexBasis = YGPercentValue([DBDefines db_getUnit:model.flexBasis]);
+            } else {
+                layout.flexBasis = YGPointValue([DBDefines db_getUnit:model.flexBasis]);
+            }
+        }
+        
+        if(model.left.length > 0){
+            layout.left = YGPointValue([DBDefines db_getUnit:model.left]);
+        }
+        if(model.top.length > 0){
+            layout.top = YGPointValue([DBDefines db_getUnit:model.top]);
+        }
+        if(model.right.length > 0){
+            layout.right = YGPointValue([DBDefines db_getUnit:model.right]);
+        }
+        if(model.bottom.length > 0){
+            layout.bottom = YGPointValue([DBDefines db_getUnit:model.bottom]);
+        }
+        if(model.start.length > 0){
+            layout.start = YGPointValue([DBDefines db_getUnit:model.start]);
+        }
+        if(model.end.length > 0){
+            layout.end = YGPointValue([DBDefines db_getUnit:model.end]);
+        }
+        if(model.marginLeft.length > 0){
+            layout.marginLeft = YGPointValue([DBDefines db_getUnit:model.marginLeft]);
+        }
+        if(model.marginTop.length > 0){
+            layout.marginTop = YGPointValue([DBDefines db_getUnit:model.marginTop]);
+        }
+        if(model.marginRight.length > 0){
+            layout.marginRight = YGPointValue([DBDefines db_getUnit:model.marginRight]);
+        }
+        if(model.marginBottom.length > 0){
+            layout.marginBottom = YGPointValue([DBDefines db_getUnit:model.marginBottom]);
+        }
+        if(model.marginStart.length > 0){
+            layout.marginStart = YGPointValue([DBDefines db_getUnit:model.marginStart]);
+        }
+        if(model.marginEnd.length > 0){
+            layout.marginEnd = YGPointValue([DBDefines db_getUnit:model.marginEnd]);
+        }
+        if(model.marginHorizontal.length > 0){
+            layout.marginHorizontal = YGPointValue([DBDefines db_getUnit:model.marginHorizontal]);
+        }
+        if(model.marginVertical.length > 0){
+            layout.marginVertical = YGPointValue([DBDefines db_getUnit:model.marginVertical]);
+        }
+        if(model.margin.length > 0){
+            layout.margin = YGPointValue([DBDefines db_getUnit:model.margin]);
+        }
+        if(model.paddingLeft.length > 0){
+            layout.paddingLeft = YGPointValue([DBDefines db_getUnit:model.paddingLeft]);
+        }
+        if(model.paddingTop.length > 0){
+            layout.paddingTop = YGPointValue([DBDefines db_getUnit:model.paddingTop]);
+        }
+        if(model.paddingRight.length > 0){
+            layout.paddingRight = YGPointValue([DBDefines db_getUnit:model.paddingRight]);
+        }
+        if(model.paddingBottom.length > 0){
+            layout.paddingBottom = YGPointValue([DBDefines db_getUnit:model.paddingBottom]);
+        }
+        if(model.paddingStart.length > 0){
+            layout.paddingStart = YGPointValue([DBDefines db_getUnit:model.paddingStart]);
+        }
+        if(model.paddingEnd.length > 0){
+            layout.paddingEnd = YGPointValue([DBDefines db_getUnit:model.paddingEnd]);
+        }
+        if(model.paddingHorizontal.length > 0){
+            layout.paddingHorizontal = YGPointValue([DBDefines db_getUnit:model.paddingHorizontal]);
+        }
+        if(model.paddingVertical.length > 0){
+            layout.paddingVertical = YGPointValue([DBDefines db_getUnit:model.paddingVertical]);
+        }
+        if(model.padding.length > 0){
+            layout.padding = YGPointValue([DBDefines db_getUnit:model.padding]);
+        }
+        if(model.width.length > 0){
+            layout.width = YGPointValue([DBDefines db_getUnit:model.width]);
+        }
+        if(model.height.length > 0){
+            layout.height = YGPointValue([DBDefines db_getUnit:model.height]);
+        }
+        if(model.minWidth.length > 0){
+            layout.minWidth = YGPointValue([DBDefines db_getUnit:model.minWidth]);
+        }
+        if(model.minHeight.length > 0){
+            layout.minHeight = YGPointValue([DBDefines db_getUnit:model.minHeight]);
+        }
+        if(model.maxWidth.length > 0){
+            layout.maxWidth = YGPointValue([DBDefines db_getUnit:model.maxWidth]);
+        }
+        if(model.maxHeight.length > 0){
+            layout.maxHeight = YGPointValue([DBDefines db_getUnit:model.maxHeight]);
+        }
+    }];
+}
+
++ (void)applyLayoutToView:(UIView *)view rreservingOrigin:(BOOL)preserveOrigin dimensionFlexibility:(YGDimensionFlexibility)dimensionFlexibility {
+    [view.yoga applyLayoutPreservingOrigin:YES dimensionFlexibility:YGDimensionFlexibilityFlexibleWidth | YGDimensionFlexibilityFlexibleHeight];
 }
 
 @end

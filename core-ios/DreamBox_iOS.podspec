@@ -33,6 +33,7 @@ This is DreamBox_iOS Pod
   s.source_files = 'DreamBox_iOS/Classes/**/*'
   s.dependency 'SDWebImage' ,'> 5.0'
   s.dependency 'Masonry'
+  s.dependency 'YogaKit'
   
   s.resource_bundles = {
     'DreamBox_iOS' => ['DreamBox_iOS/Assets/*.png']

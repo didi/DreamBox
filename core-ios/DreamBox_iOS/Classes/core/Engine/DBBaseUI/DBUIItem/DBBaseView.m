@@ -34,7 +34,6 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]){
-        [self onCreateView];
     }
     return self;
 }
@@ -60,12 +59,6 @@
         }];
     }
     
-}
-
-- (void)setDataWithModel:(DBViewModel *)model andPathId:(NSString *)pathId{
-    _model = model;
-    _pathId = pathId;
-    _accessKey = [[DBPool shareDBPool] getAccessKeyWithPathId:pathId];
 }
 
 - (void)handleChangeOn:(NSString *)changeOnstr

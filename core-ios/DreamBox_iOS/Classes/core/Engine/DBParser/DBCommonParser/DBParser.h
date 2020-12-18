@@ -10,6 +10,7 @@
 #import "DBViewModel.h"
 #import "DBView.h"
 #import "DBRecyclePool.h"
+#import "UIView+Yoga.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -41,6 +42,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)isvalidAction:(NSString *)action;
 
 + (id)getMetaDictByPathId:(NSString *)pathId;
+
++ (void)flexLayoutView:(UIView *)view withModel:(DBViewModel *)model;
+
++ (void)applyLayoutToView:(UIView *)view rreservingOrigin:(BOOL)preserveOrigin dimensionFlexibility:(YGDimensionFlexibility)dimensionFlexibility;
 @end
 
 NS_ASSUME_NONNULL_END

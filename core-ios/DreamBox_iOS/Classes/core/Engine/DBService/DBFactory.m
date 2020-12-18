@@ -37,6 +37,8 @@
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBViewModel") forKey:@"view"];
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBImageModel") forKey:@"image"];
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBTextModel") forKey:@"text"];
+
+        
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBProgressModel") forKey:@"progress"];
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBListModel") forKey:@"list"];
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBFlowModel") forKey:@"flow"];
@@ -46,7 +48,14 @@
         [self.allViewClassTypesArray setValue:NSClassFromString(@"DBView") forKey:@"pack"];
         [self.allViewClassTypesArray setValue:NSClassFromString(@"DBView") forKey:@"view"];
         [self.allViewClassTypesArray setValue:NSClassFromString(@"DBImage") forKey:@"image"];
-        [self.allViewClassTypesArray setValue:NSClassFromString(@"DBText") forKey:@"text"];
+        
+        int dbVersion = 4;
+        if(dbVersion >= 4){
+            [self.allViewClassTypesArray setValue:NSClassFromString(@"DBTextV2") forKey:@"text"];
+        } else {
+            [self.allViewClassTypesArray setValue:NSClassFromString(@"DBText") forKey:@"text"];
+        }
+        
         [self.allViewClassTypesArray setValue:NSClassFromString(@"DBProgress") forKey:@"progress"];
         [self.allViewClassTypesArray setValue:NSClassFromString(@"DBCollectionList") forKey:@"list"];
         [self.allViewClassTypesArray setValue:NSClassFromString(@"DBFlowView") forKey:@"flow"];
