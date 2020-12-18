@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (id)getMetaDictByPathId:(NSString *)pathId;
 
-+ (void)flexLayoutView:(UIView *)view withModel:(DBViewModel *)model;
++ (void)flexLayoutView:(UIView *)view withModel:(DBYogaModel *)model;
 
 + (void)applyLayoutToView:(UIView *)view rreservingOrigin:(BOOL)preserveOrigin dimensionFlexibility:(YGDimensionFlexibility)dimensionFlexibility;
 @end

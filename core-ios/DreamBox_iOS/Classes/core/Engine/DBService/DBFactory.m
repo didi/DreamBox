@@ -30,9 +30,11 @@
 
 - (instancetype)init
 {
+    int dbVersion = 4;
     if (self = [super init]) {
         //view种类数组
         self.allModelClassTypesArray = [NSMutableDictionary dictionary];
+        
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBViewModel") forKey:@"pack"];
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBViewModel") forKey:@"view"];
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBImageModel") forKey:@"image"];
@@ -43,13 +45,16 @@
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBListModel") forKey:@"list"];
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBFlowModel") forKey:@"flow"];
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBLoadingModel") forKey:@"loading"];
+        
         //model种类数组
         self.allViewClassTypesArray = [NSMutableDictionary dictionary];
+        
+        [self.allViewClassTypesArray setValue:NSClassFromString(@"DBView") forKey:@"group"];
         [self.allViewClassTypesArray setValue:NSClassFromString(@"DBView") forKey:@"pack"];
         [self.allViewClassTypesArray setValue:NSClassFromString(@"DBView") forKey:@"view"];
         [self.allViewClassTypesArray setValue:NSClassFromString(@"DBImage") forKey:@"image"];
         
-        int dbVersion = 4;
+        
         if(dbVersion >= 4){
             [self.allViewClassTypesArray setValue:NSClassFromString(@"DBTextV2") forKey:@"text"];
         } else {

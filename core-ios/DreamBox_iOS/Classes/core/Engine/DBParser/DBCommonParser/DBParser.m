@@ -28,39 +28,26 @@
 #import "NSArray+DBExtends.h"
 #import "DBFlexBoxLayout.h"
 
+#import "DBYogaModel.h"
+#import "DBViewModel.h"
+
 @implementation DBParser
 
 +(DBTreeModel *)parserDict:(NSDictionary *)dict
 {
     NSDictionary *dictAll = [dict objectForKey:@"dbl"];
-    DBTreeModel *treeModel2 = [[DBTreeModel alloc] init];
     
-    treeModel2.displayType = [dictAll db_objectForKey:@"displayType"];
-    treeModel2.width = [dictAll db_objectForKey:@"width"];
-    treeModel2.height = [dictAll db_objectForKey:@"height"];
-    treeModel2.dismissOn = [dictAll db_objectForKey:@"dismissOn"];
-    treeModel2.onVisible = [dictAll db_objectForKey:@"onVisible"];
-    treeModel2.onInvisible = [dictAll db_objectForKey:@"onInvisible"];
-    treeModel2.meta = [dictAll db_objectForKey:@"meta"];
-    treeModel2.render = [dictAll db_objectForKey:@"render"];
-    treeModel2.actionAlias = [dictAll db_objectForKey:@"actionAlias"];
-    treeModel2.onEvent = [dictAll db_objectForKey:@"onEvent"];
-    treeModel2.scroll = [dictAll db_objectForKey:@"scroll"];
-    treeModel2.isSubTree = [dict db_objectForKey:@"isSubTree"];
-    treeModel2.callbacks = [dictAll db_objectForKey:@"callbacks"];
+    DBTreeModel *treeModel;
     
-    treeModel2.isEnabled = [dictAll db_objectForKey:@"isEnabled"];
-    treeModel2.flexDirection = [dictAll db_objectForKey:@"flex-direction"];
-    treeModel2.justifyContent = [dictAll db_objectForKey:@"justify-content"];
-    treeModel2.alignContent = [dictAll db_objectForKey:@"align-content"];
-    treeModel2.alignItems = [dictAll db_objectForKey:@"align-items"];
-    treeModel2.alignSelf = [dictAll db_objectForKey:@"align-self"];
-    treeModel2.position = [dictAll db_objectForKey:@"position"];
-    treeModel2.flexWrap = [dictAll db_objectForKey:@"flex-wrap"];
-    treeModel2.overflow = [dictAll db_objectForKey:@"overflow"];
+    int dbVersion = 4;
+    if(dbVersion >= 4){
+        treeModel = [DBTreeModelYoga modelWithDict:dictAll];
+    } else {
+        treeModel = [DBTreeModelReference modelWithDict:dictAll];
+        treeModel.isSubTree = [dict db_objectForKey:@"isSubTree"];
+    }
     
-    return treeModel2;
-    
+    return treeModel;
 }
 
 
@@ -637,7 +624,7 @@
     //数据统计trace_action_alias_not_found结束
 }
 
-+ (void)flexLayoutView:(UIView *)view withModel:(DBViewModel *)model{
++ (void)flexLayoutView:(UIView *)view withModel:(DBYogaModel *)model{
     [view configureLayoutWithBlock:^(YGLayout * _Nonnull layout) {
         layout.isEnabled = YES;
         if(model.flexDirection.length > 0){

@@ -6,9 +6,13 @@
 //  Copyright © 2020 didi. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@class DBYogaModel;
+@class DBYogaRenderModel;
 
-NS_ASSUME_NONNULL_BEGIN
+typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
+    DBTreeModelLayoutTypeReference, //相对布局
+    DBTreeModelLayoutTypeYoga //弹性布局
+};
 
 @interface DBViewModel : NSObject
 @property (nonatomic ,copy) NSString *type;//string
@@ -104,12 +108,27 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DBTreeModel : DBViewModel
 
 @property (nonatomic,strong) NSMutableDictionary *meta;
-@property (nonatomic,strong) NSArray *render;
 @property (nonatomic,assign) BOOL dismissOn;
 @property (nonatomic,copy) NSString *displayType;
 @property (nonatomic,strong) NSDictionary *actionAlias;
 @property (nonatomic,strong) NSDictionary *onEvent;
 @property (nonatomic,copy) NSString *isSubTree;
+
+@end
+
+@interface DBTreeModelReference : DBTreeModel
+
+@property (nonatomic,strong) NSArray *render;
++ (DBTreeModelReference *)modelWithDict:(NSDictionary *)dict;
+
+@end
+
+
+
+@interface DBTreeModelYoga : DBTreeModel
+
+@property (nonatomic,strong) DBYogaRenderModel *render;
++ (DBTreeModelYoga *)modelWithDict:(NSDictionary *)dict;
 
 @end
 
@@ -182,4 +201,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-NS_ASSUME_NONNULL_END

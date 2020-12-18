@@ -6,34 +6,86 @@
     "meta": {
       "imgPng": "https://static.didialift.com/pinche/gift/resource/ot717bc26io-1596238956167-didi_logo.png"
     },
-    "flex-wrap": "nowrap",
-    "overflow":"scroll",
-    "flex-direction":"row",
-    "justify-content":"space-around",
-    "align-items":"center",
-    "width": "400dp",
-    "height": "400dp",
-    "render": [
-      {
-        "id": "1",
-        "src": "${imgPng}",
-        "width": "100dp",
-        "height": "100dp",
-        "type": "image",
-      },
-      {
-        "id": "2",
-        "src": "qweqwewqqweqwewqqweqwewqqweqwewqqweqwewq",
-        "width": "100dp",
-        "height": "100dp",
-        "type": "text",
-      },{
-          "id": "3",
+    "render": {
+      "backgroundColor": "#678678",
+      "flex-direction": "column",
+      "flex-wrap": "nowrap",
+      "justify-content": "space-between",
+      "width": "fill",
+      "layout": "yoga",
+      "type": "group",
+      "children": [
+        {
+          "id": "1",
           "src": "${imgPng}",
-          "width": "50dp",
-          "height": "50dp",
+          "width": "30dp",
+          "height": "30dp",
           "type": "image",
-      }
-    ]
+          "backgroundColor": "#ff0000"
+        },
+        {
+          "id": "2",
+          "src": "${imgPng}",
+          "width": "30dp",
+          "height": "30dp",
+          "type": "image",
+          "backgroundColor": "#00ff00"
+        },
+        {
+          "backgroundColor": "#234567",
+          "flex-direction": "column",
+          "flex-wrap": "nowrap",
+          "justify-content": "space-between",
+          "width": "200dp",
+          "layout": "yoga",
+          "type": "group",
+          "children": [
+            {
+              "id": "3",
+              "src": "${imgPng}",
+              "width": "50dp",
+              "height": "50dp",
+              "type": "image",
+              "backgroundColor": "#0000ff"
+            },
+            {
+              "id": "4",
+              "src": "${imgPng}",
+              "width": "80dp",
+              "height": "80dp",
+              "type": "image",
+              "backgroundColor": "#0000ff"
+            },
+            {
+                "backgroundColor": "#230067",
+                "flex-direction": "row",
+                "flex-wrap": "nowrap",
+                "justify-content": "space-between",
+                "width": "200dp",
+                "layout": "yoga",
+                "type": "group",
+                "children": [
+                  {
+                    "id": "5",
+                    "src": "${imgPng}",
+                    "width": "50dp",
+                    "height": "50dp",
+                    "type": "image",
+                    "backgroundColor": "#0000ff"
+                  },
+                  {
+                    "id": "6",
+                    "src": "${imgPng}",
+                    "width": "80dp",
+                    "height": "80dp",
+                    "type": "image",
+                    "backgroundColor": "#0000ff"
+                  }
+                ]
+              }
+          ]
+        }
+      ]
+    }
   }
 }

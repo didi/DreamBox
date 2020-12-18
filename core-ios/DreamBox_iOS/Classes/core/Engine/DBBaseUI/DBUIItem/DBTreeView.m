@@ -33,6 +33,7 @@
 #import "UIView+Yoga.h"
 #import "DBFlexBoxLayout.h"
 #import "DBDefines.h"
+#import "DBYogaModel.h"
 
 static NSString *const kDBMetaExtKey = @"ext";
 static NSString *const kDBMetaPoolKey = @"pool";
@@ -284,13 +285,14 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     [self makeContent];
     NSInteger dbVersion = 4;
     if(dbVersion >= 4){
-        [self flexBoxcirCulationRender:treeModel];
+        if([treeModel isKindOfClass:[DBTreeModelYoga class]]){
+            DBTreeModelYoga *yogaModel = (DBTreeModelYoga *)treeModel;
+            [self flexBoxLayoutWithContainer:self.backGroudView renderModel:yogaModel.render];
+        }
     } else {
-        [self circulationRenderArray:treeModel.render];
+        [self circulationRenderArray:treeModel];
     }
-    
-    
-    }
+}
 
 - (NSString *)pathIdWithTid:(NSString *)tid accessKey:(NSString *)accessKey {
     return [accessKey stringByAppendingString:tid];
@@ -403,10 +405,10 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
 
 
 //数组遍历render节点执行
-- (void)circulationRenderArray:(NSArray *)itemArrays
+- (void)circulationRenderArray:(DBTreeModelReference *)treeModel
 {
     //    array
-    NSArray *packedRenderArray = [self restructRenderArrayWithOriginArray:itemArrays];
+    NSArray *packedRenderArray = [self restructRenderArrayWithOriginArray:treeModel.render];
     for (int i = 0; i < packedRenderArray.count ; i ++) {
         NSDictionary *dict = packedRenderArray[i];
         NSString *type = [dict objectForKey:@"type"];
@@ -419,46 +421,32 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     [self addSubDBViewLayouts];
 }
 
-- (void)flexBoxcirCulationRender:(DBTreeModel *)treeModel
+- (void)flexBoxLayoutWithContainer:(UIView *)container renderModel:(DBYogaRenderModel *)renderModel
 {
-    [DBParser flexLayoutView:self.backGroudView withModel:treeModel];
-    self.backGroudView.backgroundColor = [UIColor grayColor];
-    //    array
-    NSArray *renderArray = treeModel.render;
+    [DBParser flexLayoutView:container withModel:(DBYogaModel *)renderModel];
+    container.backgroundColor = [UIColor db_colorWithHexString:renderModel.backgroundColor];
+    
+    NSArray *renderArray = renderModel.children;
     for (int i = 0; i < renderArray.count ; i ++) {
         NSDictionary *dict = renderArray[i];
         NSString *type = [dict objectForKey:@"type"];
-        Class cls = [[DBFactory sharedInstance] getModelClassByType:type];
-        DBViewModel *viewModel = [cls modelWithDict:dict];
-        UIView *view = [self modelToView:viewModel];
-        //添加到模型数组,渲染数组中
-        [self addToAllContainersView:view andModel:viewModel];
-        [DBParser flexLayoutView:view withModel:viewModel];
-//        view.backgroundColor = [UIColor clearColor];
+        if([type isEqual:@"group"]){
+            //嵌套
+            DBYogaRenderModel *subRenderModel = [DBYogaRenderModel modelWithDict:dict];
+            UIView *subContainer = [UIView new];
+            [container addSubview: subContainer];
+            [self flexBoxLayoutWithContainer:subContainer renderModel:subRenderModel];
+        } else {
+            Class cls = [[DBFactory sharedInstance] getModelClassByType:type];
+            DBViewModel *viewModel = [cls modelWithDict:dict];
+            UIView *view = [self modelToView:viewModel];
+            //添加到模型数组,渲染数组中
+            [self addToAllContainer:container item:view andModel:viewModel];
+            [DBParser flexLayoutView:view withModel:(DBYogaModel *)viewModel];
+        }
     }
-    [self.backGroudView.yoga applyLayoutPreservingOrigin:YES dimensionFlexibility:YGDimensionFlexibilityFlexibleWidth | YGDimensionFlexibilityFlexibleHeight];
+    [container.yoga applyLayoutPreservingOrigin:YES dimensionFlexibility:YGDimensionFlexibilityFlexibleWidth | YGDimensionFlexibilityFlexibleHeight];
 }
-
-- (void)flexBoxcirCulationRender2:(DBTreeModel *)treeModel
-{
-    [DBParser flexLayoutView:self.backGroudView withModel:treeModel];
-    self.backGroudView.backgroundColor = [UIColor grayColor];
-    //    array
-    NSArray *renderArray = treeModel.render;
-    for (int i = 0; i < renderArray.count ; i ++) {
-        NSDictionary *dict = renderArray[i];
-        NSString *type = [dict objectForKey:@"type"];
-        Class cls = [[DBFactory sharedInstance] getModelClassByType:type];
-        DBViewModel *viewModel = [cls modelWithDict:dict];
-        UIView *view = [self modelToView:viewModel];
-        //添加到模型数组,渲染数组中
-        [self addToAllContainersView:view andModel:viewModel];
-        [DBParser flexLayoutView:view withModel:viewModel];
-        view.backgroundColor = [UIColor clearColor];
-    }
-    [DBParser applyLayoutToView:self.backGroudView rreservingOrigin:YES dimensionFlexibility:YGDimensionFlexibilityFlexibleWidth | YGDimensionFlexibilityFlexibleHeight];
-}
-
 
 - (NSArray *)restructRenderArrayWithOriginArray:(NSArray *)itemArray{
     int k = 0;
@@ -489,6 +477,19 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     [self.backGroudView addSubview:view];
     if (viewModel.modelID) {
         [self.recyclePool setItem:view withIdentifier:viewModel.modelID];
+    }
+}
+
+-(void)addToAllContainer:(UIView *)containerView item:(UIView *)itemView andModel:(DBViewModel *)viewModel
+{
+    if (!itemView || !viewModel) {
+        return;
+    }
+    [self.allRenderViewArray addObject:itemView];
+    [self.allRenderModelArray addObject:viewModel];
+    [containerView addSubview:itemView];
+    if (viewModel.modelID) {
+        [self.recyclePool setItem:itemView withIdentifier:viewModel.modelID];
     }
 }
 

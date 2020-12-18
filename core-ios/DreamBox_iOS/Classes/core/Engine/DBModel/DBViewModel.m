@@ -12,6 +12,7 @@
 #import "DBViewModel.h"
 #import "DBFactory.h"
 #import "NSDictionary+DBExtends.h"
+#import "DBYogaModel.h"
 
 @implementation DBViewModel
 
@@ -110,6 +111,42 @@
 @end
 
 @implementation DBTreeModel
+
++ (id)modelWithDict:(NSDictionary *)dict type:(DBTreeModelLayoutType)type{
+    DBTreeModel *treeModel;
+    if(type == DBTreeModelLayoutTypeReference){
+        treeModel = [[DBTreeModelReference alloc] init];
+    } else {
+        treeModel = [[DBTreeModelYoga alloc] init];
+    }
+
+    treeModel.displayType = [dict db_objectForKey:@"displayType"];
+    treeModel.width = [dict db_objectForKey:@"width"];
+    treeModel.height = [dict db_objectForKey:@"height"];
+    treeModel.dismissOn = [dict db_objectForKey:@"dismissOn"];
+    treeModel.onVisible = [dict db_objectForKey:@"onVisible"];
+    treeModel.onInvisible = [dict db_objectForKey:@"onInvisible"];
+    treeModel.meta = [dict db_objectForKey:@"meta"];
+    treeModel.actionAlias = [dict db_objectForKey:@"actionAlias"];
+    treeModel.onEvent = [dict db_objectForKey:@"onEvent"];
+    treeModel.scroll = [dict db_objectForKey:@"scroll"];
+    treeModel.callbacks = [dict db_objectForKey:@"callbacks"];
+    
+    return treeModel;
+}
+
+@end
+
+@implementation DBTreeModelReference
+
++ (DBTreeModelReference *)modelWithDict:(NSDictionary *)dict{
+    DBTreeModelReference *model = [super modelWithDict:dict type:DBTreeModelLayoutTypeReference];
+    
+    model.render = [dict db_objectForKey:@"render"]; //相对布局中render为数组
+    
+    return model;
+}
+
 - (NSArray *)render{
     if(_render){
         return _render;
@@ -119,6 +156,21 @@
 }
 
 @end
+
+@implementation DBTreeModelYoga
+
++ (DBTreeModelYoga *)modelWithDict:(NSDictionary *)dict{
+    DBTreeModelYoga *model = [super modelWithDict:dict type:DBTreeModelLayoutTypeYoga];
+    
+    NSDictionary *renderDict = [dict db_objectForKey:@"render"];
+    DBYogaRenderModel *render = [DBYogaRenderModel modelWithDict:renderDict]; //yoga布局中render为yoga模型
+    model.render = render;
+    
+    return model;
+}
+
+@end
+
 
 @implementation DBTextModel
 
