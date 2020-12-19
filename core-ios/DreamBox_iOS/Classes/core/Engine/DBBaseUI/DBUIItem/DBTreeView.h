@@ -35,9 +35,6 @@ typedef void(^DBTreeEventBlock)(NSString *evendID, NSDictionary *paramDict, NSDi
 // !替换! 用户ext
 - (void)bindExtensionMetaData:(NSDictionary *)ext;
 
-//获取treeView高度
--(CGFloat)getTreeViewHeight;
-
 //刷新方法
 -(void)reloadTreeView;
 
