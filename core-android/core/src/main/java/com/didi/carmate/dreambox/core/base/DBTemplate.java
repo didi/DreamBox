@@ -22,7 +22,7 @@ public class DBTemplate extends DBNode implements LifecycleObserver {
     private Lifecycle mLifecycle;
     private final DBContext mDBContext;
     private com.didi.carmate.dreambox.core.constraint.render.DBLView mConstraintDBL;
-    private com.didi.carmate.dreambox.core.yoga.render.DBLView mYogaDBL;
+    private com.didi.carmate.dreambox.core.layout.render.DBLView mYogaDBL;
 
     public DBTemplate(DBContext dbContext) {
         super(dbContext);
@@ -162,8 +162,8 @@ public class DBTemplate extends DBNode implements LifecycleObserver {
         if (null == mYogaDBL) {
             List<IDBNode> children = getChildren();
             for (IDBNode child : children) {
-                if (child instanceof com.didi.carmate.dreambox.core.yoga.render.DBLView) {
-                    mYogaDBL = (com.didi.carmate.dreambox.core.yoga.render.DBLView) child;
+                if (child instanceof com.didi.carmate.dreambox.core.layout.render.DBLView) {
+                    mYogaDBL = (com.didi.carmate.dreambox.core.layout.render.DBLView) child;
                     break;
                 }
             }

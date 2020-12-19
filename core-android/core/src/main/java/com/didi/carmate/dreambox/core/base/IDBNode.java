@@ -1,8 +1,11 @@
 package com.didi.carmate.dreambox.core.base;
 
+import androidx.annotation.RestrictTo;
+
 import com.google.gson.JsonObject;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * author: chenjing
@@ -18,6 +21,12 @@ public interface IDBNode {
      * 设置节点名称
      */
     void setTagName(String tagName);
+
+    /**
+     * 获取节点属性
+     */
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    Map<String, String> getAttrs();
 
     /**
      * 设置节点属性
