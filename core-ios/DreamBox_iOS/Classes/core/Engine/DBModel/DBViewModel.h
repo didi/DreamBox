@@ -8,76 +8,20 @@
 
 @class DBYogaModel;
 @class DBYogaRenderModel;
+@class DBReferenceModel;
+@class DBViewModelYoga;
 
 typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
     DBTreeModelLayoutTypeReference, //相对布局
     DBTreeModelLayoutTypeYoga //弹性布局
 };
 
+
+#pragma mark - viewModel
 @interface DBViewModel : NSObject
 @property (nonatomic ,copy) NSString *type;//string
 @property (nonatomic ,copy) NSString *modelID;//string
 
-//相对布局&弹性布局 公用属性
-@property (nonatomic, copy) NSString *marginLeft;           //外边距
-@property (nonatomic, copy) NSString *marginTop;
-@property (nonatomic, copy) NSString *marginRight;
-@property (nonatomic, copy) NSString *marginBottom;
-@property (nonatomic, copy) NSString *marginStart;
-@property (nonatomic, copy) NSString *marginEnd;
-@property (nonatomic, copy) NSString *marginHorizontal;
-@property (nonatomic, copy) NSString *marginVertical;
-@property (nonatomic, copy) NSString *margin;
-
-@property (nonatomic, copy) NSString *paddingLeft;          //内边距
-@property (nonatomic, copy) NSString *paddingTop;
-@property (nonatomic, copy) NSString *paddingRight;
-@property (nonatomic, copy) NSString *paddingBottom;
-@property (nonatomic, copy) NSString *paddingStart;
-@property (nonatomic, copy) NSString *paddingEnd;
-@property (nonatomic, copy) NSString *paddingHorizontal;
-@property (nonatomic, copy) NSString *paddingVertical;
-@property (nonatomic, copy) NSString *padding;
-
-@property (nonatomic, copy) NSString *width;                //宽/高/最大最小限制
-@property (nonatomic, copy) NSString *height;
-@property (nonatomic, copy) NSString *minWidth;
-@property (nonatomic, copy) NSString *minHeight;
-@property (nonatomic, copy) NSString *maxWidth;
-@property (nonatomic, copy) NSString *maxHeight;
-
-//相对约束属性 V3.0
-@property (nonatomic ,copy) NSString *leftToLeft;//id
-@property (nonatomic ,copy) NSString *leftToRight;//id
-@property (nonatomic ,copy) NSString *rightToRight;//id
-@property (nonatomic ,copy) NSString *rightToLeft;//id
-@property (nonatomic ,copy) NSString *topToTop;//id
-@property (nonatomic ,copy) NSString *topToBottom;//id
-@property (nonatomic ,copy) NSString *bottomToTop;//id
-@property (nonatomic ,copy) NSString *bottomToBottom;//id
-
-//弹性约束属性 V4.0（flex box）
-@property (nonatomic, copy) NSString *isEnabled;
-@property (nonatomic, copy) NSString *flexDirection;        //主轴方向
-@property (nonatomic, copy) NSString *justifyContent;       //主轴对齐方式
-@property (nonatomic, copy) NSString *alignContent;         //侧轴整体对齐方式
-@property (nonatomic, copy) NSString *alignItems;           //侧轴单行对齐方式
-@property (nonatomic, copy) NSString *alignSelf;            //单个item侧轴对齐方式
-@property (nonatomic, copy) NSString *position;             //布局解析类型（绝对/相对）
-@property (nonatomic, copy) NSString *flexWrap;             //轴线上排列不下时，换行方式
-@property (nonatomic, copy) NSString *overflow;             //内容溢出展示方式（裁剪/溢出/滚动）
-@property (nonatomic, copy) NSString *display;              //item是否参与布局计算
-@property (nonatomic, copy) NSString *flexGrow;             //延展系数
-@property (nonatomic, copy) NSString *flexShrink;           //收缩系数
-@property (nonatomic, copy) NSString *flexBasis;            //弹性伸缩初始值
-@property (nonatomic, copy) NSString *left;                 //相对偏移/绝对位置
-@property (nonatomic, copy) NSString *top;
-@property (nonatomic, copy) NSString *right;
-@property (nonatomic, copy) NSString *bottom;
-@property (nonatomic, copy) NSString *start;
-@property (nonatomic, copy) NSString *end;
-
-//其他属性
 @property (nonatomic ,copy) NSString *backgroundUrl;//url
 @property (nonatomic ,copy) NSString *backgroundColor;//#000000
 @property (nonatomic ,copy) NSString *visibleOn;//默认visible，只能接bool，如指定则只能等到true再展示
@@ -102,8 +46,17 @@ typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
 @property (nonatomic ,strong) NSDictionary *onInvisible;
 //子节点
 @property (nonatomic,strong) NSArray *children;
+
+//布局节点
+@property (nonatomic,strong) DBReferenceModel *referenceLayout;
+@property (nonatomic,strong) DBYogaModel *yogaLayout;
+
 + (DBViewModel *)modelWithDict:(NSDictionary *)dict;
 @end
+
+#pragma mark - treeModel
+@class DBYogaRenderModel;
+
 
 @interface DBTreeModel : DBViewModel
 
@@ -113,6 +66,8 @@ typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
 @property (nonatomic,strong) NSDictionary *actionAlias;
 @property (nonatomic,strong) NSDictionary *onEvent;
 @property (nonatomic,copy) NSString *isSubTree;
+@property (nonatomic, copy) NSString *width;
+@property (nonatomic, copy) NSString *height;
 
 @end
 
@@ -133,6 +88,8 @@ typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
 @end
 
 
+
+#pragma mark - item view Model
 @interface DBTextModel : DBViewModel
 
 @property (nonatomic,copy) NSString *src;
@@ -157,7 +114,6 @@ typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
 @property (nonatomic,copy) NSString *barBgColor;
 @property (nonatomic,copy) NSString *barFgColor;
 @property (nonatomic,copy) NSString *patchType;
-@property (nonatomic,copy) NSString *radius;
 @end
 
 
@@ -196,7 +152,6 @@ typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
 @property (nonatomic,copy) NSString *src;
 @property (nonatomic,copy) NSString *hSpace;
 @property (nonatomic,copy) NSString *vSpace;
-@property (nonatomic,copy) NSArray *children;
 
 @end
 

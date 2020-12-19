@@ -13,78 +13,21 @@
 #import "DBFactory.h"
 #import "NSDictionary+DBExtends.h"
 #import "DBYogaModel.h"
+#import "DBReferenceModel.h"
 
 @implementation DBViewModel
 
+#pragma mark - viewModel
 + (DBViewModel *)modelWithDict:(NSDictionary *)dict
 {
     NSString *type = [dict objectForKey:@"type"];
     Class cls = [[DBFactory sharedInstance] getModelClassByType:type];
-    
-//    DBViewModel *model = [cls mj_objectWithKeyValues:dict];
-    
     //常规属性
     DBViewModel *model2 = [[cls alloc] init];
     model2.type = [dict db_objectForKey:@"type"];
     model2.modelID = [dict db_objectForKey:@"id"];
-    
-    model2.marginTop = [dict db_objectForKey:@"marginTop"];
-    model2.marginBottom = [dict db_objectForKey:@"marginBottom"];
-    model2.marginLeft = [dict db_objectForKey:@"marginLeft"];
-    model2.marginRight = [dict db_objectForKey:@"marginRight"];
-    model2.marginStart = [dict db_objectForKey:@"marginStart"];
-    model2.marginEnd = [dict db_objectForKey:@"marginEnd"];
-    model2.marginHorizontal = [dict db_objectForKey:@"marginHorizontal"];
-    model2.marginVertical = [dict db_objectForKey:@"marginVertical"];
-    model2.margin = [dict db_objectForKey:@"margin"];
-    
-    model2.paddingTop = [dict db_objectForKey:@"paddingTop"];
-    model2.paddingLeft = [dict db_objectForKey:@"paddingLeft"];
-    model2.paddingRight = [dict db_objectForKey:@"paddingRight"];
-    model2.paddingBottom = [dict db_objectForKey:@"paddingBottom"];
-    model2.paddingStart = [dict db_objectForKey:@"paddingStart"];
-    model2.paddingEnd = [dict db_objectForKey:@"paddingEnd"];
-    model2.paddingHorizontal = [dict db_objectForKey:@"paddingHorizontal"];
-    model2.paddingVertical = [dict db_objectForKey:@"paddingVertical"];
-    model2.padding = [dict db_objectForKey:@"padding"];
-    
     model2.backgroundColor = [dict db_objectForKey:@"backgroundColor"];
-    model2.width = [dict db_objectForKey:@"width"];
-    model2.height = [dict db_objectForKey:@"height"];
     model2.visibleOn = [dict db_objectForKey:@"visibleOn"];
-    //相对约束属性
-    model2.leftToLeft = [dict db_objectForKey:@"leftToLeft"];
-    model2.leftToRight = [dict db_objectForKey:@"leftToRight"];
-    model2.rightToRight = [dict db_objectForKey:@"rightToRight"];
-    model2.rightToLeft = [dict db_objectForKey:@"rightToLeft"];
-    model2.topToTop = [dict db_objectForKey:@"topToTop"];
-    model2.topToBottom = [dict db_objectForKey:@"topToBottom"];
-    model2.bottomToTop = [dict db_objectForKey:@"bottomToTop"];
-    model2.bottomToBottom = [dict db_objectForKey:@"bottomToBottom"];
-    
-    //弹性约束属性
-    model2.isEnabled = [dict db_objectForKey:@"isEnabled"];
-    model2.flexDirection = [dict db_objectForKey:@"flex-direction"];
-    model2.justifyContent = [dict db_objectForKey:@"justify-content"];
-    model2.alignContent = [dict db_objectForKey:@"align-content"];
-    model2.alignItems = [dict db_objectForKey:@"align-items"];
-    model2.alignSelf = [dict db_objectForKey:@"align-self"];
-    model2.position = [dict db_objectForKey:@"position"];
-    model2.flexWrap = [dict db_objectForKey:@"flex-wrap"];
-    model2.overflow = [dict db_objectForKey:@"overflow"];
-    model2.display = [dict db_objectForKey:@"display"];
-    model2.flexGrow = [dict db_objectForKey:@"flexGrow"];
-    model2.flexShrink = [dict db_objectForKey:@"flexShrink"];
-    model2.flexBasis = [dict db_objectForKey:@"flexBasis"];
-    
-    model2.left = [dict db_objectForKey:@"left"];
-    model2.top = [dict db_objectForKey:@"top"];
-    model2.right = [dict db_objectForKey:@"right"];
-    model2.bottom = [dict db_objectForKey:@"bottom"];
-    model2.start = [dict db_objectForKey:@"start"];
-    model2.end = [dict db_objectForKey:@"end"];
-
-    //DSLv2.0
     model2.shape = [dict db_objectForKey:@"shape"];
     model2.radius = [dict db_objectForKey:@"radius"];
     model2.borderWidth = [dict db_objectForKey:@"borderWidth"];
@@ -101,6 +44,15 @@
     model2.radiusRB = [dict db_objectForKey:@"radiusRB"];
     model2.radiusLB = [dict db_objectForKey:@"radiusLB"];
     
+    NSInteger dbVersion = 4;
+    if(dbVersion >= 4){
+        DBYogaModel *yogaLayout = [DBYogaModel modelWithDict:dict];
+        model2.yogaLayout = yogaLayout;
+    } else {
+        DBReferenceModel *referenceLayout = [DBReferenceModel modelWithDict:dict];
+        model2.referenceLayout = referenceLayout;
+    }
+    
     return model2;
 }
 
@@ -110,6 +62,8 @@
 
 @end
 
+
+#pragma mark - treeModel
 @implementation DBTreeModel
 
 + (id)modelWithDict:(NSDictionary *)dict type:(DBTreeModelLayoutType)type{
@@ -136,6 +90,7 @@
 }
 
 @end
+
 
 @implementation DBTreeModelReference
 
@@ -172,6 +127,7 @@
 @end
 
 
+#pragma mark - item view Model
 @implementation DBTextModel
 
 + (DBTextModel *)modelWithDict:(NSDictionary *)dict

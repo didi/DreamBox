@@ -14,6 +14,7 @@
 #import "Masonry.h"
 #import "DBPool.h"
 #import "DBViewExtension.h"
+#import "DBReferenceModel.h"
 
 @implementation DBText {
     DBTextModel *_textModel;
@@ -88,8 +89,9 @@
     CGFloat maxW = [DBDefines db_getUnit:_textModel.maxWidth];
     CGFloat maxH = [DBDefines db_getUnit:_textModel.maxHeight];
     //已知宽，适配高
-    if(!_textModel.height ||  [_textModel.height isEqualToString:@"wrap"]){
-        CGFloat width = [DBDefines db_getUnit:_textModel.width];
+    DBReferenceModel *referenceLayout = _textModel.referenceLayout;
+    if(!referenceLayout.height ||  [referenceLayout.height isEqualToString:@"wrap"]){
+        CGFloat width = [DBDefines db_getUnit:referenceLayout.width];
         if(width <= 0){
             if(_textModel.maxWidth){
                 width = maxW;
@@ -106,8 +108,8 @@
     }
     
     //已知高，适配宽
-    if(!_textModel.width || [_textModel.width isEqualToString:@"wrap"]){
-        CGFloat height = [DBDefines db_getUnit:_textModel.height];
+    if(!referenceLayout.width || [referenceLayout.width isEqualToString:@"wrap"]){
+        CGFloat height = [DBDefines db_getUnit:referenceLayout.height];
         if(height <= 0){
             if(_textModel.maxHeight){
                 height = maxH;

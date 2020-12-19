@@ -12,6 +12,8 @@
 #import "DBRecyclePool.h"
 #import "UIView+Yoga.h"
 
+@class DBTreeModel;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DBParser : NSObject

@@ -12,6 +12,7 @@
 #import "UIView+DBStrike.h"
 #import <objc/runtime.h>
 #import "DBDefines.h"
+#import "DBReferenceModel.h"
 
 @interface DBBaseView()
 
@@ -44,12 +45,14 @@
 
 - (void)onAttributesBind:(DBViewModel *)attributesModel {
     self.model = attributesModel;
+    DBReferenceModel *referenceLayout = attributesModel.referenceLayout;
+
     if(self.contentV != nil && [self.contentV isKindOfClass:[UILabel class]]){
         self.translatesAutoresizingMaskIntoConstraints = NO;
-        CGFloat leftPadding = [DBDefines db_getUnit:attributesModel.paddingLeft];
-        CGFloat rightPadding = [DBDefines db_getUnit:attributesModel.paddingRight];
-        CGFloat topPadding = [DBDefines db_getUnit:attributesModel.paddingTop];
-        CGFloat bottomPadding = [DBDefines db_getUnit:attributesModel.paddingBottom];
+        CGFloat leftPadding = [DBDefines db_getUnit:referenceLayout.paddingLeft];
+        CGFloat rightPadding = [DBDefines db_getUnit:referenceLayout.paddingRight];
+        CGFloat topPadding = [DBDefines db_getUnit:referenceLayout.paddingTop];
+        CGFloat bottomPadding = [DBDefines db_getUnit:referenceLayout.paddingBottom];
         
         [self.contentV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self).offset(leftPadding);

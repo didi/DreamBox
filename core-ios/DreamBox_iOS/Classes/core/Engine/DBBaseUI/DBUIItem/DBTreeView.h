@@ -10,6 +10,9 @@
 #import "DBViewModel.h"
 #import "DBView.h"
 
+@class DBTreeModel;
+
+
 NS_ASSUME_NONNULL_BEGIN
 typedef void(^DBTreeRenderBlock)(BOOL successed,NSError * _Nullable error);
 typedef void(^DBTreeEventBlock)(NSString *evendID, NSDictionary *paramDict, NSDictionary *callbackData);

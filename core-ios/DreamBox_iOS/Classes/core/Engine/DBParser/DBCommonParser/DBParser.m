@@ -28,8 +28,9 @@
 #import "NSArray+DBExtends.h"
 #import "DBFlexBoxLayout.h"
 
-#import "DBYogaModel.h"
 #import "DBViewModel.h"
+#import "DBReferenceModel.h"
+#import "DBYogaModel.h"
 
 @implementation DBParser
 
@@ -180,23 +181,24 @@
 //layout布局
 + (void)layoutAllViews:(DBViewModel *)model andView:(DBView *)view andRelativeViewPool:(DBRecyclePool *)pool
 {
+    DBReferenceModel *referenceLayout = model.referenceLayout;
     //处理children的布局
     //宽
-    if ([model.width floatValue] != 0) {
+    if ([referenceLayout.width floatValue] != 0) {
         [view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo([DBDefines db_getUnit:model.width]);
+            make.width.mas_equalTo([DBDefines db_getUnit:referenceLayout.width]);
         }];
     }
     
     //高
-    if ([model.height floatValue] != 0) {
+    if ([referenceLayout.height floatValue] != 0) {
         [view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo([DBDefines db_getUnit:model.height]);
+            make.height.mas_equalTo([DBDefines db_getUnit:referenceLayout.height]);
         }];
     }
     
     //宽填满
-    if ([model.width isEqualToString:@"fill"]) {
+    if ([referenceLayout.width isEqualToString:@"fill"]) {
         UIView *relationView = [pool getItemWithIdentifier:@"0"];
         [view mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(relationView.mas_width);
@@ -204,14 +206,14 @@
     }
     
     //高填满
-    if ([model.height isEqualToString:@"fill"]) {
+    if ([referenceLayout.height isEqualToString:@"fill"]) {
         UIView *relationView = [pool getItemWithIdentifier:@"0"];
         [view mas_makeConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(relationView.mas_height);
         }];
     }
     
-    if (!model.width || [model.width isEqualToString:@"wrap"]) {
+    if (!referenceLayout.width || [referenceLayout.width isEqualToString:@"wrap"]) {
         CGSize size = [view wrapSize];
         if([view isKindOfClass:[DBText class]]){
             if(size.height > 0 && size.width > 0){
@@ -228,7 +230,7 @@
         }
     }
     
-    if (!model.height || [model.height isEqualToString:@"wrap"]) {
+    if (!referenceLayout.height || [referenceLayout.height isEqualToString:@"wrap"]) {
         CGSize size = [view wrapSize];
         if([view isKindOfClass:[DBText class]]){
             if(size.height > 0 && size.width > 0){
@@ -245,40 +247,40 @@
         }
     }
     
-    if((model.leftToLeft || model.leftToRight)
-       && (model.rightToRight || model.rightToLeft)
-       &&  !model.marginLeft && !model.marginRight){
+    if((referenceLayout.leftToLeft || referenceLayout.leftToRight)
+       && (referenceLayout.rightToRight || referenceLayout.rightToLeft)
+       &&  !referenceLayout.marginLeft && !referenceLayout.marginRight){
 
         UIView *tmpV = [UIView new];
         [view.superview addSubview:tmpV];
         
         UIView *leftRelationView;
-        if(model.leftToRight){
-            leftRelationView = [pool getItemWithIdentifier:model.leftToRight];
+        if(referenceLayout.leftToRight){
+            leftRelationView = [pool getItemWithIdentifier:referenceLayout.leftToRight];
             [tmpV mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(leftRelationView.mas_right);
             }];
         } else {
-            leftRelationView = [pool getItemWithIdentifier:model.leftToLeft];
+            leftRelationView = [pool getItemWithIdentifier:referenceLayout.leftToLeft];
             [tmpV mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(leftRelationView.mas_left);
             }];
         }
         
         UIView *rightRelationView;
-        if(model.rightToLeft){
-            rightRelationView = [pool getItemWithIdentifier:model.rightToLeft];
+        if(referenceLayout.rightToLeft){
+            rightRelationView = [pool getItemWithIdentifier:referenceLayout.rightToLeft];
             [tmpV mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.right.mas_equalTo(rightRelationView.mas_left);
             }];
         } else {
-            rightRelationView = [pool getItemWithIdentifier:model.rightToRight];
+            rightRelationView = [pool getItemWithIdentifier:referenceLayout.rightToRight];
             [tmpV mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.right.mas_equalTo(rightRelationView.mas_right);
             }];
         }
         
-        if (model.width != nil && [DBDefines db_getUnit:model.width] == 0) {
+        if (referenceLayout.width != nil && [DBDefines db_getUnit:referenceLayout.width] == 0) {
             //写死0的case下，自适应
             [view mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(tmpV);
@@ -290,43 +292,43 @@
             }];
         }
     } else{
-        if (model.leftToLeft) {
-            UIView *relationView = [pool getItemWithIdentifier:model.leftToLeft];
+        if (referenceLayout.leftToLeft) {
+            UIView *relationView = [pool getItemWithIdentifier:referenceLayout.leftToLeft];
             CGFloat marginLeft = 0;
-            if (model.marginLeft) {
-                marginLeft = [DBDefines db_getUnit:model.marginLeft];
+            if (referenceLayout.marginLeft) {
+                marginLeft = [DBDefines db_getUnit:referenceLayout.marginLeft];
             }
             [view mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(relationView).offset(marginLeft);
             }];
         }
         
-        if (model.rightToRight) {
-            UIView *relationView = [pool getItemWithIdentifier:model.rightToRight];
+        if (referenceLayout.rightToRight) {
+            UIView *relationView = [pool getItemWithIdentifier:referenceLayout.rightToRight];
             CGFloat marginRight = 0;
-            if (model.marginRight) {
-                marginRight = -[DBDefines db_getUnit:model.marginRight];
+            if (referenceLayout.marginRight) {
+                marginRight = -[DBDefines db_getUnit:referenceLayout.marginRight];
             }
             [view mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.right.mas_equalTo(relationView).offset(marginRight);
             }];
         }
         
-        if (model.leftToRight) {
-            UIView *relationView = [pool getItemWithIdentifier:model.leftToRight];
+        if (referenceLayout.leftToRight) {
+            UIView *relationView = [pool getItemWithIdentifier:referenceLayout.leftToRight];
             CGFloat marginLeft = 0;
-            if (model.marginLeft) {
-                marginLeft = [DBDefines db_getUnit:model.marginLeft];
+            if (referenceLayout.marginLeft) {
+                marginLeft = [DBDefines db_getUnit:referenceLayout.marginLeft];
             }
             [view mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(relationView.mas_right).offset(marginLeft);
             }];
         }
-        if (model.rightToLeft) {
-            UIView *relationView = [pool getItemWithIdentifier:model.rightToLeft];
+        if (referenceLayout.rightToLeft) {
+            UIView *relationView = [pool getItemWithIdentifier:referenceLayout.rightToLeft];
             CGFloat marginRight = 0;
-            if (model.marginRight) {
-                marginRight = -[DBDefines db_getUnit:model.marginRight];
+            if (referenceLayout.marginRight) {
+                marginRight = -[DBDefines db_getUnit:referenceLayout.marginRight];
             }
             [view mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.right.mas_equalTo(relationView.mas_left).offset(marginRight);
@@ -335,40 +337,40 @@
     }
     
     //左右都有约束但间距都为0，则为居中或自适应的case
-    if((model.topToTop || model.topToBottom)
-       && (model.bottomToBottom || model.bottomToTop)
-       &&  !model.marginTop && !model.marginBottom){
+    if((referenceLayout.topToTop || referenceLayout.topToBottom)
+       && (referenceLayout.bottomToBottom || referenceLayout.bottomToTop)
+       &&  !referenceLayout.marginTop && !referenceLayout.marginBottom){
 
         UIView *tmpV = [UIView new];
         [view.superview addSubview:tmpV];
         
         UIView *topRelationView;
-        if(model.topToTop){
-            topRelationView = [pool getItemWithIdentifier:model.topToTop];
+        if(referenceLayout.topToTop){
+            topRelationView = [pool getItemWithIdentifier:referenceLayout.topToTop];
             [tmpV mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.mas_equalTo(topRelationView.mas_top);
             }];
         } else {
-            topRelationView = [pool getItemWithIdentifier:model.topToBottom];
+            topRelationView = [pool getItemWithIdentifier:referenceLayout.topToBottom];
             [tmpV mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.mas_equalTo(topRelationView.mas_bottom);
             }];
         }
         
         UIView *bottomRelationView;
-        if(model.bottomToTop){
-            bottomRelationView = [pool getItemWithIdentifier:model.bottomToTop];
+        if(referenceLayout.bottomToTop){
+            bottomRelationView = [pool getItemWithIdentifier:referenceLayout.bottomToTop];
             [tmpV mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.bottom.mas_equalTo(bottomRelationView.mas_top);
             }];
         } else {
-            bottomRelationView = [pool getItemWithIdentifier:model.bottomToBottom];
+            bottomRelationView = [pool getItemWithIdentifier:referenceLayout.bottomToBottom];
             [tmpV mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.bottom.mas_equalTo(bottomRelationView.mas_bottom);
             }];
         }
         
-        if (model.height != nil && [DBDefines db_getUnit:model.height] == 0) {
+        if (referenceLayout.height != nil && [DBDefines db_getUnit:referenceLayout.height] == 0) {
             //写死0的case下，自适应
             [view mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.mas_equalTo(tmpV);
@@ -386,42 +388,42 @@
             }
         }
     } else{
-        if (model.bottomToBottom) {
-            UIView *relationView = [pool getItemWithIdentifier:model.bottomToBottom];
+        if (referenceLayout.bottomToBottom) {
+            UIView *relationView = [pool getItemWithIdentifier:referenceLayout.bottomToBottom];
             CGFloat marginBottom = 0;
-            if(model.marginBottom){
-                marginBottom = -[DBDefines db_getUnit:model.marginBottom];
+            if(referenceLayout.marginBottom){
+                marginBottom = -[DBDefines db_getUnit:referenceLayout.marginBottom];
             }
             [view mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.bottom.mas_equalTo(relationView).offset(marginBottom);
             }];
         }
-        if (model.topToTop) {
-            UIView *relationView = [pool getItemWithIdentifier:model.topToTop];
+        if (referenceLayout.topToTop) {
+            UIView *relationView = [pool getItemWithIdentifier:referenceLayout.topToTop];
             CGFloat marginTop = 0;
-            if (model.marginTop) {
-                marginTop = [DBDefines db_getUnit:model.marginTop];
+            if (referenceLayout.marginTop) {
+                marginTop = [DBDefines db_getUnit:referenceLayout.marginTop];
             }
             [view mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.mas_equalTo(relationView).offset(marginTop);
             }];
         }
         
-        if (model.bottomToTop) {
-            UIView *relationView = [pool getItemWithIdentifier:model.bottomToTop];
+        if (referenceLayout.bottomToTop) {
+            UIView *relationView = [pool getItemWithIdentifier:referenceLayout.bottomToTop];
             CGFloat marginBottom = 0;
-            if (model.marginBottom) {
-                marginBottom = -[DBDefines db_getUnit:model.marginBottom];
+            if (referenceLayout.marginBottom) {
+                marginBottom = -[DBDefines db_getUnit:referenceLayout.marginBottom];
             }
             [view mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.bottom.mas_equalTo(relationView.mas_top).offset(marginBottom);
             }];
         }
-        if (model.topToBottom) {
-            UIView *relationView = [pool getItemWithIdentifier:model.topToBottom];
+        if (referenceLayout.topToBottom) {
+            UIView *relationView = [pool getItemWithIdentifier:referenceLayout.topToBottom];
             CGFloat marginTop = 0;
-            if (model.marginTop) {
-                marginTop = [DBDefines db_getUnit:model.marginTop];
+            if (referenceLayout.marginTop) {
+                marginTop = [DBDefines db_getUnit:referenceLayout.marginTop];
             }
             [view mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.mas_equalTo(relationView.mas_bottom).offset(marginTop);

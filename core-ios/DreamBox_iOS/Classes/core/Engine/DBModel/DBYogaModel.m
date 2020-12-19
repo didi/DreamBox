@@ -10,11 +10,9 @@
 
 @implementation DBYogaModel
 
-+ (id)modelWithDict:(NSDictionary *)dict Class:(Class)cls{
-    DBYogaModel *model;
-    if([cls isSubclassOfClass:[DBYogaModel class]]){
-        model = [cls new];
-    }
++ (DBYogaModel *)modelWithDict:(NSDictionary *)dict {
+    DBYogaModel *model = [DBYogaModel new];
+
     model.marginTop = [dict db_objectForKey:@"marginTop"];
     model.marginBottom = [dict db_objectForKey:@"marginBottom"];
     model.marginLeft = [dict db_objectForKey:@"marginLeft"];
@@ -71,8 +69,9 @@
 @implementation DBYogaRenderModel
 
 + (DBYogaRenderModel *)modelWithDict:(NSDictionary *)dict{
-    DBYogaRenderModel *model = [super modelWithDict:dict Class:[DBYogaRenderModel class]];
+    DBYogaRenderModel *model = [DBYogaRenderModel new];
     
+    model.yogaModel = [DBYogaModel modelWithDict:dict];
     model.backgroundColor = [dict db_objectForKey:@"backgroundColor"];
     model.layout = [dict db_objectForKey:@"layout"];
     model.type = [dict db_objectForKey:@"type"];

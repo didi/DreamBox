@@ -57,7 +57,7 @@
               "backgroundColor": "#0000ff"
             },
             {
-                "backgroundColor": "#230067",
+                "backgroundColor": "#234567",
                 "flex-direction": "row",
                 "flex-wrap": "nowrap",
                 "justify-content": "space-between",

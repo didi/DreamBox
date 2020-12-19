@@ -56,6 +56,7 @@
 
 + (DBYogaModel *)modelWithDict:(NSDictionary *)dict;
 
+
 @end
 
 
@@ -65,6 +66,7 @@
 @property (nonatomic, copy) NSString *layout;
 @property (nonatomic, copy) NSString *type;
 @property (nonatomic, strong) NSArray *children;
+@property (nonatomic, strong) DBYogaModel *yogaModel;
 
 + (DBYogaRenderModel *)modelWithDict:(NSDictionary *)dict;
 
