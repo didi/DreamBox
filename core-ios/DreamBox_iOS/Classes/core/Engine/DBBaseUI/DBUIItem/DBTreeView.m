@@ -232,6 +232,9 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
             DBTreeModelYoga *yogaModel = (DBTreeModelYoga *)treeModel;
             self.bgView = [DBContainerViewYoga containerViewWithModel:yogaModel pathid:self.pathTid];
             [self addSubview:self.bgView];
+            [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.top.bottom.equalTo(self);
+            }];
         }
     } else {
         DBTreeModelReference *referenceModel = (DBTreeModelReference *)treeModel;
@@ -240,7 +243,6 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
         [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.top.width.height.equalTo(self);
         }];
-        [self makeContent];
     }
     
 }
@@ -403,27 +405,6 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     NSLog(@"keyPath=%@,object=%@,change=%@,context=%@",keyPath,object,change,context);
     //有数据变化,刷新
     //    [self reloadTreeView];
-}
-
-#pragma mark - 视图刷新、布局，算高相关的
-- (void)makeContent{
-//    if(self.treeModel.scroll.length > 0){
-//        [self setNeedsLayout];
-//        [self layoutIfNeeded];
-//        self.bgView.scrollEnabled = YES;
-//        if([self.treeModel.scroll isEqualToString:@"horizontal"]){
-//            CGSize size = CGSizeMake([self maxXOfTreeView], [UIScreen mainScreen].bounds.size.height);
-//            [self.bgView setContentSize:size];
-//            self.backGroudView.frame = CGRectMake(self.backGroudView.frame.origin.x, self.backGroudView.frame.origin.y, size.width, size.height);
-//        }
-//        if([self.treeModel.scroll isEqualToString:@"vertical"]){
-//            CGSize size = CGSizeMake([UIScreen mainScreen].bounds.size.width, [self maxYOfTreeView]);
-//            [self.bgView setContentSize:size];
-//            self.backGroudView.frame = CGRectMake(self.backGroudView.frame.origin.x, self.backGroudView.frame.origin.y, size.width, size.height);
-//        }
-//    } else {
-//        self.bgView.scrollEnabled = NO;
-//    }
 }
 
 #pragma mark - bridge
@@ -616,26 +597,6 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     [treeView setNeedsLayout];
     [treeView layoutIfNeeded];
     return treeView;
-}
-
-- (CGFloat)maxXOfTreeView{
-    CGFloat maxX = 0;
-    for(UIView *view in self.allRenderViewArray){
-        if(CGRectGetMaxX(view.frame) > maxX){
-            maxX = CGRectGetMaxX(view.frame);
-        }
-    }
-    return maxX;
-}
-
-- (CGFloat)maxYOfTreeView{
-    CGFloat maxY = 0;
-    for(UIView *view in self.allRenderViewArray){
-        if(CGRectGetMaxY(view.frame) > maxY){
-            maxY = CGRectGetMaxY(view.frame);
-        }
-    }
-    return maxY;
 }
 
 

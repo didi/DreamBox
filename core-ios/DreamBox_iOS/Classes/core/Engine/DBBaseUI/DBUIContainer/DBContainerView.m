@@ -73,14 +73,6 @@
     if (!_backGroudView) {
         _backGroudView = [[DBView alloc] init];
         [self addSubview:_backGroudView];
-        int dbVersion = 4;
-        if(dbVersion >= 4){
-            
-        } else {
-            [_backGroudView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.top.height.width.mas_equalTo(self);
-            }];
-        }
     }
     return _backGroudView;
 }

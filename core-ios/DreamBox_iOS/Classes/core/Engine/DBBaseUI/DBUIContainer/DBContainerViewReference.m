@@ -15,15 +15,22 @@
 + (DBContainerView *)containerViewWithModel:(DBTreeModel *)model pathid:(NSString *)pathId{
     DBContainerViewReference *container = [DBContainerViewReference new];
     container.pathTid = pathId;
+    container.treeModel = model;
     DBTreeModelReference *referenceModel = (DBTreeModelReference *)model;
     [container referenceLayoutWithRenderModel:model];
+    [container makeContent];
     return container;
 }
 
 - (void)referenceLayoutWithRenderModel:(DBTreeModelReference *)treeModel
 {
+    [self.backGroudView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.height.width.mas_equalTo(self);
+    }];
+    
     //    array
     NSArray *packedRenderArray = [self restructRenderArrayWithOriginArray:treeModel.render];
+    
     for (int i = 0; i < packedRenderArray.count ; i ++) {
         NSDictionary *dict = packedRenderArray[i];
         NSString *type = [dict objectForKey:@"type"];
@@ -69,9 +76,46 @@
         }
         DBViewModel *model = self.allRenderModelArray[i];
         [DBParser layoutAllViews:model andView:(DBView*)view andRelativeViewPool:self.recyclePool];
-        
+    }
+}
+- (void)makeContent{
+    if(self.treeModel.scroll.length > 0){
+        [self setNeedsLayout];
+        [self layoutIfNeeded];
+        self.scrollEnabled = YES;
+        if([self.treeModel.scroll isEqualToString:@"horizontal"]){
+            CGSize size = CGSizeMake([self maxXOfTreeView], [UIScreen mainScreen].bounds.size.height);
+            [self setContentSize:size];
+            self.backGroudView.frame = CGRectMake(self.backGroudView.frame.origin.x, self.backGroudView.frame.origin.y, size.width, size.height);
+        }
+        if([self.treeModel.scroll isEqualToString:@"vertical"]){
+            CGSize size = CGSizeMake([UIScreen mainScreen].bounds.size.width, [self maxYOfTreeView]);
+            [self setContentSize:size];
+            self.backGroudView.frame = CGRectMake(self.backGroudView.frame.origin.x, self.backGroudView.frame.origin.y, size.width, size.height);
+        }
+    } else {
+        self.scrollEnabled = NO;
     }
 }
 
+- (CGFloat)maxXOfTreeView{
+    CGFloat maxX = 0;
+    for(UIView *view in self.allRenderViewArray){
+        if(CGRectGetMaxX(view.frame) > maxX){
+            maxX = CGRectGetMaxX(view.frame);
+        }
+    }
+    return maxX;
+}
+
+- (CGFloat)maxYOfTreeView{
+    CGFloat maxY = 0;
+    for(UIView *view in self.allRenderViewArray){
+        if(CGRectGetMaxY(view.frame) > maxY){
+            maxY = CGRectGetMaxY(view.frame);
+        }
+    }
+    return maxY;
+}
 
 @end

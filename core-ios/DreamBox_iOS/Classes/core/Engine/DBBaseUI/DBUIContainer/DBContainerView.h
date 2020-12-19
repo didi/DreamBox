@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DBContainerView : UIScrollView
 
+@property (nonatomic, strong) DBTreeModel *treeModel;
 @property (nonatomic, copy) NSString *pathTid;
 
 @property (nonatomic, strong) DBView *backGroudView;

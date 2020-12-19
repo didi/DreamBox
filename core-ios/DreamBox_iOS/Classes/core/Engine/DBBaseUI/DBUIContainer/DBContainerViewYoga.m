@@ -17,9 +17,10 @@
 + (DBContainerView *)containerViewWithModel:(DBTreeModel *)model pathid:(NSString *)pathId{
     DBContainerViewYoga *container = [DBContainerViewYoga new];
     container.pathTid = pathId;
+    container.treeModel = model;
     DBTreeModelYoga *yogaModel = (DBTreeModelYoga *)model;
     [container flexBoxLayoutWithContainer:container.backGroudView renderModel:yogaModel.render];
-    container.frame = container.backGroudView.bounds;
+    [container makeContent];
     return container;
 }
 
@@ -50,6 +51,19 @@
     [container.yoga applyLayoutPreservingOrigin:YES dimensionFlexibility:YGDimensionFlexibilityFlexibleWidth | YGDimensionFlexibilityFlexibleHeight];
 }
 
+- (void)makeContent{
+    if(self.treeModel.scroll.length > 0){
+        self.scrollEnabled = YES;
+        if([self.treeModel.scroll isEqualToString:@"horizontal"]){
+            [self setContentSize:self.backGroudView.frame.size];
+        }
+        if([self.treeModel.scroll isEqualToString:@"vertical"]){
+            [self setContentSize:self.backGroudView.frame.size];
+        }
+    } else {
+        self.scrollEnabled = NO;
+    }
+}
 
 
 
