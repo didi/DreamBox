@@ -117,7 +117,7 @@
 + (DBTreeModelYoga *)modelWithDict:(NSDictionary *)dict{
     DBTreeModelYoga *model = [super modelWithDict:dict type:DBTreeModelLayoutTypeYoga];
     
-    NSDictionary *renderDict = [dict db_objectForKey:@"render"];
+    NSDictionary *renderDict = [dict db_objectForKey:@"layout"];
     DBYogaRenderModel *render = [DBYogaRenderModel modelWithDict:renderDict]; //yoga布局中render为yoga模型
     model.render = render;
     

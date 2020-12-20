@@ -6,21 +6,19 @@
     "meta": {
       "imgPng": "https://static.didialift.com/pinche/gift/resource/ot717bc26io-1596238956167-didi_logo.png"
     },
-    "render": {
+    "layout": {
+      "type": "yoga",
       "backgroundColor": "#678678",
       "flex-direction": "column",
       "flex-wrap": "nowrap",
       "justify-content": "space-between",
       "width": "fill",
-      "layout": "yoga",
-      "type": "group",
       "children": [
         {
           "id": "1",
           "src": "${imgPng}",
-          "width": "30dp",
-          "height": "30dp",
-          "type": "image",
+          "width": "130dp",
+          "type": "text",
           "backgroundColor": "#ff0000"
         },
         {
@@ -37,8 +35,7 @@
           "flex-wrap": "nowrap",
           "justify-content": "space-between",
           "width": "200dp",
-          "layout": "yoga",
-          "type": "group",
+          "type": "yoga",
           "children": [
             {
               "id": "3",
@@ -62,8 +59,7 @@
                 "flex-wrap": "nowrap",
                 "justify-content": "space-between",
                 "width": "200dp",
-                "layout": "yoga",
-                "type": "group",
+                "type": "yoga",
                 "children": [
                   {
                     "id": "5",
@@ -77,8 +73,7 @@
                     "id": "6",
                     "src": "${imgPng}",
                     "width": "80dp",
-                    "height": "80dp",
-                    "type": "image",
+                    "type": "text",
                     "backgroundColor": "#0000ff"
                   }
                 ]

@@ -45,14 +45,14 @@
 }
 
 - (void)wrapperTest {
-    NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"catalog_flow" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
+    NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"mock_template" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
     
     self.dbView = [[DBTreeView alloc] initWithJsonSting:mockDataString extMeta:[self pareseExt] accessKey:@"DEMO" tid:@"1"];
     [self.view addSubview:self.dbView];
     [self.dbView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.equalTo(self.view);
-        make.width.height.mas_equalTo(250);
+        make.left.top.width.height.equalTo(self.view);
     }];
+//    [self.dbView setFrame:CGRectMake(0, 0, 300, 400)];
 }
 
 @end 

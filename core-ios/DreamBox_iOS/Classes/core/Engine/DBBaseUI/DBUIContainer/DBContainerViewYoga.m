@@ -24,6 +24,15 @@
     return container;
 }
 
++ (DBContainerView *)containerViewWithYogaModel:(DBYogaRenderModel *)yogaModel pathid:(NSString *)pathId{
+    DBContainerViewYoga *container = [DBContainerViewYoga new];
+    container.pathTid = pathId;
+    [container flexBoxLayoutWithContainer:container.backGroudView renderModel:yogaModel];
+    [container makeContent];
+    container.frame = container.backGroudView.bounds;
+    return container;
+}
+
 - (void)flexBoxLayoutWithContainer:(UIView *)container renderModel:(DBYogaRenderModel *)renderModel
 {
     [DBParser flexLayoutView:container withModel:renderModel.yogaModel];
@@ -33,7 +42,7 @@
     for (int i = 0; i < renderArray.count ; i ++) {
         NSDictionary *dict = renderArray[i];
         NSString *type = [dict objectForKey:@"type"];
-        if([type isEqual:@"group"]){
+        if([type isEqual:@"yoga"]){
             //嵌套
             DBYogaRenderModel *subRenderModel = [DBYogaRenderModel modelWithDict:dict];
             UIView *subContainer = [UIView new];
