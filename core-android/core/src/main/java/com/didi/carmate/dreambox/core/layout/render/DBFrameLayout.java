@@ -17,11 +17,6 @@ public class DBFrameLayout extends DBContainer<ViewGroup> {
 
     @Override
     public DBFrameLayoutView onCreateView() {
-        DBFrameLayoutView layoutView = new DBFrameLayoutView(mDBContext);
-        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        layoutView.setLayoutParams(lp);
-        return layoutView;
+        return new DBFrameLayoutView(mDBContext);
     }
 }

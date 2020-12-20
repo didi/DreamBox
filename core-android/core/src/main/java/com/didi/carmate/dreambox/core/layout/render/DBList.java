@@ -26,6 +26,9 @@ import com.google.gson.JsonObject;
 import java.util.List;
 import java.util.Map;
 
+import static com.didi.carmate.dreambox.core.base.DBConstants.PAYLOAD_LIST_FOOTER;
+import static com.didi.carmate.dreambox.core.base.DBConstants.PAYLOAD_LIST_VH;
+
 /**
  * author: chenjing
  * date: 2020/5/11
@@ -137,16 +140,16 @@ public class DBList extends DBBaseView<DBListView> {
         DBContainer<ViewGroup> listVh = null;
         DBContainer<ViewGroup> listFooter = null;
         for (DBContainer<ViewGroup> container : children) {
-            switch (container.getAttrs().get("type")){
-                case "header":
+            switch (container.getAttrs().get(DBConstants.UI_PAYLOAD)) {
+                case DBConstants.PAYLOAD_LIST_HEADER:
                     listHeader = container;
                     listHeader.setParentAttrs(attrs);
                     break;
-                case "vh":
+                case PAYLOAD_LIST_VH:
                     listVh = container;
                     listVh.setParentAttrs(attrs);
                     break;
-                case "footer":
+                case PAYLOAD_LIST_FOOTER:
                     listFooter = container;
                     listFooter.setParentAttrs(attrs);
                     break;
@@ -161,7 +164,7 @@ public class DBList extends DBBaseView<DBListView> {
         // adapter
         IAdapterCallback mAdapterCallback = new ListAdapterCallback(listHeader, listVh, listFooter);
         mInnerAdapter = new DBListInnerAdapter(src, mAdapterCallback, orientation, listVh);
-        DBListAdapter mAdapter = new DBListAdapter(mInnerAdapter, mAdapterCallback, orientation,
+        DBListAdapter mAdapter = new DBListAdapter(mDBContext, mInnerAdapter, mAdapterCallback, orientation,
                 listHeader != null, listFooter != null);
         nativeView.setAdapter(mAdapter);
 
@@ -222,7 +225,7 @@ public class DBList extends DBBaseView<DBListView> {
             if (null != mDBListHeader) {
                 // 子节点属性处理
                 mDBListHeader.parserAttribute();
-                mDBListHeader.bindView(rootView);
+                mDBListHeader.bindView(rootView, true);
             }
         }
 
@@ -232,7 +235,7 @@ public class DBList extends DBBaseView<DBListView> {
             if (null != mDBListFooter) {
                 // 子节点属性处理
                 mDBListFooter.parserAttribute();
-                mDBListFooter.bindView(rootView);
+                mDBListFooter.bindView(rootView, true);
             }
         }
 
@@ -243,7 +246,7 @@ public class DBList extends DBBaseView<DBListView> {
                 mDBListVh.setData(data);
                 mDBListVh.parserAttribute();
                 // 子节点渲染处理
-                mDBListVh.bindView(itemRoot);
+                mDBListVh.bindView(itemRoot, true);
             }
         }
     }

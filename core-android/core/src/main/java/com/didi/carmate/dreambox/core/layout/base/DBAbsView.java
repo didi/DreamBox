@@ -12,10 +12,17 @@ import com.didi.carmate.dreambox.core.layout.render.view.DBLinearLayoutView;
 import com.didi.carmate.dreambox.core.layout.render.view.DBYogaLayoutView;
 import com.didi.carmate.dreambox.core.utils.DBScreenUtils;
 import com.didi.carmate.dreambox.core.utils.DBUtils;
+import com.facebook.yoga.YogaAlign;
 import com.facebook.yoga.YogaEdge;
 import com.facebook.yoga.YogaNode;
 
 import java.util.Map;
+
+import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_SELF_BASELINE;
+import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_SELF_CENTER;
+import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_SELF_END;
+import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_SELF_START;
+import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_SELF_STRETCH;
 
 /**
  * author: chenjing
@@ -41,6 +48,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     protected float flexGrow;
     protected float flexShrink;
     protected float flexBasis;
+    protected String alignSelf;
 
     protected DBAbsView(DBContext dbContext) {
         super(dbContext);
@@ -100,6 +108,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         if (DBUtils.isNumeric(fb)) {
             flexBasis = Float.parseFloat(fb);
         }
+        alignSelf = attrs.get("align-self");
     }
 
     @CallSuper
@@ -168,6 +177,25 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         }
         if (flexBasis != 0) {
             node.setFlexBasis(flexBasis);
+        }
+        if (null != alignSelf) {
+            switch (alignSelf) {
+                case ALIGN_SELF_START:
+                    node.setAlignSelf(YogaAlign.FLEX_START);
+                    break;
+                case ALIGN_SELF_END:
+                    node.setAlignSelf(YogaAlign.FLEX_END);
+                    break;
+                case ALIGN_SELF_CENTER:
+                    node.setAlignSelf(YogaAlign.CENTER);
+                    break;
+                case ALIGN_SELF_STRETCH:
+                    node.setAlignSelf(YogaAlign.STRETCH);
+                    break;
+                case ALIGN_SELF_BASELINE:
+                    node.setAlignSelf(YogaAlign.BASELINE);
+                    break;
+            }
         }
     }
 }

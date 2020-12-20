@@ -1,6 +1,6 @@
 package com.didi.carmate.dreambox.core.layout.render.view.list;
 
-import com.didi.carmate.dreambox.core.layout.render.view.DBYogaLayoutView;
+import android.view.ViewGroup;
 
 /**
  * 加载更多FooterView需要实现的接口
@@ -29,7 +29,7 @@ public interface ILoadMoreFooter {
     /**
      * 加载更多的View
      */
-    DBYogaLayoutView getFootView();
+    ViewGroup getFootView();
 
     void setNetworkErrorViewClickListener(OnNetWorkErrorListener listener);
 

@@ -17,11 +17,6 @@ public class DBLinearLayout extends DBContainer<ViewGroup> {
 
     @Override
     public DBLinearLayoutView onCreateView() {
-        DBLinearLayoutView layoutView = new DBLinearLayoutView(mDBContext);
-        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        layoutView.setLayoutParams(lp);
-        return layoutView;
+        return new DBLinearLayoutView(mDBContext);
     }
 }

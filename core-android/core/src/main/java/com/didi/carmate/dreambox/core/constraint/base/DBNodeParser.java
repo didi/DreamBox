@@ -11,7 +11,6 @@ import com.didi.carmate.dreambox.core.base.DBCallback;
 import com.didi.carmate.dreambox.core.base.DBCallbacks;
 import com.didi.carmate.dreambox.core.base.DBConstants;
 import com.didi.carmate.dreambox.core.base.DBContext;
-import com.didi.carmate.dreambox.core.base.DBNode;
 import com.didi.carmate.dreambox.core.base.DBNodeRegistry;
 import com.didi.carmate.dreambox.core.base.DBTemplate;
 import com.didi.carmate.dreambox.core.base.IDBNode;
@@ -341,11 +340,11 @@ public class DBNodeParser {
 
     private String getProguardKey() {
         for (Map.Entry<String, String> entry : mProguardMap.entrySet()) {
-            if (entry.getValue().equals(DBNode.KEY_NODE_TYPE)) {
+            if (entry.getValue().equals(DBConstants.UI_TYPE)) {
                 return entry.getKey();
             }
         }
-        return DBNode.KEY_NODE_TYPE;
+        return DBConstants.UI_TYPE;
     }
 
     private void collectNodeInfo(IDBNode node, String originKey) {

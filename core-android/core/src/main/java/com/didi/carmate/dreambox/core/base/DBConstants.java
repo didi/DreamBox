@@ -73,49 +73,57 @@ public class DBConstants {
 
     // -------layout 相关常量定义-------
     // 节点类型
-    public static final String CONTAINER_LIST_HEADER = "header";
-    public static final String CONTAINER_LIST_FOOTER = "footer";
-    public static final String CONTAINER_LIST_VH = "vh";
-    public static final String CONTAINER_RENDER = "render";
-    public static final String CONTAINER_CELL = "cell";
-    public static final String CONTAINER_GROUP = "group";
+    public static final String UI_ROOT = "layout";
+    public static final String UI_TYPE = "type";
+    public static final String UI_PAYLOAD = "payload";
+    public static final String PAYLOAD_LIST_HEADER = "header";
+    public static final String PAYLOAD_LIST_FOOTER = "footer";
+    public static final String PAYLOAD_LIST_VH = "vh";
+    public static final String PAYLOAD_CELL = "cell";
     // 布局容器类型
     public static final String LAYOUT_TYPE_YOGA = "yoga";
     public static final String LAYOUT_TYPE_FRAME = "frame";
     public static final String LAYOUT_TYPE_LINEAR = "linear";
 
     // -------FlexBox 相关常量定义-------
+    // container:flex-direction
     public static final String FLEX_DIRECTION = "flex-direction";
     public static final String FLEX_DIRECTION_R = "row";
     public static final String FLEX_DIRECTION_C = "column";
     public static final String FLEX_DIRECTION_R_REVERSE = "row-reverse";
     public static final String FLEX_DIRECTION_C_REVERSE = "column-reverse";
-
-
+    // container:flex-wrap
     public static final String FLEX_WRAP = "flex-wrap";
     public static final String FLEX_WRAP_W = "wrap";
     public static final String FLEX_WRAP_NO_W = "nowrap";
     public static final String FLEX_WRAP_W_REVERSE = "wrap-reverse";
-
+    // container:justify-content
     public static final String JUSTIFY_CONTENT = "justify-content";
     public static final String JUSTIFY_CONTENT_START = "flex-start";
     public static final String JUSTIFY_CONTENT_END = "flex-end";
     public static final String JUSTIFY_CONTENT_CENTER = "center";
     public static final String JUSTIFY_CONTENT_S_BETWEEN = "space-between";
     public static final String JUSTIFY_CONTENT_S_AROUND = "space-around";
-
+    public static final String JUSTIFY_CONTENT_S_EVENLY = "space-evenly";
+    // container:align-items
     public static final String ALIGN_ITEMS = "align-items";
     public static final String ALIGN_ITEMS_START = "flex-start";
     public static final String ALIGN_ITEMS_END = "flex-end";
     public static final String ALIGN_ITEMS_CENTER = "center";
     public static final String ALIGN_ITEMS_STRETCH = "stretch";
     public static final String ALIGN_ITEMS_BASELINE = "baseline";
-
+    // container:align-content
     public static final String ALIGN_CONTENT = "align-content";
     public static final String ALIGN_CONTENT_START = "flex-start";
     public static final String ALIGN_CONTENT_END = "flex-end";
     public static final String ALIGN_CONTENT_CENTER = "center";
     public static final String ALIGN_CONTENT_STRETCH = "stretch";
-
-
+    public static final String ALIGN_CONTENT_S_BETWEEN = "space-between";
+    public static final String ALIGN_CONTENT_S_AROUND = "space-around";
+    // item:align-self
+    public static final String ALIGN_SELF_START = "flex-start";
+    public static final String ALIGN_SELF_END = "flex-end";
+    public static final String ALIGN_SELF_CENTER = "center";
+    public static final String ALIGN_SELF_STRETCH = "stretch";
+    public static final String ALIGN_SELF_BASELINE = "baseline";
 }

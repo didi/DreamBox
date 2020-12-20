@@ -2,7 +2,6 @@ package com.didi.carmate.dreambox.core.layout.render.view;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 
 import com.didi.carmate.dreambox.core.base.DBContext;
 import com.didi.carmate.dreambox.core.base.DBTemplate;
@@ -14,13 +13,13 @@ import com.google.gson.JsonObject;
  * author: chenjing
  * date: 2020/5/8
  */
-public class DBCoreViewV extends ScrollView implements IDBCoreView {
+public class DBCoreViewNormal implements IDBCoreView {
     private final DBContext mDBContext;
+    private final ViewGroup mRootView;
 
-    public DBCoreViewV(DBContext dbContext, View rootView) {
-        super(dbContext.getContext());
+    public DBCoreViewNormal(DBContext dbContext, ViewGroup rootView) {
         mDBContext = dbContext;
-        addView(rootView);
+        mRootView = rootView;
     }
 
     @Override
@@ -47,14 +46,19 @@ public class DBCoreViewV extends ScrollView implements IDBCoreView {
     public void requestRender() {
         DBTemplate dbTemplate = mDBContext.getDBTemplate();
         if (null != dbTemplate) {
-            removeAllViews();
+            mRootView.removeAllViews();
             dbTemplate.invalidate();
         }
     }
 
     @Override
     public View getView() {
-        return this;
+        return mRootView;
+    }
+
+    @Override
+    public View getRootView() {
+        return mRootView.getRootView();
     }
 
     @Override

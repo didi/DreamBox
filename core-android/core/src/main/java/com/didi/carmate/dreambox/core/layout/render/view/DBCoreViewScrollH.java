@@ -1,6 +1,7 @@
 package com.didi.carmate.dreambox.core.layout.render.view;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 
 import com.didi.carmate.dreambox.core.base.DBContext;
@@ -13,10 +14,10 @@ import com.google.gson.JsonObject;
  * author: chenjing
  * date: 2020/5/8
  */
-public class DBCoreViewH extends HorizontalScrollView implements IDBCoreView {
+public class DBCoreViewScrollH extends HorizontalScrollView implements IDBCoreView {
     private final DBContext mDBContext;
 
-    public DBCoreViewH(DBContext dbContext, View rootView) {
+    public DBCoreViewScrollH(DBContext dbContext, ViewGroup rootView) {
         super(dbContext.getContext());
         mDBContext = dbContext;
         addView(rootView);

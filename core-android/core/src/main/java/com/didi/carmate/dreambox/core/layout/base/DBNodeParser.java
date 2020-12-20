@@ -13,7 +13,6 @@ import com.didi.carmate.dreambox.core.base.DBCallback;
 import com.didi.carmate.dreambox.core.base.DBCallbacks;
 import com.didi.carmate.dreambox.core.base.DBConstants;
 import com.didi.carmate.dreambox.core.base.DBContext;
-import com.didi.carmate.dreambox.core.base.DBNode;
 import com.didi.carmate.dreambox.core.base.DBNodeRegistry;
 import com.didi.carmate.dreambox.core.base.DBTemplate;
 import com.didi.carmate.dreambox.core.base.IDBNode;
@@ -177,8 +176,8 @@ public class DBNodeParser {
 
                 JsonObject subJsonObject = jsonElement.getAsJsonObject();
                 INodeCreator nodeCreator = mNodeRegistry.getNodeMap().get(tagName);
-                if (DBConstants.CONTAINER_RENDER.equals(tagName)) {
-                    String layout = entry.getValue().getAsJsonObject().get("implType").getAsString();
+                if (DBConstants.UI_ROOT.equals(tagName)) {
+                    String layout = entry.getValue().getAsJsonObject().get(DBConstants.UI_TYPE).getAsString();
                     DBContainer<ViewGroup> layoutNode = getContainerNode(layout);
                     layoutNode.setTagName(tagName);
                     layoutNode.setParent(parent);
@@ -241,13 +240,10 @@ public class DBNodeParser {
 
                             String viewTagName = typeElement.getAsString();
                             if (mNodeRegistry.getNodeMap().containsKey(viewTagName)) {
-                                if (DBConstants.CONTAINER_CELL.equals(viewTagName) ||
-                                        DBConstants.CONTAINER_GROUP.equals(viewTagName) ||
-                                        DBConstants.CONTAINER_LIST_HEADER.equals(viewTagName) ||
-                                        DBConstants.CONTAINER_LIST_VH.equals(viewTagName) ||
-                                        DBConstants.CONTAINER_LIST_FOOTER.equals(viewTagName)) {
-                                    String layout = subJsonObject.get("implType").getAsString();
-                                    DBContainer<ViewGroup> layoutNode = getContainerNode(layout);
+                                if (DBConstants.LAYOUT_TYPE_YOGA.equals(viewTagName) ||
+                                        DBConstants.LAYOUT_TYPE_FRAME.equals(viewTagName) ||
+                                        DBConstants.LAYOUT_TYPE_LINEAR.equals(viewTagName)) {
+                                    DBContainer<ViewGroup> layoutNode = getContainerNode(viewTagName);
                                     layoutNode.setTagName(viewTagName);
                                     arrayNode.addChild(layoutNode);
                                     layoutNode.setParent(arrayNode);
@@ -380,11 +376,11 @@ public class DBNodeParser {
 
     private String getProguardKey() {
         for (Map.Entry<String, String> entry : mProguardMap.entrySet()) {
-            if (entry.getValue().equals(DBNode.KEY_NODE_TYPE)) {
+            if (entry.getValue().equals(DBConstants.UI_TYPE)) {
                 return entry.getKey();
             }
         }
-        return DBNode.KEY_NODE_TYPE;
+        return DBConstants.UI_TYPE;
     }
 
     private void collectNodeInfo(IDBNode node, String originKey) {

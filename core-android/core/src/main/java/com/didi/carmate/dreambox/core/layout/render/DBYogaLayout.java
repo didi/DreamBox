@@ -6,12 +6,26 @@ import com.didi.carmate.dreambox.core.base.DBConstants;
 import com.didi.carmate.dreambox.core.base.DBContext;
 import com.didi.carmate.dreambox.core.layout.base.DBContainer;
 import com.didi.carmate.dreambox.core.layout.render.view.DBYogaLayoutView;
+import com.facebook.yoga.YogaAlign;
 import com.facebook.yoga.YogaFlexDirection;
 import com.facebook.yoga.YogaJustify;
 import com.facebook.yoga.YogaWrap;
 
 import java.util.Map;
 
+import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_CONTENT;
+import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_CONTENT_CENTER;
+import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_CONTENT_END;
+import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_CONTENT_START;
+import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_CONTENT_STRETCH;
+import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_CONTENT_S_AROUND;
+import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_CONTENT_S_BETWEEN;
+import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_ITEMS;
+import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_ITEMS_BASELINE;
+import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_ITEMS_CENTER;
+import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_ITEMS_END;
+import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_ITEMS_START;
+import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_ITEMS_STRETCH;
 import static com.didi.carmate.dreambox.core.base.DBConstants.FLEX_DIRECTION_C;
 import static com.didi.carmate.dreambox.core.base.DBConstants.FLEX_DIRECTION_C_REVERSE;
 import static com.didi.carmate.dreambox.core.base.DBConstants.FLEX_DIRECTION_R;
@@ -26,6 +40,7 @@ import static com.didi.carmate.dreambox.core.base.DBConstants.JUSTIFY_CONTENT_EN
 import static com.didi.carmate.dreambox.core.base.DBConstants.JUSTIFY_CONTENT_START;
 import static com.didi.carmate.dreambox.core.base.DBConstants.JUSTIFY_CONTENT_S_AROUND;
 import static com.didi.carmate.dreambox.core.base.DBConstants.JUSTIFY_CONTENT_S_BETWEEN;
+import static com.didi.carmate.dreambox.core.base.DBConstants.JUSTIFY_CONTENT_S_EVENLY;
 
 /**
  * author: chenjing
@@ -35,6 +50,8 @@ public class DBYogaLayout extends DBContainer<ViewGroup> {
     private String flexDirection;
     private String flexWrap;
     private String justifyContent;
+    private String alignItems;
+    private String alignContent;
 
     public DBYogaLayout(DBContext dbContext) {
         super(dbContext);
@@ -47,6 +64,8 @@ public class DBYogaLayout extends DBContainer<ViewGroup> {
         flexDirection = attrs.get(DBConstants.FLEX_DIRECTION);
         flexWrap = attrs.get(FLEX_WRAP);
         justifyContent = attrs.get(JUSTIFY_CONTENT);
+        alignItems = attrs.get(ALIGN_CONTENT);
+        alignContent = attrs.get(ALIGN_ITEMS);
     }
 
     @Override
@@ -100,17 +119,56 @@ public class DBYogaLayout extends DBContainer<ViewGroup> {
                 case JUSTIFY_CONTENT_S_AROUND:
                     yoga.getYogaNode().setJustifyContent(YogaJustify.SPACE_AROUND);
                     break;
+                case JUSTIFY_CONTENT_S_EVENLY:
+                    yoga.getYogaNode().setJustifyContent(YogaJustify.SPACE_EVENLY);
+                    break;
+            }
+        }
+        if (null != alignItems) {
+            switch (alignItems) {
+                case ALIGN_ITEMS_START:
+                    yoga.getYogaNode().setAlignItems(YogaAlign.FLEX_START);
+                    break;
+                case ALIGN_ITEMS_END:
+                    yoga.getYogaNode().setAlignItems(YogaAlign.FLEX_END);
+                    break;
+                case ALIGN_ITEMS_CENTER:
+                    yoga.getYogaNode().setAlignItems(YogaAlign.CENTER);
+                    break;
+                case ALIGN_ITEMS_STRETCH:
+                    yoga.getYogaNode().setAlignItems(YogaAlign.STRETCH);
+                    break;
+                case ALIGN_ITEMS_BASELINE:
+                    yoga.getYogaNode().setAlignItems(YogaAlign.BASELINE);
+                    break;
+            }
+        }
+        if (null != alignContent) {
+            switch (alignContent) {
+                case ALIGN_CONTENT_START:
+                    yoga.getYogaNode().setAlignContent(YogaAlign.FLEX_START);
+                    break;
+                case ALIGN_CONTENT_END:
+                    yoga.getYogaNode().setAlignContent(YogaAlign.FLEX_END);
+                    break;
+                case ALIGN_CONTENT_CENTER:
+                    yoga.getYogaNode().setAlignContent(YogaAlign.CENTER);
+                    break;
+                case ALIGN_CONTENT_STRETCH:
+                    yoga.getYogaNode().setAlignContent(YogaAlign.STRETCH);
+                    break;
+                case ALIGN_CONTENT_S_BETWEEN:
+                    yoga.getYogaNode().setAlignContent(YogaAlign.SPACE_BETWEEN);
+                    break;
+                case ALIGN_CONTENT_S_AROUND:
+                    yoga.getYogaNode().setAlignContent(YogaAlign.SPACE_AROUND);
+                    break;
             }
         }
     }
 
     @Override
     public DBYogaLayoutView onCreateView() {
-        DBYogaLayoutView layoutView = new DBYogaLayoutView(mDBContext);
-        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        layoutView.setLayoutParams(lp);
-        return layoutView;
+        return new DBYogaLayoutView(mDBContext);
     }
 }

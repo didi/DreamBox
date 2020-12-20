@@ -87,7 +87,7 @@ public class DBEngine {
         DBContext dbContext = new DBContext(mApplication, accessKey, templateId);
 
         // TODO 版本判断，替换解析引擎
-        if (dblTemplate.contains("\"type\": \"group\"")) {
+        if (dblTemplate.contains("\"layout\"")) {
             com.didi.carmate.dreambox.core.layout.base.DBNodeParser dbLoader =
                     new com.didi.carmate.dreambox.core.layout.base.DBNodeParser(mNodeRegistry);
             return dbLoader.parser(dbContext, dblTemplate);
@@ -215,12 +215,10 @@ public class DBEngine {
                 com.didi.carmate.dreambox.core.layout.render.DBChildren.getNodeTag(),
                 new com.didi.carmate.dreambox.core.layout.render.DBChildren.NodeCreator());
         // 容器节点
-        mNodeRegistry.registerNode(DBConstants.CONTAINER_RENDER, null);
-        mNodeRegistry.registerNode(DBConstants.CONTAINER_CELL, null);
-        mNodeRegistry.registerNode(DBConstants.CONTAINER_GROUP, null);
-        mNodeRegistry.registerNode(DBConstants.CONTAINER_LIST_HEADER, null);
-        mNodeRegistry.registerNode(DBConstants.CONTAINER_LIST_VH, null);
-        mNodeRegistry.registerNode(DBConstants.CONTAINER_LIST_FOOTER, null);
+        mNodeRegistry.registerNode(DBConstants.UI_ROOT, null);
+        mNodeRegistry.registerNode(DBConstants.LAYOUT_TYPE_YOGA, null);
+        mNodeRegistry.registerNode(DBConstants.LAYOUT_TYPE_FRAME, null);
+        mNodeRegistry.registerNode(DBConstants.LAYOUT_TYPE_LINEAR, null);
         // 视图节点
         mNodeRegistry.registerNode(
                 com.didi.carmate.dreambox.core.layout.render.DBView.getNodeTag(),

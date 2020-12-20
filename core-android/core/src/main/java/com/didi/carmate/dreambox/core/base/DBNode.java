@@ -49,9 +49,6 @@ import java.util.regex.Pattern;
  * protected void onCallbackBind(List<DBCallback> callbacks);
  */
 public abstract class DBNode implements IDBNode {
-    // 节点通过[type]字段来标识类型，如：text/image/onClick/cell/vh/header/footer/group
-    public static final String KEY_NODE_TYPE = "type";
-
     private String tagName;
     private final Map<String, String> attrs = new HashMap<>();
     private IDBNode parent;

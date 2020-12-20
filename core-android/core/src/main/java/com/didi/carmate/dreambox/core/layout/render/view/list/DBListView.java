@@ -27,7 +27,7 @@ public class DBListView extends RecyclerView {
     private IRefreshIndicator mRefreshHeader;
     private ILoadMoreFooter mLoadMoreFooter;
     private View mEmptyView;
-    private DBYogaLayoutView mLoaderView;
+    private ViewGroup mLoaderView;
 
     private final AdapterDataObserver mDataObserver = new DataObserver();
     private int mActivePointerId;

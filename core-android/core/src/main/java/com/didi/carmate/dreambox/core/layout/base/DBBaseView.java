@@ -89,10 +89,8 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
                     onChildrenBind(getAttrs(), mChildContainers);
                 }
                 // 添加到父容器
-                if (null != parentView) {
-                    parentView.addView(mNativeView, new ViewGroup.LayoutParams(width, height));
-                    onViewAdded(parentView);
-                }
+                parentView.addView(mNativeView, new ViewGroup.LayoutParams(width, height));
+                onViewAdded(parentView);
             } else {
                 DBLogger.e(mDBContext, "[onCreateView] should not return null->" + this);
             }

@@ -26,15 +26,25 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
     }
 
     @Override
-    public void bindView(ViewGroup parentView) {
-        if (id != DBConstants.DEFAULT_ID_VIEW && null != parentView && null != parentView.findViewById(id)) {
-            mNativeView = parentView.findViewById(id);
+    public void bindView(ViewGroup container) {
+        bindView(container, false);
+    }
+
+    @Override
+    public void bindView(ViewGroup container, boolean containerHasCreated) {
+        if (id != DBConstants.DEFAULT_ID_VIEW && null != container && null != container.findViewById(id)) {
+            mNativeView = container.findViewById(id);
             if (null != mNativeView) {
                 // 绑定视图属性
                 onAttributesBind(getAttrs());
             }
         } else {
-            mNativeView = onCreateView(); // 回调子类View实现
+            if (!containerHasCreated) {
+                mNativeView = onCreateView(); // 回调子类View实现
+            } else {
+                // 适配List和Flow场景，native view 已经在adapter里创建好，无需重复创建
+                mNativeView = container;
+            }
             if (null != mNativeView) {
                 // id
                 String rawId = getAttrs().get("id");
@@ -47,9 +57,12 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
                 // 绑定视图属性
                 onAttributesBind(getAttrs());
                 // 添加到父容器
-                if (null != parentView) {
-                    parentView.addView(mNativeView, new ViewGroup.LayoutParams(width, height));
-                    onViewAdded(parentView);
+                mNativeView.setLayoutParams(new ViewGroup.LayoutParams(width, height));
+                // DBLView里根节点调用bindView时container传null
+                // 适配List和Flow场景，native view 已经在adapter里创建好，且无需执行添加操作
+                if (null != container && !containerHasCreated) {
+                    container.addView(mNativeView);
+                    onViewAdded(container);
                 }
             } else {
                 DBLogger.e(mDBContext, "[onCreateView] should not return null->" + this);

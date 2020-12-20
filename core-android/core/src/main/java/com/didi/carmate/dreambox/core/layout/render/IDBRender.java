@@ -12,5 +12,10 @@ public interface IDBRender extends IDBNode {
     /**
      * 执行View对象的布局和渲染
      */
-    void bindView(ViewGroup parentView);
+    void bindView(ViewGroup container);
+
+    /**
+     * Flow的List,等组件会在adapter里创建自己的根节点对象
+     */
+    void bindView(ViewGroup container, boolean containerHasCreated);
 }

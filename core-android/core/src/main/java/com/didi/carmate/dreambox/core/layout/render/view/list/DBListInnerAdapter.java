@@ -41,6 +41,9 @@ public class DBListInnerAdapter extends RecyclerView.Adapter<DBListViewHolder> {
     public DBListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ViewGroup itemRoot = mItemViewContainer.onCreateView();
         ViewGroup.LayoutParams lp = itemRoot.getLayoutParams();
+        if (null == lp) {
+            lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        }
         RecyclerView.LayoutManager layoutManager = ((DBListView) parent).getLayoutManager();
         if (mOrientation.equals(DBConstants.LIST_ORIENTATION_H)) {
             if (mParentHeight == 0 && null != layoutManager) {
@@ -60,7 +63,7 @@ public class DBListInnerAdapter extends RecyclerView.Adapter<DBListViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull DBListViewHolder holder, int position) {
         if (null != mAdapterCallback) {
-            mAdapterCallback.onBindItemView(holder.getListItemRoot(), mListData.get(position));
+            mAdapterCallback.onBindItemView(holder.getRootView(), mListData.get(position));
         }
     }
 

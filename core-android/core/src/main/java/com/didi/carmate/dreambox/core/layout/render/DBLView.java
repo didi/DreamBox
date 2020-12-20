@@ -17,8 +17,9 @@ import com.didi.carmate.dreambox.core.base.INodeCreator;
 import com.didi.carmate.dreambox.core.bridge.DBOnEvent;
 import com.didi.carmate.dreambox.core.data.DBData;
 import com.didi.carmate.dreambox.core.layout.base.DBContainer;
-import com.didi.carmate.dreambox.core.layout.render.view.DBCoreViewH;
-import com.didi.carmate.dreambox.core.layout.render.view.DBCoreViewV;
+import com.didi.carmate.dreambox.core.layout.render.view.DBCoreViewNormal;
+import com.didi.carmate.dreambox.core.layout.render.view.DBCoreViewScrollH;
+import com.didi.carmate.dreambox.core.layout.render.view.DBCoreViewScrollV;
 import com.didi.carmate.dreambox.core.utils.DBLogger;
 
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ public class DBLView extends DBNode {
 
         List<IDBNode> children = getChildren();
         for (IDBNode child : children) {
-            if ("render".equals(child.getTagName())) {
+            if (DBConstants.UI_ROOT.equals(child.getTagName())) {
                 mDBRender = (DBContainer<ViewGroup>) child;
             } else if ("actionAlias".equals(child.getTagName())) {
                 DBActionAlias actionAliasVNode = (DBActionAlias) child;
@@ -83,10 +84,12 @@ public class DBLView extends DBNode {
         mDBRender.bindView(null); // view结构的调用源头
         mDBRootView = (ViewGroup) mDBRender.getNativeView();
         if (null == mDBCoreView) {
-            if (DBConstants.STYLE_ORIENTATION_H.equals(scroll)) {
-                mDBCoreView = new DBCoreViewH(mDBContext, mDBRootView);
+            if (DBConstants.STYLE_ORIENTATION_V.equals(scroll)) {
+                mDBCoreView = new DBCoreViewScrollV(mDBContext, mDBRootView);
+            } else if (DBConstants.STYLE_ORIENTATION_H.equals(scroll)) {
+                mDBCoreView = new DBCoreViewScrollH(mDBContext, mDBRootView);
             } else {
-                mDBCoreView = new DBCoreViewV(mDBContext, mDBRootView);
+                mDBCoreView = new DBCoreViewNormal(mDBContext, mDBRootView);
             }
         }
         bindViewAttr();
@@ -171,7 +174,8 @@ public class DBLView extends DBNode {
     private void bindViewAttr() {
         View view = mDBCoreView.getView();
         if (null == view.getLayoutParams()) {
-            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             view.setLayoutParams(lp);
         }
 

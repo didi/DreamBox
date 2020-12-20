@@ -2,6 +2,7 @@ package com.didi.carmate.dreambox.core.layout.render;
 
 import android.view.ViewGroup;
 
+import com.didi.carmate.dreambox.core.base.DBConstants;
 import com.didi.carmate.dreambox.core.base.DBContext;
 import com.didi.carmate.dreambox.core.base.INodeCreator;
 import com.didi.carmate.dreambox.core.data.DBData;
@@ -16,6 +17,8 @@ import com.google.gson.JsonObject;
 
 import java.util.List;
 import java.util.Map;
+
+import static com.didi.carmate.dreambox.core.base.DBConstants.PAYLOAD_CELL;
 
 /**
  * author: chenjing
@@ -53,7 +56,8 @@ public class DBFlow extends DBBaseView<DBFlowLayout> {
         // 子节点渲染处理在Adapter的[onBindViewHolder]回调里处理
         DBContainer<ViewGroup> cell = null;
         for (DBContainer<ViewGroup> container : children) {
-            if ("cell".equals(container.getAttrs().get("type"))) {
+            if (PAYLOAD_CELL.equals(container.getAttrs().get(DBConstants.UI_PAYLOAD))) {
+                cell = container;
                 container.setParentAttrs(attrs);
             }
         }
@@ -106,7 +110,7 @@ public class DBFlow extends DBBaseView<DBFlowLayout> {
             mFlowCell.setData(data);
             mFlowCell.parserAttribute();
             // 子节点渲染处理
-            mFlowCell.bindView(itemRoot);
+            mFlowCell.bindView(itemRoot, true);
         }
     }
 

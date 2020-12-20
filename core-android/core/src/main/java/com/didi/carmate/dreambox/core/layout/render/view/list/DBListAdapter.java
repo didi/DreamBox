@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.didi.carmate.dreambox.core.base.DBConstants;
+import com.didi.carmate.dreambox.core.base.DBContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class DBListAdapter extends RecyclerView.Adapter<DBListViewHolder> {
     private static final int HEADER_INIT_INDEX = 10002;
     private final List<Integer> mHeaderTypes = new ArrayList<>();
 
+    private final DBContext mDBContext;
     private final DBListInnerAdapter mInnerAdapter;
     private IRefreshIndicator mRefreshArea;
     private final String mOrientation;
@@ -37,8 +39,9 @@ public class DBListAdapter extends RecyclerView.Adapter<DBListViewHolder> {
 
     private final IAdapterCallback mAdapterCallback;
 
-    public DBListAdapter(DBListInnerAdapter innerAdapter, @NonNull IAdapterCallback adapterCallback, String orientation,
+    public DBListAdapter(DBContext dbContext, DBListInnerAdapter innerAdapter, @NonNull IAdapterCallback adapterCallback, String orientation,
                          boolean hasHeader, boolean hasFooter) {
+        mDBContext = dbContext;
         mInnerAdapter = innerAdapter;
         mAdapterCallback = adapterCallback;
         mOrientation = orientation;
@@ -129,11 +132,21 @@ public class DBListAdapter extends RecyclerView.Adapter<DBListViewHolder> {
     @Override
     public DBListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.LayoutManager layoutManager = ((DBListView) parent).getLayoutManager();
-        if (viewType == TYPE_REFRESH_HEADER && null != mRefreshArea) {
-            return new DBListViewHolder(mRefreshArea.getHeaderView());
+        if (viewType == TYPE_REFRESH_HEADER) {
+            if (null != mRefreshArea) {
+                return new DBListViewHolder(mRefreshArea.getHeaderView());
+            } else {
+                // 指示器占位view，不显示
+                View view = new View(mDBContext.getContext());
+                view.setLayoutParams(new ViewGroup.LayoutParams(0, 0));
+                return new DBListViewHolder(view);
+            }
         } else if (isHeaderType(viewType)) {
             ViewGroup rootView = getHeaderViewByType(viewType);
             ViewGroup.LayoutParams lp = rootView.getLayoutParams();
+            if (null == lp) {
+                lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            }
             if (mOrientation.equals(DBConstants.LIST_ORIENTATION_H)) {
                 if (mParentHeight == 0 && null != layoutManager) {
                     mParentHeight = layoutManager.getHeight();
@@ -150,6 +163,9 @@ public class DBListAdapter extends RecyclerView.Adapter<DBListViewHolder> {
         } else if (viewType == TYPE_FOOTER_VIEW) {
             ViewGroup rootView = mFooterViews.get(0);
             ViewGroup.LayoutParams lp = rootView.getLayoutParams();
+            if (null == lp) {
+                lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            }
             if (mOrientation.equals(DBConstants.LIST_ORIENTATION_H)) {
                 if (mParentHeight == 0 && null != layoutManager) {
                     mParentHeight = layoutManager.getHeight();
@@ -173,12 +189,12 @@ public class DBListAdapter extends RecyclerView.Adapter<DBListViewHolder> {
             return;
         }
         if (isHeader(position)) {
-            mAdapterCallback.onBindHeaderView(holder.getListRootView());
+            mAdapterCallback.onBindHeaderView(holder.getRootView());
             return;
         }
         if (mHasFooter && isFooter(position)) {
-            holder.getListRootView().removeAllViews();// 无法复用，因为LoadingView需要实时根据加进来 TODO 改进
-            mAdapterCallback.onBindFooterView(holder.getListRootView());
+            holder.getRootView().removeAllViews();// 无法复用，因为LoadingView需要实时根据加进来 TODO 改进
+            mAdapterCallback.onBindFooterView(holder.getRootView());
             return;
         }
         final int adjPosition = position - (getHeaderViewsCount() + 1);
