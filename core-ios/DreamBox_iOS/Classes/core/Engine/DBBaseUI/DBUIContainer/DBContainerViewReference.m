@@ -79,9 +79,9 @@
     }
 }
 - (void)makeContent{
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
     if(self.treeModel.scroll.length > 0){
-        [self setNeedsLayout];
-        [self layoutIfNeeded];
         self.scrollEnabled = YES;
         if([self.treeModel.scroll isEqualToString:@"horizontal"]){
             CGSize size = CGSizeMake([self maxXOfTreeView], [UIScreen mainScreen].bounds.size.height);

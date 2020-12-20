@@ -226,7 +226,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     [self handleChangeOn:treeModel.changeOn];
     [self circulationAliasDict:treeModel.actionAlias];
     
-    NSInteger dbVersion = 4;
+    NSInteger dbVersion = 3;
     if(dbVersion >= 4){
         if([treeModel isKindOfClass:[DBTreeModelYoga class]]){
             DBTreeModelYoga *yogaModel = (DBTreeModelYoga *)treeModel;

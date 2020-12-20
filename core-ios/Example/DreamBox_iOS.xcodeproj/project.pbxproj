@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A006344258EFBFD00FD773E /* catalog_flow.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A006343258EFBFD00FD773E /* catalog_flow.json */; };
 		0AB3A906258B76570049E7C6 /* tmp_yoga1.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AB3A905258B76570049E7C6 /* tmp_yoga1.json */; };
 		0AE6A24C255ABB5900BB6B73 /* mock_Data.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AE6A24B255ABB5900BB6B73 /* mock_Data.json */; };
 		0AE6A24E255AC03900BB6B73 /* mock_template.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AE6A24D255AC03900BB6B73 /* mock_template.json */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A006343258EFBFD00FD773E /* catalog_flow.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = catalog_flow.json; sourceTree = "<group>"; };
 		0AB3A905258B76570049E7C6 /* tmp_yoga1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tmp_yoga1.json; sourceTree = "<group>"; };
 		0AE6A24B255ABB5900BB6B73 /* mock_Data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mock_Data.json; sourceTree = "<group>"; };
 		0AE6A24D255AC03900BB6B73 /* mock_template.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mock_template.json; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 		6003F593195388D20070C39A /* Example for DreamBox_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				0A006343258EFBFD00FD773E /* catalog_flow.json */,
 				0AB3A905258B76570049E7C6 /* tmp_yoga1.json */,
 				0AE6A24D255AC03900BB6B73 /* mock_template.json */,
 				0AE6A24B255ABB5900BB6B73 /* mock_Data.json */,
@@ -316,6 +319,7 @@
 				0AB3A906258B76570049E7C6 /* tmp_yoga1.json in Resources */,
 				0AE6A24C255ABB5900BB6B73 /* mock_Data.json in Resources */,
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
+				0A006344258EFBFD00FD773E /* catalog_flow.json in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				0AE6A24E255AC03900BB6B73 /* mock_template.json in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,

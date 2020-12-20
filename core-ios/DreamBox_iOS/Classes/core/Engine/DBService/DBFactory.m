@@ -30,7 +30,7 @@
 
 - (instancetype)init
 {
-    int dbVersion = 4;
+    int dbVersion = 3;
     if (self = [super init]) {
         //view种类数组
         self.allModelClassTypesArray = [NSMutableDictionary dictionary];

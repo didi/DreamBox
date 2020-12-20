@@ -64,6 +64,14 @@
     
 }
 
+
+- (void)setDataWithModel:(DBViewModel *)model andPathId:(NSString *)pathId{
+    _model = model;
+    _pathId = pathId;
+    _accessKey = [[DBPool shareDBPool] getAccessKeyWithPathId:pathId];
+}
+
+
 - (void)handleChangeOn:(NSString *)changeOnstr
 {
     NSDictionary *metaDict = [DBParser getMetaDictByPathId:_pathId];

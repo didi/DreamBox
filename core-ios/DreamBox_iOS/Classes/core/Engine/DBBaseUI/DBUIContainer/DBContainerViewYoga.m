@@ -54,6 +54,7 @@
 - (void)makeContent{
     if(self.treeModel.scroll.length > 0){
         self.scrollEnabled = YES;
+        self.bounces = NO;
         if([self.treeModel.scroll isEqualToString:@"horizontal"]){
             [self setContentSize:self.backGroudView.frame.size];
         }

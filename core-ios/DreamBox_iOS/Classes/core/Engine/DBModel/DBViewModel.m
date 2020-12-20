@@ -44,7 +44,7 @@
     model2.radiusRB = [dict db_objectForKey:@"radiusRB"];
     model2.radiusLB = [dict db_objectForKey:@"radiusLB"];
     
-    NSInteger dbVersion = 4;
+    NSInteger dbVersion = 3;
     if(dbVersion >= 4){
         DBYogaModel *yogaLayout = [DBYogaModel modelWithDict:dict];
         model2.yogaLayout = yogaLayout;
