@@ -45,7 +45,7 @@ import java.util.Set;
  */
 public class DBNodeParser {
     private static final String KEY_NODE_COUNT = "node_count";
-    private static final boolean DEBUG_PRINT_TREE_NODE = true;
+    private static final boolean DEBUG_PRINT_TREE_NODE = false;
 
     private final DBNodeRegistry mNodeRegistry;
     private final Map<String, String> mProguardMap = new HashMap<>();

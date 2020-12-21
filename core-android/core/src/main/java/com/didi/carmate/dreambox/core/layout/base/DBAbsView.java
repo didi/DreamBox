@@ -48,6 +48,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     protected float flexGrow;
     protected float flexShrink;
     protected float flexBasis;
+    protected float flexBasisPercent;
     protected String alignSelf;
 
     protected DBAbsView(DBContext dbContext) {
@@ -105,8 +106,15 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
             flexShrink = Float.parseFloat(fs);
         }
         String fb = attrs.get("flex-basis");
-        if (DBUtils.isNumeric(fb)) {
-            flexBasis = Float.parseFloat(fb);
+        if (null != fb) {
+            if (fb.endsWith("%")) {
+                fb = fb.substring(0, fb.length() - 1);
+                if (DBUtils.isNumeric(fb)) {
+                    flexBasisPercent = Float.parseFloat(fb);
+                }
+            } else {
+                flexBasis = DBScreenUtils.processSize(mDBContext, fb, 0);
+            }
         }
         alignSelf = attrs.get("align-self");
     }
@@ -177,6 +185,9 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         }
         if (flexBasis != 0) {
             node.setFlexBasis(flexBasis);
+        }
+        if (flexBasisPercent != 0) {
+            node.setFlexBasisPercent(flexBasisPercent);
         }
         if (null != alignSelf) {
             switch (alignSelf) {

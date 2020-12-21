@@ -64,8 +64,8 @@ public class DBYogaLayout extends DBContainer<ViewGroup> {
         flexDirection = attrs.get(DBConstants.FLEX_DIRECTION);
         flexWrap = attrs.get(FLEX_WRAP);
         justifyContent = attrs.get(JUSTIFY_CONTENT);
-        alignItems = attrs.get(ALIGN_CONTENT);
-        alignContent = attrs.get(ALIGN_ITEMS);
+        alignItems = attrs.get(ALIGN_ITEMS);
+        alignContent = attrs.get(ALIGN_CONTENT);
     }
 
     @Override
