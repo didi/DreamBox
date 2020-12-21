@@ -30,7 +30,7 @@
 
 - (instancetype)init
 {
-    int dbVersion = 3;
+    int dbVersion = 4;
     if (self = [super init]) {
         //view种类数组
         self.allModelClassTypesArray = [NSMutableDictionary dictionary];
@@ -42,7 +42,12 @@
 
         
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBProgressModel") forKey:@"progress"];
-        [self.allModelClassTypesArray setValue:NSClassFromString(@"DBListModel") forKey:@"list"];
+        if(dbVersion >= 4){
+            [self.allModelClassTypesArray setValue:NSClassFromString(@"DBlistModelV2") forKey:@"list"];
+        } else {
+            [self.allModelClassTypesArray setValue:NSClassFromString(@"DBlistModel") forKey:@"list"];
+        }
+        
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBFlowModel") forKey:@"flow"];
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBLoadingModel") forKey:@"loading"];
         
@@ -57,12 +62,13 @@
         
         if(dbVersion >= 4){
             [self.allViewClassTypesArray setValue:NSClassFromString(@"DBTextV2") forKey:@"text"];
+            [self.allViewClassTypesArray setValue:NSClassFromString(@"DBlistView") forKey:@"list"];
         } else {
             [self.allViewClassTypesArray setValue:NSClassFromString(@"DBText") forKey:@"text"];
+            [self.allViewClassTypesArray setValue:NSClassFromString(@"DBCollectionList") forKey:@"list"];
         }
         
         [self.allViewClassTypesArray setValue:NSClassFromString(@"DBProgress") forKey:@"progress"];
-        [self.allViewClassTypesArray setValue:NSClassFromString(@"DBCollectionList") forKey:@"list"];
         [self.allViewClassTypesArray setValue:NSClassFromString(@"DBFlowView") forKey:@"flow"];
         [self.allViewClassTypesArray setValue:NSClassFromString(@"DBLoading") forKey:@"loading"];
         //action种类

@@ -40,7 +40,7 @@
     
     DBTreeModel *treeModel;
     
-    int dbVersion = 3;
+    int dbVersion = 4;
     if(dbVersion >= 4){
         treeModel = [DBTreeModelYoga modelWithDict:dictAll];
     } else {

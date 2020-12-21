@@ -117,7 +117,7 @@ typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
 @end
 
 
-@interface DBListModel : DBViewModel
+@interface DBlistModel : DBViewModel
 
 @property (nonatomic,copy) NSString * src;
 @property (nonatomic,copy) NSString * pullRefresh;
@@ -129,6 +129,21 @@ typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
 @property (nonatomic,copy) NSArray *vh;
 @property (nonatomic,copy) NSArray *header;
 @property (nonatomic,copy) NSArray *footer;
+
+@end
+
+@interface DBlistModelV2 : DBViewModel
+
+@property (nonatomic,copy) NSString * src;
+@property (nonatomic,copy) NSString * pullRefresh;
+@property (nonatomic,copy) NSString *loadMore;
+@property (nonatomic,copy) NSString * pageIndex;
+@property (nonatomic,copy) NSString * orientation;
+@property (nonatomic,copy) NSDictionary *onMore;
+@property (nonatomic,copy) NSDictionary *onPull;
+@property (nonatomic,copy) NSDictionary *vh;
+@property (nonatomic,copy) NSDictionary *header;
+@property (nonatomic,copy) NSDictionary *footer;
 
 @end
 

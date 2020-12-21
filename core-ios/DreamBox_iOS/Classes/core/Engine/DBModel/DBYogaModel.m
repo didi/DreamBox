@@ -52,7 +52,7 @@
     model.display = [dict db_objectForKey:@"display"];
     model.flexGrow = [dict db_objectForKey:@"flexGrow"];
     model.flexShrink = [dict db_objectForKey:@"flexShrink"];
-    model.flexBasis = [dict db_objectForKey:@"flexBasis"];
+    model.flexBasis = [dict db_objectForKey:@"flex-basis"];
     
     model.left = [dict db_objectForKey:@"left"];
     model.top = [dict db_objectForKey:@"top"];

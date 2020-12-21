@@ -6,14 +6,12 @@
 //
 
 #import "DBTextV2.h"
-#import "DBViewExtension.h"
 #import "DBViewModel.h"
 #import "UIColor+DBColor.h"
 #import "DBParser.h"
 #import "DBHelper.h"
 #import "Masonry.h"
 #import "DBPool.h"
-#import "DBViewExtension.h"
 #import "UIView+DBStrike.h"
 
 @interface DBTextV2()

@@ -11,6 +11,7 @@
 #import "UIColor+DBColor.h"
 #import "DBFactory.h"
 #import "UIView+Yoga.h"
+#import "DBPool.h"
 
 @implementation DBContainerViewYoga
 
@@ -21,6 +22,8 @@
     DBTreeModelYoga *yogaModel = (DBTreeModelYoga *)model;
     [container flexBoxLayoutWithContainer:container.backGroudView renderModel:yogaModel.render];
     [container makeContent];
+    container.showsVerticalScrollIndicator = NO;
+    container.showsHorizontalScrollIndicator = NO;
     return container;
 }
 
@@ -57,7 +60,20 @@
             [DBParser flexLayoutView:view withModel:viewModel.yogaLayout];
         }
     }
+    
     [container.yoga applyLayoutPreservingOrigin:YES dimensionFlexibility:YGDimensionFlexibilityFlexibleWidth | YGDimensionFlexibilityFlexibleHeight];
+}
+
+- (void)reloadWithDict:(NSDictionary *)dict{
+    [[DBPool shareDBPool] setObject:dict ToDBMetaPoolWithPathId:self.pathTid];
+    
+    [self.allRenderViewArray enumerateObjectsUsingBlock:^(DBBaseView *view, NSUInteger idx, BOOL * _Nonnull stop) {
+        [view reload];
+        [view.yoga markDirty];
+    }];
+    
+    [self.backGroudView.yoga applyLayoutPreservingOrigin:YES dimensionFlexibility:YGDimensionFlexibilityFlexibleWidth | YGDimensionFlexibilityFlexibleHeight];
+    self.frame = self.backGroudView.bounds;
 }
 
 - (void)makeContent{

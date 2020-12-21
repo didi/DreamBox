@@ -20,88 +20,69 @@
                     "age": 16
                 },{
                     "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
-                    "name": "小王5",
+                    "name": "小王4",
                     "age": 16
                 },{
                     "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
                     "name": "小王3",
-                    "age": 16
-                },{
-                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
-                    "name": "小王3",
-                    "age": 16
-                },{
-                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
-                    "name": "小王3",
-                    "age": 16
-                },{
-                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
-                    "name": "小王3",
-                    "age": 16
-                },{
-                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
-                    "name": "小王5",
-                    "age": 16
-                }
-                ,{
-                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
-                    "name": "小王5",
-                    "age": 16
-                }
-                ,{
-                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
-                    "name": "小王5",
                     "age": 16
                 },{
                     "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
                     "name": "小王7",
+                    "age": 16
+                },{
+                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
+                    "name": "小王8",
+                    "age": 16
+                },{
+                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
+                    "name": "小王1小王10小王10小王10小王10小王100小王1小王10小王10小王10小王10小王100小王1小王10小王10小王10小王10小王100",
+                    "age": 16
+                },{
+                    "img": "https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=2007348240,921224949&fm=74&app=80&f=JPEG&size=f121,90?sec=1880279984&t=b35e463135347add61aca95427a4dc75",
+                    "name": "小zhangzhang10小zhangzhang10小zhangzhang10小zhangzhang10小zhangzhang10",
                     "age": 16
                 }
             ]
         },
         "layout":{
             "type": "yoga",
-            "top":"100",
             "backgroundColor": "#678678",
             "flex-direction": "column",
             "flex-wrap": "nowrap",
-            "justify-content": "flex-start",
+            "justify-content": "space-between",
             "width": "fill",
             "children": [
                 {
-                    "id": "1",
+                    "id":"4",
                     "src": "${students}",
                     "width": "wrap",
-                    "type": "flow",
-                    "hSpace":"10dp",
-                    "vSpace":"10dp",
-                    "backgroundColor": "#ff0000",
+                    "height": "wrap",
+                    "type": "list",
+                    "backgroundColor": "#00ff00",
                     "children":[
                         {
-                            "payload":"cell",
+                            "payload":"vh",
                             "type": "yoga",
-                            "flex-direction": "row",
                             "children":[
                                 {
-                                    "id": "2",
+                                    "id": "16",
                                     "marginTop": "5dp",
                                     "src": "${img}",
                                     "scaleType": "crop",
-                                    "align-self":"center",
-                                    "width": "20dp",
-                                    "height": "20dp",
+                                    "width": "220dp",
+                                    "height": "220dp",
                                     "type": "image"
                                     
                                 },
                                 {
-                                    "id": "3",
+                                    "id": "17",
                                     "src": "${name}",
                                     "marginTop": "5dp",
                                     "type": "text",
-                                    "width":"wrap",
+                                    "width":"220",
                                     "marginLeft": "15dp",
-                                    "marginRight": "15dp",
-                                    "maxLines":"0"
+                                    "marginRight": "15dp"
                                 }
                             ]
                         }

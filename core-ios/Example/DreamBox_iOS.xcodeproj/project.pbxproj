@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0A00634C258F403D00FD773E /* yoga_flow.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A00634B258F403C00FD773E /* yoga_flow.json */; };
+		0A006356258F4A5D00FD773E /* yoga_list.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A006355258F4A5D00FD773E /* yoga_list.json */; };
+		0A006358259046ED00FD773E /* mock_yoga_test.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A006357259046ED00FD773E /* mock_yoga_test.json */; };
 		0AB3A906258B76570049E7C6 /* tmp_yoga1.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AB3A905258B76570049E7C6 /* tmp_yoga1.json */; };
 		0AE6A24C255ABB5900BB6B73 /* mock_Data.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AE6A24B255ABB5900BB6B73 /* mock_Data.json */; };
 		0AE6A24E255AC03900BB6B73 /* mock_template.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AE6A24D255AC03900BB6B73 /* mock_template.json */; };
@@ -45,6 +47,8 @@
 
 /* Begin PBXFileReference section */
 		0A00634B258F403C00FD773E /* yoga_flow.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = yoga_flow.json; sourceTree = "<group>"; };
+		0A006355258F4A5D00FD773E /* yoga_list.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = yoga_list.json; sourceTree = "<group>"; };
+		0A006357259046ED00FD773E /* mock_yoga_test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mock_yoga_test.json; sourceTree = "<group>"; };
 		0AB3A905258B76570049E7C6 /* tmp_yoga1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tmp_yoga1.json; sourceTree = "<group>"; };
 		0AE6A24B255ABB5900BB6B73 /* mock_Data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mock_Data.json; sourceTree = "<group>"; };
 		0AE6A24D255AC03900BB6B73 /* mock_template.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mock_template.json; sourceTree = "<group>"; };
@@ -149,6 +153,8 @@
 		6003F593195388D20070C39A /* Example for DreamBox_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				0A006357259046ED00FD773E /* mock_yoga_test.json */,
+				0A006355258F4A5D00FD773E /* yoga_list.json */,
 				0A00634B258F403C00FD773E /* yoga_flow.json */,
 				0AB3A905258B76570049E7C6 /* tmp_yoga1.json */,
 				0AE6A24D255AC03900BB6B73 /* mock_template.json */,
@@ -323,7 +329,9 @@
 				0AE6A24E255AC03900BB6B73 /* mock_template.json in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
+				0A006356258F4A5D00FD773E /* yoga_list.json in Resources */,
 				0A00634C258F403D00FD773E /* yoga_flow.json in Resources */,
+				0A006358259046ED00FD773E /* mock_yoga_test.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

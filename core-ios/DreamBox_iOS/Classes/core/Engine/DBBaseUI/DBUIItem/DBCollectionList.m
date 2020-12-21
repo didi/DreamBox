@@ -48,7 +48,7 @@
 @property (nonatomic, strong) NSMutableArray *cellViews2;
 @property (nonatomic, strong) DBTreeView * footer;
 @property (nonatomic, strong) DBTreeView * header;
-@property (nonatomic, strong) DBListModel * listModel;
+@property (nonatomic, strong) DBlistModel * listModel;
 @end
 
 @implementation DBCollectionList
@@ -64,7 +64,7 @@
 
 -(void)onAttributesBind:(DBViewModel *)attributesModel{
     [super onAttributesBind:attributesModel];
-    _listModel = (DBListModel *)attributesModel;
+    _listModel = (DBlistModel *)attributesModel;
     if(_listModel.src){
         [self handleChangeOn:_listModel.changeOn];
     }
@@ -90,7 +90,7 @@
 
 #pragma mark - privateMethods
 - (void)refreshListView{
-    DBListModel *listModel = (DBListModel *)self.model;
+    DBlistModel *listModel = (DBlistModel *)self.model;
     NSString *src = [DBParser getRealValueByPathId:self.pathId andKey:listModel.src];
     if ([src isKindOfClass:[NSArray class]]) {
         self.dataList = (NSArray *)src;;
@@ -99,7 +99,7 @@
 }
 
 -(void)createCollectionView{
-    DBListModel *listModel = (DBListModel *)self.model;
+    DBlistModel *listModel = (DBlistModel *)self.model;
     UICollectionViewFlowLayout *flowL = [UICollectionViewFlowLayout new];
     flowL.minimumLineSpacing = 0;
     if([listModel.orientation isEqualToString:@"horizontal"]){
@@ -199,8 +199,8 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    DBListModel *listModel = (DBListModel *)self.model;
-    DBTreeView *header = [DBTreeView treeViewWithRender:listModel.header meta:nil accessKey:self.accessKey tid:@"DBListHeader"];
+    DBlistModel *listModel = (DBlistModel *)self.model;
+    DBTreeView *header = [DBTreeView treeViewWithRender:listModel.header meta:nil accessKey:self.accessKey tid:@"DBlistHeader"];
     if(header){
         _header = header;
         return header.bounds.size;
@@ -210,8 +210,8 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
-    DBListModel *listModel = (DBListModel *)self.model;
-    DBTreeView *footer = [DBTreeView treeViewWithRender:listModel.header meta:nil accessKey:self.accessKey tid:@"DBListFooter"];
+    DBlistModel *listModel = (DBlistModel *)self.model;
+    DBTreeView *footer = [DBTreeView treeViewWithRender:listModel.header meta:nil accessKey:self.accessKey tid:@"DBlistFooter"];
     if(footer){
         _footer = footer;
         return _footer.bounds.size;

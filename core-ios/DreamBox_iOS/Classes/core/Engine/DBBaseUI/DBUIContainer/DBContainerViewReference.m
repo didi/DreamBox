@@ -22,6 +22,10 @@
     return container;
 }
 
+- (void)reloadWithDict:(NSDictionary *)dict{
+    
+}
+
 - (void)referenceLayoutWithRenderModel:(DBTreeModelReference *)treeModel
 {
     [self.backGroudView mas_makeConstraints:^(MASConstraintMaker *make) {

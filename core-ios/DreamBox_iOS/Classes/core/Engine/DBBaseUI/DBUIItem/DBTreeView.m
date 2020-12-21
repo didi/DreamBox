@@ -226,7 +226,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     [self handleChangeOn:treeModel.changeOn];
     [self circulationAliasDict:treeModel.actionAlias];
     
-    NSInteger dbVersion = 3;
+    NSInteger dbVersion = 4;
     if(dbVersion >= 4){
         if([treeModel isKindOfClass:[DBTreeModelYoga class]]){
             DBTreeModelYoga *yogaModel = (DBTreeModelYoga *)treeModel;
@@ -244,7 +244,6 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
             make.left.top.width.height.equalTo(self);
         }];
     }
-    
 }
 
 #pragma mark - reload方法

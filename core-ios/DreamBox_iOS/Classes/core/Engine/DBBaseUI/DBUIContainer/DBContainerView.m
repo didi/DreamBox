@@ -14,6 +14,10 @@
     return nil;
 }
 
+- (void)reloadWithDict:(NSDictionary *)dict{
+    
+}
+
 //模型到DBView
 - (DBView *)modelToView:(DBViewModel *)model
 {

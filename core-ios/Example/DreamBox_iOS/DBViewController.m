@@ -35,6 +35,7 @@
 
 - (void)viewDidLoad {
     [self wrapperTest];
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (NSDictionary *)pareseExt {
@@ -45,7 +46,7 @@
 }
 
 - (void)wrapperTest {
-    NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"mock_template" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
+    NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"yoga_list" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
     
     self.dbView = [[DBTreeView alloc] initWithJsonSting:mockDataString extMeta:[self pareseExt] accessKey:@"DEMO" tid:@"1"];
     [self.view addSubview:self.dbView];

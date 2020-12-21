@@ -13,7 +13,6 @@
 #import "DBHelper.h"
 #import "Masonry.h"
 #import "DBPool.h"
-#import "DBViewExtension.h"
 #import "DBReferenceModel.h"
 
 @implementation DBText {

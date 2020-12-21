@@ -44,7 +44,7 @@
     model2.radiusRB = [dict db_objectForKey:@"radiusRB"];
     model2.radiusLB = [dict db_objectForKey:@"radiusLB"];
     
-    NSInteger dbVersion = 3;
+    NSInteger dbVersion = 4;
     if(dbVersion >= 4){
         DBYogaModel *yogaLayout = [DBYogaModel modelWithDict:dict];
         model2.yogaLayout = yogaLayout;
@@ -198,12 +198,12 @@
 
 @end
 
-@implementation DBListModel
+@implementation DBlistModel
 
-+ (DBListModel *)modelWithDict:(NSDictionary *)dict
++ (DBlistModel *)modelWithDict:(NSDictionary *)dict
 {
     //常规属性DSLv1.0
-    DBListModel *model = (DBListModel *)[super modelWithDict:dict];
+    DBlistModel *model = (DBlistModel *)[super modelWithDict:dict];
     model.src = [dict objectForKey:@"src"];
     model.pullRefresh = [dict objectForKey:@"pullRefresh"];
     model.loadMore = [dict objectForKey:@"loadMore"];
@@ -225,6 +225,41 @@
             model.vh = (NSArray *)[itemDict objectForKey:@"children"];
         }
     }];
+    return model;
+}
+
+@end
+
+@implementation DBlistModelV2
+
++ (DBlistModelV2 *)modelWithDict:(NSDictionary *)dict
+{
+    DBlistModelV2 *model = (DBlistModelV2 *)[super modelWithDict:dict];
+    model.src = [dict objectForKey:@"src"];
+    model.pullRefresh = [dict objectForKey:@"pullRefresh"];
+    model.loadMore = [dict objectForKey:@"loadMore"];
+    model.pageIndex = [dict objectForKey:@"pageIndex"];
+    model.onPull = [dict objectForKey:@"onPull"];
+    model.onMore = [dict objectForKey:@"onMore"];
+    model.orientation = [dict objectForKey:@"orientation"];
+    
+
+    NSArray *children = [dict objectForKey:@"children"];
+    model.children = children;
+    
+    [children enumerateObjectsUsingBlock:^(NSDictionary *itemDict, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSString *type = [itemDict db_objectForKey:@"payload"];
+        if([type isEqualToString:@"header"]){
+            model.header = itemDict;
+        }
+        if([type isEqualToString:@"footer"]){
+            model.footer = itemDict;
+        }
+        if([type isEqualToString:@"vh"]){
+            model.vh = itemDict;
+        }
+    }];
+   
     return model;
 }
 
