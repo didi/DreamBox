@@ -9,8 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DBViewModel.h"
 #import "DBView.h"
-#import "DBRecyclePool.h"
-#import "UIView+Yoga.h"
+
 
 @class DBTreeModel;
 
@@ -29,9 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
 //模型到DBView
 + (DBView *)modelToView:(DBViewModel *)model andPathId:(NSString *)pathId;
 
-//nslayout
-+ (void)layoutAllViews:(DBViewModel *)model andView:(DBView *)view andRelativeViewPool:(DBRecyclePool *)pool;
-
 + (NSString *)paserStr:(NSString *)str;
 
 + (void)circulationActionDict:(NSDictionary *)actionDict andPathId:(NSString *)pathId;
@@ -45,9 +41,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (id)getMetaDictByPathId:(NSString *)pathId;
 
-+ (void)flexLayoutView:(UIView *)view withModel:(DBYogaModel *)model;
-
-+ (void)applyLayoutToView:(UIView *)view rreservingOrigin:(BOOL)preserveOrigin dimensionFlexibility:(YGDimensionFlexibility)dimensionFlexibility;
 @end
 
 NS_ASSUME_NONNULL_END

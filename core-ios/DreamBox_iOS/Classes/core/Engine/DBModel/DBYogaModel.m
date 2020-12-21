@@ -50,7 +50,7 @@
     model.flexWrap = [dict db_objectForKey:@"flex-wrap"];
     model.overflow = [dict db_objectForKey:@"overflow"];
     model.display = [dict db_objectForKey:@"display"];
-    model.flexGrow = [dict db_objectForKey:@"flexGrow"];
+    model.flexGrow = [dict db_objectForKey:@"flex-grow"];
     model.flexShrink = [dict db_objectForKey:@"flexShrink"];
     model.flexBasis = [dict db_objectForKey:@"flex-basis"];
     

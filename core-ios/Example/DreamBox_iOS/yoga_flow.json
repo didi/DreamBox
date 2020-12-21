@@ -91,14 +91,12 @@
                                     "width": "20dp",
                                     "height": "20dp",
                                     "type": "image"
-                                    
                                 },
                                 {
                                     "id": "3",
                                     "src": "${name}",
                                     "marginTop": "5dp",
                                     "type": "text",
-                                    "width":"wrap",
                                     "marginLeft": "15dp",
                                     "marginRight": "15dp",
                                     "maxLines":"0"

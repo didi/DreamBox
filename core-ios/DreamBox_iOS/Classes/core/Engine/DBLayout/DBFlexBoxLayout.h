@@ -5,12 +5,14 @@
 //  Created by zhangchu on 2020/7/22.
 //
 
-#import <Foundation/Foundation.h>
-#import <yoga/YGEnums.h>
+#import "UIView+Yoga.h"
+#import "DBYogaModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DBFlexBoxLayout : NSObject
+
++ (void)flexLayoutView:(UIView *)view withModel:(DBYogaModel *)model;
 
 //映射轴线
 + (YGFlexDirection)flexDirectionWithKey:(NSString *)key;

@@ -8,6 +8,7 @@
 #import "DBContainerViewReference.h"
 #import "DBParser.h"
 #import "NSArray+DBExtends.h"
+#import "DBReferenceLayout.h"
 
 @implementation DBContainerViewReference
 
@@ -79,7 +80,7 @@
             }
         }
         DBViewModel *model = self.allRenderModelArray[i];
-        [DBParser layoutAllViews:model andView:(DBView*)view andRelativeViewPool:self.recyclePool];
+        [DBReferenceLayout layoutAllViews:model andView:(DBView*)view andRelativeViewPool:self.recyclePool];
     }
 }
 - (void)makeContent{

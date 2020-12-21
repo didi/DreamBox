@@ -12,6 +12,7 @@
 #import "DBFactory.h"
 #import "UIView+Yoga.h"
 #import "DBPool.h"
+#import "DBFlexBoxLayout.h"
 
 @implementation DBContainerViewYoga
 
@@ -38,7 +39,7 @@
 
 - (void)flexBoxLayoutWithContainer:(UIView *)container renderModel:(DBYogaRenderModel *)renderModel
 {
-    [DBParser flexLayoutView:container withModel:renderModel.yogaModel];
+    [DBFlexBoxLayout flexLayoutView:container withModel:renderModel.yogaModel];
     container.backgroundColor = [UIColor db_colorWithHexString:renderModel.backgroundColor];
     
     NSArray *renderArray = renderModel.children;
@@ -57,7 +58,7 @@
             UIView *view = [self modelToView:viewModel];
             //添加到模型数组,渲染数组中
             [self addToAllContainer:container item:view andModel:viewModel];
-            [DBParser flexLayoutView:view withModel:viewModel.yogaLayout];
+            [DBFlexBoxLayout flexLayoutView:view withModel:viewModel.yogaLayout];
         }
     }
     
