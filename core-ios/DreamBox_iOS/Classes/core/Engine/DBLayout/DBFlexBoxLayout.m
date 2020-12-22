@@ -190,6 +190,9 @@
     if([key isEqual:@"space-around"]){
         return YGJustifySpaceAround;
     }
+    if([key isEqual:@"space-evenly"]){
+        return YGJustifySpaceEvenly;
+    }
     return YGJustifyFlexStart;
 }
 //align-items 验证了 flex-start，flex-end，center
