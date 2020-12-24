@@ -1,7 +1,10 @@
 from lxml import etree
+
+import constant
 from common import RawInput
 import re
 import logging
+from version_util import compareVersion
 
 PROGUARD_KEYS = 'abcdefghigklmnopqrstuvwxyz' + 'abcdefghigklmnopqrstuvwxyz'.upper()
 PROGUARD_MAGIC_STR = '_'
@@ -26,7 +29,8 @@ VIEW_TAGS = [
     'footer',
     'vh',
     'cell',
-    'pack'
+    'pack',
+    'layout'
 ]
 
 ACTION_TAGS = [
@@ -85,6 +89,13 @@ class DummyNode(Node):
 
     def myType(self) -> str:
         return 'dummy'
+
+
+class LayoutNode(Node):
+    """layout抽象容器节点"""
+
+    def myType(self) -> str:
+        return 'layout'
 
 
 class ViewNode(Node):
@@ -422,13 +433,20 @@ class _Converter:
                     # meta下的节点只能是attr
                     n = AttrNode(element_tag)
                 elif element_tag == 'pack':
+                    if compareVersion(constant.TARGET_RUNTIME_VER, constant.RUNTIME_VER_4) >= 0:
+                        raise Exception(f'<pack>节点在{constant.TARGET_RUNTIME_VER}格式下的DSL中不再支持')
                     # pack是一个特殊的view容器节点，不能拥有callback，只可以有children
                     n = PackNode(element_tag)
+                elif element_tag == 'layout':
+                    n = LayoutNode(element_tag)
                 elif element_tag in self.views:
                     n = ViewNode(element_tag)
                 elif element_tag in self.actions:
                     n = ActionNode(element_tag)
                 elif element_tag in SPECIAL_TAGS:
+                    if element_tag == 'render' and compareVersion(constant.TARGET_RUNTIME_VER,
+                                                                  constant.RUNTIME_VER_4) >= 0:
+                        raise Exception(f'<render>节点在{constant.TARGET_RUNTIME_VER}版本DSL中不再支持')
                     n = DummyNode(element_tag)
                 elif str(element_tag).startswith('on'):
                     n = CallbackNode(element_tag)
