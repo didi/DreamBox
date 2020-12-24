@@ -21,7 +21,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     install_requires=['lxml', 'watchdog', 'websockets', 'jinja2', 'qrcode', 'importlib-resources',
-                      'netifaces', 'PyYAML'],
+                      'netifaces', 'PyYAML', 'Pillow'],
     entry_points={
         'console_scripts': ["dmb-cli=cli.main:cli"]
     },

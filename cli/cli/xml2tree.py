@@ -7,7 +7,7 @@ import logging
 from version_util import compareVersion
 
 PROGUARD_KEYS = 'abcdefghigklmnopqrstuvwxyz' + 'abcdefghigklmnopqrstuvwxyz'.upper()
-PROGUARD_MAGIC_STR = '_'
+INTERNAL_KEEP_PREFIX = '_'
 
 SPECIAL_TAGS = [
     'dbl',
@@ -91,16 +91,16 @@ class DummyNode(Node):
         return 'dummy'
 
 
-class LayoutNode(Node):
+class ViewNode(Node):
+    def myType(self) -> str:
+        return 'view'
+
+
+class LayoutNode(ViewNode):
     """layout抽象容器节点"""
 
     def myType(self) -> str:
         return 'layout'
-
-
-class ViewNode(Node):
-    def myType(self) -> str:
-        return 'view'
 
 
 class PackNode(ViewNode):
@@ -220,7 +220,11 @@ class _Converter:
 
     def _transform(self):
         # 生成json树（dict）
-        root_obj = self._gen_node_v3(self.tree_root)
+        root_obj = None
+        if compareVersion(constant.TARGET_RUNTIME_VER, constant.RUNTIME_VER_3) <= 0:
+            root_obj = self._gen_node_v3(self.tree_root)
+        if compareVersion(constant.TARGET_RUNTIME_VER, constant.RUNTIME_VER_4) >= 0:
+            root_obj = self._gen_node_v4(self.tree_root)
         proguard_map = None
         obj = {'dbl': root_obj}
         if self.raw_cfg.proguard:
@@ -238,6 +242,49 @@ class _Converter:
         for k, v in self.proguard_keys.items():
             reversed_map[v] = k
         return {'map': reversed_map}
+
+    def _gen_node_v4(self, n: Node):
+        # 暂时不加入混淆功能
+        json_dict = {}
+        for k, v in n.attrs.items():
+            if isinstance(n, ViewNode) and k in self.idref_attrs:
+                json_dict[k] = self.int_ids[v]
+            else:
+                json_dict[k] = v
+        if isinstance(n, ViewNode) or type(n) is CallbackNode:
+            # 可能layout的type已经在上边写入过了
+            if '_type' not in json_dict.keys():
+                json_dict['_type'] = n.tag
+
+        for child in n.children:
+            child_type = type(child)
+            if child_type is CallbackNode:
+                if 'callbacks' not in json_dict.keys():
+                    json_dict['callbacks'] = []
+                json_dict['callbacks'].append(self._gen_node_v4(child))
+            elif isinstance(child, ViewNode):
+                if isinstance(n, ViewNode):
+                    if 'children' not in json_dict.keys():
+                        json_dict['children'] = []
+                    json_dict['children'].append(self._gen_node_v4(child))
+                if n.tag == 'dbl':
+                    json_dict[child.tag] = self._gen_node_v4(child)
+            elif child_type is ActionNode:
+                if 'actions' not in json_dict.keys():
+                    json_dict['actions'] = []
+                json_dict['actions'].append({child.tag: self._gen_node_v4(child)})
+            else:
+                if child.tag in json_dict.keys():
+                    # 产生碰撞，即此attr在parent中已经加过，但当时是object，碰撞时要自动转为array
+                    exist = json_dict[child.tag]
+                    if type(exist) is list:
+                        json_dict[child.tag].append(self._gen_node_v4(child))
+                    else:
+                        del json_dict[child.tag]
+                        json_dict[child.tag] = [exist, self._gen_node_v4(child)]
+                else:
+                    json_dict[child.tag] = self._gen_node_v4(child)
+        return json_dict
 
     def _gen_node_v3(self, n: Node):
         class AutoProguardDict(dict):
@@ -262,7 +309,7 @@ class _Converter:
                 maybe_proguard_keys = super().keys()
                 origin_keys = []
                 for mpk in maybe_proguard_keys:
-                    if mpk.startswith(PROGUARD_MAGIC_STR):
+                    if mpk.startswith(INTERNAL_KEEP_PREFIX):
                         hit = False
                         for k in self.proguards:
                             if self.proguards[k] == mpk:
@@ -518,7 +565,7 @@ class _Converter:
                 # only i
                 if i < len(PROGUARD_KEYS) - 1 and j == -1:
                     if one not in self.proguard_keys.values():
-                        self.proguard_keys[key] = PROGUARD_MAGIC_STR + one
+                        self.proguard_keys[key] = INTERNAL_KEEP_PREFIX + one
                         i += 1
                         break
                     else:
@@ -530,7 +577,7 @@ class _Converter:
                 else:
                     combine = ''.join([one, two])
                     if combine not in self.proguard_keys.values():
-                        self.proguard_keys[key] = PROGUARD_MAGIC_STR + combine
+                        self.proguard_keys[key] = INTERNAL_KEEP_PREFIX + combine
                         break
                     if i < len(PROGUARD_KEYS) - 1:
                         i += 1

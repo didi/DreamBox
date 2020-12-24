@@ -1,4 +1,4 @@
-from xml2tree import Node, RuleChecker, V2_NEW_TAGS, ViewNode, V3_NEW_TAGS, PackNode, CallbackNode, PROGUARD_MAGIC_STR
+from xml2tree import Node, RuleChecker, V2_NEW_TAGS, ViewNode, V3_NEW_TAGS, PackNode, CallbackNode, INTERNAL_KEEP_PREFIX
 import constant
 import logging
 
@@ -44,16 +44,9 @@ class DBRC(RuleChecker):
                 raise Exception('pack节点不能设置宽高属性')
 
     def _confirm_version(self, n: Node):
-        pass
-        # logging.debug('confirm target sdk version')
-        # if n.tag in V2_NEW_TAGS:
-        #     if constant.FORCE_TARGET == constant.RUNTIME_VER_1:
-        #         raise Exception(f'已强制适配v1版本DSL，但实际的DSL文件中出现了v2才能支持的标签: {n.tag}')
-        #     constant.TARGET_RUNTIME_VER = constant.RUNTIME_VER_2
-        #     logging.info(f'min support sdk version auto upgrade to {constant.TARGET_RUNTIME_VER}')
-        #     self.skip_version_check = True
-        # if n.tag in V3_NEW_TAGS:
-        #     constant.TARGET_RUNTIME_VER = constant.RUNTIME_VER_3
+        if n.tag == 'layout':
+            logging.debug(f'met <layout>, upgrade RUNTIME_VER to {constant.RUNTIME_VER_4}')
+            constant.TARGET_RUNTIME_VER = constant.RUNTIME_VER_4
 
     def _check_list_and_flow_wh(self, n: Node):
         if type(n) is not ViewNode:
@@ -64,6 +57,9 @@ class DBRC(RuleChecker):
         h = 'wrap'
         try:
             w = n.attrs['width']
+        except KeyError:
+            pass
+        try:
             h = n.attrs['height']
         except KeyError:
             pass
@@ -75,5 +71,5 @@ class DBRC(RuleChecker):
                 raise Exception('flow控件的宽、高不能都是自适应')
 
     def _check_any_node_named_with_magic_str(self, n):
-        if n.tag.startswith(PROGUARD_MAGIC_STR):
-            raise Exception(f'DSL中任意标签不能以 {PROGUARD_MAGIC_STR} 开头，这是内部保留特殊字符')
+        if n.tag.startswith(INTERNAL_KEEP_PREFIX):
+            raise Exception(f'DSL中任意标签不能以 {INTERNAL_KEEP_PREFIX} 开头，这是内部保留特殊字符')
