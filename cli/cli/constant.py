@@ -1,5 +1,5 @@
 """CLI的版本号"""
-CLI_VER = '3.1.9'
+CLI_VER = '4.1.1'
 RUNTIME_VER_1 = '0.1'
 RUNTIME_VER_2 = '0.2'
 RUNTIME_VER_3 = '0.3'
