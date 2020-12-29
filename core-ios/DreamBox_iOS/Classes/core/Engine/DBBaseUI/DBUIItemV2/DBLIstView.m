@@ -65,15 +65,15 @@
 #pragma mark - DBViewProtocol
 -(void)onCreateView{
     [super onCreateView];
-    [self createCollectionView];
-    [self.collectView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.bottom.right.equalTo(self);
-    }];
 }
 
 -(void)onAttributesBind:(DBViewModel *)attributesModel{
     [super onAttributesBind:attributesModel];
     _listModel = (DBlistModelV2*)attributesModel;
+    [self createCollectionView];
+    [self.collectView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.bottom.right.equalTo(self);
+    }];
     if(_listModel.src){
         [self handleChangeOn:_listModel.changeOn];
     }
@@ -132,6 +132,8 @@
     self.collectView.dataSource = self;
     self.collectView.backgroundColor = [UIColor whiteColor];
     self.collectView.backgroundColor =  [UIColor db_colorWithHexString:listModel.backgroundColor];
+    self.collectView.showsVerticalScrollIndicator = NO;
+    self.collectView.showsHorizontalScrollIndicator = NO;
     
     //注册单元格
     [self.collectView registerClass:[DBlistViewCell class] forCellWithReuseIdentifier:@"cell"];

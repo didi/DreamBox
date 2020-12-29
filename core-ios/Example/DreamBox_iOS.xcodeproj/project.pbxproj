@@ -11,9 +11,7 @@
 		0A006356258F4A5D00FD773E /* yoga_list.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A006355258F4A5D00FD773E /* yoga_list.json */; };
 		0A006358259046ED00FD773E /* mock_yoga_test.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A006357259046ED00FD773E /* mock_yoga_test.json */; };
 		0A00635A25907D9C00FD773E /* mock_yoga_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A00635925907D9C00FD773E /* mock_yoga_2.json */; };
-		0A00635C2590843300FD773E /* record.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A00635B2590843300FD773E /* record.json */; };
-		0A00635E2590845300FD773E /* safe_task.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A00635D2590845300FD773E /* safe_task.json */; };
-		0A0063602590847700FD773E /* card_detect.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A00635F2590847700FD773E /* card_detect.json */; };
+		0A2131542594758E00B47731 /* HomeTest.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A2131532594758E00B47731 /* HomeTest.json */; };
 		0AB3A906258B76570049E7C6 /* tmp_yoga1.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AB3A905258B76570049E7C6 /* tmp_yoga1.json */; };
 		0AE6A24C255ABB5900BB6B73 /* mock_Data.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AE6A24B255ABB5900BB6B73 /* mock_Data.json */; };
 		0AE6A24E255AC03900BB6B73 /* mock_template.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AE6A24D255AC03900BB6B73 /* mock_template.json */; };
@@ -54,9 +52,7 @@
 		0A006355258F4A5D00FD773E /* yoga_list.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = yoga_list.json; sourceTree = "<group>"; };
 		0A006357259046ED00FD773E /* mock_yoga_test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mock_yoga_test.json; sourceTree = "<group>"; };
 		0A00635925907D9C00FD773E /* mock_yoga_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mock_yoga_2.json; sourceTree = "<group>"; };
-		0A00635B2590843300FD773E /* record.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = record.json; sourceTree = "<group>"; };
-		0A00635D2590845300FD773E /* safe_task.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = safe_task.json; sourceTree = "<group>"; };
-		0A00635F2590847700FD773E /* card_detect.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = card_detect.json; sourceTree = "<group>"; };
+		0A2131532594758E00B47731 /* HomeTest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = HomeTest.json; sourceTree = "<group>"; };
 		0AB3A905258B76570049E7C6 /* tmp_yoga1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tmp_yoga1.json; sourceTree = "<group>"; };
 		0AE6A24B255ABB5900BB6B73 /* mock_Data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mock_Data.json; sourceTree = "<group>"; };
 		0AE6A24D255AC03900BB6B73 /* mock_template.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mock_template.json; sourceTree = "<group>"; };
@@ -161,9 +157,7 @@
 		6003F593195388D20070C39A /* Example for DreamBox_iOS */ = {
 			isa = PBXGroup;
 			children = (
-				0A00635F2590847700FD773E /* card_detect.json */,
-				0A00635D2590845300FD773E /* safe_task.json */,
-				0A00635B2590843300FD773E /* record.json */,
+				0A2131532594758E00B47731 /* HomeTest.json */,
 				0A00635925907D9C00FD773E /* mock_yoga_2.json */,
 				0A006357259046ED00FD773E /* mock_yoga_test.json */,
 				0A006355258F4A5D00FD773E /* yoga_list.json */,
@@ -340,13 +334,11 @@
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				0AE6A24E255AC03900BB6B73 /* mock_template.json in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
-				0A0063602590847700FD773E /* card_detect.json in Resources */,
-				0A00635C2590843300FD773E /* record.json in Resources */,
-				0A00635E2590845300FD773E /* safe_task.json in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 				0A006356258F4A5D00FD773E /* yoga_list.json in Resources */,
 				0A00634C258F403D00FD773E /* yoga_flow.json in Resources */,
 				0A006358259046ED00FD773E /* mock_yoga_test.json in Resources */,
+				0A2131542594758E00B47731 /* HomeTest.json in Resources */,
 				0A00635A25907D9C00FD773E /* mock_yoga_2.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
