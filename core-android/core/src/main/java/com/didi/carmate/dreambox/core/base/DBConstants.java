@@ -74,7 +74,9 @@ public class DBConstants {
     // -------layout 相关常量定义-------
     // 节点类型
     public static final String UI_ROOT = "layout";
-    public static final String UI_TYPE = "type";
+    public static final String UI_TYPE = "_type";
+    public static final String UI_LAYOUT = "layout";
+    public static final String UI_LAYOUT_TYPE = "type";
     public static final String UI_PAYLOAD = "payload";
     public static final String PAYLOAD_LIST_HEADER = "header";
     public static final String PAYLOAD_LIST_FOOTER = "footer";

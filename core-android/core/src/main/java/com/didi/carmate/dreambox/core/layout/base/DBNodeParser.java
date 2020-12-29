@@ -177,7 +177,7 @@ public class DBNodeParser {
                 JsonObject subJsonObject = jsonElement.getAsJsonObject();
                 INodeCreator nodeCreator = mNodeRegistry.getNodeMap().get(tagName);
                 if (DBConstants.UI_ROOT.equals(tagName)) {
-                    String layout = entry.getValue().getAsJsonObject().get(DBConstants.UI_TYPE).getAsString();
+                    String layout = entry.getValue().getAsJsonObject().get(DBConstants.UI_LAYOUT_TYPE).getAsString();
                     DBContainer<ViewGroup> layoutNode = getContainerNode(layout);
                     layoutNode.setTagName(tagName);
                     layoutNode.setParent(parent);
@@ -232,7 +232,7 @@ public class DBNodeParser {
 
                         JsonObject subJsonObject = element.getAsJsonObject();
                         if (arrayNode instanceof DBChildren) { // 视图数组节点
-                            JsonElement typeElement = subJsonObject.get(getProguardKey());
+                            JsonElement typeElement = subJsonObject.get(getUiTypeProguardKey());
                             if (null == typeElement) {
                                 printTreeNode("type should not be null: " + subJsonObject);
                                 return;
@@ -240,10 +240,14 @@ public class DBNodeParser {
 
                             String viewTagName = typeElement.getAsString();
                             if (mNodeRegistry.getNodeMap().containsKey(viewTagName)) {
-                                if (DBConstants.LAYOUT_TYPE_YOGA.equals(viewTagName) ||
-                                        DBConstants.LAYOUT_TYPE_FRAME.equals(viewTagName) ||
-                                        DBConstants.LAYOUT_TYPE_LINEAR.equals(viewTagName)) {
-                                    DBContainer<ViewGroup> layoutNode = getContainerNode(viewTagName);
+                                if (DBConstants.UI_LAYOUT.equals(viewTagName)) {
+                                    JsonElement layoutType = subJsonObject.get(getUiLayoutProguardKey());
+                                    if (null == layoutType) {
+                                        printTreeNode("layout type should not be null: " + subJsonObject);
+                                        return;
+                                    }
+                                    String layoutTagName = layoutType.getAsString();
+                                    DBContainer<ViewGroup> layoutNode = getContainerNode(layoutTagName);
                                     layoutNode.setTagName(viewTagName);
                                     arrayNode.addChild(layoutNode);
                                     layoutNode.setParent(arrayNode);
@@ -268,7 +272,7 @@ public class DBNodeParser {
                                 printTreeNode("unexpected key: " + viewTagName);
                             }
                         } else if (arrayNode instanceof DBCallbacks) { // callbacks 节点需特殊处理
-                            JsonElement typeElement = subJsonObject.get(getProguardKey());
+                            JsonElement typeElement = subJsonObject.get(getUiTypeProguardKey());
                             if (null == typeElement) {
                                 printTreeNode("type should not be null: " + subJsonObject);
                                 return;
@@ -374,13 +378,22 @@ public class DBNodeParser {
         return proguardKey;
     }
 
-    private String getProguardKey() {
+    private String getUiTypeProguardKey() {
         for (Map.Entry<String, String> entry : mProguardMap.entrySet()) {
             if (entry.getValue().equals(DBConstants.UI_TYPE)) {
                 return entry.getKey();
             }
         }
         return DBConstants.UI_TYPE;
+    }
+
+    private String getUiLayoutProguardKey() {
+        for (Map.Entry<String, String> entry : mProguardMap.entrySet()) {
+            if (entry.getValue().equals(DBConstants.UI_LAYOUT_TYPE)) {
+                return entry.getKey();
+            }
+        }
+        return DBConstants.UI_LAYOUT_TYPE;
     }
 
     private void collectNodeInfo(IDBNode node, String originKey) {
