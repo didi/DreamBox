@@ -8,8 +8,8 @@
 
 #import "DBDefines.h"
 #import "DBValidJudge.h"
-static NSString * const kDreamBox_Report_Version = @"0.3.0";
-static NSString * const kDreamBox_Version = @"0003";
+static NSString * const kDreamBox_Report_Version = @"0.4.0";
+static NSString * const kDreamBox_Version = @"0004";
 
 @implementation DBDefines
 

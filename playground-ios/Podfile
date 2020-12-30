@@ -5,5 +5,5 @@ target 'DBPlayGround_iOS' do
   # Comment the next line if you don't want to use dynamic frameworks
 	
   pod 'SocketRocket'
-  pod 'DreamBox_iOS', :git => 'git@git.xiaojukeji.com:DreamBox/dreambox_ios.git'
+  pod 'DreamBox_iOS', :path => '../core-ios/'
 end

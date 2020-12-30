@@ -548,22 +548,22 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
 
 #pragma mark -
 - (void)p_debugView {
-    self.debugIcon = [[DBDeugSignView alloc] init];
-    self.debugIcon.translatesAutoresizingMaskIntoConstraints = NO;
-    [self insertSubview:self.debugIcon aboveSubview:self.bgView];
-    
-    NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.debugIcon attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
-    NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.debugIcon attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
-    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:self.debugIcon attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:53];
-    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self.debugIcon attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40];
-    rightConstraint.active = YES;
-    topConstraint.active = YES;
-    widthConstraint.active = YES;
-    heightConstraint.active = YES;
-    
-#ifdef DEBUG
-    [self.debugIcon showIcon];
-#endif
+//    self.debugIcon = [[DBDeugSignView alloc] init];
+//    self.debugIcon.translatesAutoresizingMaskIntoConstraints = NO;
+//    [self insertSubview:self.debugIcon aboveSubview:self.bgView];
+//    
+//    NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.debugIcon attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
+//    NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.debugIcon attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
+//    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:self.debugIcon attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:53];
+//    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self.debugIcon attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40];
+//    rightConstraint.active = YES;
+//    topConstraint.active = YES;
+//    widthConstraint.active = YES;
+//    heightConstraint.active = YES;
+//    
+//#ifdef DEBUG
+//    [self.debugIcon showIcon];
+//#endif
 }
 
 #pragma mark - 老的相对布局兼容安卓方法，4.0之后废弃
