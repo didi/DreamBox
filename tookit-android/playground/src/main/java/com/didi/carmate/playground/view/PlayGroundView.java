@@ -31,7 +31,11 @@ public class PlayGroundView extends FrameLayout {
         super(context, attrs, defStyleAttr);
         dreamBoxView = new DreamBoxView(getContext());
         dreamBoxView.render(ACCESS_KEY, "playground", null);
-        addView(dreamBoxView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        if (null == dreamBoxView.getLayoutParams()) {
+            addView(dreamBoxView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        } else {
+            addView(dreamBoxView);
+        }
     }
 
     @SuppressLint("RestrictedApi")
@@ -43,7 +47,11 @@ public class PlayGroundView extends FrameLayout {
         if (dreamBoxView == null) {
             dreamBoxView = new DreamBoxView(getContext());
             dreamBoxView.render(ACCESS_KEY, "playground", null);
-            addView(dreamBoxView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            if (null == dreamBoxView.getLayoutParams()) {
+                addView(dreamBoxView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            } else {
+                addView(dreamBoxView);
+            }
         }
         dreamBoxView.reloadWithTemplate(template);
         return true;
@@ -57,7 +65,11 @@ public class PlayGroundView extends FrameLayout {
         if (dreamBoxView == null) {
             dreamBoxView = new DreamBoxView(getContext());
             dreamBoxView.render(ACCESS_KEY, "playground", null);
-            addView(dreamBoxView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            if (null == dreamBoxView.getLayoutParams()) {
+                addView(dreamBoxView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            } else {
+                addView(dreamBoxView);
+            }
         }
         dreamBoxView.setExtJsonStr(ext);
         return true;

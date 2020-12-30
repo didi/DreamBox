@@ -1,5 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 buildscript {
 
     repositories {
@@ -22,6 +25,7 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url properties.getProperty("LOCAL_REPO") }
         maven { url 'https://oss.sonatype.org/content/repositories/public/' }
         maven { url 'https://maven.aliyun.com/repository/public/' }
         maven { url 'https://maven.aliyun.com/repository/google/' }
@@ -31,10 +35,10 @@ allprojects {
         google()
         jcenter()
     }
-}
 
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor  0,'seconds'
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor  0,'seconds'
+    }
 }
 
 task clean(type: Delete) {
