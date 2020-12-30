@@ -19,6 +19,7 @@ typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
 
 #pragma mark - viewModel
 @interface DBViewModel : NSObject
+@property (nonatomic ,copy) NSString *_type;//string
 @property (nonatomic ,copy) NSString *type;//string
 @property (nonatomic ,copy) NSString *modelID;//string
 

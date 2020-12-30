@@ -20,10 +20,11 @@
 #pragma mark - viewModel
 + (DBViewModel *)modelWithDict:(NSDictionary *)dict
 {
-    NSString *type = [dict objectForKey:@"type"];
+    NSString *type = [dict objectForKey:@"_type"];
     Class cls = [[DBFactory sharedInstance] getModelClassByType:type];
     //常规属性
     DBViewModel *model2 = [[cls alloc] init];
+    model2._type = [dict db_objectForKey:@"_type"];
     model2.type = [dict db_objectForKey:@"type"];
     model2.modelID = [dict db_objectForKey:@"id"];
     model2.backgroundColor = [dict db_objectForKey:@"backgroundColor"];
@@ -214,7 +215,7 @@
 
     NSArray *children = [dict objectForKey:@"children"];
     [children enumerateObjectsUsingBlock:^( NSDictionary *itemDict, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString *type = [itemDict objectForKey:@"type"];
+        NSString *type = [itemDict objectForKey:@"_type"];
         if([type isEqualToString:@"header"]){
             model.header = (NSArray *)[itemDict objectForKey:@"children"];
         }

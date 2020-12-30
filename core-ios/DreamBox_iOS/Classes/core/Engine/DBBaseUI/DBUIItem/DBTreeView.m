@@ -480,12 +480,12 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     NSArray *renderArray = [[dict objectForKey:@"dbl"] objectForKey:@"render"];
     NSMutableDictionary *typeNumberDict = [NSMutableDictionary dictionary];
     for (NSDictionary *dict in renderArray) {
-        if ([typeNumberDict objectForKey:[dict objectForKey:@"type"]]) {
-            NSNumber *number = [typeNumberDict objectForKey:[dict objectForKey:@"type"]];
+        if ([typeNumberDict objectForKey:[dict objectForKey:@"_type"]]) {
+            NSNumber *number = [typeNumberDict objectForKey:[dict objectForKey:@"_type"]];
             number = [NSNumber numberWithInt:(number.intValue + 1)] ;
-            [typeNumberDict setObject:number forKey:[dict objectForKey:@"type"]];
+            [typeNumberDict setObject:number forKey:[dict objectForKey:@"_type"]];
         }else{
-            [typeNumberDict setObject:[NSNumber numberWithInt:1] forKey:[dict objectForKey:@"type"]];
+            [typeNumberDict setObject:[NSNumber numberWithInt:1] forKey:[dict objectForKey:@"_type"]];
         }
     }
     

@@ -17,7 +17,7 @@
     __weak typeof(view) weakView = view;
     
     for(NSDictionary *callBack in [callBacks mutableCopy]){
-        NSString *type = [callBack db_objectForKey:@"type"];
+        NSString *type = [callBack db_objectForKey:@"_type"];
         if([type isEqual:@"onClick"]){
             [view db_addTapGestureActionWithBlock:^(UITapGestureRecognizer * _Nonnull tapAction) {
                 [DBParser circulationActionDict:callBack andPathId:view.pathId];

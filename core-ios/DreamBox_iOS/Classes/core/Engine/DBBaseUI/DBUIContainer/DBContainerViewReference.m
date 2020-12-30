@@ -38,7 +38,7 @@
     
     for (int i = 0; i < packedRenderArray.count ; i ++) {
         NSDictionary *dict = packedRenderArray[i];
-        NSString *type = [dict objectForKey:@"type"];
+        NSString *type = [dict objectForKey:@"_type"];
         Class cls = [[DBFactory sharedInstance] getModelClassByType:type];
         DBViewModel *viewModel = [cls modelWithDict:dict];
         UIView *view = [self modelToView:viewModel];
@@ -53,7 +53,7 @@
     NSMutableArray *restructRenderArray = [[NSMutableArray alloc] initWithArray:itemArray];
     for(int i = 0; i < itemArray.count; i++){
         NSDictionary *itemDict = [itemArray db_ObjectAtIndex:i];
-        NSString *type = [itemDict objectForKey:@"type"];
+        NSString *type = [itemDict objectForKey:@"_type"];
         if([type isEqual:@"pack"]){
             NSArray *children = [itemDict objectForKey:@"children"];
             for(NSDictionary *dict in children){

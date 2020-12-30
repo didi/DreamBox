@@ -53,6 +53,7 @@
             [container addSubview: subContainer];
             [self flexBoxLayoutWithContainer:subContainer renderModel:subRenderModel];
         } else {
+            type = [dict objectForKey:@"_type"];
             Class cls = [[DBFactory sharedInstance] getModelClassByType:type];
             DBViewModel *viewModel = [cls modelWithDict:dict];
             UIView *view = [self modelToView:viewModel];

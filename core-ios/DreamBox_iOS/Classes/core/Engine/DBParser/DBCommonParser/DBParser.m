@@ -112,9 +112,9 @@
 + (DBView *)modelToView:(DBViewModel *)model andPathId:(NSString *)pathId
 {
 
-    Class cls = [[DBFactory sharedInstance] getViewClassByType:model.type];
+    Class cls = [[DBFactory sharedInstance] getViewClassByType:model._type];
     if (!cls) {
-        [self trace_node_unknown:model.type andPathId:pathId];
+        [self trace_node_unknown:model._type andPathId:pathId];
     }
     
     //lifeCycle：创建视图

@@ -1,6 +1,0 @@
-framework module DBDebugTool {
-  umbrella header "DBDebugTool-umbrella.h"
-
-  export *
-  module * { export * }
-}
