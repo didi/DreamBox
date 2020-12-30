@@ -300,8 +300,12 @@ public class DreamBoxView extends FrameLayout implements LifecycleOwner {
     private void renderView(IDBCoreView view) {
         removeAllViews();
         this.curCoreView = view;
-        addView(curCoreView.getView(), 0,
-                new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        if (null == curCoreView.getView().getLayoutParams()) {
+            addView(curCoreView.getView(), 0,
+                    new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        } else {
+            addView(curCoreView.getView(), 0);
+        }
         addDebugView();
     }
 
