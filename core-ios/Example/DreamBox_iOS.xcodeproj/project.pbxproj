@@ -15,6 +15,7 @@
 		0AB3A906258B76570049E7C6 /* tmp_yoga1.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AB3A905258B76570049E7C6 /* tmp_yoga1.json */; };
 		0AE6A24C255ABB5900BB6B73 /* mock_Data.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AE6A24B255ABB5900BB6B73 /* mock_Data.json */; };
 		0AE6A24E255AC03900BB6B73 /* mock_template.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AE6A24D255AC03900BB6B73 /* mock_template.json */; };
+		0AEE2FC1259CA768005D7138 /* yoga_Test2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AEE2FC0259CA768005D7138 /* yoga_Test2.json */; };
 		1B7294A3DA89081C5B0544B7 /* Pods_DreamBox_iOS_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D164075DD77D2D29618AFC /* Pods_DreamBox_iOS_Example.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -56,6 +57,7 @@
 		0AB3A905258B76570049E7C6 /* tmp_yoga1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tmp_yoga1.json; sourceTree = "<group>"; };
 		0AE6A24B255ABB5900BB6B73 /* mock_Data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mock_Data.json; sourceTree = "<group>"; };
 		0AE6A24D255AC03900BB6B73 /* mock_template.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mock_template.json; sourceTree = "<group>"; };
+		0AEE2FC0259CA768005D7138 /* yoga_Test2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = yoga_Test2.json; sourceTree = "<group>"; };
 		191BF004C691F1CC8C0C0829 /* Pods-DreamBox_iOS_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DreamBox_iOS_Tests.release.xcconfig"; path = "Target Support Files/Pods-DreamBox_iOS_Tests/Pods-DreamBox_iOS_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		405AA98C702DF6390C4795FF /* DreamBox_iOS.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = DreamBox_iOS.podspec; path = ../DreamBox_iOS.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		6003F58A195388D20070C39A /* DreamBox_iOS_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DreamBox_iOS_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,6 +163,7 @@
 				0A00635925907D9C00FD773E /* mock_yoga_2.json */,
 				0A006357259046ED00FD773E /* mock_yoga_test.json */,
 				0A006355258F4A5D00FD773E /* yoga_list.json */,
+				0AEE2FC0259CA768005D7138 /* yoga_Test2.json */,
 				0A00634B258F403C00FD773E /* yoga_flow.json */,
 				0AB3A905258B76570049E7C6 /* tmp_yoga1.json */,
 				0AE6A24D255AC03900BB6B73 /* mock_template.json */,
@@ -328,6 +331,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AEE2FC1259CA768005D7138 /* yoga_Test2.json in Resources */,
 				0AB3A906258B76570049E7C6 /* tmp_yoga1.json in Resources */,
 				0AE6A24C255ABB5900BB6B73 /* mock_Data.json in Resources */,
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
