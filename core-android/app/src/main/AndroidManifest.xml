@@ -19,7 +19,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.airk.dreamhouse.MainActivity">
+<!--        <activity android:name="com.airk.dreamhouse.MainActivity">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+        <activity android:name="com.airk.dreamhouse.TestRuntimeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

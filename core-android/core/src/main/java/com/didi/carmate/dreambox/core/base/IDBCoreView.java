@@ -20,6 +20,8 @@ public interface IDBCoreView {
 
     void requestRender();
 
+    void bindData();
+
     View getView();
 
     View getRootView();

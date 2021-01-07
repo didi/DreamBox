@@ -22,6 +22,7 @@ import com.didi.carmate.dreambox.core.action.DBTraceAttr;
 import com.didi.carmate.dreambox.core.base.DBCallbacks;
 import com.didi.carmate.dreambox.core.base.DBConstants;
 import com.didi.carmate.dreambox.core.base.DBContext;
+import com.didi.carmate.dreambox.core.base.DBNodeParser;
 import com.didi.carmate.dreambox.core.base.DBNodeRegistry;
 import com.didi.carmate.dreambox.core.base.DBTemplate;
 import com.didi.carmate.dreambox.core.base.IDBCoreView;
@@ -43,7 +44,6 @@ public class DBEngine {
     private static volatile DBEngine sInstance;
 
     private Application mApplication;
-    private DBNodeRegistry mConstraintNodeRegistry;
     private DBNodeRegistry mNodeRegistry;
 
     private DBEngine() {
@@ -62,7 +62,6 @@ public class DBEngine {
 
     public void init(Application application) {
         mApplication = application;
-        mConstraintNodeRegistry = new DBNodeRegistry();
         mNodeRegistry = new DBNodeRegistry();
         initInternal();
 
@@ -85,17 +84,8 @@ public class DBEngine {
     @WorkerThread
     public synchronized DBTemplate parser(String accessKey, String templateId, String dblTemplate) {
         DBContext dbContext = new DBContext(mApplication, accessKey, templateId);
-
-        // TODO 版本判断，替换解析引擎
-        if (dblTemplate.contains("\"layout\"")) {
-            com.didi.carmate.dreambox.core.layout.base.DBNodeParser dbLoader =
-                    new com.didi.carmate.dreambox.core.layout.base.DBNodeParser(mNodeRegistry);
-            return dbLoader.parser(dbContext, dblTemplate);
-        } else {
-            com.didi.carmate.dreambox.core.constraint.base.DBNodeParser dbLoader =
-                    new com.didi.carmate.dreambox.core.constraint.base.DBNodeParser(mConstraintNodeRegistry);
-            return dbLoader.parser(dbContext, dblTemplate);
-        }
+        DBNodeParser dbLoader = new DBNodeParser(mNodeRegistry);
+        return dbLoader.parser(dbContext, dblTemplate);
     }
 
     public IDBCoreView render(DBTemplate template, JsonObject extJsonObject, Context currentContext, Lifecycle lifecycle) {
@@ -138,82 +128,24 @@ public class DBEngine {
     }
 
     public void registerDBNode(String nodeTag, INodeCreator nodeCreator) {
-        mConstraintNodeRegistry.registerNode(nodeTag, nodeCreator);
         mNodeRegistry.registerNode(nodeTag, nodeCreator);
     }
 
     private void initInternal() {
-        // 约束布局引擎
         registerRenderNode();
-        registerActionNode(mConstraintNodeRegistry);
-        registerOtherNode(mConstraintNodeRegistry);
-
-        // yoga布局引擎
-        registerYogaNode();
         registerActionNode(mNodeRegistry);
         registerOtherNode(mNodeRegistry);
     }
 
     private void registerRenderNode() {
-        mConstraintNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.constraint.render.DBLView.getNodeTag(),
-                new com.didi.carmate.dreambox.core.constraint.render.DBLView.NodeCreator());
-        mConstraintNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.constraint.render.DBRender.getNodeTag(),
-                new com.didi.carmate.dreambox.core.constraint.render.DBRender.NodeCreator());
-        mConstraintNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.constraint.render.DBView.getNodeTag(),
-                new com.didi.carmate.dreambox.core.constraint.render.DBView.NodeCreator());
-        mConstraintNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.constraint.render.DBText.getNodeTag(),
-                new com.didi.carmate.dreambox.core.constraint.render.DBText.NodeCreator());
-        mConstraintNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.constraint.render.DBImage.getNodeTag(),
-                new com.didi.carmate.dreambox.core.constraint.render.DBImage.NodeCreator());
-        mConstraintNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.constraint.render.DBButton.getNodeTag(),
-                new com.didi.carmate.dreambox.core.constraint.render.DBButton.NodeCreator());
-        mConstraintNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.constraint.render.DBLoading.getNodeTag(),
-                new com.didi.carmate.dreambox.core.constraint.render.DBLoading.NodeCreator());
-        mConstraintNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.constraint.render.DBProgress.getNodeTag(),
-                new com.didi.carmate.dreambox.core.constraint.render.DBProgress.NodeCreator());
-        mConstraintNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.constraint.render.DBList.getNodeTag(),
-                new com.didi.carmate.dreambox.core.constraint.render.DBList.NodeCreator());
-        mConstraintNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.constraint.render.DBListVh.getNodeTag(),
-                new com.didi.carmate.dreambox.core.constraint.render.DBListVh.NodeCreator());
-        mConstraintNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.constraint.render.DBListHeader.getNodeTag(),
-                new com.didi.carmate.dreambox.core.constraint.render.DBListHeader.NodeCreator());
-        mConstraintNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.constraint.render.DBListFooter.getNodeTag(),
-                new com.didi.carmate.dreambox.core.constraint.render.DBListFooter.NodeCreator());
-        mConstraintNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.constraint.render.DBFlow.getNodeTag(),
-                new com.didi.carmate.dreambox.core.constraint.render.DBFlow.NodeCreator());
-        mConstraintNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.constraint.render.DBChildren.getNodeTag(),
-                new com.didi.carmate.dreambox.core.constraint.render.DBChildren.NodeCreator());
-        mConstraintNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.constraint.base.DBPack.getNodeTag(),
-                new com.didi.carmate.dreambox.core.constraint.base.DBPack.NodeCreator());
-        mConstraintNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.constraint.render.DBCell.getNodeTag(),
-                new com.didi.carmate.dreambox.core.constraint.render.DBCell.NodeCreator());
-    }
-
-    private void registerYogaNode() {
         // 根节点
         mNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.layout.render.DBLView.getNodeTag(),
-                new com.didi.carmate.dreambox.core.layout.render.DBLView.NodeCreator());
+                com.didi.carmate.dreambox.core.render.DBLView.getNodeTag(),
+                new com.didi.carmate.dreambox.core.render.DBLView.NodeCreator());
         // 辅助节点
         mNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.layout.render.DBChildren.getNodeTag(),
-                new com.didi.carmate.dreambox.core.layout.render.DBChildren.NodeCreator());
+                com.didi.carmate.dreambox.core.render.DBChildren.getNodeTag(),
+                new com.didi.carmate.dreambox.core.render.DBChildren.NodeCreator());
         // 容器节点
         mNodeRegistry.registerNode(DBConstants.UI_ROOT, null);
         mNodeRegistry.registerNode(DBConstants.LAYOUT_TYPE_YOGA, null);
@@ -221,29 +153,29 @@ public class DBEngine {
         mNodeRegistry.registerNode(DBConstants.LAYOUT_TYPE_LINEAR, null);
         // 视图节点
         mNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.layout.render.DBView.getNodeTag(),
-                new com.didi.carmate.dreambox.core.layout.render.DBView.NodeCreator());
+                com.didi.carmate.dreambox.core.render.DBView.getNodeTag(),
+                new com.didi.carmate.dreambox.core.render.DBView.NodeCreator());
         mNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.layout.render.DBText.getNodeTag(),
-                new com.didi.carmate.dreambox.core.layout.render.DBText.NodeCreator());
+                com.didi.carmate.dreambox.core.render.DBText.getNodeTag(),
+                new com.didi.carmate.dreambox.core.render.DBText.NodeCreator());
         mNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.layout.render.DBImage.getNodeTag(),
-                new com.didi.carmate.dreambox.core.layout.render.DBImage.NodeCreator());
+                com.didi.carmate.dreambox.core.render.DBImage.getNodeTag(),
+                new com.didi.carmate.dreambox.core.render.DBImage.NodeCreator());
         mNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.layout.render.DBButton.getNodeTag(),
-                new com.didi.carmate.dreambox.core.layout.render.DBButton.NodeCreator());
+                com.didi.carmate.dreambox.core.render.DBButton.getNodeTag(),
+                new com.didi.carmate.dreambox.core.render.DBButton.NodeCreator());
         mNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.layout.render.DBLoading.getNodeTag(),
-                new com.didi.carmate.dreambox.core.layout.render.DBLoading.NodeCreator());
+                com.didi.carmate.dreambox.core.render.DBLoading.getNodeTag(),
+                new com.didi.carmate.dreambox.core.render.DBLoading.NodeCreator());
         mNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.layout.render.DBProgress.getNodeTag(),
-                new com.didi.carmate.dreambox.core.layout.render.DBProgress.NodeCreator());
+                com.didi.carmate.dreambox.core.render.DBProgress.getNodeTag(),
+                new com.didi.carmate.dreambox.core.render.DBProgress.NodeCreator());
         mNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.layout.render.DBList.getNodeTag(),
-                new com.didi.carmate.dreambox.core.layout.render.DBList.NodeCreator());
+                com.didi.carmate.dreambox.core.render.DBList.getNodeTag(),
+                new com.didi.carmate.dreambox.core.render.DBList.NodeCreator());
         mNodeRegistry.registerNode(
-                com.didi.carmate.dreambox.core.layout.render.DBFlow.getNodeTag(),
-                new com.didi.carmate.dreambox.core.layout.render.DBFlow.NodeCreator());
+                com.didi.carmate.dreambox.core.render.DBFlow.getNodeTag(),
+                new com.didi.carmate.dreambox.core.render.DBFlow.NodeCreator());
     }
 
     private void registerActionNode(DBNodeRegistry nodeRegistry) {
