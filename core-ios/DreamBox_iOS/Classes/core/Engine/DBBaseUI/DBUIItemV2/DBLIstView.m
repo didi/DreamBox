@@ -160,7 +160,7 @@
         [cell addSubview:contentView];
     } else {
         NSDictionary *dict = self.dataList[indexPath.row];
-        [contentView reloadWithDict:dict];
+        [contentView reloadWithMetaDict:dict];
     }
     contentView.tag = 999;
     

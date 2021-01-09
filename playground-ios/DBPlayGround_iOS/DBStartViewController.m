@@ -90,19 +90,11 @@ static CGFloat DBVerticalMargin = 10;
         //刷新，暂无刷新接口，用重建代替
         [self.dbView reloadWithData:data extMeta:ext];
     }
-    
-    self.dbView.frame = CGRectMake(DBButtonMargin, CGRectGetMaxY(self.textField.frame) + DBVerticalMargin, self.view.frame.size.width - 2*DBButtonMargin, DBWSSDemoHeight);
-
-    [self.dbView reloadTreeView];
 }
 
 - (void)scanQRCode{
     DBQRScanVC *scanVC = [[DBQRScanVC alloc] init];
     [self.navigationController pushViewController:scanVC animated:YES];
-}
-
-- (void)refresh {
-    [self.dbView reloadTreeView];
 }
 
 - (void)bind {

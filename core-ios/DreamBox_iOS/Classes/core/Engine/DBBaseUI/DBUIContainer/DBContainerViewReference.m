@@ -23,7 +23,11 @@
     return container;
 }
 
-- (void)reloadWithDict:(NSDictionary *)dict{
+- (void)reloadWithMetaDict:(NSDictionary *)dict{
+    
+}
+
+- (void)reloadWithExtDict:(NSDictionary *)dict {
     
 }
 

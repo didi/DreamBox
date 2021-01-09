@@ -29,7 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)addToAllContainer:(UIView *)containerView item:(UIView *)itemView andModel:(DBViewModel *)viewModel;
 
-- (void)reloadWithDict:(NSDictionary *)dict;
+- (void)reloadWithMetaDict:(NSDictionary *)dict;
+
+- (void)reloadWithExtDict:(NSDictionary *)dict;
 
 @end
 

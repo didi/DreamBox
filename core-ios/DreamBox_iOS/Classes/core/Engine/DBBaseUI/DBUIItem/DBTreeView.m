@@ -284,26 +284,13 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
 
 -(void)reloadTreeView
 {
-    for (int i = 0; i < self.allRenderViewArray.count ; i ++) {
-        if (i != 0) {
-            id<DBViewProtocol> view = self.allRenderViewArray[i];
-            [view reload];
-            if(view.model.yogaLayout){
-                UIView *yogaView = (UIView *)view;
-                [yogaView.yoga markDirty];
-            }
-        }
-    }
-    [self.bgView.backGroudView.yoga applyLayoutPreservingOrigin:YES dimensionFlexibility:YGDimensionFlexibilityFlexibleWidth | YGDimensionFlexibilityFlexibleHeight];
 }
 
 #pragma mark - privateMethods 构建时调用
 - (void)bindExtensionMetaData:(NSDictionary *)ext {
-    
-    [self p_bindExtensionMetaData:ext];
-    [[DBPool shareDBPool] setObject:ext ToDBExtPoolWithPathId:self.pathTid];
-    [self reloadTreeView];
+    [self.bgView reloadWithExtDict:ext];
 }
+
 
 - (void)updatePoolMetaData:(NSDictionary *)entries {
     

@@ -66,9 +66,17 @@
     [container.yoga applyLayoutPreservingOrigin:YES dimensionFlexibility:YGDimensionFlexibilityFlexibleWidth | YGDimensionFlexibilityFlexibleHeight];
 }
 
-- (void)reloadWithDict:(NSDictionary *)dict{
+- (void)reloadWithMetaDict:(NSDictionary *)dict{
     [[DBPool shareDBPool] setObject:dict ToDBMetaPoolWithPathId:self.pathTid];
-    
+    [self reLayout];
+}
+
+- (void)reloadWithExtDict:(NSDictionary *)dict {
+    [[DBPool shareDBPool] setObject:dict ToDBExtPoolWithPathId:self.pathTid];
+    [self reLayout];
+}
+
+- (void)reLayout{
     [self.allRenderViewArray enumerateObjectsUsingBlock:^(DBBaseView *view, NSUInteger idx, BOOL * _Nonnull stop) {
         [view reload];
         [view.yoga markDirty];
