@@ -294,7 +294,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
             }
         }
     }
-    [self.bgView.yoga applyLayoutPreservingOrigin:YES dimensionFlexibility:YGDimensionFlexibilityFlexibleWidth | YGDimensionFlexibilityFlexibleHeight];
+    [self.bgView.backGroudView.yoga applyLayoutPreservingOrigin:YES dimensionFlexibility:YGDimensionFlexibilityFlexibleWidth | YGDimensionFlexibilityFlexibleHeight];
 }
 
 #pragma mark - privateMethods 构建时调用
