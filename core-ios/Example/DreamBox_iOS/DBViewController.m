@@ -48,7 +48,7 @@
 - (void)wrapperTest {
     NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"yoga_Test" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
     
-    self.dbView = [[DBTreeView alloc] initWithJsonSting:mockDataString extMeta:[self pareseExt] accessKey:@"DEMO" tid:@"1"];
+    self.dbView = [[DBTreeView alloc] initWithJsonSting:mockDataString extMeta:nil accessKey:@"DEMO" tid:@"1"];
     [self.view addSubview:self.dbView];
     [self.dbView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.width.height.equalTo(self.view);

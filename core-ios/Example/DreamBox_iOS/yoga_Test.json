@@ -7,6 +7,7 @@
    "flex-wrap": "wrap",
    "height": "130dp",
    "type": "yoga",
+   "marginTop":"100dp",
    "width": "130dp",
    "_type": "layout",
    "children": [
@@ -28,87 +29,28 @@
        "marginTop": "5dp",
        "src": "1",
        "width": "30dp",
-       "_type": "text"
-      },
-      {
-       "backgroundColor": "#00ff00",
-       "gravity": "center",
-       "height": "30dp",
-       "marginBottom": "5dp",
-       "marginLeft": "5dp",
-       "marginRight": "5dp",
-       "marginTop": "5dp",
-       "src": "2",
-       "width": "30dp",
-       "_type": "text"
-      },
-      {
-       "backgroundColor": "#00ff00",
-       "gravity": "center",
-       "height": "30dp",
-       "marginBottom": "5dp",
-       "marginLeft": "5dp",
-       "marginRight": "5dp",
-       "marginTop": "5dp",
-       "src": "3",
-       "width": "30dp",
-       "_type": "text"
-      }
-     ]
-    },
-    {
-     "backgroundColor": "#777788",
-     "flex-basis": "100%",
-     "flex-direction": "row",
-     "justify-content": "center",
-     "type": "yoga",
-     "_type": "layout",
-     "children": [
-      {
-       "backgroundColor": "#00ff00",
-       "gravity": "center",
-       "height": "30dp",
-       "marginBottom": "5dp",
-       "marginLeft": "5dp",
-       "marginRight": "5dp",
-       "marginTop": "5dp",
-       "src": "4",
-       "width": "30dp",
-       "_type": "text"
-      }
-     ]
-    },
-    {
-     "backgroundColor": "#777788",
-     "flex-basis": "100%",
-     "flex-direction": "row",
-     "justify-content": "space-between",
-     "type": "yoga",
-     "_type": "layout",
-     "children": [
-      {
-       "backgroundColor": "#00ff00",
-       "gravity": "center",
-       "height": "30dp",
-       "marginBottom": "5dp",
-       "marginLeft": "5dp",
-       "marginRight": "5dp",
-       "marginTop": "5dp",
-       "src": "5",
-       "width": "30dp",
-       "_type": "text"
-      },
-      {
-       "backgroundColor": "#00ff00",
-       "gravity": "center",
-       "height": "30dp",
-       "marginBottom": "5dp",
-       "marginLeft": "5dp",
-       "marginRight": "5dp",
-       "marginTop": "5dp",
-       "src": "6",
-       "width": "30dp",
-       "_type": "text"
+       "_type": "text",
+       "callbacks":[
+           {
+               "_type":"onClick",
+               "actions":[
+                   {
+                       "trace":{
+                           "key":"beat_d_micro_anomaly_ck",
+                           "attr":{
+                               "key":"order_id",
+                               "value":"${ext.dbd.order_id}"
+                           }
+                       }
+                   },
+                   {
+                       "nav":{
+                           "schema":"https://www.baidu.com"
+                       }
+                   }
+               ]
+           }
+       ]
       }
      ]
     }

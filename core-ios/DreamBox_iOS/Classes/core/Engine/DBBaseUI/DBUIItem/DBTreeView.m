@@ -70,6 +70,14 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
 #pragma mark - Public
 - (void)dealloc{
     [self handleDismissOn:self.treeModel.changeOn];
+    //释放掉所有资源
+    [[DBPool shareDBPool] removeAccessKeyAndTidDict:self.accessKey andTid:self.tid];
+    [[DBPool shareDBPool] removeAccessKeyWithPathId:self.pathId];
+    [[DBPool shareDBPool] removeTidWithPathId:self.pathId];
+    [[DBPool shareDBPool] removeObjectFromMetaPoolWithPathId:self.pathId];
+    [[DBPool shareDBPool] removeObjectFromDBExtPoolWithPathId:self.pathId];
+    [[DBPool shareDBPool] removeOnEventDictWithPathId:self.pathId];
+    [[DBPool shareDBPool] removeObjectFromAliasPoolWithPathId:self.pathId];
 }
 
 - (NSString *)pathIdWithTid:(NSString *)tid accessKey:(NSString *)accessKey {
@@ -205,18 +213,16 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     if (self.accessKey != nil && ![treeModel.isSubTree isEqualToString:@"1"]) {
         [[DBPool shareDBPool] setAllAccessKeyAndTidDict:self.accessKey andTid:self.tid];
     }
-    //添加到dbpool:pathId与accessKey对应关系
+    //添加pathId与accessKey对应关系
     [[DBPool shareDBPool] setAccessKey:self.accessKey ToSearchAccessPoolWithPathId:self.pathTid];
+    //添加pathId与tid对应关系
     [[DBPool shareDBPool] setTid:self.tid ToSearchTidPoolWithPathId:self.pathId];
-    //添加到dbpool的treeView池
+    //pathTid与当前treeView的对应关系
     [[DBPool shareDBPool] setObject:self toViewMapTableWithPathId:self.pathTid];
     //添加到dbpool的meta池
     [[DBPool shareDBPool] setObject:treeModel.meta ToDBMetaPoolWithPathId:self.pathTid];
     //添加到dbpool的ext池
     [[DBPool shareDBPool] setObject:ext ToDBExtPoolWithPathId:self.pathTid];
-    
-    //    [self handleOnVisible:treeModel.onVisible];
-    //    [self handleOnInVisible:treeModel.onInvisible];
     
     //绑定回调事件
     self.callBacks = treeModel.callbacks;
@@ -535,15 +541,6 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
 #pragma mark - DEBUG
 - (void)hiddenDebugView {
     self.debugIcon.hidden = YES;
-}
-
-//view销毁时调用
-- (void)willMoveToWindow:(UIWindow *)newWindow {
-    if (newWindow == nil) {
-        // Will be removed from window, similar to -viewDidUnload.
-        // Unsubscribe from any notifications here.
-        [[DBPool shareDBPool] removeObjectFromMetaPoolWithPathId:self.pathId];
-    }
 }
 
 #pragma mark -

@@ -115,7 +115,7 @@ static CGFloat DBButtonMargin = 20;
     }
 
     if(self.textField.text.length > 0){
-        DBTreeView *view = [[DBPool shareDBPool] getDBViewWithPathId:templateId andAccessKey:accessKey];
+        DBTreeView *view = [[DBPool shareDBPool] getDBViewWithTid:templateId andAccessKey:accessKey];
         if(!view){
             [self alertWithMessage:@"取不到与当前accessKey、templateId对应的DBView"];
         }

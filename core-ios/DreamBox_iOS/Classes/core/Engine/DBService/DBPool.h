@@ -13,51 +13,80 @@ NS_ASSUME_NONNULL_BEGIN
 
 +(instancetype)shareDBPool;
 
--(id)getObjectFromDBGlobalPoolWithPathId:(NSString *)pathId;
 
--(id)getObjectFromDBExtPoolWithPathId:(NSString *)pathId;
+//accessKey -> tidArray 缓存记录
+- (void)setAllAccessKeyAndTidDict:(NSString *)accessKey andTid:(NSString *)tid;
 
--(id)getObjectFromDBMetaPoolWithPathId:(NSString *)pathId;
+- (NSDictionary *)getAccessKeyAndTidDict;
 
--(id)getObjectFromAliasPoolWithPathId:(NSString *)pathId;
-
--(id)getDataFromPoolWithPathId:(NSString *)pathId andKey:(NSString *)key;
+- (void)removeAccessKeyAndTidDict:(NSString *)accessKey andTid:(NSString *)tid;
 
 
--(NSDictionary *)getOnEventDictWithPathId:(NSString *)pathId;
+//pathId -> accessKey 查询表
+- (void)setAccessKey:(NSString *)object ToSearchAccessPoolWithPathId:(NSString *)pathId;
 
--(NSString *)getAccessKeyWithPathId:(NSString *)pathId;
+- (NSString *)getAccessKeyWithPathId:(NSString *)pathId;
 
--(NSString *)getTidWithPathId:(NSString *)pathId;
+- (void)removeAccessKeyWithPathId:(NSString *)pathId;
 
-//根据tid获取dbview
--(id)getDBViewWithPathId:(NSString *)pathId andAccessKey:(NSString *)accessKey;
 
--(id)getDBViewWithPathId:(NSString *)pathId;
-//获取所有 accessKey -> tidArray
--(NSDictionary *)getAccessKeyAndTidDict;
+//pathId -> tid 查询表
+- (void)setTid:(NSString *)object ToSearchTidPoolWithPathId:(NSString *)pathId;
 
--(void)setObject:(NSDictionary *)object ToDBMetaPoolWithPathId:(NSString *)pathId;
+- (NSString *)getTidWithPathId:(NSString *)pathId;
 
--(void)setObject:(NSDictionary *)object ToDBExtPoolWithPathId:(NSString *)pathId;
+- (void)removeTidWithPathId:(NSString *)pathId;
 
--(void)setObject:(NSDictionary *)object ToDBGlobalPoolWithPathId:(NSString *)pathId;
 
--(void)setObject:(NSDictionary *)object ToDBAliasPoolWithPathId:(NSString *)pathId;
+//pathId -> DBView 查询表 
+- (id)getDBViewWithPathId:(NSString *)pathId;
 
--(void)setAccessKey:(NSString *)object ToSearchAccessPoolWithPathId:(NSString *)pathId;
+- (void)setObject:(id)object toViewMapTableWithPathId:(NSString *)pathId;
 
--(void)setTid:(NSString *)object ToSearchTidPoolWithPathId:(NSString *)pathId;
+- (id)getDBViewWithTid:(NSString *)tid andAccessKey:(NSString *)accessKey;
 
--(void)setObject:(NSDictionary *)object ToDBOnEventDictWithPathId:(NSString *)pathId;
 
--(void)setObject:(NSMapTable *)object toViewMapTableWithPathId:(NSString *)pathId;
+//pathId -> meta 查询表
+- (void)setObject:(NSDictionary *)object ToDBMetaPoolWithPathId:(NSString *)pathId;
 
--(void)setAllAccessKeyAndTidDict:(NSString *)accessKey andTid:(NSString *)tid;
-// 获取生成的唯一tid
+- (id)getObjectFromDBMetaPoolWithPathId:(NSString *)pathId;
+
+- (void)removeObjectFromMetaPoolWithPathId:(NSString *)pathId;
+
+
+//pathId -> extData 查询表
+- (id)getObjectFromDBExtPoolWithPathId:(NSString *)pathId;
+
+- (void)setObject:(NSDictionary *)object ToDBExtPoolWithPathId:(NSString *)pathId;
+
+- (void)removeObjectFromDBExtPoolWithPathId:(NSString *)pathId;
+
+
+//pathId -> Alias 查询表
+- (void)setObject:(NSDictionary *)object ToDBAliasPoolWithPathId:(NSString *)pathId;
+
+- (id)getObjectFromAliasPoolWithPathId:(NSString *)pathId;
+
+- (void)removeObjectFromAliasPoolWithPathId:(NSString *)pathId;
+
+
+//pathId -> OnEvent 查询表
+- (void)setObject:(NSDictionary *)object ToDBOnEventDictWithPathId:(NSString *)pathId;
+
+- (NSDictionary *)getOnEventDictWithPathId:(NSString *)pathId;
+
+- (void)removeOnEventDictWithPathId:(NSString *)pathId;
+
+
+//pathId -> globalObj 查询表
+- (void)setObject:(NSDictionary *)object ToDBGlobalPoolWithPathId:(NSString *)pathId;
+
+- (id)getObjectFromDBGlobalPoolWithPathId:(NSString *)pathId;
+
+
+//自增tid
 -(NSString *)getAutoIncrementTid;
-// 删除pathid对应的meta数据
--(void)removeObjectFromMetaPoolWithPathId:(NSString *)pathId;
+
 @end
 
 NS_ASSUME_NONNULL_END
