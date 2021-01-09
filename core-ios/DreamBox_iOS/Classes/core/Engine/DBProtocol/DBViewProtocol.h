@@ -19,6 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)onChildrenBind:(DBBaseView *)view model:(DBViewModel *)model;
 
 @required
+@property (nonatomic, strong) DBViewModel *model;
+
+- (void)reload;
 
 -(void)setDataWithModel:(DBViewModel *)model andPathId:(NSString *)pathId;
 

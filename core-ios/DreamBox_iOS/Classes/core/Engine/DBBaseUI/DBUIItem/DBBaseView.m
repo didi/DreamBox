@@ -66,7 +66,7 @@
 
 
 - (void)setDataWithModel:(DBViewModel *)model andPathId:(NSString *)pathId{
-    _model = model;
+    self.model = model;
     _pathId = pathId;
     _accessKey = [[DBPool shareDBPool] getAccessKeyWithPathId:pathId];
 }
@@ -98,7 +98,7 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
 {
-    if([keyPath isEqualToString:_model.changeOn]){
+    if([keyPath isEqualToString:self.model.changeOn]){
         [self reload];
     }
 }

@@ -281,15 +281,20 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     }
 }
 
-//刷新treeView，几乎可以废弃
+
 -(void)reloadTreeView
 {
     for (int i = 0; i < self.allRenderViewArray.count ; i ++) {
         if (i != 0) {
-            DBBaseView *view = self.allRenderViewArray[i];
+            id<DBViewProtocol> view = self.allRenderViewArray[i];
             [view reload];
+            if(view.model.yogaLayout){
+                UIView *yogaView = (UIView *)view;
+                [yogaView.yoga markDirty];
+            }
         }
     }
+    [self.bgView.yoga applyLayoutPreservingOrigin:YES dimensionFlexibility:YGDimensionFlexibilityFlexibleWidth | YGDimensionFlexibilityFlexibleHeight];
 }
 
 #pragma mark - privateMethods 构建时调用

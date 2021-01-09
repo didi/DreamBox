@@ -11,7 +11,6 @@
 
 @interface DBBaseView : UIView <DBViewProtocol>
 
-@property (nonatomic, strong) DBViewModel *model;
 @property (nonatomic, strong) UIView *contentV;
 @property (nonatomic, copy) NSString *pathId;
 @property (nonatomic, copy) NSString *accessKey;
@@ -29,8 +28,6 @@
 - (void)handleChangeOn:(NSString *)changeOnstr;
 
 - (void)handleDismissOn:(NSString *)dismissOnStr;
-
-- (void)reload;
 
 @end
 
