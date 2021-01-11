@@ -39,6 +39,7 @@
     return self;
 }
 
+
 - (void)onCreateView{
     
 }
@@ -127,5 +128,8 @@
     }
 }
 
+- (DBViewModel *)model{
+    return nil;
+}
 
 @end

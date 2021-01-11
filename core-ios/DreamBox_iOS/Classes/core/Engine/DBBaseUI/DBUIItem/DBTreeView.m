@@ -238,17 +238,13 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
             DBTreeModelYoga *yogaModel = (DBTreeModelYoga *)treeModel;
             self.bgView = [DBContainerViewYoga containerViewWithModel:yogaModel pathid:self.pathTid];
             [self addSubview:self.bgView];
-            [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.right.top.bottom.equalTo(self);
-            }];
+            self.frame = self.bgView.bounds;
         }
     } else {
         DBTreeModelReference *referenceModel = (DBTreeModelReference *)treeModel;
         self.bgView = [DBContainerViewReference containerViewWithModel:referenceModel pathid:self.pathTid];
         [self addSubview:self.bgView];
-        [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.top.width.height.equalTo(self);
-        }];
+        self.frame = self.bgView.bounds;
     }
 }
 

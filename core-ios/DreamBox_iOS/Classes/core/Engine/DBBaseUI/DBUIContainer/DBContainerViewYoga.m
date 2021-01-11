@@ -25,6 +25,7 @@
     [container makeContent];
     container.showsVerticalScrollIndicator = NO;
     container.showsHorizontalScrollIndicator = NO;
+    container.frame = container.backGroudView.bounds;
     return container;
 }
 
