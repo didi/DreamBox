@@ -13,7 +13,6 @@ import com.didi.carmate.dreambox.wrapper.inner.WrapperUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public class Wrapper {
 
     private static volatile Wrapper mInstance;
