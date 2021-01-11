@@ -50,9 +50,7 @@
     
     self.dbView = [[DBTreeView alloc] initWithJsonSting:mockDataString extMeta:nil accessKey:@"DEMO" tid:@"1"];
     [self.view addSubview:self.dbView];
-    [self.dbView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.width.height.equalTo(self.view);
-    }];
+    self.dbView.frame = CGRectMake(0, 100, self.dbView.frame.size.width, self.dbView.frame.size.height);
 //    [self.dbView setFrame:CGRectMake(0, 0, 300, 400)];
 }
 
