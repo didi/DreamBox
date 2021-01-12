@@ -1,5 +1,6 @@
 package com.didi.carmate.dreambox.core.render;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -121,17 +122,22 @@ public class DBImage<T extends View> extends DBBaseView<T> {
 
     protected void loadImage(View view) {
         ImageLoader imageLoader = Wrapper.get(mDBContext.getAccessKey()).imageLoader();
+        if (DBUtils.isEmpty(src)) {
+            Wrapper.get(mDBContext.getAccessKey()).log().e("src is empty");
+            return;
+        }
 
         if ("ninePatch".equals(srcType) && view instanceof DBPatchDotNineView) {
             DBPatchDotNineView ninePatchView = (DBPatchDotNineView) view;
-            if (!DBUtils.isEmpty(src)) {
-                imageLoader.load(src, ninePatchView);
-            }
+            imageLoader.load(src, ninePatchView);
         } else if (view instanceof ImageView) {
             ImageView imageView = (ImageView) view;
-            // src
-            if (!DBUtils.isEmpty(src)) {
+            if (src.startsWith("http")) {
                 imageLoader.load(src, imageView);
+            } else {
+                Context context = mDBContext.getContext();
+                int resId = context.getResources().getIdentifier(src, "drawable", context.getPackageName());
+                imageView.setImageResource(resId);
             }
         }
     }
