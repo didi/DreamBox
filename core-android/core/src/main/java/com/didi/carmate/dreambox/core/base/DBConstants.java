@@ -28,6 +28,8 @@ public class DBConstants {
     public static final String STYLE_GRAVITY_TOP = "top";
     public static final String STYLE_GRAVITY_BOTTOM = "bottom";
     public static final String STYLE_GRAVITY_CENTER = "center";
+    public static final String STYLE_GRAVITY_CENTER_VERTICAL = "center_vertical";
+    public static final String STYLE_GRAVITY_CENTER_HORIZONTAL = "center_horizontal";
     public static final String STYLE_CHAIN_SPREAD = "spread";
     public static final String STYLE_CHAIN_SPREAD_INSIDE = "spread_inside";
     public static final String STYLE_CHAIN_PACKED = "packed";

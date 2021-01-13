@@ -2,6 +2,8 @@ package com.didi.carmate.dreambox.core.base;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.CallSuper;
 
@@ -55,6 +57,8 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
         } else if (nodeType == NODE_TYPE.NODE_TYPE_ROOT) {
             mNativeView = onCreateView();
             doBind(mNativeView, bindAttrOnly);
+            // 根容器宽高DSL里定义的优先
+            mNativeView.setLayoutParams(new ViewGroup.LayoutParams(width, height));
         } else {
             DBLogger.e(mDBContext, "DBContainer::bindView, should not go here!");
         }
@@ -82,10 +86,6 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
             onParseLayoutAttr(getAttrs());
             // 绑定视图属性
             onAttributesBind(getAttrs());
-            // 添加到父容器
-            if (null == nativeView.getLayoutParams()) {
-                nativeView.setLayoutParams(new ViewGroup.LayoutParams(width, height));
-            }
         }
     }
 
@@ -93,7 +93,17 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
         // DBLView里根节点调用bindView时container传null
         // 适配List和Flow场景，native view 已经在adapter里创建好，且无需执行添加操作
         if (null != container) {
-            container.addView(nativeView);
+            if (container instanceof LinearLayout) {
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
+                layoutParams.gravity = layoutGravity;
+                container.addView(nativeView, layoutParams);
+            } else if (container instanceof FrameLayout) {
+                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(width, height);
+                layoutParams.gravity = layoutGravity;
+                container.addView(nativeView, layoutParams);
+            } else {
+                container.addView(nativeView, new ViewGroup.LayoutParams(width, height));
+            }
             onViewAdded(container);
         }
     }

@@ -2,6 +2,8 @@ package com.didi.carmate.dreambox.core.base;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.CallSuper;
 
@@ -90,9 +92,26 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
     }
 
     private void addToParent(View nativeView, ViewGroup container) {
-        // 添加到父容器
-        container.addView(nativeView, new ViewGroup.LayoutParams(width, height));
-        onViewAdded(container);
+        // DBLView里根节点调用bindView时container传null
+        // 适配List和Flow场景，native view 已经在adapter里创建好，且无需执行添加操作
+        if (null != container) {
+            if (container instanceof LinearLayout) {
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
+                layoutParams.gravity = layoutGravity;
+                layoutParams.setMargins(marginLeft, marginTop, marginRight, marginBottom);
+                container.addView(nativeView, layoutParams);
+            } else if (container instanceof FrameLayout) {
+                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(width, height);
+                layoutParams.gravity = layoutGravity;
+                layoutParams.setMargins(marginLeft, marginTop, marginRight, marginBottom);
+                container.addView(nativeView, layoutParams);
+            } else {
+                ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(width, height);
+                layoutParams.setMargins(marginLeft, marginTop, marginRight, marginBottom);
+                container.addView(nativeView, layoutParams);
+            }
+            onViewAdded(container);
+        }
     }
 
     protected void onChildrenBind(Map<String, String> attrs, List<DBContainer<ViewGroup>> children) {

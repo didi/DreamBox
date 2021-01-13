@@ -14,7 +14,6 @@ import com.didi.carmate.dreambox.core.utils.DBScreenUtils;
 import com.didi.carmate.dreambox.core.utils.DBUtils;
 import com.didi.carmate.dreambox.core.base.DBBaseView;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -22,24 +21,16 @@ import java.util.Map;
  * date: 2020/4/30
  */
 public abstract class DBBaseText<V extends TextView> extends DBBaseView<V> {
-    private final Map<String, Integer> mapGravity = new HashMap<>();
 
     protected String src;
     protected int size;
     protected String color;
     protected String style;
-    protected int gravity;
     protected TextUtils.TruncateAt ellipsize;
     protected int maxLines;
 
     protected DBBaseText(DBContext dbContext) {
         super(dbContext);
-
-        mapGravity.put(DBConstants.STYLE_GRAVITY_LEFT, Gravity.START);
-        mapGravity.put(DBConstants.STYLE_GRAVITY_RIGHT, Gravity.END);
-        mapGravity.put(DBConstants.STYLE_GRAVITY_TOP, Gravity.TOP);
-        mapGravity.put(DBConstants.STYLE_GRAVITY_BOTTOM, Gravity.BOTTOM);
-        mapGravity.put(DBConstants.STYLE_GRAVITY_CENTER, Gravity.CENTER);
     }
 
     @Override
@@ -51,7 +42,6 @@ public abstract class DBBaseText<V extends TextView> extends DBBaseView<V> {
         size = DBScreenUtils.processSize(mDBContext, rawSizePool, DBConstants.DEFAULT_SIZE_TEXT);
         color = getString(attrs.get("color"));
         style = getString(attrs.get("style"));
-        gravity = convertGravity(attrs.get("gravity"));
         String rawEllipsize = attrs.get("ellipsize");
         if (null != rawEllipsize) {
             ellipsize = convertEllipsize(rawEllipsize);
@@ -109,20 +99,5 @@ public abstract class DBBaseText<V extends TextView> extends DBBaseView<V> {
                 return TextUtils.TruncateAt.END;
         }
         return null;
-    }
-
-    private int convertGravity(String gravity) {
-        if (null == gravity) {
-            return 0;
-        }
-        String[] gravityArr = gravity.split("\\|");
-        int iGravity = 0;
-        for (String strGravity : gravityArr) {
-            Integer tmp = mapGravity.get(strGravity);
-            if (null != tmp) {
-                iGravity |= tmp;
-            }
-        }
-        return iGravity;
     }
 }

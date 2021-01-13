@@ -1,6 +1,7 @@
 package com.didi.carmate.dreambox.core.base;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,6 +16,7 @@ import com.facebook.yoga.YogaAlign;
 import com.facebook.yoga.YogaEdge;
 import com.facebook.yoga.YogaNode;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_SELF_BASELINE;
@@ -28,6 +30,8 @@ import static com.didi.carmate.dreambox.core.base.DBConstants.ALIGN_SELF_STRETCH
  * date: 2020/11/10
  */
 public abstract class DBAbsView<V extends View> extends DBBindView {
+    private final Map<String, Integer> mapGravity = new HashMap<>();
+
     protected View mNativeView;
     // 通用属性
     protected int id = DBConstants.DEFAULT_ID_VIEW;
@@ -44,6 +48,9 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     protected int paddingLeft;
     protected int paddingRight;
 
+    protected int layoutGravity;
+    protected int gravity;
+
     // YogaLayout属性
     protected float flexGrow;
     protected float flexShrink;
@@ -53,6 +60,14 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
 
     protected DBAbsView(DBContext dbContext) {
         super(dbContext);
+
+        mapGravity.put(DBConstants.STYLE_GRAVITY_LEFT, Gravity.START);
+        mapGravity.put(DBConstants.STYLE_GRAVITY_RIGHT, Gravity.END);
+        mapGravity.put(DBConstants.STYLE_GRAVITY_TOP, Gravity.TOP);
+        mapGravity.put(DBConstants.STYLE_GRAVITY_BOTTOM, Gravity.BOTTOM);
+        mapGravity.put(DBConstants.STYLE_GRAVITY_CENTER, Gravity.CENTER);
+        mapGravity.put(DBConstants.STYLE_GRAVITY_CENTER_VERTICAL, Gravity.CENTER_VERTICAL);
+        mapGravity.put(DBConstants.STYLE_GRAVITY_CENTER_HORIZONTAL, Gravity.CENTER_HORIZONTAL);
     }
 
     protected abstract View onCreateView();
@@ -133,6 +148,16 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         if (DBUtils.isColor(backgroundColor)) {
             mNativeView.setBackgroundColor(DBUtils.parseColor(this, backgroundColor));
         }
+        // layoutGravity
+        String rawLayoutGravity = getString(attrs.get("layoutGravity"));
+        if (!DBUtils.isEmpty(rawLayoutGravity)) {
+            layoutGravity = convertGravity(rawLayoutGravity);
+        }
+        // layoutGravity
+        String rawGravity = getString(attrs.get("gravity"));
+        if (!DBUtils.isEmpty(rawGravity)) {
+            gravity = convertGravity(rawGravity);
+        }
     }
 
     @CallSuper
@@ -147,6 +172,21 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
             // FrameLayout
             bindAttributesInFrameLayout(parentView);
         }
+    }
+
+    private int convertGravity(String gravity) {
+        if (null == gravity) {
+            return 0;
+        }
+        String[] gravityArr = gravity.split("\\|");
+        int iGravity = 0;
+        for (String strGravity : gravityArr) {
+            Integer tmp = mapGravity.get(strGravity);
+            if (null != tmp) {
+                iGravity |= tmp;
+            }
+        }
+        return iGravity;
     }
 
     private void bindAttributesInLinearLayout(ViewGroup parentView) {
