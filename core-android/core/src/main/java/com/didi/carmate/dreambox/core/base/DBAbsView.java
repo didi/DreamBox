@@ -1,5 +1,6 @@
 package com.didi.carmate.dreambox.core.base;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -32,6 +33,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     protected int id = DBConstants.DEFAULT_ID_VIEW;
     protected int width;
     protected int height;
+    protected String background; // 背景图片
     protected String backgroundColor; // 背景颜色
     protected int marginTop;
     protected int marginBottom;
@@ -119,6 +121,13 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
 
     @CallSuper
     protected void onAttributesBind(final Map<String, String> attrs) {
+        // background
+        background = getString(attrs.get("background"));
+        if (!DBUtils.isEmpty(background)) {
+            Context context = mDBContext.getContext();
+            int resId = context.getResources().getIdentifier(background, "drawable", context.getPackageName());
+            mNativeView.setBackgroundResource(resId);
+        }
         // backgroundColor
         backgroundColor = getString(attrs.get("backgroundColor"));
         if (DBUtils.isColor(backgroundColor)) {
