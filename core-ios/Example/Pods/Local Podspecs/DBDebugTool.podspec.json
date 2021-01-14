@@ -1,0 +1,30 @@
+{
+  "name": "DBDebugTool",
+  "version": "0.1.0",
+  "summary": "A short description of DBDebugTool.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://git.xiaojukeji.com/DreamBox/dreambox_ios",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "zhangchu": "zhangchu@didiglobal.com"
+  },
+  "source": {
+    "git": "git@git.xiaojukeji.com:DreamBox/dbdebugtool_ios.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "DBDebugTool/Classes/**/*",
+  "dependencies": {
+    "DreamBox_iOS": [
+
+    ],
+    "SocketRocket": [
+
+    ]
+  }
+}

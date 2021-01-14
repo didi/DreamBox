@@ -42,7 +42,7 @@
                             "_type":"text"
                         },
                         {
-                            "backgroundColor":"#00ff00",
+                            "backgroundColor":"#ff0000",
                             "gravity":"center",
                             "height":"30dp",
                             "marginBottom":"5dp",
@@ -82,8 +82,8 @@
                     "flex-basis":"100%",
                     "type":"frame",
                     "_type":"layout",
-                    "height":"200dp",
                     "width":"130dp",
+                    "height":"300dp",
                     "children":[
                         {
                             "marginLeft":"5dp",
@@ -95,17 +95,15 @@
                         },
                         {
                             "marginLeft":"5dp",
-                            "marginTop":"15dp",
-                            "height":"100dp",
+                            "marginTop":"45dp",
+                            "height":"200dp",
                             "width":"100dp",
-                            "src":"6",
                             "_type":"layout",
                             "type":"yoga",
                             "justify-content":"space-between",
                             "children":[
                                 {
                                     "backgroundColor":"#00ff00",
-                                    "gravity":"center",
                                     "height":"30dp",
                                     "marginBottom":"5dp",
                                     "marginLeft":"5dp",
@@ -117,7 +115,6 @@
                                 },
                                 {
                                     "backgroundColor":"#00ff00",
-                                    "gravity":"center",
                                     "height":"30dp",
                                     "marginBottom":"5dp",
                                     "marginLeft":"5dp",
@@ -126,6 +123,28 @@
                                     "src":"2",
                                     "width":"30dp",
                                     "_type":"text"
+                                },
+                                {
+                                    "backgroundColor":"#777788",
+                                    "flex-basis":"100%",
+                                    "flex-direction":"row",
+                                    "justify-content":"center",
+                                    "type":"yoga",
+                                    "_type":"layout",
+                                    "children":[
+                                        {
+                                            "backgroundColor":"#0000ff",
+                                            "gravity":"center",
+                                            "height":"30dp",
+                                            "marginBottom":"5dp",
+                                            "marginLeft":"5dp",
+                                            "marginRight":"5dp",
+                                            "marginTop":"5dp",
+                                            "src":"8",
+                                            "width":"30dp",
+                                            "_type":"text"
+                                        }
+                                    ]
                                 }
                             ]
                         }

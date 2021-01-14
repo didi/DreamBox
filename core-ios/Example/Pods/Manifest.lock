@@ -1,0 +1,64 @@
+PODS:
+  - DBDebugTool (0.1.0):
+    - DreamBox_iOS
+    - SocketRocket
+  - DreamBox_iOS (0.1.0):
+    - Masonry
+    - SDWebImage (> 5.0)
+    - YogaKit
+  - FBSnapshotTestCase (2.1.4):
+    - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
+  - FBSnapshotTestCase/Core (2.1.4)
+  - FBSnapshotTestCase/SwiftSupport (2.1.4):
+    - FBSnapshotTestCase/Core
+  - LookinServer (1.0.0)
+  - Masonry (1.1.0)
+  - SDWebImage (5.9.4):
+    - SDWebImage/Core (= 5.9.4)
+  - SDWebImage/Core (5.9.4)
+  - SocketRocket (0.5.1)
+  - Yoga (1.14.0)
+  - YogaKit (1.18.1):
+    - Yoga (~> 1.14)
+
+DEPENDENCIES:
+  - "DBDebugTool (from `git@git.xiaojukeji.com:DreamBox/dbdebugtool_ios.git`)"
+  - DreamBox_iOS (from `../`)
+  - FBSnapshotTestCase
+  - LookinServer
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - FBSnapshotTestCase
+    - LookinServer
+    - Masonry
+    - SDWebImage
+    - SocketRocket
+    - Yoga
+    - YogaKit
+
+EXTERNAL SOURCES:
+  DBDebugTool:
+    :git: "git@git.xiaojukeji.com:DreamBox/dbdebugtool_ios.git"
+  DreamBox_iOS:
+    :path: "../"
+
+CHECKOUT OPTIONS:
+  DBDebugTool:
+    :commit: fe1e8043bbe9de04c9156a129950d8da064667c3
+    :git: "git@git.xiaojukeji.com:DreamBox/dbdebugtool_ios.git"
+
+SPEC CHECKSUMS:
+  DBDebugTool: f81daac39190adab889749213fa730572554ad23
+  DreamBox_iOS: c063f788f28b47c7a6f39d6777e65d310870f18a
+  FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
+  LookinServer: 0002891cd3cec5e082a910e897dfe71b4f06b89e
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  SDWebImage: b69257f4ab14e9b6a2ef53e910fdf914d8f757c1
+  SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
+  Yoga: cff67a400f6b74dc38eb0bad4f156673d9aa980c
+  YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
+
+PODFILE CHECKSUM: 2d53a58f4eb4770c95950b3d9ca026d0fae4e33a
+
+COCOAPODS: 1.8.4

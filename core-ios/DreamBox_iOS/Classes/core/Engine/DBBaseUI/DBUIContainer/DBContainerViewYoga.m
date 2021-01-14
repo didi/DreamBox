@@ -25,20 +25,20 @@
     container.pathTid = pathId;
     container.treeModel = model;
     DBTreeModelYoga *yogaModel = (DBTreeModelYoga *)model;
-    [container flexBoxLayoutWithContainer:container.backGroudView renderModel:yogaModel.render];
-    [container makeContent];
+    [container flexBoxLayoutWithContainer:container renderModel:yogaModel.render];
+//    [container makeContent];
     container.showsVerticalScrollIndicator = NO;
     container.showsHorizontalScrollIndicator = NO;
-    container.frame = container.backGroudView.bounds;
     return container;
 }
 
-+ (DBContainerView *)containerViewWithRenderModel:(DBRenderModel *)renderModel pathid:(NSString *)pathId delegate:(id<DBContainerViewDelegate>)delegate {
++ (DBContainerView *)containerViewWithRenderModel:(DBRenderModel *)renderModel pathid:(NSString *)pathId delegate:(id<DBContainerViewDelegate>)delegate
+{
     DBContainerViewYoga *container = [DBContainerViewYoga new];
+    container.containerDelegate = delegate;
     container.pathTid = pathId;
-    [container flexBoxLayoutWithContainer:container.backGroudView renderModel:renderModel];
-    [container makeContent];
-    container.frame = container.backGroudView.bounds;
+    [container flexBoxLayoutWithContainer:container renderModel:renderModel];
+//    [container makeContent];
     return container;
 }
 
@@ -46,7 +46,7 @@
 {
     [DBFlexBoxLayout flexLayoutView:container withModel:renderModel.yogaModel];
     container.backgroundColor = [UIColor db_colorWithHexString:renderModel.backgroundColor];
-    
+
     NSArray *renderArray = renderModel.children;
     for (int i = 0; i < renderArray.count ; i ++) {
         NSDictionary *dict = renderArray[i];
@@ -65,7 +65,7 @@
             [DBFlexBoxLayout flexLayoutView:view withModel:viewModel.yogaLayout];
         }
     }
-    
+
     [container.yoga applyLayoutPreservingOrigin:YES dimensionFlexibility:YGDimensionFlexibilityFlexibleWidth | YGDimensionFlexibilityFlexibleHeight];
 }
 
@@ -85,24 +85,23 @@
         [view.yoga markDirty];
     }];
     
-    [self.backGroudView.yoga applyLayoutPreservingOrigin:YES dimensionFlexibility:YGDimensionFlexibilityFlexibleWidth | YGDimensionFlexibilityFlexibleHeight];
-    self.frame = self.backGroudView.bounds;
+    [self.yoga applyLayoutPreservingOrigin:YES dimensionFlexibility:YGDimensionFlexibilityFlexibleWidth | YGDimensionFlexibilityFlexibleHeight];
 }
 
-- (void)makeContent{
-    if(self.treeModel.scroll.length > 0){
-        self.scrollEnabled = YES;
-        self.bounces = NO;
-        if([self.treeModel.scroll isEqualToString:@"horizontal"]){
-            [self setContentSize:self.backGroudView.frame.size];
-        }
-        if([self.treeModel.scroll isEqualToString:@"vertical"]){
-            [self setContentSize:self.backGroudView.frame.size];
-        }
-    } else {
-        self.scrollEnabled = NO;
-    }
-}
+//- (void)makeContent{
+//    if(self.treeModel.scroll.length > 0){
+//        self.scrollEnabled = YES;
+//        self.bounces = NO;
+//        if([self.treeModel.scroll isEqualToString:@"horizontal"]){
+//            [self setContentSize:self.backGroudView.frame.size];
+//        }
+//        if([self.treeModel.scroll isEqualToString:@"vertical"]){
+//            [self setContentSize:self.backGroudView.frame.size];
+//        }
+//    } else {
+//        self.scrollEnabled = NO;
+//    }
+//}
 
 
 

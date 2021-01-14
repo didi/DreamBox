@@ -10,6 +10,7 @@
 #import "DBDefines.h"
 #import "DBRenderModel.h"
 #import "DBDefines.h"
+#import "DBFlexBoxLayout.h"
 
 @implementation DBContainerViewFrame
 
@@ -39,6 +40,10 @@
             Class cls = [[DBFactory sharedInstance] getModelClassByType:_type];
             DBViewModel *viewModel = [cls modelWithDict:dict];
             UIView *view = [self modelToView:viewModel];
+            [view configureLayoutWithBlock:^(YGLayout * _Nonnull layout) {
+                layout.isEnabled = NO;
+                layout.isIncludedInLayout = NO;
+            }];
             //添加到模型数组,渲染数组中
             [self addToAllContainer:container item:view andModel:viewModel];
             [self setUpFrameModel:viewModel.frameLayout inView:view];

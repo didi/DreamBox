@@ -49,8 +49,8 @@
 {
     if (!_recyclePool) {
         _recyclePool = [DBRecyclePool new];
-        self.backGroudView.modelID = @"0";
-        [_recyclePool setItem:self.backGroudView withIdentifier:self.backGroudView.modelID];
+//        self.backGroudView.modelID = @"0";
+//        [_recyclePool setItem:self.backGroudView withIdentifier:self.backGroudView.modelID];
     }
     return _recyclePool;
 }
@@ -59,8 +59,8 @@
 {
     if (_allRenderViewArray == nil) {
         _allRenderViewArray = [NSMutableArray array];
-        self.backGroudView.modelID = @"0";
-        [_allRenderViewArray addObject:self.backGroudView];
+//        self.backGroudView.modelID = @"0";
+//        [_allRenderViewArray addObject:self.backGroudView];
     }
     return _allRenderViewArray;
 }
@@ -77,11 +77,11 @@
 }
 
 
--(DBView *)backGroudView{
-    if (!_backGroudView) {
-        _backGroudView = [[DBView alloc] init];
-        [self addSubview:_backGroudView];
-    }
-    return _backGroudView;
-}
+//-(DBView *)backGroudView{
+//    if (!_backGroudView) {
+//        _backGroudView = [[DBView alloc] init];
+//        [self addSubview:_backGroudView];
+//    }
+//    return _backGroudView;
+//}
 @end
