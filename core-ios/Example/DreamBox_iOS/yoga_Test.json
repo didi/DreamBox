@@ -94,11 +94,12 @@
                             "_type":"text"
                         },
                         {
-                            "marginLeft":"5dp",
+                            "marginLeft":"15dp",
                             "marginTop":"45dp",
                             "height":"200dp",
                             "width":"100dp",
                             "_type":"layout",
+                            "backgroundColor":"#ff0000",
                             "type":"yoga",
                             "justify-content":"space-between",
                             "children":[
@@ -134,7 +135,6 @@
                                     "children":[
                                         {
                                             "backgroundColor":"#0000ff",
-                                            "gravity":"center",
                                             "height":"30dp",
                                             "marginBottom":"5dp",
                                             "marginLeft":"5dp",

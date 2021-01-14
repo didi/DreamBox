@@ -9,8 +9,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DBFrameModel : NSObject
+typedef NS_ENUM(NSUInteger, DBFrameGravity) {
+    DBFrameGravityStart = 1,
+    DBFrameGravityEnd = 1 << 1,
+    DBFrameGravityTop = 1 << 2,
+    DBFrameGravityBottom = 1 << 3,
+    DBFrameGravityCenter = 1 << 4,
+    DBFrameGravityCenterHorizental = 1 << 5,
+    DBFrameGravityCentervertical = 1 << 6
+};
 
+@interface DBFrameModel : NSObject
 
 @property (nonatomic, copy) NSString *marginLeft;
 @property (nonatomic, copy) NSString *marginTop;
@@ -18,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *marginBottom;
 @property (nonatomic, copy) NSString *width;
 @property (nonatomic, copy) NSString *height;
+@property (nonatomic, assign) DBFrameGravity gravity;
 
 + (DBFrameModel *)modelWithDict:(NSDictionary *)dict;
 

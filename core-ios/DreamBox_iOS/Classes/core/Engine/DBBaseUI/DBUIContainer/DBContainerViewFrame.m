@@ -10,7 +10,8 @@
 #import "DBDefines.h"
 #import "DBRenderModel.h"
 #import "DBDefines.h"
-#import "DBFlexBoxLayout.h"
+#import "UIView+Yoga.h"
+#import "DBFrameLayout.h"
 
 @implementation DBContainerViewFrame
 
@@ -24,9 +25,10 @@
 }
 
 - (void)frameLayoutWithContainer:(UIView *)container renderModel:(DBRenderModel *)renderModel{
-    [self setUpFrameModel:renderModel.frameModel inView:container];
-    container.backgroundColor = [UIColor orangeColor];
+    [DBFrameLayout frameLayoutWithView:container withModel:renderModel.frameModel contentSize:CGSizeZero];
     
+    container.backgroundColor = [UIColor orangeColor];
+    CGSize contentSize = CGSizeMake([DBDefines db_getUnit:renderModel.frameModel.width], [DBDefines db_getUnit:renderModel.frameModel.height]);
     NSArray *renderArray = renderModel.children;
     for (int i = 0; i < renderArray.count ; i ++) {
         NSDictionary *dict = renderArray[i];
@@ -35,7 +37,7 @@
             DBRenderModel *subRenderModel = [DBRenderModel modelWithDict:dict];
             UIView *subContainer = [self.containerDelegate containerViewWithRenderModel:subRenderModel pathid:self.pathTid];
             [container addSubview: subContainer];
-            [self setUpFrameModel:subRenderModel.frameModel inView:subContainer];
+            [DBFrameLayout frameLayoutWithView:subContainer withModel:subRenderModel.frameModel contentSize:contentSize];
         }else {
             Class cls = [[DBFactory sharedInstance] getModelClassByType:_type];
             DBViewModel *viewModel = [cls modelWithDict:dict];
@@ -46,18 +48,18 @@
             }];
             //添加到模型数组,渲染数组中
             [self addToAllContainer:container item:view andModel:viewModel];
-            [self setUpFrameModel:viewModel.frameLayout inView:view];
+            [DBFrameLayout frameLayoutWithView:view withModel:viewModel.frameLayout contentSize:contentSize];
         }
     }
 }
 
-- (void)setUpFrameModel:(DBFrameModel *)frameModel inView:(UIView *)view{
-    CGFloat x,y,w,h;
-    x = [DBDefines db_getUnit:frameModel.marginLeft];
-    y = [DBDefines db_getUnit:frameModel.marginTop];
-    w = [DBDefines db_getUnit:frameModel.width];
-    h = [DBDefines db_getUnit:frameModel.height];
-    view.frame = CGRectMake(x, y, w, h);
-}
+//- (void)setUpFrameModel:(DBFrameModel *)frameModel inView:(UIView *)view {
+//    CGFloat x,y,w,h;
+//    x = [DBDefines db_getUnit:frameModel.marginLeft];
+//    y = [DBDefines db_getUnit:frameModel.marginTop];
+//    w = [DBDefines db_getUnit:frameModel.width];
+//    h = [DBDefines db_getUnit:frameModel.height];
+//    view.frame = CGRectMake(x, y, w, h);
+//}
 
 @end
