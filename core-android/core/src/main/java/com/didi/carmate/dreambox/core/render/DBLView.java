@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.didi.carmate.dreambox.core.render.IDBRender.NODE_TYPE.NODE_TYPE_ROOT;
-
 /**
  * author: chenjing
  * date: 2020/4/30
@@ -44,6 +42,7 @@ public class DBLView extends DBNode {
     private String scroll;
 
     private IDBCoreView mDBCoreView;
+    private ViewGroup mDBRootView;
 
     private DBLView(DBContext dbContext) {
         super(dbContext);
@@ -82,8 +81,8 @@ public class DBLView extends DBNode {
     protected void onParserNodeFinished() {
         super.onParserNodeFinished();
 
-        mDBRender.bindView(NODE_TYPE_ROOT); // view结构的调用源头
-        ViewGroup mDBRootView = (ViewGroup) mDBRender.getNativeView();
+        mDBRender.bindView(null); // view结构的调用源头
+        mDBRootView = (ViewGroup) mDBRender.getNativeView();
         if (null == mDBCoreView) {
             if (DBConstants.STYLE_ORIENTATION_V.equals(scroll)) {
                 mDBCoreView = new DBCoreViewScrollV(mDBContext, mDBRootView);
@@ -102,13 +101,8 @@ public class DBLView extends DBNode {
      */
     public void invalidate() {
         mDBRender.parserAttribute(); // 视图节点部分属性放到此生命周期里解析，需要重新执行一遍
-        mDBRender.bindView(NODE_TYPE_ROOT);
+        mDBRender.bindView(mDBRootView);
         mDBRender.renderFinish();
-    }
-
-    public void bindData() {
-        mDBRender.parserAttribute(); // 视图节点部分属性放到此生命周期里解析，需要重新执行一遍
-        mDBRender.bindView(null, NODE_TYPE_ROOT, true);
     }
 
     @Override

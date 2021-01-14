@@ -2,8 +2,6 @@ package com.didi.carmate.dreambox.core.base;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import androidx.annotation.CallSuper;
 
@@ -56,61 +54,40 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
     }
 
     @Override
-    public void bindView(ViewGroup parentView, NODE_TYPE nodeType, boolean bindAttrOnly) {
-        if (null != mNativeView) {
-            doBind(mNativeView, bindAttrOnly);
+    public void bindView(ViewGroup parentView) {
+        if (id != DBConstants.DEFAULT_ID_VIEW && null != parentView && null != parentView.findViewById(id)) {
+            mNativeView = parentView.findViewById(id);
+            if (null != mNativeView) {
+                // 绑定视图属性
+                onAttributesBind(getAttrs());
+            }
         } else {
             mNativeView = onCreateView(); // 回调子类View实现
-            doBind(mNativeView, bindAttrOnly);
-            addToParent(mNativeView, parentView);
-        }
-    }
-
-    private void doBind(View nativeView, boolean bindAttrOnly) {
-        if (null != nativeView && bindAttrOnly) {
-            onAttributesBind(getAttrs());
-        } else {
-            // id
-            String rawId = getAttrs().get("id");
-            if (null != rawId) {
-                id = Integer.parseInt(rawId);
-                nativeView.setId(id);
-            }
-            // layout 相关属性
-            onParseLayoutAttr(getAttrs());
-            // 绑定视图属性
-            onAttributesBind(getAttrs());
-            // 绑定视图回调事件
-            if (mCallbacks.size() > 0) {
-                onCallbackBind(mCallbacks);
-            }
-            // 绑定子视图
-            if (mChildContainers.size() > 0) {
-                onChildrenBind(getAttrs(), mChildContainers);
-            }
-        }
-    }
-
-    private void addToParent(View nativeView, ViewGroup container) {
-        // DBLView里根节点调用bindView时container传null
-        // 适配List和Flow场景，native view 已经在adapter里创建好，且无需执行添加操作
-        if (null != container) {
-            if (container instanceof LinearLayout) {
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
-                layoutParams.gravity = layoutGravity;
-                layoutParams.setMargins(marginLeft, marginTop, marginRight, marginBottom);
-                container.addView(nativeView, layoutParams);
-            } else if (container instanceof FrameLayout) {
-                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(width, height);
-                layoutParams.gravity = layoutGravity;
-                layoutParams.setMargins(marginLeft, marginTop, marginRight, marginBottom);
-                container.addView(nativeView, layoutParams);
+            if (null != mNativeView) {
+                // id
+                String rawId = getAttrs().get("id");
+                if (null != rawId) {
+                    id = Integer.parseInt(rawId);
+                    mNativeView.setId(id);
+                }
+                // layout 相关属性
+                onParseLayoutAttr(getAttrs());
+                // 绑定视图属性
+                onAttributesBind(getAttrs());
+                // 绑定视图回调事件
+                if (mCallbacks.size() > 0) {
+                    onCallbackBind(mCallbacks);
+                }
+                // 绑定子视图
+                if (mChildContainers.size() > 0) {
+                    onChildrenBind(getAttrs(), mChildContainers);
+                }
+                // 添加到父容器
+                parentView.addView(mNativeView, new ViewGroup.LayoutParams(width, height));
+                onViewAdded(parentView);
             } else {
-                ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(width, height);
-                layoutParams.setMargins(marginLeft, marginTop, marginRight, marginBottom);
-                container.addView(nativeView, layoutParams);
+                DBLogger.e(mDBContext, "[onCreateView] should not return null->" + this);
             }
-            onViewAdded(container);
         }
     }
 

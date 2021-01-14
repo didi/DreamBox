@@ -101,7 +101,7 @@ public class DBTemplate extends DBNode implements LifecycleObserver {
      */
     public void bindData() {
         if (null != mDBL) {
-            mDBL.bindData();
+//            mDBL.bindData();
         }
     }
 
