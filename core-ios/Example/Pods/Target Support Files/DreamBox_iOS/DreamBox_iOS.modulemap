@@ -1,6 +1,0 @@
-framework module DreamBox_iOS {
-  umbrella header "DreamBox_iOS-umbrella.h"
-
-  export *
-  module * { export * }
-}
