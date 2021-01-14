@@ -105,6 +105,11 @@ public class DBLView extends DBNode {
         mDBRender.renderFinish();
     }
 
+    public void bindData() {
+        mDBRender.parserAttribute(); // 视图节点部分属性放到此生命周期里解析，需要重新执行一遍
+        mDBRender.bindView(null, true);
+    }
+
     @Override
     public void release() {
         // 子节点资源释放
