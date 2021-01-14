@@ -13,8 +13,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class DBContainerView;
+
+@protocol DBContainerViewDelegate <NSObject>
+
+@required
+- (DBContainerView *)containerViewWithRenderModel:(DBRenderModel *)renderModel pathid:(NSString *)pathId;
+
+@end
+
 @interface DBContainerView : UIScrollView
 
+
+@property (nonatomic, weak) id<DBContainerViewDelegate> containerDelegate;
 @property (nonatomic, strong) DBTreeModel *treeModel;
 @property (nonatomic, copy) NSString *pathTid;
 
@@ -23,7 +34,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableArray *allRenderViewArray;
 @property (nonatomic, strong) NSMutableArray *allRenderModelArray;
 
-+ (DBContainerView *)containerViewWithModel:(DBTreeModel *)model pathid:(NSString *)pathId;
++ (DBContainerView *)containerViewWithModel:(DBTreeModel *)model pathid:(NSString *)pathId delegate:(id<DBContainerViewDelegate>)delegate;
++ (DBContainerView *)containerViewWithRenderModel:(DBRenderModel *)renderModel pathid:(NSString *)pathId delegate:(id<DBContainerViewDelegate>)delegate;
+
 
 - (DBView *)modelToView:(DBViewModel *)model;
 

@@ -36,6 +36,11 @@
 #import "DBYogaModel.h"
 #import "DBContainerViewReference.h"
 #import "DBContainerViewYoga.h"
+#import "DBContainerViewFrame.h"
+#import "DBRenderModel.h"
+#import "DBRenderFactory.h"
+#import "DBFlexBoxLayout.h"
+
 
 static NSString *const kDBMetaExtKey = @"ext";
 static NSString *const kDBMetaPoolKey = @"pool";
@@ -43,7 +48,7 @@ static NSString *const kDBMetaPoolKey = @"pool";
 
 typedef void(^DBAliasBlock)(NSDictionary *src);
 
-@interface DBTreeView ()
+@interface DBTreeView () <DBContainerViewDelegate>
 
 @property (nonatomic ,copy, readwrite) NSString *accessKey;
 @property (nonatomic, strong) NSDictionary*extData;
@@ -232,20 +237,32 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     [self handleChangeOn:treeModel.changeOn];
     [self circulationAliasDict:treeModel.actionAlias];
     
-    NSInteger dbVersion = 4;
-    if(dbVersion >= 4){
-        if([treeModel isKindOfClass:[DBTreeModelYoga class]]){
-            DBTreeModelYoga *yogaModel = (DBTreeModelYoga *)treeModel;
-            self.bgView = [DBContainerViewYoga containerViewWithModel:yogaModel pathid:self.pathTid];
-            [self addSubview:self.bgView];
-            self.frame = self.bgView.bounds;
-        }
-    } else {
-        DBTreeModelReference *referenceModel = (DBTreeModelReference *)treeModel;
-        self.bgView = [DBContainerViewReference containerViewWithModel:referenceModel pathid:self.pathTid];
-        [self addSubview:self.bgView];
-        self.frame = self.bgView.bounds;
+    self.bgView = [DBRenderFactory renderViewWithTreeModel:treeModel pathid:self.pathTid];
+    [self addSubview:self.bgView];
+    self.frame = self.bgView.bounds;
+    
+//    NSInteger dbVersion = 4;
+//    if(dbVersion >= 4){
+//        DBTreeModelYoga *yogaModel = (DBTreeModelYoga *)treeModel;
+//        self.bgView = [DBContainerViewYoga containerViewWithModel:yogaModel pathid:self.pathTid delegate:self];
+//        [self addSubview:self.bgView];
+//        self.frame = self.bgView.bounds;
+//    } else {
+//        DBTreeModelReference *referenceModel = (DBTreeModelReference *)treeModel;
+//        self.bgView = [DBContainerViewReference containerViewWithModel:referenceModel pathid:self.pathTid delegate:self];
+//        [self addSubview:self.bgView];
+//        self.frame = self.bgView.bounds;
+//    }
+}
+
+- (DBContainerView *)containerViewWithRenderModel:(DBRenderModel *)renderModel pathid:(NSString *)pathId {
+    DBContainerView *subContainer = nil;
+    if([renderModel.type isEqual:@"yoga"]){
+        subContainer = [DBContainerViewYoga containerViewWithRenderModel:renderModel pathid:pathId delegate:self];
+    } else if ([renderModel.type isEqual:@"frame"]){
+        subContainer = [DBContainerViewFrame containerViewWithRenderModel:renderModel pathid:pathId delegate:self];
     }
+    return subContainer;
 }
 
 #pragma mark - reload方法

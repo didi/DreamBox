@@ -65,19 +65,3 @@
 }
 
 @end
-
-@implementation DBYogaRenderModel
-
-+ (DBYogaRenderModel *)modelWithDict:(NSDictionary *)dict{
-    DBYogaRenderModel *model = [DBYogaRenderModel new];
-    
-    model.yogaModel = [DBYogaModel modelWithDict:dict];
-    model.backgroundColor = [dict db_objectForKey:@"backgroundColor"];
-    model.layout = [dict db_objectForKey:@"layout"];
-    model.type = [dict db_objectForKey:@"_type"];
-    model.children = [dict db_objectForKey:@"children"];
-    
-    return model;
-}
-
-@end

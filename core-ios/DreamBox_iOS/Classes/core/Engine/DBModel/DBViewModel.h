@@ -7,9 +7,10 @@
 //
 
 @class DBYogaModel;
-@class DBYogaRenderModel;
+@class DBRenderModel;
 @class DBReferenceModel;
 @class DBViewModelYoga;
+@class DBFrameModel;
 
 typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
     DBTreeModelLayoutTypeReference, //相对布局
@@ -51,12 +52,13 @@ typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
 //布局节点
 @property (nonatomic,strong) DBReferenceModel *referenceLayout;
 @property (nonatomic,strong) DBYogaModel *yogaLayout;
+@property (nonatomic,strong) DBFrameModel *frameLayout;
 
 + (DBViewModel *)modelWithDict:(NSDictionary *)dict;
 @end
 
 #pragma mark - treeModel
-@class DBYogaRenderModel;
+@class DBRenderModel;
 
 
 @interface DBTreeModel : DBViewModel
@@ -83,7 +85,7 @@ typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
 
 @interface DBTreeModelYoga : DBTreeModel
 
-@property (nonatomic,strong) DBYogaRenderModel *render;
+@property (nonatomic,strong) DBRenderModel *render;
 + (DBTreeModelYoga *)modelWithDict:(NSDictionary *)dict;
 
 @end

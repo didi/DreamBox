@@ -14,6 +14,7 @@
 #import "NSDictionary+DBExtends.h"
 #import "DBYogaModel.h"
 #import "DBReferenceModel.h"
+#import "DBRenderModel.h"
 
 @implementation DBViewModel
 
@@ -49,6 +50,9 @@
     if(dbVersion >= 4){
         DBYogaModel *yogaLayout = [DBYogaModel modelWithDict:dict];
         model2.yogaLayout = yogaLayout;
+        
+        DBFrameModel *frameLayout = [DBFrameModel modelWithDict:dict];
+        model2.frameLayout = frameLayout;
     } else {
         DBReferenceModel *referenceLayout = [DBReferenceModel modelWithDict:dict];
         model2.referenceLayout = referenceLayout;
@@ -119,7 +123,7 @@
     DBTreeModelYoga *model = [super modelWithDict:dict type:DBTreeModelLayoutTypeYoga];
     
     NSDictionary *renderDict = [dict db_objectForKey:@"layout"];
-    DBYogaRenderModel *render = [DBYogaRenderModel modelWithDict:renderDict]; //yoga布局中render为yoga模型
+    DBRenderModel *render = [DBRenderModel modelWithDict:renderDict]; //yoga布局中render为yoga模型
     model.render = render;
     
     return model;

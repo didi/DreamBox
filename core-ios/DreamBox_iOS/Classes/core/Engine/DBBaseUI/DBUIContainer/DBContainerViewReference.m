@@ -13,8 +13,9 @@
 @implementation DBContainerViewReference
 
 
-+ (DBContainerView *)containerViewWithModel:(DBTreeModel *)model pathid:(NSString *)pathId{
++ (DBContainerView *)containerViewWithModel:(DBTreeModel *)model pathid:(NSString *)pathId delegate:(id<DBContainerViewDelegate>)delegate{
     DBContainerViewReference *container = [DBContainerViewReference new];
+    container.containerDelegate = delegate;
     container.pathTid = pathId;
     container.treeModel = model;
     DBTreeModelReference *referenceModel = (DBTreeModelReference *)model;

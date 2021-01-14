@@ -13,11 +13,15 @@
 #import "UIView+Yoga.h"
 #import "DBPool.h"
 #import "DBFlexBoxLayout.h"
+#import "DBContainerViewFrame.h"
+#import "DBFrameModel.h"
+#import "DBRenderModel.h"
 
 @implementation DBContainerViewYoga
 
-+ (DBContainerView *)containerViewWithModel:(DBTreeModel *)model pathid:(NSString *)pathId{
++ (DBContainerView *)containerViewWithModel:(DBTreeModel *)model pathid:(NSString *)pathId delegate:(id<DBContainerViewDelegate>)delegate{
     DBContainerViewYoga *container = [DBContainerViewYoga new];
+    container.containerDelegate = delegate;
     container.pathTid = pathId;
     container.treeModel = model;
     DBTreeModelYoga *yogaModel = (DBTreeModelYoga *)model;
@@ -29,16 +33,16 @@
     return container;
 }
 
-+ (DBContainerView *)containerViewWithYogaModel:(DBYogaRenderModel *)yogaModel pathid:(NSString *)pathId{
++ (DBContainerView *)containerViewWithRenderModel:(DBRenderModel *)renderModel pathid:(NSString *)pathId delegate:(id<DBContainerViewDelegate>)delegate {
     DBContainerViewYoga *container = [DBContainerViewYoga new];
     container.pathTid = pathId;
-    [container flexBoxLayoutWithContainer:container.backGroudView renderModel:yogaModel];
+    [container flexBoxLayoutWithContainer:container.backGroudView renderModel:renderModel];
     [container makeContent];
     container.frame = container.backGroudView.bounds;
     return container;
 }
 
-- (void)flexBoxLayoutWithContainer:(UIView *)container renderModel:(DBYogaRenderModel *)renderModel
+- (void)flexBoxLayoutWithContainer:(UIView *)container renderModel:(DBRenderModel *)renderModel
 {
     [DBFlexBoxLayout flexLayoutView:container withModel:renderModel.yogaModel];
     container.backgroundColor = [UIColor db_colorWithHexString:renderModel.backgroundColor];
@@ -46,16 +50,14 @@
     NSArray *renderArray = renderModel.children;
     for (int i = 0; i < renderArray.count ; i ++) {
         NSDictionary *dict = renderArray[i];
-        NSString *type = [dict objectForKey:@"type"];
-        if([type isEqual:@"yoga"]){
-            //嵌套
-            DBYogaRenderModel *subRenderModel = [DBYogaRenderModel modelWithDict:dict];
-            UIView *subContainer = [UIView new];
+        NSString *_type = [dict objectForKey:@"_type"];
+        if([_type isEqual:@"layout"]){
+            DBRenderModel *subRenderModel = [DBRenderModel modelWithDict:dict];
+            UIView *subContainer = [self.containerDelegate containerViewWithRenderModel:subRenderModel pathid:self.pathTid];
             [container addSubview: subContainer];
-            [self flexBoxLayoutWithContainer:subContainer renderModel:subRenderModel];
-        } else {
-            type = [dict objectForKey:@"_type"];
-            Class cls = [[DBFactory sharedInstance] getModelClassByType:type];
+            [DBFlexBoxLayout flexLayoutView:subContainer withModel:subRenderModel.yogaModel];
+        }else {
+            Class cls = [[DBFactory sharedInstance] getModelClassByType:_type];
             DBViewModel *viewModel = [cls modelWithDict:dict];
             UIView *view = [self modelToView:viewModel];
             //添加到模型数组,渲染数组中

@@ -18,6 +18,7 @@
 #import "DBDefines.h"
 #import "UIView+Yoga.h"
 #import "NSDictionary+DBExtends.h"
+#import "DBRenderModel.h"
 
 #define vhTag 100
 
@@ -179,8 +180,8 @@
 - (DBContainerViewYoga *)vhContentViewWithIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *dict = self.dataList[indexPath.row];
     [[DBPool shareDBPool] setObject:dict ToDBMetaPoolWithPathId:self.pathId];
-    DBYogaRenderModel *model = [DBYogaRenderModel modelWithDict:self.listModel.vh];
-    DBContainerViewYoga *contentView = (DBContainerViewYoga *)[DBContainerViewYoga containerViewWithYogaModel:model pathid:self.pathId];
+    DBRenderModel *model = [DBRenderModel modelWithDict:self.listModel.vh];
+    DBContainerViewYoga *contentView = (DBContainerViewYoga *)[DBContainerViewYoga containerViewWithRenderModel:model pathid:self.pathId delegate:nil];
     return contentView;
 }
 
@@ -207,8 +208,8 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
 
-    DBYogaRenderModel *model = [DBYogaRenderModel modelWithDict:self.header];
-    DBContainerViewYoga *header = (DBContainerViewYoga *)[DBContainerViewYoga containerViewWithYogaModel:model pathid:self.pathId];
+    DBRenderModel *model = [DBRenderModel modelWithDict:self.header];
+    DBContainerViewYoga *header = (DBContainerViewYoga *)[DBContainerViewYoga containerViewWithRenderModel:model pathid:self.pathId delegate:nil];
 
     if(header){
         _header = header;
@@ -220,8 +221,8 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
     
-    DBYogaRenderModel *model = [DBYogaRenderModel modelWithDict:self.footer];
-    DBContainerViewYoga *footer = (DBContainerViewYoga *)[DBContainerViewYoga containerViewWithYogaModel:model pathid:self.pathId];
+    DBRenderModel *model = [DBRenderModel modelWithDict:self.footer];
+    DBContainerViewYoga *footer = (DBContainerViewYoga *)[DBContainerViewYoga containerViewWithRenderModel:model pathid:self.pathId delegate:nil];
     if(footer){
         _footer = footer;
         return _footer.bounds.size;
