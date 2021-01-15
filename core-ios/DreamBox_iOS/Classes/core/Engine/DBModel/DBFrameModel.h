@@ -21,10 +21,17 @@ typedef NS_ENUM(NSUInteger, DBFrameGravity) {
 
 @interface DBFrameModel : NSObject
 
-@property (nonatomic, copy) NSString *marginLeft;
+@property (nonatomic, copy) NSString *marginLeft;           //外边距
 @property (nonatomic, copy) NSString *marginTop;
 @property (nonatomic, copy) NSString *marginRight;
 @property (nonatomic, copy) NSString *marginBottom;
+
+@property (nonatomic, copy) NSString *paddingLeft;          //内边距
+@property (nonatomic, copy) NSString *paddingTop;
+@property (nonatomic, copy) NSString *paddingRight;
+@property (nonatomic, copy) NSString *paddingBottom;
+@property (nonatomic, copy) NSString *padding;
+
 @property (nonatomic, copy) NSString *width;
 @property (nonatomic, copy) NSString *height;
 @property (nonatomic, assign) DBFrameGravity gravity;

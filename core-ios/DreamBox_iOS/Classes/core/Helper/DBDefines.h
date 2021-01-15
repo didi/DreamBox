@@ -22,6 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// 获取uuid
 + (NSString *)uuidString;
 
++ (void)makeCornerWithView:(UIView *)view
+                  cornerLT:(CGFloat)cornerLT
+                  cornerRT:(CGFloat)cornerRT
+                  cornerLB:(CGFloat)cornerLB
+                  cornerRB:(CGFloat)cornerRB;
 
 @end
 

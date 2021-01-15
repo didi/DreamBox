@@ -20,7 +20,7 @@
     container.treeModel = model;
     DBTreeModelReference *referenceModel = (DBTreeModelReference *)model;
     [container referenceLayoutWithRenderModel:model];
-    [container makeContent];
+//    [container makeContent];
     return container;
 }
 
@@ -88,25 +88,25 @@
         [DBReferenceLayout layoutAllViews:model andView:(DBView*)view andRelativeViewPool:self.recyclePool];
     }
 }
-- (void)makeContent{
-    [self setNeedsLayout];
-    [self layoutIfNeeded];
-    if(self.treeModel.scroll.length > 0){
-        self.scrollEnabled = YES;
-        if([self.treeModel.scroll isEqualToString:@"horizontal"]){
-            CGSize size = CGSizeMake([self maxXOfTreeView], [UIScreen mainScreen].bounds.size.height);
-            [self setContentSize:size];
-            self.backGroudView.frame = CGRectMake(self.backGroudView.frame.origin.x, self.backGroudView.frame.origin.y, size.width, size.height);
-        }
-        if([self.treeModel.scroll isEqualToString:@"vertical"]){
-            CGSize size = CGSizeMake([UIScreen mainScreen].bounds.size.width, [self maxYOfTreeView]);
-            [self setContentSize:size];
-            self.backGroudView.frame = CGRectMake(self.backGroudView.frame.origin.x, self.backGroudView.frame.origin.y, size.width, size.height);
-        }
-    } else {
-        self.scrollEnabled = NO;
-    }
-}
+//- (void)makeContent{
+//    [self setNeedsLayout];
+//    [self layoutIfNeeded];
+//    if(self.treeModel.scroll.length > 0){
+//        self.scrollEnabled = YES;
+//        if([self.treeModel.scroll isEqualToString:@"horizontal"]){
+//            CGSize size = CGSizeMake([self maxXOfTreeView], [UIScreen mainScreen].bounds.size.height);
+//            [self setContentSize:size];
+//            self.backGroudView.frame = CGRectMake(self.backGroudView.frame.origin.x, self.backGroudView.frame.origin.y, size.width, size.height);
+//        }
+//        if([self.treeModel.scroll isEqualToString:@"vertical"]){
+//            CGSize size = CGSizeMake([UIScreen mainScreen].bounds.size.width, [self maxYOfTreeView]);
+//            [self setContentSize:size];
+//            self.backGroudView.frame = CGRectMake(self.backGroudView.frame.origin.x, self.backGroudView.frame.origin.y, size.width, size.height);
+//        }
+//    } else {
+//        self.scrollEnabled = NO;
+//    }
+//}
 
 - (CGFloat)maxXOfTreeView{
     CGFloat maxX = 0;

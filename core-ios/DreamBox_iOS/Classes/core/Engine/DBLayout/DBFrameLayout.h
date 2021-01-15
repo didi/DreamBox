@@ -12,7 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DBFrameLayout : NSObject
 
-+ (void)frameLayoutWithView:(UIView *)view withModel:(DBFrameModel *)model contentSize:(CGSize)size;
++ (UIEdgeInsets)contentRectEdgewithModel:(DBFrameModel *)model;
+
++ (void)frameLayoutWithView:(UIView *)view withModel:(DBFrameModel *)model contentSize:(CGSize)size edgeInsets:(UIEdgeInsets)edgeInsets;
 
 @end
 

@@ -19,6 +19,7 @@
 #import "UIView+Yoga.h"
 #import "NSDictionary+DBExtends.h"
 #import "DBRenderModel.h"
+#import "DBRenderFactory.h"
 
 #define vhTag 100
 
@@ -84,6 +85,9 @@
     [self refreshListView];
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    
+}
 
 -(CGSize)wrapSize {
     return CGSizeZero;
@@ -114,17 +118,19 @@
         
         [self.collectView reloadData];
     }
-    
-    
 }
 
 -(void)createCollectionView{
     DBlistModelV2*listModel = (DBlistModelV2*)self.model;
     UICollectionViewFlowLayout *flowL = [UICollectionViewFlowLayout new];
-    flowL.minimumLineSpacing = 0;
+    
     if([listModel.orientation isEqualToString:@"horizontal"]){
+        flowL.minimumLineSpacing = [DBDefines db_getUnit:listModel.hSpace];
+        flowL.minimumInteritemSpacing = [DBDefines db_getUnit:listModel.vSpace];
         [flowL setScrollDirection:UICollectionViewScrollDirectionHorizontal];
     } else {
+        flowL.minimumLineSpacing = [DBDefines db_getUnit:listModel.vSpace];
+        flowL.minimumInteritemSpacing = [DBDefines db_getUnit:listModel.hSpace];
         [flowL setScrollDirection:UICollectionViewScrollDirectionVertical];//如果有多个区 就可以拉动
     }
     
@@ -146,6 +152,12 @@
 #pragma mark - UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return self.dataList.count;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+#if DEBUG
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.baidu.com"]];
+#endif
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -181,7 +193,8 @@
     NSDictionary *dict = self.dataList[indexPath.row];
     [[DBPool shareDBPool] setObject:dict ToDBMetaPoolWithPathId:self.pathId];
     DBRenderModel *model = [DBRenderModel modelWithDict:self.listModel.vh];
-    DBContainerViewYoga *contentView = (DBContainerViewYoga *)[DBContainerViewYoga containerViewWithRenderModel:model pathid:self.pathId delegate:nil];
+    
+    DBContainerViewYoga *contentView = (DBContainerViewYoga *)[DBRenderFactory renderViewWithRenderModel:model pathid:self.pathId];
     return contentView;
 }
 
@@ -209,7 +222,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
 
     DBRenderModel *model = [DBRenderModel modelWithDict:self.header];
-    DBContainerViewYoga *header = (DBContainerViewYoga *)[DBContainerViewYoga containerViewWithRenderModel:model pathid:self.pathId delegate:nil];
+    DBContainerViewYoga *header = (DBContainerViewYoga *)[DBRenderFactory renderViewWithRenderModel:model pathid:self.pathId];
 
     if(header){
         _header = header;
@@ -222,7 +235,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
     
     DBRenderModel *model = [DBRenderModel modelWithDict:self.footer];
-    DBContainerViewYoga *footer = (DBContainerViewYoga *)[DBContainerViewYoga containerViewWithRenderModel:model pathid:self.pathId delegate:nil];
+    DBContainerViewYoga *footer = (DBContainerViewYoga *)[DBRenderFactory renderViewWithRenderModel:model pathid:self.pathId];
     if(footer){
         _footer = footer;
         return _footer.bounds.size;
@@ -230,6 +243,11 @@
         return CGSizeZero;
     }
 }
+
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsMake(5, 5, 5, 5);//分别为上、左、下、右
+}
+
 
 - (NSMutableDictionary *)containerMouldDict {
     if(!_containerMouldDict){

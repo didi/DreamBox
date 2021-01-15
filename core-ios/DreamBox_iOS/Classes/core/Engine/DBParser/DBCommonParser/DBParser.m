@@ -258,6 +258,10 @@
 
 + (id)getRealValueByPathId:(NSString *)pathId andKey:(NSString *)key{
 
+    if(!key){
+        return nil;
+    }
+    
     NSMutableString *finalValue = [[NSMutableString alloc] initWithString:key];
 
     //字符串操作较密集，增加try-catch防崩

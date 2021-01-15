@@ -16,6 +16,9 @@
 #import "DBContainerViewFrame.h"
 #import "DBFrameModel.h"
 #import "DBRenderModel.h"
+#import "DBValidJudge.h"
+#import "DBWrapperManager.h"
+#import "DBDefines.h"
 
 @implementation DBContainerViewYoga
 
@@ -25,10 +28,10 @@
     container.pathTid = pathId;
     container.treeModel = model;
     DBTreeModelYoga *yogaModel = (DBTreeModelYoga *)model;
+    [container refreshImageWithSrc:yogaModel.render.background];
+    container.userInteractionEnabled = YES;
     [container flexBoxLayoutWithContainer:container renderModel:yogaModel.render];
 //    [container makeContent];
-    container.showsVerticalScrollIndicator = NO;
-    container.showsHorizontalScrollIndicator = NO;
     return container;
 }
 
@@ -36,10 +39,19 @@
 {
     DBContainerViewYoga *container = [DBContainerViewYoga new];
     container.containerDelegate = delegate;
+    container.renderModel = renderModel;
     container.pathTid = pathId;
     [container flexBoxLayoutWithContainer:container renderModel:renderModel];
 //    [container makeContent];
     return container;
+}
+
+
+- (void)setFrame:(CGRect)frame{
+    if([self.renderModel.backgroundColor isEqual:@"#0ffabc"]){
+        
+    }
+    [super setFrame:frame];
 }
 
 - (void)flexBoxLayoutWithContainer:(UIView *)container renderModel:(DBRenderModel *)renderModel
@@ -67,6 +79,23 @@
     }
 
     [container.yoga applyLayoutPreservingOrigin:YES dimensionFlexibility:YGDimensionFlexibilityFlexibleWidth | YGDimensionFlexibilityFlexibleHeight];
+    
+    if(self.renderModel.radius) {
+        self.layer.masksToBounds = YES;
+        self.layer.cornerRadius = [self.renderModel.radius floatValue];
+    }
+    if(self.renderModel.radiusLT
+       || self.renderModel.radiusRT
+       || self.renderModel.radiusLB
+       || self.renderModel.radiusRB){
+        
+        [DBDefines makeCornerWithView:self
+                             cornerLT:[DBDefines db_getUnit:self.renderModel.radiusLT]
+                             cornerRT:[DBDefines db_getUnit:self.renderModel.radiusRT]
+                             cornerLB:[DBDefines db_getUnit:self.renderModel.radiusLB]
+                             cornerRB:[DBDefines db_getUnit:self.renderModel.radiusRB]
+         ];
+    }
 }
 
 - (void)reloadWithMetaDict:(NSDictionary *)dict{
@@ -103,6 +132,21 @@
 //    }
 //}
 
+- (void)refreshImageWithSrc:(NSString *)srcStr {
+    if(srcStr.length > 0){
+        NSString *src = [DBParser getRealValueByPathId:self.pathTid andKey:srcStr];
+        NSString *accessKey = [[DBPool shareDBPool] getAccessKeyWithPathId:self.pathTid];
+        if ([DBValidJudge isValidString:src]) {
+            __weak typeof(self) weakSelf = self;
+            [[DBWrapperManager sharedManager] imageLoadService:self accessKey:accessKey setImageUrl:src callback:^(UIImage * _Nonnull image) {
+                if(image){
+                        weakSelf.image = image;
+                    }
+                }
+            ];
+        }
+    }
+}
 
 
 @end

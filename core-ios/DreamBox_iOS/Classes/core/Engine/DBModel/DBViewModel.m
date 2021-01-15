@@ -45,6 +45,8 @@
     model2.radiusLT = [dict db_objectForKey:@"radiusLT"];
     model2.radiusRB = [dict db_objectForKey:@"radiusRB"];
     model2.radiusLB = [dict db_objectForKey:@"radiusLB"];
+    model2.width = [dict db_objectForKey:@"width"];
+    model2.height = [dict db_objectForKey:@"height"];
     
     NSInteger dbVersion = 4;
     if(dbVersion >= 4){
@@ -216,6 +218,8 @@
     model.onPull = [dict objectForKey:@"onPull"];
     model.onMore = [dict objectForKey:@"onMore"];
     model.orientation = [dict objectForKey:@"orientation"];
+    model.vSpace = [dict objectForKey:@"vSpace"];
+    model.hSpace = [dict objectForKey:@"hSpace"];
 
     NSArray *children = [dict objectForKey:@"children"];
     [children enumerateObjectsUsingBlock:^( NSDictionary *itemDict, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -247,7 +251,8 @@
     model.onPull = [dict objectForKey:@"onPull"];
     model.onMore = [dict objectForKey:@"onMore"];
     model.orientation = [dict objectForKey:@"orientation"];
-    
+    model.vSpace = [dict objectForKey:@"vSpace"];
+    model.hSpace = [dict objectForKey:@"hSpace"];
 
     NSArray *children = [dict objectForKey:@"children"];
     model.children = children;

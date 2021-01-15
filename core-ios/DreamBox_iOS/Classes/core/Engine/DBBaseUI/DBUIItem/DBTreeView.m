@@ -196,7 +196,6 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
 }
 
 - (void)p_buildWithTreeModel:(DBTreeModel *)treeModel extMeta:(NSDictionary *)ext pathId:(NSString *)pathId{
-    self.translatesAutoresizingMaskIntoConstraints = NO;
     if (!treeModel) {
         return;
     }
@@ -238,6 +237,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     [self circulationAliasDict:treeModel.actionAlias];
     
     self.bgView = [DBRenderFactory renderViewWithTreeModel:treeModel pathid:self.pathTid];
+    self.bgView.userInteractionEnabled = YES;
     [self addSubview:self.bgView];
     self.frame = self.bgView.bounds;
     

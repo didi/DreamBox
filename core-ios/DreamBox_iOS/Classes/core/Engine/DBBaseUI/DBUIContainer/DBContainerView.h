@@ -22,11 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface DBContainerView : UIScrollView
+@interface DBContainerView : UIImageView
 
 
 @property (nonatomic, weak) id<DBContainerViewDelegate> containerDelegate;
 @property (nonatomic, strong) DBTreeModel *treeModel;
+@property (nonatomic, strong) DBRenderModel *renderModel;
 @property (nonatomic, copy) NSString *pathTid;
 
 @property (nonatomic, strong) DBView *backGroudView;

@@ -20,7 +20,9 @@
 
 @end
 
-@implementation DBBaseView
+@implementation DBBaseView {
+    DBViewModel *_model;
+}
 
 - (void)dealloc{
     [self handleDismissOn:self.model.changeOn];
@@ -39,6 +41,9 @@
     return self;
 }
 
+- (void)setModel:(DBViewModel *)model{
+    _model = model;
+}
 
 - (void)onCreateView{
     
@@ -63,6 +68,31 @@
         }];
     }
     
+    
+    
+    if(self.model.radius) {
+        self.layer.masksToBounds = YES;
+        self.layer.cornerRadius = [self.model.radius floatValue];
+    }
+    
+    CGFloat width = [DBDefines db_getUnit:self.model.width];
+    CGFloat height = [DBDefines db_getUnit:self.model.height];
+    
+    if(width > 0 && height > 0){
+        self.frame = CGRectMake(0, 0, width, height);
+        if(self.model.radiusLT
+           || self.model.radiusRT
+           || self.model.radiusLB
+           || self.model.radiusRB){
+            
+            [DBDefines makeCornerWithView:self
+                                 cornerLT:[DBDefines db_getUnit:self.model.radiusLT]
+                                 cornerRT:[DBDefines db_getUnit:self.model.radiusRT]
+                                 cornerLB:[DBDefines db_getUnit:self.model.radiusLB]
+                                 cornerRB:[DBDefines db_getUnit:self.model.radiusRB]
+             ];
+        }
+    }
 }
 
 
@@ -129,7 +159,7 @@
 }
 
 - (DBViewModel *)model{
-    return nil;
+    return _model;
 }
 
 @end

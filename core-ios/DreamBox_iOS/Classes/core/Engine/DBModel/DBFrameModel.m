@@ -19,8 +19,13 @@
     model.marginRight = [dict db_objectForKey:@"marginRight"];
     model.marginBottom = [dict db_objectForKey:@"marginBottom"];
     
+    model.paddingLeft = [dict db_objectForKey:@"paddingLeft"];
+    model.paddingRight = [dict db_objectForKey:@"paddingRight"];
+    model.paddingTop = [dict db_objectForKey:@"paddingTop"];
+    model.paddingBottom = [dict db_objectForKey:@"paddingBottom"];
+    model.padding = [dict db_objectForKey:@"padding"];
     
-    NSString *gravity = [dict db_objectForKey:@"gravity"];
+    NSString *gravity = [dict db_objectForKey:@"layoutGravity"];
     NSArray *gravityArr = [gravity componentsSeparatedByString:@"|"];
     __block DBFrameGravity gravityVal = DBFrameGravityStart;
     [gravityArr enumerateObjectsUsingBlock:^(NSString *gravityItem, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -33,9 +38,9 @@
 }
 
 + (DBFrameGravity)frameGravityWithGravityStr:(NSString *)gravityStr{
-    if([gravityStr isEqualToString:@"start"]){
+    if([gravityStr isEqualToString:@"left"]){
         return DBFrameGravityStart;
-    } else if([gravityStr isEqualToString:@"end"]){
+    } else if([gravityStr isEqualToString:@"right"]){
         return DBFrameGravityEnd;
     } else if([gravityStr isEqualToString:@"top"]){
         return DBFrameGravityTop;
