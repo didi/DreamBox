@@ -55,9 +55,13 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
         }
     }
 
+    /**
+     * 待改进，目前list vh里的view节点需要id属性，否则会重复创建对象
+     */
     @Override
     public void bindView(ViewGroup parentView, NODE_TYPE nodeType, boolean bindAttrOnly) {
-        if (null != mNativeView) {
+        if (id != DBConstants.DEFAULT_ID_VIEW && null != parentView && null != parentView.findViewById(id)) {
+            mNativeView = parentView.findViewById(id);
             doBind(mNativeView, bindAttrOnly);
         } else {
             mNativeView = onCreateView(); // 回调子类View实现
@@ -67,7 +71,7 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
     }
 
     private void doBind(View nativeView, boolean bindAttrOnly) {
-        if (null != nativeView && bindAttrOnly) {
+        if (bindAttrOnly) {
             onAttributesBind(getAttrs());
         } else {
             // id
@@ -95,20 +99,26 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
         // DBLView里根节点调用bindView时container传null
         // 适配List和Flow场景，native view 已经在adapter里创建好，且无需执行添加操作
         if (null != container) {
+            ViewGroup.MarginLayoutParams marginLayoutParams;
             if (container instanceof LinearLayout) {
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
                 layoutParams.gravity = layoutGravity;
-                layoutParams.setMargins(marginLeft, marginTop, marginRight, marginBottom);
+                marginLayoutParams = layoutParams;
                 container.addView(nativeView, layoutParams);
             } else if (container instanceof FrameLayout) {
                 FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(width, height);
                 layoutParams.gravity = layoutGravity;
-                layoutParams.setMargins(marginLeft, marginTop, marginRight, marginBottom);
+                marginLayoutParams = layoutParams;
                 container.addView(nativeView, layoutParams);
             } else {
                 ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(width, height);
-                layoutParams.setMargins(marginLeft, marginTop, marginRight, marginBottom);
+                marginLayoutParams = layoutParams;
                 container.addView(nativeView, layoutParams);
+            }
+            if (margin > 0) {
+                marginLayoutParams.setMargins(margin, margin, margin, margin);
+            } else {
+                marginLayoutParams.setMargins(marginLeft, marginTop, marginRight, marginBottom);
             }
             onViewAdded(container);
         }

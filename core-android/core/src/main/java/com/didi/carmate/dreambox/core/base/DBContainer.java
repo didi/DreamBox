@@ -42,9 +42,13 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
         bindView(container, nodeType, false);
     }
 
+    /**
+     * 待改进，目前list vh里的view节点需要id属性，否则会重复创建对象
+     */
     @Override
     public void bindView(ViewGroup container, NODE_TYPE nodeType, boolean bindAttrOnly) {
-        if (null != mNativeView) {
+        if (id != DBConstants.DEFAULT_ID_VIEW && null != container && null != container.findViewById(id)) {
+            mNativeView = container.findViewById(id);
             doBind(mNativeView, bindAttrOnly);
         } else if (nodeType == NODE_TYPE.NODE_TYPE_NORMAL) {
             mNativeView = onCreateView(); // 回调子类View实现
@@ -53,7 +57,10 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
         } else if (nodeType == NODE_TYPE.NODE_TYPE_ADAPTER) {
             mNativeView = container;
             doBind(mNativeView, bindAttrOnly);
-            addToParent(mNativeView, container);
+            ViewGroup.LayoutParams layoutParams = mNativeView.getLayoutParams();
+            layoutParams.width = width;
+            layoutParams.height = height;
+            mNativeView.setLayoutParams(layoutParams);
         } else if (nodeType == NODE_TYPE.NODE_TYPE_ROOT) {
             mNativeView = onCreateView();
             doBind(mNativeView, bindAttrOnly);
@@ -73,9 +80,7 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
     }
 
     private void doBind(View nativeView, boolean bindAttrOnly) {
-        if (null != nativeView && bindAttrOnly) {
-            onAttributesBind(getAttrs());
-        } else {
+        if (!bindAttrOnly) {
             // id
             String rawId = getAttrs().get("id");
             if (null != rawId) {
@@ -84,27 +89,47 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
             }
             // layout 相关属性
             onParseLayoutAttr(getAttrs());
-            // 绑定视图属性
-            onAttributesBind(getAttrs());
         }
+        // 绑定视图属性
+        onAttributesBind(getAttrs());
     }
 
     private void addToParent(View nativeView, ViewGroup container) {
         // DBLView里根节点调用bindView时container传null
         // 适配List和Flow场景，native view 已经在adapter里创建好，且无需执行添加操作
         if (null != container) {
+            ViewGroup.MarginLayoutParams marginLayoutParams;
             if (container instanceof LinearLayout) {
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
                 layoutParams.gravity = layoutGravity;
+                marginLayoutParams = layoutParams;
                 container.addView(nativeView, layoutParams);
             } else if (container instanceof FrameLayout) {
                 FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(width, height);
                 layoutParams.gravity = layoutGravity;
+                marginLayoutParams = layoutParams;
                 container.addView(nativeView, layoutParams);
             } else {
-                container.addView(nativeView, new ViewGroup.LayoutParams(width, height));
+                ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(width, height);
+                marginLayoutParams = layoutParams;
+                container.addView(nativeView, layoutParams);
+            }
+            if (margin > 0) {
+                marginLayoutParams.setMargins(margin, margin, margin, margin);
+            } else {
+                marginLayoutParams.setMargins(marginLeft, marginTop, marginRight, marginBottom);
             }
             onViewAdded(container);
+        }
+    }
+
+    @Override
+    protected void onAttributesBind(final Map<String, String> attrs) {
+        super.onAttributesBind(attrs);
+        if (padding > 0) {
+            mNativeView.setPadding(padding, padding, padding, padding);
+        } else {
+            mNativeView.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
         }
     }
 
