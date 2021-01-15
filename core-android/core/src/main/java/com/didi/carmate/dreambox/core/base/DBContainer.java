@@ -1,6 +1,9 @@
 package com.didi.carmate.dreambox.core.base;
 
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.CallSuper;
 
@@ -58,8 +61,7 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
                 // DBLView里根节点调用bindView时container传null
                 // 适配List和Flow场景，native view 已经在adapter里创建好，且无需执行添加操作
                 if (null != container && !containerHasCreated) {
-                    container.addView(mNativeView);
-                    onViewAdded(container);
+                    addToParent(mNativeView, container);
                 }
             } else {
                 DBLogger.e(mDBContext, "[onCreateView] should not return null->" + this);
@@ -72,6 +74,43 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
             if (child instanceof IDBRender) {
                 ((IDBRender) child).bindView((ViewGroup) mNativeView);
             }
+        }
+    }
+
+    private void addToParent(View nativeView, ViewGroup container) {
+        // DBLView里根节点调用bindView时container传null
+        // 适配List和Flow场景，native view 已经在adapter里创建好，且无需执行添加操作
+        if (null != container) {
+            ViewGroup.MarginLayoutParams marginLayoutParams;
+            if (container instanceof LinearLayout) {
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
+                marginLayoutParams = layoutParams;
+                container.addView(nativeView, layoutParams);
+            } else if (container instanceof FrameLayout) {
+                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(width, height);
+                marginLayoutParams = layoutParams;
+                container.addView(nativeView, layoutParams);
+            } else {
+                ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(width, height);
+                marginLayoutParams = layoutParams;
+                container.addView(nativeView, layoutParams);
+            }
+            if (margin > 0) {
+                marginLayoutParams.setMargins(margin, margin, margin, margin);
+            } else {
+                marginLayoutParams.setMargins(marginLeft, marginTop, marginRight, marginBottom);
+            }
+            onViewAdded(container);
+        }
+    }
+
+    @Override
+    protected void onAttributesBind(final Map<String, String> attrs) {
+        super.onAttributesBind(attrs);
+        if (padding > 0) {
+            mNativeView.setPadding(padding, padding, padding, padding);
+        } else {
+            mNativeView.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
         }
     }
 

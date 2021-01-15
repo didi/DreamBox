@@ -10,7 +10,9 @@ import com.didi.carmate.dreambox.core.base.DBConstants;
 import com.didi.carmate.dreambox.core.base.DBContext;
 import com.didi.carmate.dreambox.core.base.INodeCreator;
 import com.didi.carmate.dreambox.core.data.DBData;
+import com.didi.carmate.dreambox.core.render.view.list.DBSpaceItemDecoration;
 import com.didi.carmate.dreambox.core.utils.DBLogger;
+import com.didi.carmate.dreambox.core.utils.DBScreenUtils;
 import com.didi.carmate.dreambox.core.utils.DBUtils;
 import com.didi.carmate.dreambox.core.base.DBBaseView;
 import com.didi.carmate.dreambox.core.base.DBContainer;
@@ -36,6 +38,8 @@ import static com.didi.carmate.dreambox.core.base.DBConstants.PAYLOAD_LIST_VH;
 public class DBList extends DBBaseView<DBListView> {
     private String orientation;
     private List<JsonObject> src;
+    private int hSpace;
+    private int vSpace;
     private boolean pullRefresh;
     private boolean loadMore;
     // private int pageIndex;
@@ -84,6 +88,8 @@ public class DBList extends DBBaseView<DBListView> {
         }
         // 因为数据源需要从各个Item里获取，所以Item子节点属性处理在Adapter的[onBindItemView]回调里处理
         src = getJsonObjectList(attrs.get("src"));
+        hSpace = DBScreenUtils.processSize(mDBContext, attrs.get("hSpace"), 0);
+        vSpace = DBScreenUtils.processSize(mDBContext, attrs.get("vSpace"), 0);
 
         final DBListView nativeView = (DBListView) mNativeView;
         if (pullRefresh || loadMore) {
@@ -172,8 +178,10 @@ public class DBList extends DBBaseView<DBListView> {
         LinearLayoutManager managerVertical = new LinearLayoutManager(mDBContext.getContext());
         if (orientation.equals(DBConstants.LIST_ORIENTATION_H)) {
             managerVertical.setOrientation(LinearLayoutManager.HORIZONTAL);
+            nativeView.addItemDecoration(new DBSpaceItemDecoration(hSpace, DBSpaceItemDecoration.HORIZONTAL));
         } else {
             managerVertical.setOrientation(LinearLayoutManager.VERTICAL);
+            nativeView.addItemDecoration(new DBSpaceItemDecoration(vSpace, DBSpaceItemDecoration.VERTICAL));
         }
         nativeView.setLayoutManager(managerVertical);
 

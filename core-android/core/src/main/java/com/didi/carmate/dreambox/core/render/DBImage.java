@@ -49,7 +49,7 @@ public class DBImage<T extends View> extends DBBaseView<T> {
         if ("ninePatch".equals(srcType)) {
             view = new DBPatchDotNineView(mDBContext.getContext());
         } else {
-            view = new ImageView(mDBContext.getContext());
+            view = new RoundRectImageView(mDBContext.getContext());
         }
         return view;
     }
@@ -95,6 +95,10 @@ public class DBImage<T extends View> extends DBBaseView<T> {
             if (maxHeight != 0) {
                 ninePatchView.setMaxHeight(maxHeight);
             }
+            // gravity
+            if (gravity != 0) {
+                ninePatchView.setGravity(gravity);
+            }
         } else if (view instanceof ImageView) {
             ImageView imageView = (ImageView) view;
             if (maxWidth != 0 || maxHeight != 0) {
@@ -130,8 +134,13 @@ public class DBImage<T extends View> extends DBBaseView<T> {
         if ("ninePatch".equals(srcType) && view instanceof DBPatchDotNineView) {
             DBPatchDotNineView ninePatchView = (DBPatchDotNineView) view;
             imageLoader.load(src, ninePatchView);
-        } else if (view instanceof ImageView) {
-            ImageView imageView = (ImageView) view;
+        } else if (view instanceof RoundRectImageView) {
+            RoundRectImageView imageView = (RoundRectImageView) view;
+            if (radius > 0) {
+                imageView.setRadius(radius);
+            } else {
+                imageView.setRoundRadius(radiusLT, radiusRT, radiusRB, radiusLB);
+            }
             if (src.startsWith("http")) {
                 imageLoader.load(src, imageView);
             } else {
