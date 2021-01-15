@@ -55,7 +55,7 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
             doBind(mNativeView, bindAttrOnly);
             addToParent(mNativeView, container);
         } else if (nodeType == NODE_TYPE.NODE_TYPE_ADAPTER) {
-            mNativeView = container;
+            mNativeView = container; // 将每次的view对象赋值给容器节点，容器节点在adapter模式下公用的
             doBind(mNativeView, bindAttrOnly);
             ViewGroup.LayoutParams layoutParams = mNativeView.getLayoutParams();
             layoutParams.width = width;
