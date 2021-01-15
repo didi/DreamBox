@@ -184,10 +184,6 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
 
     @CallSuper
     protected void onViewAdded(ViewGroup parentView) {
-        ViewGroup.LayoutParams layoutParams = (ViewGroup.LayoutParams) mNativeView.getLayoutParams();
-        if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
-            ((ViewGroup.MarginLayoutParams) layoutParams).setMargins(marginLeft, marginTop, marginRight, marginBottom);
-        }
         if (parentView instanceof DBYogaLayoutView) {
             // YogaLayout
             bindAttributesInYogaLayout(parentView);

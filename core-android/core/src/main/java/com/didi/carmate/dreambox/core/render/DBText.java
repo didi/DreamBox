@@ -1,5 +1,6 @@
 package com.didi.carmate.dreambox.core.render;
 
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.TypedValue;
 import android.view.View;
@@ -65,10 +66,23 @@ public class DBText<T extends TextView> extends DBBaseText<T> {
         }
         // style
         if (!DBUtils.isEmpty(style)) {
-            if (style.equals(DBConstants.STYLE_TXT_NORMAL)) {
-                getNativeView().setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-            } else if (style.equals(DBConstants.STYLE_TXT_BOLD)) {
-                getNativeView().setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+            getNativeView().getPaint().setFlags(0);  // 取消设置的的划线
+            switch (style) {
+                case DBConstants.STYLE_TXT_NORMAL:
+                    getNativeView().setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                    break;
+                case DBConstants.STYLE_TXT_BOLD:
+                    getNativeView().setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                    break;
+                case DBConstants.STYLE_TXT_ITALIC:
+                    getNativeView().setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));
+                    break;
+                case DBConstants.STYLE_TXT_STRIKE:
+                    getNativeView().getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); //中划线
+                    break;
+                case DBConstants.STYLE_TXT_UNDERLINE:
+                    getNativeView().getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+                    break;
             }
         }
         // minWidth

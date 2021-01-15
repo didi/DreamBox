@@ -233,7 +233,7 @@ public class DBList extends DBBaseView<DBListView> {
             if (null != mDBListHeader) {
                 // 子节点属性处理
                 mDBListHeader.parserAttribute();
-                mDBListHeader.bindView(rootView, true);
+                mDBListHeader.bindView(rootView, NODE_TYPE.NODE_TYPE_ADAPTER);
             }
         }
 
@@ -243,7 +243,7 @@ public class DBList extends DBBaseView<DBListView> {
             if (null != mDBListFooter) {
                 // 子节点属性处理
                 mDBListFooter.parserAttribute();
-                mDBListFooter.bindView(rootView, true);
+                mDBListFooter.bindView(rootView, NODE_TYPE.NODE_TYPE_ADAPTER);
             }
         }
 
@@ -254,7 +254,7 @@ public class DBList extends DBBaseView<DBListView> {
                 mDBListVh.setData(data);
                 mDBListVh.parserAttribute();
                 // 子节点渲染处理
-                mDBListVh.bindView(itemRoot, true);
+                mDBListVh.bindView(itemRoot, NODE_TYPE.NODE_TYPE_ADAPTER);
             }
         }
     }

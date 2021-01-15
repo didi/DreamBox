@@ -16,21 +16,31 @@ public abstract class DBBindView extends DBNode implements IDBRender {
     }
 
     @Override
-    public void bindView(ViewGroup container) {
+    public void bindView(NODE_TYPE nodeType) {
         List<IDBNode> children = getChildren();
         for (IDBNode child : children) {
             if (child instanceof IDBRender) {
-                ((IDBRender) child).bindView(container);
+                ((IDBRender) child).bindView(nodeType);
             }
         }
     }
 
     @Override
-    public void bindView(ViewGroup container, boolean containerHasCreated) {
+    public void bindView(ViewGroup container, NODE_TYPE nodeType) {
         List<IDBNode> children = getChildren();
         for (IDBNode child : children) {
             if (child instanceof IDBRender) {
-                ((IDBRender) child).bindView(container, containerHasCreated);
+                ((IDBRender) child).bindView(container, nodeType);
+            }
+        }
+    }
+
+    @Override
+    public void bindView(ViewGroup container, NODE_TYPE nodeType, boolean bindAttrOnly){
+        List<IDBNode> children = getChildren();
+        for (IDBNode child : children) {
+            if (child instanceof IDBRender) {
+                ((IDBRender) child).bindView(container, nodeType, bindAttrOnly);
             }
         }
     }

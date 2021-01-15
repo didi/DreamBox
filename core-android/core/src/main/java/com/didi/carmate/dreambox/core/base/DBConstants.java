@@ -17,6 +17,10 @@ public class DBConstants {
     // -------样式-------
     public static final String STYLE_TXT_NORMAL = "normal";
     public static final String STYLE_TXT_BOLD = "bold";
+    public static final String STYLE_TXT_ITALIC = "italic";
+    public static final String STYLE_TXT_STRIKE = "strike";
+    public static final String STYLE_TXT_UNDERLINE = "underline";
+
     public static final String STYLE_VIEW_SHAPE_RECT = "rect";
     public static final String STYLE_VIEW_SHAPE_CIRCLE = "circle";
     public static final String STYLE_ORIENTATION_H = "horizontal";

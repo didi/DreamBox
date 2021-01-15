@@ -110,7 +110,7 @@ public class DBFlow extends DBBaseView<DBFlowLayout> {
             mFlowCell.setData(data);
             mFlowCell.parserAttribute();
             // 子节点渲染处理
-            mFlowCell.bindView(itemRoot, true);
+            mFlowCell.bindView(itemRoot, NODE_TYPE.NODE_TYPE_ADAPTER);
         }
     }
 

@@ -2,6 +2,8 @@ package com.didi.carmate.dreambox.core.base;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.CallSuper;
 
@@ -53,41 +55,72 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
         }
     }
 
+    /**
+     * 待改进，目前list vh里的view节点需要id属性，否则会重复创建对象
+     */
     @Override
-    public void bindView(ViewGroup parentView) {
+    public void bindView(ViewGroup parentView, NODE_TYPE nodeType, boolean bindAttrOnly) {
         if (id != DBConstants.DEFAULT_ID_VIEW && null != parentView && null != parentView.findViewById(id)) {
             mNativeView = parentView.findViewById(id);
-            if (null != mNativeView) {
-                // 绑定视图属性
-                onAttributesBind(getAttrs());
-            }
+            doBind(mNativeView, bindAttrOnly);
         } else {
             mNativeView = onCreateView(); // 回调子类View实现
-            if (null != mNativeView) {
-                // id
-                String rawId = getAttrs().get("id");
-                if (null != rawId) {
-                    id = Integer.parseInt(rawId);
-                    mNativeView.setId(id);
-                }
-                // layout 相关属性
-                onParseLayoutAttr(getAttrs());
-                // 绑定视图属性
-                onAttributesBind(getAttrs());
-                // 绑定视图回调事件
-                if (mCallbacks.size() > 0) {
-                    onCallbackBind(mCallbacks);
-                }
-                // 绑定子视图
-                if (mChildContainers.size() > 0) {
-                    onChildrenBind(getAttrs(), mChildContainers);
-                }
-                // 添加到父容器
-                parentView.addView(mNativeView, new ViewGroup.LayoutParams(width, height));
-                onViewAdded(parentView);
-            } else {
-                DBLogger.e(mDBContext, "[onCreateView] should not return null->" + this);
+            doBind(mNativeView, bindAttrOnly);
+            addToParent(mNativeView, parentView);
+        }
+    }
+
+    private void doBind(View nativeView, boolean bindAttrOnly) {
+        if (bindAttrOnly) {
+            onAttributesBind(getAttrs());
+        } else {
+            // id
+            String rawId = getAttrs().get("id");
+            if (null != rawId) {
+                id = Integer.parseInt(rawId);
+                nativeView.setId(id);
             }
+            // layout 相关属性
+            onParseLayoutAttr(getAttrs());
+            // 绑定视图属性
+            onAttributesBind(getAttrs());
+            // 绑定视图回调事件
+            if (mCallbacks.size() > 0) {
+                onCallbackBind(mCallbacks);
+            }
+            // 绑定子视图
+            if (mChildContainers.size() > 0) {
+                onChildrenBind(getAttrs(), mChildContainers);
+            }
+        }
+    }
+
+    private void addToParent(View nativeView, ViewGroup container) {
+        // DBLView里根节点调用bindView时container传null
+        // 适配List和Flow场景，native view 已经在adapter里创建好，且无需执行添加操作
+        if (null != container) {
+            ViewGroup.MarginLayoutParams marginLayoutParams;
+            if (container instanceof LinearLayout) {
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
+                layoutParams.gravity = layoutGravity;
+                marginLayoutParams = layoutParams;
+                container.addView(nativeView, layoutParams);
+            } else if (container instanceof FrameLayout) {
+                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(width, height);
+                layoutParams.gravity = layoutGravity;
+                marginLayoutParams = layoutParams;
+                container.addView(nativeView, layoutParams);
+            } else {
+                ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(width, height);
+                marginLayoutParams = layoutParams;
+                container.addView(nativeView, layoutParams);
+            }
+            if (margin > 0) {
+                marginLayoutParams.setMargins(margin, margin, margin, margin);
+            } else {
+                marginLayoutParams.setMargins(marginLeft, marginTop, marginRight, marginBottom);
+            }
+            onViewAdded(container);
         }
     }
 

@@ -25,56 +25,73 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
         super(dbContext);
     }
 
+    /**
+     * 容器节点自身的 mNativeView 对象有3种情况
+     * 1. 根节点 此种情况 container 参数为null，需要调用 onCreateView 来创建自己的 mNativeView
+     * 2. Adapter节点，在 onCreateViewHolder 创建了跟容器，container 为创建的跟容器对象，不需要创建
+     * 3. 作为普通节点，container 为当前对象的父容器，需要调用 onCreateView 创建自己的 mNativeView
+     */
+
     @Override
-    public void bindView(ViewGroup container) {
-        bindView(container, false);
+    public void bindView(NODE_TYPE nodeType) {
+        bindView(null, nodeType);
     }
 
     @Override
-    public void bindView(ViewGroup container, boolean containerHasCreated) {
+    public void bindView(ViewGroup container, NODE_TYPE nodeType) {
+        bindView(container, nodeType, false);
+    }
+
+    /**
+     * 待改进，目前list vh里的view节点需要id属性，否则会重复创建对象
+     */
+    @Override
+    public void bindView(ViewGroup container, NODE_TYPE nodeType, boolean bindAttrOnly) {
         if (id != DBConstants.DEFAULT_ID_VIEW && null != container && null != container.findViewById(id)) {
             mNativeView = container.findViewById(id);
-            if (null != mNativeView) {
-                // 绑定视图属性
-                onAttributesBind(getAttrs());
-            }
+            doBind(mNativeView, bindAttrOnly);
+        } else if (nodeType == NODE_TYPE.NODE_TYPE_NORMAL) {
+            mNativeView = onCreateView(); // 回调子类View实现
+            doBind(mNativeView, bindAttrOnly);
+            addToParent(mNativeView, container);
+        } else if (nodeType == NODE_TYPE.NODE_TYPE_ADAPTER) {
+            mNativeView = container;
+            doBind(mNativeView, bindAttrOnly);
+            ViewGroup.LayoutParams layoutParams = mNativeView.getLayoutParams();
+            layoutParams.width = width;
+            layoutParams.height = height;
+            mNativeView.setLayoutParams(layoutParams);
+        } else if (nodeType == NODE_TYPE.NODE_TYPE_ROOT) {
+            mNativeView = onCreateView();
+            doBind(mNativeView, bindAttrOnly);
+            // 根容器宽高DSL里定义的优先
+            mNativeView.setLayoutParams(new ViewGroup.LayoutParams(width, height));
         } else {
-            if (!containerHasCreated) {
-                mNativeView = onCreateView(); // 回调子类View实现
-            } else {
-                // 适配List和Flow场景，native view 已经在adapter里创建好，无需重复创建
-                mNativeView = container;
-            }
-            if (null != mNativeView) {
-                // id
-                String rawId = getAttrs().get("id");
-                if (null != rawId) {
-                    id = Integer.parseInt(rawId);
-                    mNativeView.setId(id);
-                }
-                // layout 相关属性
-                onParseLayoutAttr(getAttrs());
-                // 绑定视图属性
-                onAttributesBind(getAttrs());
-                // 添加到父容器
-                mNativeView.setLayoutParams(new ViewGroup.LayoutParams(width, height));
-                // DBLView里根节点调用bindView时container传null
-                // 适配List和Flow场景，native view 已经在adapter里创建好，且无需执行添加操作
-                if (null != container && !containerHasCreated) {
-                    addToParent(mNativeView, container);
-                }
-            } else {
-                DBLogger.e(mDBContext, "[onCreateView] should not return null->" + this);
-            }
+            DBLogger.e(mDBContext, "DBContainer::bindView, should not go here!");
         }
 
         // 递归子节点的bindView
         List<IDBNode> children = getChildren();
         for (IDBNode child : children) {
             if (child instanceof IDBRender) {
-                ((IDBRender) child).bindView((ViewGroup) mNativeView);
+                ((IDBRender) child).bindView((ViewGroup) mNativeView, NODE_TYPE.NODE_TYPE_NORMAL, bindAttrOnly);
             }
         }
+    }
+
+    private void doBind(View nativeView, boolean bindAttrOnly) {
+        if (!bindAttrOnly) {
+            // id
+            String rawId = getAttrs().get("id");
+            if (null != rawId) {
+                id = Integer.parseInt(rawId);
+                nativeView.setId(id);
+            }
+            // layout 相关属性
+            onParseLayoutAttr(getAttrs());
+        }
+        // 绑定视图属性
+        onAttributesBind(getAttrs());
     }
 
     private void addToParent(View nativeView, ViewGroup container) {
@@ -84,10 +101,12 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
             ViewGroup.MarginLayoutParams marginLayoutParams;
             if (container instanceof LinearLayout) {
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
+                layoutParams.gravity = layoutGravity;
                 marginLayoutParams = layoutParams;
                 container.addView(nativeView, layoutParams);
             } else if (container instanceof FrameLayout) {
                 FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(width, height);
+                layoutParams.gravity = layoutGravity;
                 marginLayoutParams = layoutParams;
                 container.addView(nativeView, layoutParams);
             } else {
