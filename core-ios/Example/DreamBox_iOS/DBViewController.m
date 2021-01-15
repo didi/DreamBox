@@ -46,12 +46,11 @@
 }
 
 - (void)wrapperTest {
-    NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"yoga_Test" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
+    NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"tmp1" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
     
     self.dbView = [[DBTreeView alloc] initWithJsonSting:mockDataString extMeta:nil accessKey:@"DEMO" tid:@"1"];
     [self.view addSubview:self.dbView];
     self.dbView.frame = CGRectMake(0, 100, self.dbView.frame.size.width, self.dbView.frame.size.height);
-//    [self.dbView setFrame:CGRectMake(0, 0, 300, 400)];
 }
 
 @end 

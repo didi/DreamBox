@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A05B1F625B089A600F56F50 /* tmp1.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A05B1F525B089A600F56F50 /* tmp1.json */; };
+		0A05B1F825B0986700F56F50 /* tpl_seckill_goods_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A05B1F725B0986700F56F50 /* tpl_seckill_goods_icon.png */; };
+		0A05B1FC25B09F0700F56F50 /* tpl_seckill_card_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A05B1FB25B09F0700F56F50 /* tpl_seckill_card_bg.png */; };
+		0A05B1FE25B14EEF00F56F50 /* tmp2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A05B1FD25B14EEE00F56F50 /* tmp2.json */; };
 		0AEE2FC1259CA768005D7138 /* yoga_Test.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AEE2FC0259CA768005D7138 /* yoga_Test.json */; };
 		1B7294A3DA89081C5B0544B7 /* Pods_DreamBox_iOS_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D164075DD77D2D29618AFC /* Pods_DreamBox_iOS_Example.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
@@ -41,6 +45,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A05B1F525B089A600F56F50 /* tmp1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tmp1.json; sourceTree = "<group>"; };
+		0A05B1F725B0986700F56F50 /* tpl_seckill_goods_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tpl_seckill_goods_icon.png; sourceTree = "<group>"; };
+		0A05B1FB25B09F0700F56F50 /* tpl_seckill_card_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tpl_seckill_card_bg.png; sourceTree = "<group>"; };
+		0A05B1FD25B14EEE00F56F50 /* tmp2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tmp2.json; sourceTree = "<group>"; };
 		0AEE2FC0259CA768005D7138 /* yoga_Test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = yoga_Test.json; sourceTree = "<group>"; };
 		191BF004C691F1CC8C0C0829 /* Pods-DreamBox_iOS_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DreamBox_iOS_Tests.release.xcconfig"; path = "Target Support Files/Pods-DreamBox_iOS_Tests/Pods-DreamBox_iOS_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		405AA98C702DF6390C4795FF /* DreamBox_iOS.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = DreamBox_iOS.podspec; path = ../DreamBox_iOS.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -143,6 +151,10 @@
 		6003F593195388D20070C39A /* Example for DreamBox_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				0A05B1FB25B09F0700F56F50 /* tpl_seckill_card_bg.png */,
+				0A05B1F725B0986700F56F50 /* tpl_seckill_goods_icon.png */,
+				0A05B1FD25B14EEE00F56F50 /* tmp2.json */,
+				0A05B1F525B089A600F56F50 /* tmp1.json */,
 				0AEE2FC0259CA768005D7138 /* yoga_Test.json */,
 				7AC7E3A124E148B400B1E254 /* DBExtension */,
 				6003F59C195388D20070C39A /* DBAppDelegate.h */,
@@ -310,8 +322,12 @@
 				0AEE2FC1259CA768005D7138 /* yoga_Test.json in Resources */,
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
+				0A05B1FC25B09F0700F56F50 /* tpl_seckill_card_bg.png in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
+				0A05B1F825B0986700F56F50 /* tpl_seckill_goods_icon.png in Resources */,
+				0A05B1F625B089A600F56F50 /* tmp1.json in Resources */,
+				0A05B1FE25B14EEF00F56F50 /* tmp2.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

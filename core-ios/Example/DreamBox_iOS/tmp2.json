@@ -1,0 +1,279 @@
+{
+    "dbl": {
+        "meta": {
+            "good": [
+                {
+                    "price": "3.11",
+                    "image": "https://s3-gz01.didistatic.com/creative-center/goods-picture-with-tag/22720_17_1608649386903.png"
+                },
+                {
+                    "price": "3.22",
+                    "image": "https://s3-gz01.didistatic.com/creative-center/goods-picture-with-tag/22720_17_1608649386903.png"
+                },
+                {
+                    "price": "3.33",
+                    "image": "https://s3-gz01.didistatic.com/creative-center/goods-picture-with-tag/22720_17_1608649386903.png"
+                },
+                {
+                    "price": "3.44",
+                    "image": "https://s3-gz01.didistatic.com/creative-center/goods-picture-with-tag/22720_17_1608649386903.png"
+                },
+                {
+                    "price": "3.55",
+                    "image": "https://s3-gz01.didistatic.com/creative-center/goods-picture-with-tag/22720_17_1608649386903.png"
+                },
+                {
+                    "price": "3.66",
+                    "image": "https://s3-gz01.didistatic.com/creative-center/goods-picture-with-tag/22720_17_1608649386903.png"
+                },
+                {
+                    "price": "3.77",
+                    "image": "https://s3-gz01.didistatic.com/creative-center/goods-picture-with-tag/22720_17_1608649386903.png"
+                },
+                {
+                    "price": "3.88",
+                    "image": "https://s3-gz01.didistatic.com/creative-center/goods-picture-with-tag/22720_17_1608649386903.png"
+                },
+                {
+                    "price": "3.99",
+                    "image": "https://s3-gz01.didistatic.com/creative-center/goods-picture-with-tag/22720_17_1608649386903.png"
+                }
+            ]
+        },
+        "layout": {
+            "marginTop":"100",
+            "background": "tpl_seckill_card_bg",
+            "flex-direction": "column",
+            "type": "yoga",
+            "width": "fill",
+            "_type": "layout",
+            "children": [
+                {
+                    "type": "yoga",
+                    "align-items": "center",
+                    "flex-direction": "row",
+                    "_type": "layout",
+                    "children": [
+                        {
+                            "height": "35dp",
+                            "marginLeft": "4dp",
+                            "src": "tpl_seckill_goods_icon",
+                            "width": "81dp",
+                            "_type": "image"
+                        },
+                        {
+                            "backgroundColor": "#FF0000",
+                            "type": "frame",
+                            "marginLeft": "20dp",
+                            "width":"40dp",
+                            "height":"20dp",
+                            "_type": "layout",
+                            "children": [
+                                {
+                                    "backgroundColor": "#F00000",
+                                    "width": "16dp",
+                                    "height": "16dp",
+                                    "layoutGravity": "center_vertical",
+                                    "src": "tpl_ellipsis_user_icon",
+                                    "_type": "image",
+                                    "radius":"8dp"
+                                },
+                                {
+                                    "backgroundColor": "#0F0000",
+                                    "width": "16dp",
+                                    "height": "16dp",
+                                    "marginLeft": "10dp",
+                                    "layoutGravity": "center_vertical",
+                                    "src": "tpl_ellipsis_user_icon",
+                                    "_type": "image",
+                                    "radius":"8dp"
+                                },
+                                {
+                                    "backgroundColor": "#00F000",
+                                    "width": "16dp",
+                                    "height": "16dp",
+                                    "marginLeft": "20dp",
+                                    "layoutGravity": "center_vertical",
+                                    "src": "tpl_ellipsis_user_icon",
+                                    "_type": "image",
+                                    "radius":"8dp"
+                                }
+                            ]
+                        },
+                        {
+                            "marginLeft": "2dp",
+                            "src": "33355",
+                            "size": "11dp",
+                            "color": "#FFFFFF",
+                            "_type": "text"
+                        },
+                        {
+                            "flex-grow": "1",
+                            "src": "人正在抢购",
+                            "size": "11dp",
+                            "color": "#FFFFFF",
+                            "_type": "text"
+                        },
+                        {
+                            "type": "yoga",
+                            "backgroundColor": "#cccccc",
+                            "background": "tpl_seckill_all_btn_bg",
+                            "marginLeft": "20dp",
+                            "flex-direction": "row",
+                            "align-items": "center",
+                            "marginRight": "10dp",
+                            "paddingLeft": "6dp",
+                            "paddingTop": "2dp",
+                            "paddingRight": "6dp",
+                            "paddingBottom": "2dp",
+                            "_type": "layout",
+                            "children": [
+                                {
+                                    "src": "全部秒杀",
+                                    "size": "11dp",
+                                    "color": "#FFFFFF",
+                                    "_type": "text"
+                                },
+                                {
+                                    "width": "8dp",
+                                    "height": "10dp",
+                                    "src": "tpl_white_arrow",
+                                    "_type": "image",
+                                    "backgroundColor": "#cc00cc",
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "backgroundColor": "#0000F0",
+                    "src": "${good}",
+                    "width": "fill",
+                    "height": "200dp",
+                    "marginTop": "6dp",
+                    "marginBottom": "10dp",
+                    "marginLeft": "4dp",
+                    "marginRight": "4dp",
+                    "orientation": "horizontal",
+                    "_type": "list",
+                    "hSpace": "4dp",
+                    "children": [
+                        {
+                            "id": "1",
+                            "payload": "vh",
+                            "backgroundColor": "#FFFFFF",
+                            "radius": "8dp",
+                            "type": "yoga",
+                            "flex-direction": "column",
+                            "_type": "layout",
+                            "width": "100dp",
+                            "align-items": "center",
+                            "children": [
+                                {
+                                    "id": "2",
+                                    "_type": "layout",
+                                    "type": "frame",
+                                    "marginTop": "4dp",
+                                    "children": [
+                                        {
+                                            "id": "3",
+                                            "src": "${image}",
+                                            "width": "90dp",
+                                            "height": "90dp",
+                                            "_type": "image",
+                                            "radius": "8dp"
+                                        },
+                                        {
+                                            "id": "4",
+                                            "width": "90dp",
+                                            "height": "20dp",
+                                            "_type": "view",
+                                            "backgroundColor": "#CC009D4F",
+                                            "radiusLB": "8dp",
+                                            "radiusRB": "8dp",
+                                            "layoutGravity": "bottom"
+                                        },
+                                        {
+                                            "id": "5",
+                                            "type": "yoga",
+                                            "width": "90dp",
+                                            "height": "20dp",
+                                            "flex-direction": "row",
+                                            "_type": "layout",
+                                            "justify-content": "center",
+                                            "align-items": "center",
+                                            "layoutGravity": "bottom|center_horizontal",
+                                            "children": [
+                                                {
+                                                    "id": "6",
+                                                    "src": "tpl_seckill_label_down",
+                                                    "_type": "image",
+                                                    "width": "8dp",
+                                                    "height": "11dp"
+                                                },
+                                                {
+                                                    "id": "7",
+                                                    "height": "20dp",
+                                                    "_type": "text",
+                                                    "gravity": "center_vertical",
+                                                    "color": "#FFFFFF",
+                                                    "src": "直降3.1元",
+                                                    "size": "11dp"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "8",
+                                    "_type": "layout",
+                                    "type": "frame",
+                                    "padding": "5dp",
+                                    "width": "100dp",
+                                    "children": [
+                                        {
+                                            "id": "9",
+                                            "type": "yoga",
+                                            "flex-direction": "column",
+                                            "_type": "layout",
+                                            "children": [
+                                                {
+                                                    "id": "10",
+                                                    "src": "${price}",
+                                                    "_type": "text",
+                                                    "size": "12dp",
+                                                    "color": "#FF3D12"
+                                                },
+                                                {
+                                                    "id": "11",
+                                                    "src": "${price}",
+                                                    "_type": "text",
+                                                    "size": "11dp",
+                                                    "color": "#999999"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "12",
+                                            "width": "26dp",
+                                            "height": "26dp",
+                                            "background": "bg_round_cart_view",
+                                            "src": "tpl_add_to_cart",
+                                            "_type": "image",
+                                            "layoutGravity": "right|center_vertical"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "ids": {
+        "parent": "0",
+        "img_1": "1",
+        "txt_1": "2"
+    }
+}
