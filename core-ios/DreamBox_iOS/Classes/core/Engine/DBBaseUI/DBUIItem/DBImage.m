@@ -55,6 +55,11 @@
     }
 
     [self refreshImage];
+#if DEBUG
+    if([self.imageModel.backgroundColor isEqualToString:@"#000F0F"]){
+        
+    }
+#endif
 }
 
 - (CGSize)wrapSize {

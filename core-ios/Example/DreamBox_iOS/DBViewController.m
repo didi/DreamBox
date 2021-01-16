@@ -16,9 +16,6 @@
 #import "DBService.h"
 #import "DBDebugService.h"
 #import "DBFactory.h"
-#import "DBMyViewModel.h"
-#import "DBMyView.h"
-#import "DBMyAction.h"
 #import "Masonry.h"
 
 @interface DBViewController ()
@@ -47,6 +44,10 @@
 
 - (void)wrapperTest {
     NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"tmp1" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
+
+    [[DBFactory sharedInstance] registViewClass:NSClassFromString(@"DBAddCartButton") byType:@"AddCart"];
+    [[DBFactory sharedInstance] registModelClass:NSClassFromString(@"DBViewModel") byType:@"AddCart"];
+    
     
     self.dbView = [[DBTreeView alloc] initWithJsonSting:mockDataString extMeta:nil accessKey:@"DEMO" tid:@"1"];
     [self.view addSubview:self.dbView];

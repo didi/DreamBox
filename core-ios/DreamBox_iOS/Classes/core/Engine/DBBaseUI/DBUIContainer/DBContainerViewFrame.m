@@ -22,7 +22,7 @@
     container.renderModel = renderModel;
     [container frameLayoutWithContainer:container renderModel:renderModel];
     container.pathTid = pathId;
-    
+    container.userInteractionEnabled = YES;
     return container;
 }
 
@@ -50,11 +50,6 @@
         }else {
             Class cls = [[DBFactory sharedInstance] getModelClassByType:_type];
             DBViewModel *viewModel = [cls modelWithDict:dict];
-#if DEBUG
-            if([viewModel.backgroundColor isEqualToString:@"#000F0F"]){
-                
-            }
-#endif
             UIView *view = [self modelToView:viewModel];
             [view configureLayoutWithBlock:^(YGLayout * _Nonnull layout) {
                 layout.isEnabled = NO;

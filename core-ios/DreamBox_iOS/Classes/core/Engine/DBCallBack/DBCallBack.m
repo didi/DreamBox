@@ -20,6 +20,8 @@
         NSString *type = [callBack db_objectForKey:@"_type"];
         if([type isEqual:@"onClick"]){
             [view db_addTapGestureActionWithBlock:^(UITapGestureRecognizer * _Nonnull tapAction) {
+                UIWindow * window=[[[UIApplication sharedApplication] delegate] window];
+                CGRect rect=[view convertRect:view.bounds toView:window];
                 [DBParser circulationActionDict:callBack andPathId:view.pathId];
             }];
         } else if([type isEqual:@"onVisible"]){

@@ -29,8 +29,8 @@
     container.treeModel = model;
     DBTreeModelYoga *yogaModel = (DBTreeModelYoga *)model;
     [container refreshImageWithSrc:yogaModel.render.background];
-    container.userInteractionEnabled = YES;
     [container flexBoxLayoutWithContainer:container renderModel:yogaModel.render];
+    container.userInteractionEnabled = YES;
 //    [container makeContent];
     return container;
 }
@@ -42,6 +42,7 @@
     container.renderModel = renderModel;
     container.pathTid = pathId;
     [container flexBoxLayoutWithContainer:container renderModel:renderModel];
+    container.userInteractionEnabled = YES;
 //    [container makeContent];
     return container;
 }

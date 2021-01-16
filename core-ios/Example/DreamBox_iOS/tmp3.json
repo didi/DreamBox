@@ -254,31 +254,14 @@
                                             ]
                                         },
                                         {
+                                            "backgroundColor": "#000F0F",
                                             "id": "12",
                                             "width": "26dp",
                                             "height": "26dp",
-                                            "layoutGravity": "right|center_vertical",
-                                            
-                                            "_type": "AddCart",
-                                            "avilible": "1",
-                                            "bgViewColorAvilible":"#FF3800",
-                                            "bgViewColorUnAvilible":"#CACBCC",
-                                            "shopCartImage": "tpl_add_to_cart",
-                                            "showCount": "1",
-                                            "cartCount": "2",
-                                            
-                                            "callbacks":[
-                                                {
-                                                    "_type":"onClick",
-                                                    "actions":[
-                                                        {
-                                                            "nav":{
-                                                                "schema":"https://www.baidu.com"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            ]
+                                            "background": "bg_round_cart_view",
+                                            "src": "tpl_add_to_cart",
+                                            "_type": "image",
+                                            "layoutGravity": "right|center_vertical"
                                         }
                                     ]
                                 }
