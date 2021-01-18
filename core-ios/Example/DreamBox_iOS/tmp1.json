@@ -46,6 +46,7 @@
             "type": "yoga",
             "width": "fill",
             "_type": "layout",
+            "radius":"8dp",
             "children": [
                 {
                     "type": "yoga",
@@ -242,14 +243,16 @@
                                                     "src": "${price}",
                                                     "_type": "text",
                                                     "size": "12dp",
-                                                    "color": "#FF3D12"
+                                                    "color": "#FF3D12",
+                                                    "style": "bold"
                                                 },
                                                 {
                                                     "id": "11",
                                                     "src": "${price}",
                                                     "_type": "text",
                                                     "size": "11dp",
-                                                    "color": "#999999"
+                                                    "color": "#999999",
+                                                    "style": "strick"
                                                 }
                                             ]
                                         },

@@ -45,20 +45,6 @@
         self.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     
-    CGFloat textFontSize = 13;
-    if ([DBDefines db_getUnit:self.textModel.size]) {
-        textFontSize = [DBDefines db_getUnit:self.textModel.size];
-    }
-    if ([self.textModel.style isEqualToString:@"bold"]) {
-        if (@available(iOS 8.2, *)) {
-            self.font = [UIFont systemFontOfSize:textFontSize weight:UIFontWeightBold];
-        } else {
-            self.font = [UIFont systemFontOfSize:textFontSize];
-        }
-    }else{
-        self.font = [UIFont systemFontOfSize:textFontSize];
-    }
-
     if ([self.textModel.gravity isEqualToString:@"left"]) {
         self.textAlignment = NSTextAlignmentLeft;
     }else if([self.textModel.gravity isEqualToString:@"right"]){
@@ -99,6 +85,36 @@
         NSNumber *num = (NSNumber *)src;
         self.text = num.stringValue;
     }
+    
+    CGFloat textFontSize = 13;
+    if ([DBDefines db_getUnit:self.textModel.size]) {
+        textFontSize = [DBDefines db_getUnit:self.textModel.size];
+    }
+    
+    if ([self.textModel.style isEqualToString:@"bold"]) {
+        if (@available(iOS 8.2, *)) {
+            self.font = [UIFont systemFontOfSize:textFontSize weight:UIFontWeightBold];
+        } else {
+            self.font = [UIFont boldSystemFontOfSize:textFontSize];
+        }
+    }else if ([self.textModel.style isEqualToString:@"italic"]){
+        self.font = [UIFont italicSystemFontOfSize:textFontSize];
+    } else if([self.textModel.style isEqualToString:@"strick"]){
+        NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:self.text];
+        [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlineStyleNone) range:NSMakeRange(0, self.text.length)];
+        [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(0, self.text.length)];
+            [self setAttributedText:attri];
+        self.font = [UIFont systemFontOfSize:textFontSize];
+    } else if([self.textModel.style isEqualToString:@"underline"]) {
+        NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:self.text];
+        [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlineStyleNone) range:NSMakeRange(0, self.text.length)];
+        [attri addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(0, self.text.length)];
+            [self setAttributedText:attri];
+        self.font = [UIFont systemFontOfSize:textFontSize];
+    } else {
+        self.font = [UIFont systemFontOfSize:textFontSize];
+    }
+    
 }
 
 - (NSString *)p_replaceLine:(NSString *)str {

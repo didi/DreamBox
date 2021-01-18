@@ -129,17 +129,16 @@
         }
         if(model.width.length > 0){
             CGFloat w = [DBDefines db_getUnit:model.width];
-            if(w < 0){
-                w = [UIScreen mainScreen].bounds.size.width;
-            }
-            layout.width = YGPointValue(w);
+            if(w > 0){
+                layout.width = YGPointValue(w);
+            } 
         }
         if(model.height.length > 0){
             CGFloat h = [DBDefines db_getUnit:model.height];
-            if(h < 0){
-                h = [UIScreen mainScreen].bounds.size.height;
+            if(h > 0){
+                layout.height = YGPointValue(h);
             }
-            layout.height = YGPointValue(h);
+            
         }
         if(model.minWidth.length > 0){
             layout.minWidth = YGPointValue([DBDefines db_getUnit:model.minWidth]);

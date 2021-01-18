@@ -236,7 +236,12 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     [self handleChangeOn:treeModel.changeOn];
     [self circulationAliasDict:treeModel.actionAlias];
     
-    self.bgView = [DBRenderFactory renderViewWithTreeModel:treeModel pathid:self.pathTid];
+    DBTreeModelYoga *yogaModel = (DBTreeModelYoga *)treeModel;
+    if([yogaModel.render.yogaModel.width isEqualToString:@"fill"]){
+        yogaModel.render.yogaModel.width = [NSString stringWithFormat:@"%f", self.frame.size.width];
+    }
+    
+    self.bgView = [DBRenderFactory renderViewWithTreeModel:yogaModel pathid:self.pathTid];
     self.bgView.userInteractionEnabled = YES;
     [self addSubview:self.bgView];
     self.frame = self.bgView.bounds;
@@ -262,7 +267,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     } else if ([renderModel.type isEqual:@"frame"]){
         subContainer = [DBContainerViewFrame containerViewWithRenderModel:renderModel pathid:pathId delegate:self];
     }
-    return subContainer;
+    return subContainer; 
 }
 
 #pragma mark - reload方法

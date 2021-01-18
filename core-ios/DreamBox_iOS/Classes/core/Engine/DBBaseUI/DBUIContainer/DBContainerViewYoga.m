@@ -28,6 +28,7 @@
     container.pathTid = pathId;
     container.treeModel = model;
     DBTreeModelYoga *yogaModel = (DBTreeModelYoga *)model;
+    container.renderModel = yogaModel.render;
     [container refreshImageWithSrc:yogaModel.render.background];
     [container flexBoxLayoutWithContainer:container renderModel:yogaModel.render];
     container.userInteractionEnabled = YES;

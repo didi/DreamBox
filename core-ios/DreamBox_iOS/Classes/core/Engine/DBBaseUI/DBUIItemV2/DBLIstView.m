@@ -56,8 +56,8 @@
 
 @property (nonatomic, strong) UICollectionView *collectView;
 @property (nonatomic, copy) NSArray *dataList;
-@property (nonatomic, strong) DBContainerViewYoga * footer;
-@property (nonatomic, strong) DBContainerViewYoga * header;
+@property (nonatomic, strong) NSDictionary * footer;
+@property (nonatomic, strong) NSDictionary * header;
 @property (nonatomic, strong) DBlistModelV2* listModel;
 @property (nonatomic, strong) NSMutableDictionary* containerMouldDict;
 @end
@@ -107,13 +107,13 @@
         
         CGFloat contentH = [DBDefines db_getUnit:self.model.yogaLayout.height];
         CGFloat contentW = [DBDefines db_getUnit:self.model.yogaLayout.width];
-        if(!(contentW > 0)){
-            contentW = [UIScreen mainScreen].bounds.size.width;
-        }
-        if(!(contentH > 0)){
-            contentH = [UIScreen mainScreen].bounds.size.height;
-        }
-        
+//        if(!(contentW > 0)){
+//            contentW = [UIScreen mainScreen].bounds.size.width;
+//        }
+//        if(!(contentH > 0)){
+//            contentH = [UIScreen mainScreen].bounds.size.height;
+//        }
+//        
         [self setFrame:CGRectMake(0, 0, contentW, contentH)];
         
         [self.collectView reloadData];
@@ -222,7 +222,6 @@
     DBContainerViewYoga *header = (DBContainerViewYoga *)[DBRenderFactory renderViewWithRenderModel:model pathid:self.pathId];
 
     if(header){
-        _header = header;
         return header.bounds.size;
     } else {
         return CGSizeZero;
@@ -234,8 +233,7 @@
     DBRenderModel *model = [DBRenderModel modelWithDict:self.footer];
     DBContainerViewYoga *footer = (DBContainerViewYoga *)[DBRenderFactory renderViewWithRenderModel:model pathid:self.pathId];
     if(footer){
-        _footer = footer;
-        return _footer.bounds.size;
+        return footer.bounds.size;
     } else {
         return CGSizeZero;
     }
