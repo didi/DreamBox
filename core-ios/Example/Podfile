@@ -6,7 +6,7 @@ platform :ios, '8.0'
 
 target 'DreamBox_iOS_Example' do
   pod 'DreamBox_iOS', :path => '../'
-  pod 'DBDebugTool', :git => 'git@git.xiaojukeji.com:DreamBox/dbdebugtool_ios.git'
+  pod 'DBDebugTool', :path => '../../debug-tool-ios/'
   pod 'LookinServer'
 
   target 'DreamBox_iOS_Tests' do

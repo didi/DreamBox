@@ -112,9 +112,9 @@
 + (DBView *)modelToView:(DBViewModel *)model andPathId:(NSString *)pathId
 {
 
-    Class cls = [[DBFactory sharedInstance] getViewClassByType:model.type];
+    Class cls = [[DBFactory sharedInstance] getViewClassByType:model._type];
     if (!cls) {
-        [self trace_node_unknown:model.type andPathId:pathId];
+        [self trace_node_unknown:model._type andPathId:pathId];
     }
     
     //lifeCycle：创建视图
@@ -258,6 +258,10 @@
 
 + (id)getRealValueByPathId:(NSString *)pathId andKey:(NSString *)key{
 
+    if(!key){
+        return nil;
+    }
+    
     NSMutableString *finalValue = [[NSMutableString alloc] initWithString:key];
 
     //字符串操作较密集，增加try-catch防崩

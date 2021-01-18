@@ -16,10 +16,12 @@
 #import "Masonry.h"
 #import "UIImage+DBExtends.h"
 
-@implementation DBImage {
-    UIImageView * _imageView;
-    DBImageModel * _imageModel;
-}
+@interface DBImage()
+@property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) DBImageModel *imageModel;
+@end
+
+@implementation DBImage
 
 #pragma mark - DBViewProtocol
 -(void)onCreateView{
@@ -32,7 +34,7 @@
     }];
 }
 
--(void)onAttributesBind:(DBViewModel *)attributesModel{
+- (void)onAttributesBind:(DBViewModel *)attributesModel{
     [super onAttributesBind:attributesModel];
     _imageModel = (DBImageModel *)attributesModel;
     
@@ -53,6 +55,11 @@
     }
 
     [self refreshImage];
+#if DEBUG
+    if([self.imageModel.backgroundColor isEqualToString:@"#000F0F"]){
+        
+    }
+#endif
 }
 
 - (CGSize)wrapSize {
@@ -70,14 +77,18 @@
     NSString *src = [DBParser getRealValueByPathId:self.pathId andKey:_imageModel.src];
     NSString *accessKey = [[DBPool shareDBPool] getAccessKeyWithPathId:self.pathId];
     if ([DBValidJudge isValidString:src]) {
-        [[DBWrapperManager sharedManager] imageLoadService:_imageView accessKey:accessKey setImageUrl:src callback:^(UIImage * _Nonnull image) {
-            if([_imageModel.srcType isEqualToString:@"ninePatch"]){
-                UIImage *image = [_imageView.image getResizableImageWithPatchType:@""];
-                image = [image OriginImage:image scaleToSize:CGSizeMake(self.frame.size.width, self.frame.size.height)];
-                _imageView.image = image;
+        __weak typeof(self) weakSelf = self;
+        [[DBWrapperManager sharedManager] imageLoadService:weakSelf.imageView accessKey:accessKey setImageUrl:src callback:^(UIImage * _Nonnull image) {
+            if(image){
+                if([weakSelf.imageModel.srcType isEqualToString:@"ninePatch"]){
+                    UIImage *image = [weakSelf.imageView.image getResizableImageWithPatchType:@""];
+                    image = [image OriginImage:image scaleToSize:CGSizeMake(weakSelf.frame.size.width, weakSelf.frame.size.height)];
+                    weakSelf.imageView.image = image;
+                } else {
+                    weakSelf.imageView.image = image;
+                }
             }
         }];
-
     }
 }
 

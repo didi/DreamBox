@@ -77,7 +77,7 @@
     
     NSArray *callBacks = [originDict db_objectForKey:@"callbacks"];
     for(NSDictionary *dict in callBacks){
-        NSString *type = [dict db_objectForKey:@"type"];
+        NSString *type = [dict db_objectForKey:@"_type"];
         if([type isEqual:@"onSuccess"]){
             onSuccessDict = dict;
         }

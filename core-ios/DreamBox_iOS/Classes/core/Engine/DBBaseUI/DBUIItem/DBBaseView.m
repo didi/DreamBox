@@ -20,7 +20,9 @@
 
 @end
 
-@implementation DBBaseView
+@implementation DBBaseView {
+    DBViewModel *_model;
+}
 
 - (void)dealloc{
     [self handleDismissOn:self.model.changeOn];
@@ -37,6 +39,10 @@
     if(self = [super initWithFrame:frame]){
     }
     return self;
+}
+
+- (void)setModel:(DBViewModel *)model{
+    _model = model;
 }
 
 - (void)onCreateView{
@@ -62,11 +68,36 @@
         }];
     }
     
+    
+    
+    if(self.model.radius) {
+        self.layer.masksToBounds = YES;
+        self.layer.cornerRadius = [self.model.radius floatValue];
+    }
+    
+    CGFloat width = [DBDefines db_getUnit:self.model.width];
+    CGFloat height = [DBDefines db_getUnit:self.model.height];
+    
+    if(width > 0 && height > 0){
+        self.frame = CGRectMake(0, 0, width, height);
+        if(self.model.radiusLT
+           || self.model.radiusRT
+           || self.model.radiusLB
+           || self.model.radiusRB){
+            
+            [DBDefines makeCornerWithView:self
+                                 cornerLT:[DBDefines db_getUnit:self.model.radiusLT]
+                                 cornerRT:[DBDefines db_getUnit:self.model.radiusRT]
+                                 cornerLB:[DBDefines db_getUnit:self.model.radiusLB]
+                                 cornerRB:[DBDefines db_getUnit:self.model.radiusRB]
+             ];
+        }
+    }
 }
 
 
 - (void)setDataWithModel:(DBViewModel *)model andPathId:(NSString *)pathId{
-    _model = model;
+    self.model = model;
     _pathId = pathId;
     _accessKey = [[DBPool shareDBPool] getAccessKeyWithPathId:pathId];
 }
@@ -98,7 +129,7 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
 {
-    if([keyPath isEqualToString:_model.changeOn]){
+    if([keyPath isEqualToString:self.model.changeOn]){
         [self reload];
     }
 }
@@ -127,5 +158,8 @@
     }
 }
 
+- (DBViewModel *)model{
+    return _model;
+}
 
 @end

@@ -16,6 +16,7 @@
 #import "DBYogaModel.h"
 #import "DBPool.h"
 #import "UIView+Yoga.h"
+#import "DBRenderModel.h"
 
 @interface DBFlowView()
 
@@ -99,10 +100,10 @@
         NSDictionary *dict = [self.dataList db_ObjectAtIndex:i];
         [[DBPool shareDBPool] setObject:dict ToDBMetaPoolWithPathId:self.pathId];
         NSDictionary *itemDict = [self.model.children db_ObjectAtIndex:0];
-        DBYogaRenderModel *model = [DBYogaRenderModel modelWithDict:itemDict];
+        DBRenderModel *model = [DBRenderModel modelWithDict:itemDict];
         UIView *itemView;
         if([model.type isEqual:@"yoga"]){
-            itemView = [DBContainerViewYoga containerViewWithYogaModel:model pathid:self.pathId];
+            itemView = [DBContainerViewYoga containerViewWithRenderModel:model pathid:self.pathId delegate:nil];
         } else {
             //扩展其他布局类型
             itemView = [UIView new];
@@ -161,7 +162,7 @@
 //        DBContainerViewYoga *itemView = [self.itemViews db_ObjectAtIndex:i];
 //        if(!itemView){
 //            NSDictionary *itemDict = [self.model.children db_ObjectAtIndex:0];
-//            DBYogaRenderModel *model = [DBYogaRenderModel modelWithDict:itemDict];
+//            DBRenderModel *model = [DBRenderModel modelWithDict:itemDict];
 //            [[DBPool shareDBPool] setObject:dict ToDBMetaPoolWithPathId:self.pathId];
 //            itemView = [DBContainerViewYoga containerViewWithYogaModel:model pathid:self.pathId];
 //

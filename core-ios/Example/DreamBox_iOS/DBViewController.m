@@ -16,9 +16,6 @@
 #import "DBService.h"
 #import "DBDebugService.h"
 #import "DBFactory.h"
-#import "DBMyViewModel.h"
-#import "DBMyView.h"
-#import "DBMyAction.h"
 #import "Masonry.h"
 
 @interface DBViewController ()
@@ -46,14 +43,16 @@
 }
 
 - (void)wrapperTest {
-    NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"HomeTest" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
+    NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"tmp1" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
+
+    [[DBFactory sharedInstance] registViewClass:NSClassFromString(@"DBAddCartButton") byType:@"AddCart"];
+    [[DBFactory sharedInstance] registModelClass:NSClassFromString(@"DBViewModel") byType:@"AddCart"];
     
-    self.dbView = [[DBTreeView alloc] initWithJsonSting:mockDataString extMeta:[self pareseExt] accessKey:@"DEMO" tid:@"1"];
+    
+    DBTreeView *dbView = [[DBTreeView alloc] initWithFrame:CGRectMake(0, 100, [UIScreen mainScreen].bounds.size.width, 0)];
+    self.dbView = [dbView initWithJsonSting:mockDataString extMeta:nil accessKey:@"DEMO" tid:@"1"];
     [self.view addSubview:self.dbView];
-    [self.dbView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.width.height.equalTo(self.view);
-    }];
-//    [self.dbView setFrame:CGRectMake(0, 0, 300, 400)];
+    self.dbView.frame = CGRectMake(0, 60, self.dbView.frame.size.width, self.dbView.frame.size.height);
 }
 
 @end 

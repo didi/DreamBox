@@ -13,17 +13,22 @@
 @implementation DBContainerViewReference
 
 
-+ (DBContainerView *)containerViewWithModel:(DBTreeModel *)model pathid:(NSString *)pathId{
++ (DBContainerView *)containerViewWithModel:(DBTreeModel *)model pathid:(NSString *)pathId delegate:(id<DBContainerViewDelegate>)delegate{
     DBContainerViewReference *container = [DBContainerViewReference new];
+    container.containerDelegate = delegate;
     container.pathTid = pathId;
     container.treeModel = model;
     DBTreeModelReference *referenceModel = (DBTreeModelReference *)model;
     [container referenceLayoutWithRenderModel:model];
-    [container makeContent];
+//    [container makeContent];
     return container;
 }
 
-- (void)reloadWithDict:(NSDictionary *)dict{
+- (void)reloadWithMetaDict:(NSDictionary *)dict{
+    
+}
+
+- (void)reloadWithExtDict:(NSDictionary *)dict {
     
 }
 
@@ -38,7 +43,7 @@
     
     for (int i = 0; i < packedRenderArray.count ; i ++) {
         NSDictionary *dict = packedRenderArray[i];
-        NSString *type = [dict objectForKey:@"type"];
+        NSString *type = [dict objectForKey:@"_type"];
         Class cls = [[DBFactory sharedInstance] getModelClassByType:type];
         DBViewModel *viewModel = [cls modelWithDict:dict];
         UIView *view = [self modelToView:viewModel];
@@ -53,7 +58,7 @@
     NSMutableArray *restructRenderArray = [[NSMutableArray alloc] initWithArray:itemArray];
     for(int i = 0; i < itemArray.count; i++){
         NSDictionary *itemDict = [itemArray db_ObjectAtIndex:i];
-        NSString *type = [itemDict objectForKey:@"type"];
+        NSString *type = [itemDict objectForKey:@"_type"];
         if([type isEqual:@"pack"]){
             NSArray *children = [itemDict objectForKey:@"children"];
             for(NSDictionary *dict in children){
@@ -83,25 +88,25 @@
         [DBReferenceLayout layoutAllViews:model andView:(DBView*)view andRelativeViewPool:self.recyclePool];
     }
 }
-- (void)makeContent{
-    [self setNeedsLayout];
-    [self layoutIfNeeded];
-    if(self.treeModel.scroll.length > 0){
-        self.scrollEnabled = YES;
-        if([self.treeModel.scroll isEqualToString:@"horizontal"]){
-            CGSize size = CGSizeMake([self maxXOfTreeView], [UIScreen mainScreen].bounds.size.height);
-            [self setContentSize:size];
-            self.backGroudView.frame = CGRectMake(self.backGroudView.frame.origin.x, self.backGroudView.frame.origin.y, size.width, size.height);
-        }
-        if([self.treeModel.scroll isEqualToString:@"vertical"]){
-            CGSize size = CGSizeMake([UIScreen mainScreen].bounds.size.width, [self maxYOfTreeView]);
-            [self setContentSize:size];
-            self.backGroudView.frame = CGRectMake(self.backGroudView.frame.origin.x, self.backGroudView.frame.origin.y, size.width, size.height);
-        }
-    } else {
-        self.scrollEnabled = NO;
-    }
-}
+//- (void)makeContent{
+//    [self setNeedsLayout];
+//    [self layoutIfNeeded];
+//    if(self.treeModel.scroll.length > 0){
+//        self.scrollEnabled = YES;
+//        if([self.treeModel.scroll isEqualToString:@"horizontal"]){
+//            CGSize size = CGSizeMake([self maxXOfTreeView], [UIScreen mainScreen].bounds.size.height);
+//            [self setContentSize:size];
+//            self.backGroudView.frame = CGRectMake(self.backGroudView.frame.origin.x, self.backGroudView.frame.origin.y, size.width, size.height);
+//        }
+//        if([self.treeModel.scroll isEqualToString:@"vertical"]){
+//            CGSize size = CGSizeMake([UIScreen mainScreen].bounds.size.width, [self maxYOfTreeView]);
+//            [self setContentSize:size];
+//            self.backGroudView.frame = CGRectMake(self.backGroudView.frame.origin.x, self.backGroudView.frame.origin.y, size.width, size.height);
+//        }
+//    } else {
+//        self.scrollEnabled = NO;
+//    }
+//}
 
 - (CGFloat)maxXOfTreeView{
     CGFloat maxX = 0;

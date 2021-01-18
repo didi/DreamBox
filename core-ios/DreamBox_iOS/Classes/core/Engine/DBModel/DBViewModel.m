@@ -14,16 +14,18 @@
 #import "NSDictionary+DBExtends.h"
 #import "DBYogaModel.h"
 #import "DBReferenceModel.h"
+#import "DBRenderModel.h"
 
 @implementation DBViewModel
 
 #pragma mark - viewModel
 + (DBViewModel *)modelWithDict:(NSDictionary *)dict
 {
-    NSString *type = [dict objectForKey:@"type"];
+    NSString *type = [dict objectForKey:@"_type"];
     Class cls = [[DBFactory sharedInstance] getModelClassByType:type];
     //常规属性
     DBViewModel *model2 = [[cls alloc] init];
+    model2._type = [dict db_objectForKey:@"_type"];
     model2.type = [dict db_objectForKey:@"type"];
     model2.modelID = [dict db_objectForKey:@"id"];
     model2.backgroundColor = [dict db_objectForKey:@"backgroundColor"];
@@ -43,11 +45,16 @@
     model2.radiusLT = [dict db_objectForKey:@"radiusLT"];
     model2.radiusRB = [dict db_objectForKey:@"radiusRB"];
     model2.radiusLB = [dict db_objectForKey:@"radiusLB"];
+    model2.width = [dict db_objectForKey:@"width"];
+    model2.height = [dict db_objectForKey:@"height"];
     
     NSInteger dbVersion = 4;
     if(dbVersion >= 4){
         DBYogaModel *yogaLayout = [DBYogaModel modelWithDict:dict];
         model2.yogaLayout = yogaLayout;
+        
+        DBFrameModel *frameLayout = [DBFrameModel modelWithDict:dict];
+        model2.frameLayout = frameLayout;
     } else {
         DBReferenceModel *referenceLayout = [DBReferenceModel modelWithDict:dict];
         model2.referenceLayout = referenceLayout;
@@ -118,7 +125,7 @@
     DBTreeModelYoga *model = [super modelWithDict:dict type:DBTreeModelLayoutTypeYoga];
     
     NSDictionary *renderDict = [dict db_objectForKey:@"layout"];
-    DBYogaRenderModel *render = [DBYogaRenderModel modelWithDict:renderDict]; //yoga布局中render为yoga模型
+    DBRenderModel *render = [DBRenderModel modelWithDict:renderDict]; //yoga布局中render为yoga模型
     model.render = render;
     
     return model;
@@ -211,10 +218,12 @@
     model.onPull = [dict objectForKey:@"onPull"];
     model.onMore = [dict objectForKey:@"onMore"];
     model.orientation = [dict objectForKey:@"orientation"];
+    model.vSpace = [dict objectForKey:@"vSpace"];
+    model.hSpace = [dict objectForKey:@"hSpace"];
 
     NSArray *children = [dict objectForKey:@"children"];
     [children enumerateObjectsUsingBlock:^( NSDictionary *itemDict, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString *type = [itemDict objectForKey:@"type"];
+        NSString *type = [itemDict objectForKey:@"_type"];
         if([type isEqualToString:@"header"]){
             model.header = (NSArray *)[itemDict objectForKey:@"children"];
         }
@@ -242,7 +251,8 @@
     model.onPull = [dict objectForKey:@"onPull"];
     model.onMore = [dict objectForKey:@"onMore"];
     model.orientation = [dict objectForKey:@"orientation"];
-    
+    model.vSpace = [dict objectForKey:@"vSpace"];
+    model.hSpace = [dict objectForKey:@"hSpace"];
 
     NSArray *children = [dict objectForKey:@"children"];
     model.children = children;

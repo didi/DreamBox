@@ -59,16 +59,3 @@
 
 @end
 
-
-@interface DBYogaRenderModel : DBYogaModel
-
-@property (nonatomic, copy) NSString *backgroundColor;
-@property (nonatomic, copy) NSString *layout;
-@property (nonatomic, copy) NSString *type;
-@property (nonatomic, strong) NSArray *children;
-@property (nonatomic, strong) DBYogaModel *yogaModel;
-
-+ (DBYogaRenderModel *)modelWithDict:(NSDictionary *)dict;
-
-@end
-

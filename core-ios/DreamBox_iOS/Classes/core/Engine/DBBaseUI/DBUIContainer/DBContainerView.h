@@ -13,9 +13,21 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DBContainerView : UIScrollView
+@class DBContainerView;
 
+@protocol DBContainerViewDelegate <NSObject>
+
+@required
+- (DBContainerView *)containerViewWithRenderModel:(DBRenderModel *)renderModel pathid:(NSString *)pathId;
+
+@end
+
+@interface DBContainerView : UIImageView
+
+
+@property (nonatomic, weak) id<DBContainerViewDelegate> containerDelegate;
 @property (nonatomic, strong) DBTreeModel *treeModel;
+@property (nonatomic, strong) DBRenderModel *renderModel;
 @property (nonatomic, copy) NSString *pathTid;
 
 @property (nonatomic, strong) DBView *backGroudView;
@@ -23,13 +35,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableArray *allRenderViewArray;
 @property (nonatomic, strong) NSMutableArray *allRenderModelArray;
 
-+ (DBContainerView *)containerViewWithModel:(DBTreeModel *)model pathid:(NSString *)pathId;
++ (DBContainerView *)containerViewWithModel:(DBTreeModel *)model pathid:(NSString *)pathId delegate:(id<DBContainerViewDelegate>)delegate;
++ (DBContainerView *)containerViewWithRenderModel:(DBRenderModel *)renderModel pathid:(NSString *)pathId delegate:(id<DBContainerViewDelegate>)delegate;
+
 
 - (DBView *)modelToView:(DBViewModel *)model;
 
 - (void)addToAllContainer:(UIView *)containerView item:(UIView *)itemView andModel:(DBViewModel *)viewModel;
 
-- (void)reloadWithDict:(NSDictionary *)dict;
+- (void)reloadWithMetaDict:(NSDictionary *)dict;
+
+- (void)reloadWithExtDict:(NSDictionary *)dict;
 
 @end
 

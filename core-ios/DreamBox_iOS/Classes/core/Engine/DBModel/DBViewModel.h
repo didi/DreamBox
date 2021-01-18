@@ -7,9 +7,10 @@
 //
 
 @class DBYogaModel;
-@class DBYogaRenderModel;
+@class DBRenderModel;
 @class DBReferenceModel;
 @class DBViewModelYoga;
+@class DBFrameModel;
 
 typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
     DBTreeModelLayoutTypeReference, //相对布局
@@ -19,6 +20,7 @@ typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
 
 #pragma mark - viewModel
 @interface DBViewModel : NSObject
+@property (nonatomic ,copy) NSString *_type;//string
 @property (nonatomic ,copy) NSString *type;//string
 @property (nonatomic ,copy) NSString *modelID;//string
 
@@ -27,17 +29,19 @@ typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
 @property (nonatomic ,copy) NSString *visibleOn;//默认visible，只能接bool，如指定则只能等到true再展示
 @property (nonatomic ,copy) NSString *changeOn; //指对哪些数据敏感，当相关数据发生变化时，当前DreamBox视图整体会刷新，属性内容为数据的key，可通过|连接多个数值
 @property (nonatomic ,copy) NSString *shape;
-@property (nonatomic ,copy) NSString *radius;
 @property (nonatomic ,copy) NSString *borderWidth;
 @property (nonatomic ,copy) NSString *borderColor;
 @property (nonatomic ,copy) NSString *gradientColor;
 @property (nonatomic ,copy) NSString *gradientOrientation;
 @property (nonatomic ,copy) NSString *scroll;
 @property (nonatomic ,copy) NSString *userInteractionEnabled;
+@property (nonatomic ,copy) NSString *radius;
 @property (nonatomic ,copy) NSString *radiusLT;
 @property (nonatomic ,copy) NSString *radiusRT;
 @property (nonatomic ,copy) NSString *radiusLB;
 @property (nonatomic ,copy) NSString *radiusRB;
+@property (nonatomic, copy) NSString *width;              
+@property (nonatomic, copy) NSString *height;
 //回调节点
 @property (nonatomic, strong) NSArray *callbacks;
 //触发节点
@@ -50,12 +54,13 @@ typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
 //布局节点
 @property (nonatomic,strong) DBReferenceModel *referenceLayout;
 @property (nonatomic,strong) DBYogaModel *yogaLayout;
+@property (nonatomic,strong) DBFrameModel *frameLayout;
 
 + (DBViewModel *)modelWithDict:(NSDictionary *)dict;
 @end
 
 #pragma mark - treeModel
-@class DBYogaRenderModel;
+@class DBRenderModel;
 
 
 @interface DBTreeModel : DBViewModel
@@ -82,7 +87,7 @@ typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
 
 @interface DBTreeModelYoga : DBTreeModel
 
-@property (nonatomic,strong) DBYogaRenderModel *render;
+@property (nonatomic,strong) DBRenderModel *render;
 + (DBTreeModelYoga *)modelWithDict:(NSDictionary *)dict;
 
 @end
@@ -129,6 +134,8 @@ typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
 @property (nonatomic,copy) NSArray *vh;
 @property (nonatomic,copy) NSArray *header;
 @property (nonatomic,copy) NSArray *footer;
+@property (nonatomic,copy) NSString *hSpace;
+@property (nonatomic,copy) NSString *vSpace;
 
 @end
 
@@ -144,6 +151,8 @@ typedef NS_ENUM(NSInteger, DBTreeModelLayoutType) {
 @property (nonatomic,copy) NSDictionary *vh;
 @property (nonatomic,copy) NSDictionary *header;
 @property (nonatomic,copy) NSDictionary *footer;
+@property (nonatomic,copy) NSString *hSpace;
+@property (nonatomic,copy) NSString *vSpace;
 
 @end
 

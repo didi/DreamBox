@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0AEE2FC4259CB467005D7138 /* DBPlaceHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE2FC3259CB467005D7138 /* DBPlaceHolder.swift */; };
+		0AEE2FD7259CB627005D7138 /* DBPlaceHolder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE2FD6259CB627005D7138 /* DBPlaceHolder.mm */; };
 		6A1C158594A458732AC17701 /* libPods-DBPlayGround_iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3AB61679F3C5C2E513B8334 /* libPods-DBPlayGround_iOS.a */; };
 		7A2E01BA24EE6DFF001149DC /* DBPlayGround_iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A2E01B924EE6DFF001149DC /* DBPlayGround_iOSTests.m */; };
 		7A2E01C524EE6E00001149DC /* DBPlayGround_iOSUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A2E01C424EE6E00001149DC /* DBPlayGround_iOSUITests.m */; };
@@ -43,6 +45,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0AEE2FC2259CB467005D7138 /* DBPlayGround_iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DBPlayGround_iOS-Bridging-Header.h"; sourceTree = "<group>"; };
+		0AEE2FC3259CB467005D7138 /* DBPlaceHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBPlaceHolder.swift; sourceTree = "<group>"; };
+		0AEE2FD5259CB627005D7138 /* DBPlaceHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBPlaceHolder.h; sourceTree = "<group>"; };
+		0AEE2FD6259CB627005D7138 /* DBPlaceHolder.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DBPlaceHolder.mm; sourceTree = "<group>"; };
 		7A2E019A24EE6DFB001149DC /* DBPlayGround_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DBPlayGround_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A2E01B524EE6DFF001149DC /* DBPlayGround_iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DBPlayGround_iOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A2E01B924EE6DFF001149DC /* DBPlayGround_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBPlayGround_iOSTests.m; sourceTree = "<group>"; };
@@ -143,6 +149,10 @@
 				7A2E01FA24EE6E7D001149DC /* main.m */,
 				7A2E01FE24EE6E7D001149DC /* SceneDelegate.h */,
 				7A2E01FF24EE6E7D001149DC /* SceneDelegate.m */,
+				0AEE2FC3259CB467005D7138 /* DBPlaceHolder.swift */,
+				0AEE2FC2259CB467005D7138 /* DBPlayGround_iOS-Bridging-Header.h */,
+				0AEE2FD5259CB627005D7138 /* DBPlaceHolder.h */,
+				0AEE2FD6259CB627005D7138 /* DBPlaceHolder.mm */,
 			);
 			path = DBPlayGround_iOS;
 			sourceTree = "<group>";
@@ -180,7 +190,6 @@
 				8533FF112E053E2D985C2E81 /* Pods-DBPlayGround_iOS.debug.xcconfig */,
 				B48B1671440CC163871F5D2B /* Pods-DBPlayGround_iOS.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -261,6 +270,7 @@
 				TargetAttributes = {
 					7A2E019924EE6DFB001149DC = {
 						CreatedOnToolsVersion = 11.4;
+						LastSwiftMigration = 1210;
 					};
 					7A2E01B424EE6DFF001149DC = {
 						CreatedOnToolsVersion = 11.4;
@@ -371,11 +381,13 @@
 			files = (
 				7A2E020D24EE6E7E001149DC /* AppDelegate.m in Sources */,
 				7A2E020F24EE6E7E001149DC /* main.m in Sources */,
+				0AEE2FD7259CB627005D7138 /* DBPlaceHolder.mm in Sources */,
 				7A2E021724EE6E7E001149DC /* DBStartViewController.m in Sources */,
 				7A2E021224EE6E7E001149DC /* SceneDelegate.m in Sources */,
 				7A2E021124EE6E7E001149DC /* DBQRScanVC.m in Sources */,
 				7A2E020B24EE6E7E001149DC /* DBWssTest.m in Sources */,
 				7A2E021424EE6E7E001149DC /* DBDropListView.m in Sources */,
+				0AEE2FC4259CB467005D7138 /* DBPlaceHolder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -544,15 +556,26 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8533FF112E053E2D985C2E81 /* Pods-DBPlayGround_iOS.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DBPlayGround_iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LOCALIZED_STRING_SWIFTUI_SUPPORT = YES;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-lstdc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "asd.DBPlayGround-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_SWIFT_SYMBOLS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "DBPlayGround_iOS/DBPlayGround_iOS-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -561,15 +584,21 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B48B1671440CC163871F5D2B /* Pods-DBPlayGround_iOS.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DBPlayGround_iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LOCALIZED_STRING_SWIFTUI_SUPPORT = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "asd.DBPlayGround-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_SWIFT_SYMBOLS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "DBPlayGround_iOS/DBPlayGround_iOS-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -577,6 +606,7 @@
 		7A2E01CD24EE6E00001149DC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DBPlayGround_iOSTests/Info.plist;
@@ -596,6 +626,7 @@
 		7A2E01CE24EE6E00001149DC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DBPlayGround_iOSTests/Info.plist;
@@ -615,6 +646,7 @@
 		7A2E01D024EE6E00001149DC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DBPlayGround_iOSUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -632,6 +664,7 @@
 		7A2E01D124EE6E00001149DC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DBPlayGround_iOSUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
