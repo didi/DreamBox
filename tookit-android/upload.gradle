@@ -35,7 +35,9 @@ publishing {
             artifactId project.ARTIFACT_ID
             version project.DB_VERSION
 
-            artifact(sourceJar)
+            if (!project.DB_VERSION.endsWith('-SNAPSHOT')) {
+                artifact(sourceJar)
+            }
             artifact("$buildDir/outputs/aar/$ARTIFACT_ID-release.aar")
 
             def rootDir = project.getParent().getName()
@@ -126,10 +128,10 @@ publishing {
 
         maven {
             name 'snapshot'
-            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+            url properties.getProperty("snapshot_repository_url")
             credentials {
-                username = properties.getProperty("oss.usr")
-                password = properties.getProperty("oss.pwd")
+                username = properties.getProperty("username")
+                password = properties.getProperty("password")
             }
         }
     }

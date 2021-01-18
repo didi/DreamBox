@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion COMPILE_SDK.toInteger()
+    buildToolsVersion BUILD_TOOL_VER
 
     defaultConfig {
         minSdkVersion MIN_SDK.toInteger()
@@ -45,6 +46,7 @@ dependencies {
 
     api project(':tookit-common')
     implementation project(':tookit-display-scan')
-
-
+    implementation("com.github.bumptech.glide:glide:4.11.0") {
+        exclude group: "com.android.support"
+    }
 }

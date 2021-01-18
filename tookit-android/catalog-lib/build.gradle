@@ -3,6 +3,7 @@ apply from: '../upload.gradle'
 
 android {
     compileSdkVersion COMPILE_SDK.toInteger()
+    buildToolsVersion BUILD_TOOL_VER
 
     defaultConfig {
         minSdkVersion MIN_SDK.toInteger()

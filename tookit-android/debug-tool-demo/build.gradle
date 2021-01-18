@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion COMPILE_SDK.toInteger()
+    buildToolsVersion BUILD_TOOL_VER
 
     defaultConfig {
         applicationId "com.didi.dreambox.tools.demo"
-        minSdkVersion 18
-        targetSdkVersion 29
+        minSdkVersion MIN_SDK.toInteger()
+        targetSdkVersion TARGET_SDK.toInteger()
         versionCode 1
         versionName "1.0"
 

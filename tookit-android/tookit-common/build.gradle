@@ -2,12 +2,12 @@ apply plugin: 'com.android.library'
 apply from: '../upload.gradle'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion COMPILE_SDK.toInteger()
+    buildToolsVersion BUILD_TOOL_VER
 
     defaultConfig {
-        minSdkVersion 17
-        targetSdkVersion 29
+        minSdkVersion MIN_SDK.toInteger()
+        targetSdkVersion TARGET_SDK.toInteger()
         versionCode 1
         versionName "1.0"
 
@@ -32,7 +32,4 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     api 'com.didiglobal.dreambox:dreambox:0.4.2-SNAPSHOT'
     implementation "com.android.volley:volley:1.1.1"
-    implementation("com.github.bumptech.glide:glide:4.11.0") {
-        exclude group: "com.android.support"
-    }
 }
