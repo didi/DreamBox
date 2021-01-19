@@ -11,8 +11,8 @@
 		0A05B1F825B0986700F56F50 /* tpl_seckill_goods_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A05B1F725B0986700F56F50 /* tpl_seckill_goods_icon.png */; };
 		0A05B1FC25B09F0700F56F50 /* tpl_seckill_card_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A05B1FB25B09F0700F56F50 /* tpl_seckill_card_bg.png */; };
 		0A05B1FE25B14EEF00F56F50 /* tmp2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A05B1FD25B14EEE00F56F50 /* tmp2.json */; };
+		0A62BB0425B696E8001C3EA4 /* tpl_add_to_cart.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A62BB0325B696E8001C3EA4 /* tpl_add_to_cart.png */; };
 		0AE2DA5725B2B29D0083C6C1 /* DBAddCartButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AE2DA5625B2B29D0083C6C1 /* DBAddCartButton.m */; };
-		0AE2DA5925B2B5D40083C6C1 /* tpl_add_to_cart.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AE2DA5825B2B5D40083C6C1 /* tpl_add_to_cart.png */; };
 		0AE2DA5C25B2BB480083C6C1 /* DBAddCartButtonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AE2DA5B25B2BB480083C6C1 /* DBAddCartButtonModel.m */; };
 		0AEE2FC1259CA768005D7138 /* yoga_Test.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AEE2FC0259CA768005D7138 /* yoga_Test.json */; };
 		1B7294A3DA89081C5B0544B7 /* Pods_DreamBox_iOS_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D164075DD77D2D29618AFC /* Pods_DreamBox_iOS_Example.framework */; };
@@ -49,9 +49,9 @@
 		0A05B1F725B0986700F56F50 /* tpl_seckill_goods_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tpl_seckill_goods_icon.png; sourceTree = "<group>"; };
 		0A05B1FB25B09F0700F56F50 /* tpl_seckill_card_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tpl_seckill_card_bg.png; sourceTree = "<group>"; };
 		0A05B1FD25B14EEE00F56F50 /* tmp2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tmp2.json; sourceTree = "<group>"; };
+		0A62BB0325B696E8001C3EA4 /* tpl_add_to_cart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tpl_add_to_cart.png; sourceTree = "<group>"; };
 		0AE2DA5525B2B29D0083C6C1 /* DBAddCartButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBAddCartButton.h; sourceTree = "<group>"; };
 		0AE2DA5625B2B29D0083C6C1 /* DBAddCartButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBAddCartButton.m; sourceTree = "<group>"; };
-		0AE2DA5825B2B5D40083C6C1 /* tpl_add_to_cart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tpl_add_to_cart.png; path = "../../../../../../CXYX/macaroon/Pods/VirtualViewResources/virtualview/templates-res/tpl_add_to_cart.png"; sourceTree = "<group>"; };
 		0AE2DA5A25B2BB480083C6C1 /* DBAddCartButtonModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBAddCartButtonModel.h; sourceTree = "<group>"; };
 		0AE2DA5B25B2BB480083C6C1 /* DBAddCartButtonModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBAddCartButtonModel.m; sourceTree = "<group>"; };
 		0AEE2FC0259CA768005D7138 /* yoga_Test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = yoga_Test.json; sourceTree = "<group>"; };
@@ -150,7 +150,7 @@
 		6003F593195388D20070C39A /* Example for DreamBox_iOS */ = {
 			isa = PBXGroup;
 			children = (
-				0AE2DA5825B2B5D40083C6C1 /* tpl_add_to_cart.png */,
+				0A62BB0325B696E8001C3EA4 /* tpl_add_to_cart.png */,
 				0A05B1FB25B09F0700F56F50 /* tpl_seckill_card_bg.png */,
 				0A05B1F725B0986700F56F50 /* tpl_seckill_goods_icon.png */,
 				0A05B1FD25B14EEE00F56F50 /* tmp2.json */,
@@ -322,9 +322,9 @@
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				0A05B1FC25B09F0700F56F50 /* tpl_seckill_card_bg.png in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
+				0A62BB0425B696E8001C3EA4 /* tpl_add_to_cart.png in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 				0A05B1F825B0986700F56F50 /* tpl_seckill_goods_icon.png in Resources */,
-				0AE2DA5925B2B5D40083C6C1 /* tpl_add_to_cart.png in Resources */,
 				0A05B1F625B089A600F56F50 /* tmp1.json in Resources */,
 				0A05B1FE25B14EEF00F56F50 /* tmp2.json in Resources */,
 			);

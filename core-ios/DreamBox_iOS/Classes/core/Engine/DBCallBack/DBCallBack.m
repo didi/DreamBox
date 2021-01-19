@@ -13,7 +13,7 @@
 
 @implementation DBCallBack
 
-+ (void)bindView:(DBView *)view withCallBacks:(NSArray *)callBacks {
++ (void)bindView:(UIView *)view withCallBacks:(NSArray *)callBacks pathId:(NSString *)pathId{
     __weak typeof(view) weakView = view;
     
     for(NSDictionary *callBack in [callBacks mutableCopy]){
@@ -22,15 +22,15 @@
             [view db_addTapGestureActionWithBlock:^(UITapGestureRecognizer * _Nonnull tapAction) {
                 UIWindow * window=[[[UIApplication sharedApplication] delegate] window];
                 CGRect rect=[view convertRect:view.bounds toView:window];
-                [DBParser circulationActionDict:callBack andPathId:view.pathId];
+                [DBParser circulationActionDict:callBack andPathId:pathId];
             }];
         } else if([type isEqual:@"onVisible"]){
             [view setViewVisible:^{
-                [DBParser circulationActionDict:callBack andPathId:weakView.pathId];
+                [DBParser circulationActionDict:callBack andPathId:pathId];
             }];
         } else if([type isEqual:@"OnInVisible"]){
             [view setViewInVisible:^{
-                [DBParser circulationActionDict:callBack andPathId:weakView.pathId];
+                [DBParser circulationActionDict:callBack andPathId:pathId];
             }];
         } else if([type isEqual:@"onPositive"]){
             //绑定在弹窗组件上TODO

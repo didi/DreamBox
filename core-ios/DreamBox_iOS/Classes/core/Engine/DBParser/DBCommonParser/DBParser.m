@@ -164,7 +164,7 @@
     
     //处理回调
     view.callBacks = model.callbacks;
-    [DBCallBack bindView:view withCallBacks:view.callBacks];
+    [DBCallBack bindView:view withCallBacks:view.callBacks pathId:view.pathId];
 
     return view;
 }

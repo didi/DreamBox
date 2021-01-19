@@ -39,7 +39,7 @@
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBViewModel") forKey:@"view"];
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBImageModel") forKey:@"image"];
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBTextModel") forKey:@"text"];
-
+        [self.allModelClassTypesArray setValue:NSClassFromString(@"DBRenderModel") forKey:@"layout"];
         
         [self.allModelClassTypesArray setValue:NSClassFromString(@"DBProgressModel") forKey:@"progress"];
         if(dbVersion >= 4){

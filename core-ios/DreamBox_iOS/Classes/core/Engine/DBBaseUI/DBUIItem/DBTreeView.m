@@ -230,7 +230,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     
     //绑定回调事件
     self.callBacks = treeModel.callbacks;
-    [DBCallBack bindView:self withCallBacks:self.callBacks];
+    [DBCallBack bindView:self withCallBacks:self.callBacks pathId:pathId];
     
     [self regiterOnEvent:treeModel.onEvent];
     [self handleChangeOn:treeModel.changeOn];
