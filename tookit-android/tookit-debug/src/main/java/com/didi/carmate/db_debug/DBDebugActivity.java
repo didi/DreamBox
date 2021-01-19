@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class DebugActivity extends AppCompatActivity implements View.OnClickListener {
+public class DBDebugActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String tag = this.getClass().getSimpleName();
     private static final int PERMISSIONS_REQUEST_CAMERA = 101;
@@ -197,7 +197,7 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
     @SuppressLint("RestrictedApi")
     private void bind() {
         if (!dataValid) {
-            Toast.makeText(DebugActivity.this,
+            Toast.makeText(DBDebugActivity.this,
                     "无效的数据", Toast.LENGTH_LONG).show();
             return;
         }
@@ -215,13 +215,13 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
             dreamBoxView = DreamBox.getInstance().getDreamBoxView(selectedAccessKey, selectedModelId);
             if (dreamBoxView != null) {
                 dreamBoxView.reloadWithTemplate(templateStr);
-                Toast.makeText(DebugActivity.this, "绑定成功", Toast.LENGTH_LONG).show();
+                Toast.makeText(DBDebugActivity.this, "绑定成功", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(DebugActivity.this, "没有获取到DBView", Toast.LENGTH_LONG).show();
+                Toast.makeText(DBDebugActivity.this, "没有获取到DBView", Toast.LENGTH_LONG).show();
             }
         } else {
             Log.i(tag, "无效的key selectedAccessKey： " + selectedAccessKey + " selectedModelId：" + selectedModelId);
-            Toast.makeText(DebugActivity.this, "无效的key或者模版id", Toast.LENGTH_LONG).show();
+            Toast.makeText(DBDebugActivity.this, "无效的key或者模版id", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -232,7 +232,7 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
                 if (null != handshakeData) {
                     Log.i(tag, "打开通道： " + handshakeData);
                 }
-                Toast.makeText(DebugActivity.this,
+                Toast.makeText(DBDebugActivity.this,
                         getString(R.string.debug_toast_connect_tip),
                         Toast.LENGTH_LONG).show();
             }
@@ -254,7 +254,7 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
                             } else if ("ext".equals(type)) {
                                 dreamBoxView.bindData(data);
                             } else {
-                                Toast.makeText(DebugActivity.this, getString(R.string.debug_toast_err_msg), Toast.LENGTH_LONG).show();
+                                Toast.makeText(DBDebugActivity.this, getString(R.string.debug_toast_err_msg), Toast.LENGTH_LONG).show();
                             }
                         }
                     } catch (JSONException e) {
@@ -262,7 +262,7 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
                     }
                 }
                 statusTip.setHint("连接成功，请点击绑定进行调试");
-                Toast.makeText(DebugActivity.this, getString(R.string.debug_toast_new_msg), Toast.LENGTH_LONG).show();
+                Toast.makeText(DBDebugActivity.this, getString(R.string.debug_toast_new_msg), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -270,7 +270,7 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
                 Log.i(tag, "通道关闭： " + reason);
                 statusTip.setHint("连接断开，请扫码连接");
                 templateStr = "";
-                Toast.makeText(DebugActivity.this,
+                Toast.makeText(DBDebugActivity.this,
                         getString(R.string.debug_toast_close_tip), Toast.LENGTH_LONG).show();
             }
 
@@ -279,7 +279,7 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
                 Log.i(tag, "错误： " + ex.toString());
                 statusTip.setHint("连接断开，请扫码连接");
                 templateStr = "";
-                Toast.makeText(DebugActivity.this,
+                Toast.makeText(DBDebugActivity.this,
                         getString(R.string.debug_toast_connect_error), Toast.LENGTH_LONG).show();
             }
         });
@@ -296,7 +296,7 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
 
     private void close() {
         DBWebSocket.getWebSocket().close();
-        Toast.makeText(DebugActivity.this,
+        Toast.makeText(DBDebugActivity.this,
                 getResources().getString(R.string.debug_toast_close_tip), Toast.LENGTH_LONG).show();
     }
 
@@ -321,7 +321,7 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
                     addressEd.setText(result);
                     connect(result);
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    Toast.makeText(DebugActivity.this,
+                    Toast.makeText(DBDebugActivity.this,
                             "扫描失败", Toast.LENGTH_LONG).show();
                 }
             }
