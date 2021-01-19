@@ -83,7 +83,7 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
     private void doBind(View nativeView, boolean bindAttrOnly) {
         if (!bindAttrOnly) {
             // id
-            String rawId = getAttrs().get("id");
+            String rawId = getAttrs().get(DBConstants.UI_ID);
             if (null != rawId) {
                 id = Integer.parseInt(rawId);
                 nativeView.setId(id);

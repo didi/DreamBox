@@ -81,6 +81,7 @@ public class DBConstants {
     // 节点类型
     public static final String UI_ROOT = "layout";
     public static final String UI_TYPE = "_type";
+    public static final String UI_ID = "_id";
     public static final String UI_LAYOUT = "layout";
     public static final String UI_LAYOUT_TYPE = "type";
     public static final String UI_PAYLOAD = "payload";

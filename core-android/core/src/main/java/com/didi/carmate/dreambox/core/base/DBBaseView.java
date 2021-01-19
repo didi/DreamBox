@@ -75,7 +75,7 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
             onAttributesBind(getAttrs());
         } else {
             // id
-            String rawId = getAttrs().get("id");
+            String rawId = getAttrs().get(DBConstants.UI_ID);
             if (null != rawId) {
                 id = Integer.parseInt(rawId);
                 nativeView.setId(id);

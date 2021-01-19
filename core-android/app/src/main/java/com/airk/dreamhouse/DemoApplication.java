@@ -12,5 +12,6 @@ public class DemoApplication extends Application {
     public void onCreate() {
         super.onCreate();
         DreamBox.getInstance().register(ACCESS_KEY, this, null);
+        DreamBox.getInstance().registerDBNode(CXAddCartAction.getNodeTag(), new CXAddCartAction.NodeCreator());
     }
 }
