@@ -83,9 +83,9 @@ static CGFloat DBVerticalMargin = 10;
     }
     
     if(!(data.length > 0)){
-        //首次
-        [self.dbView loadWithTemplateId:@"hellodb" accessKey:@"test" extData:nil completionBlock:^(BOOL successed, NSError * _Nullable error) {
-        }];
+//        //首次
+//        [self.dbView loadWithTemplateId:@"hellodb" accessKey:@"test" extData:nil completionBlock:^(BOOL successed, NSError * _Nullable error) {
+//        }];
     } else {
         //刷新，暂无刷新接口，用重建代替
         [self.dbView reloadWithData:data extMeta:ext];
