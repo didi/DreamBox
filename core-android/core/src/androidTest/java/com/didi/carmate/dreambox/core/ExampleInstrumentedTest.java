@@ -5,9 +5,10 @@ import android.content.Context;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.didi.carmate.dreambox.core.base.DBContext;
-import com.didi.carmate.dreambox.core.base.DBNodeParser;
-import com.didi.carmate.dreambox.core.base.DBTemplate;
+import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBNodeParser;
+import com.didi.carmate.dreambox.core.v4.base.DBTemplate;
+import com.didi.carmate.dreambox.core.v4.DBEngine;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,8 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-
-import static org.junit.Assert.*;
 
 /**
  * Instrumented test, which will execute on an Android device.

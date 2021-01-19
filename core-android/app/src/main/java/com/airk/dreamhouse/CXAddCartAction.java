@@ -1,8 +1,8 @@
 package com.airk.dreamhouse;
 
-import com.didi.carmate.dreambox.core.base.DBAction;
-import com.didi.carmate.dreambox.core.base.DBContext;
-import com.didi.carmate.dreambox.core.base.INodeCreator;
+import com.didi.carmate.dreambox.core.v4.base.DBAction;
+import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 
 import java.util.Map;
 

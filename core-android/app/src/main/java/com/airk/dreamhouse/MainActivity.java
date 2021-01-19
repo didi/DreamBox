@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airk.dreamhouse.demo.R;
-import com.didi.carmate.dreambox.shell.DreamBoxView;
+import com.didi.carmate.dreambox.shell.v4.DreamBoxView;
 
 import java.io.BufferedReader;
 import java.io.IOException;

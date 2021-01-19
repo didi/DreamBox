@@ -5,6 +5,8 @@ import android.os.Build;
 
 import androidx.test.core.app.ApplicationProvider;
 
+import com.didi.carmate.dreambox.wrapper.v4.impl.SimpleWrapper;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -20,7 +22,7 @@ public class SimpleWrapperTest {
 
     @Test
     public void testClassName() {
-        assertEquals("com.didi.carmate.dreambox.wrapper.impl.SimpleWrapper", SimpleWrapper.class.getCanonicalName());
+        assertEquals("com.didi.carmate.dreambox.wrapper.v4.impl.SimpleWrapper", SimpleWrapper.class.getCanonicalName());
     }
 
     @Test
