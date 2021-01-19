@@ -36,6 +36,7 @@ public class DBLView extends DBNode {
     private final List<DBCallback> mCallbacks = new ArrayList<>();
     private DBOnEvent mDBEvent;
     private DBContainer<ViewGroup> mDBRender;
+    private ViewGroup mDBRootView;
     private List<DBActionAliasItem> mActionAliasItems;
 
     // 根节点id默认0，其他视图节点id默认值-1
@@ -83,7 +84,7 @@ public class DBLView extends DBNode {
         super.onParserNodeFinished();
 
         mDBRender.bindView(NODE_TYPE_ROOT); // view结构的调用源头
-        ViewGroup mDBRootView = (ViewGroup) mDBRender.getNativeView();
+        mDBRootView = (ViewGroup) mDBRender.getNativeView();
         if (null == mDBCoreView) {
             if (DBConstants.STYLE_ORIENTATION_V.equals(scroll)) {
                 mDBCoreView = new DBCoreViewScrollV(mDBContext, mDBRootView);
@@ -108,7 +109,7 @@ public class DBLView extends DBNode {
 
     public void bindData() {
         mDBRender.parserAttribute(); // 视图节点部分属性放到此生命周期里解析，需要重新执行一遍
-        mDBRender.bindView(null, NODE_TYPE_ROOT, true);
+        mDBRender.bindView(mDBRootView, NODE_TYPE_ROOT, true);
     }
 
     @Override

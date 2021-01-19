@@ -50,6 +50,7 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
     private String selectedAccessKey;
     private String selectedModelId;
     private Map<String, List<String>> dreamBoxList;
+    private JSONObject receivedObject;
     private String templateStr = "";
     private DreamBoxView dreamBoxView;
     private TextView statusTip;
@@ -61,7 +62,7 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_debug);
+        setContentView(R.layout.dreambox_activity_debug);
         bindBtn = findViewById(R.id.db_debug_bind);
         bindBtn.setOnClickListener(this);
         refreshBtn = findViewById(R.id.db_debug_refresh);
@@ -211,25 +212,17 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
                 !TextUtils.isEmpty(selectedModelId) &&
                 !TextUtils.equals("无数据", selectedModelId)
         ) {
-
-            dreamBoxView = DreamBox.getInstance().
-                    getDreamBoxView(selectedAccessKey, selectedModelId);
+            dreamBoxView = DreamBox.getInstance().getDreamBoxView(selectedAccessKey, selectedModelId);
             if (dreamBoxView != null) {
                 dreamBoxView.reloadWithTemplate(templateStr);
-                Toast.makeText(DebugActivity.this,
-                        "绑定成功", Toast.LENGTH_LONG).show();
+                Toast.makeText(DebugActivity.this, "绑定成功", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(DebugActivity.this,
-                        "没有获取到DBView", Toast.LENGTH_LONG).show();
+                Toast.makeText(DebugActivity.this, "没有获取到DBView", Toast.LENGTH_LONG).show();
             }
         } else {
-            Log.i(tag, "无效的key selectedAccessKey： " + selectedAccessKey +
-                    " selectedModelId：" + selectedModelId);
-
-            Toast.makeText(DebugActivity.this,
-                    "无效的key或者模版id", Toast.LENGTH_LONG).show();
+            Log.i(tag, "无效的key selectedAccessKey： " + selectedAccessKey + " selectedModelId：" + selectedModelId);
+            Toast.makeText(DebugActivity.this, "无效的key或者模版id", Toast.LENGTH_LONG).show();
         }
-
     }
 
     private void connect(String address) {
@@ -250,22 +243,26 @@ public class DebugActivity extends AppCompatActivity implements View.OnClickList
                 Log.i(tag, "接受服务信息： " + message);
                 if (!TextUtils.isEmpty(message)) {
                     try {
-                        JSONObject json = new JSONObject(message);
-                        templateStr = json.optString("data");
+                        receivedObject = new JSONObject(message);
+                        String type = receivedObject.optString("type");
+                        String data = receivedObject.optString("data");
+                        if (dreamBoxView != null) {
+                            if ("compiled".equals(type)) {
+                                templateStr = data;
+                                dreamBoxView.reloadWithTemplate(templateStr);
+                                Log.i(tag, "接受服务信息 解析完毕 ： " + templateStr);
+                            } else if ("ext".equals(type)) {
+                                dreamBoxView.bindData(data);
+                            } else {
+                                Toast.makeText(DebugActivity.this, getString(R.string.debug_toast_err_msg), Toast.LENGTH_LONG).show();
+                            }
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
-                if (dreamBoxView != null && !TextUtils.isEmpty(templateStr)) {
-                    dreamBoxView.reloadWithTemplate(templateStr);
-                }
-                Log.i(tag, "接受服务信息 解析完毕 ： " + templateStr);
-
-                statusTip.setHint("连接成功，请绑定进行调试");
-                Toast.makeText(DebugActivity.this,
-                        getString(R.string.debug_toast_new_msg),
-                        Toast.LENGTH_LONG).show();
+                statusTip.setHint("连接成功，请点击绑定进行调试");
+                Toast.makeText(DebugActivity.this, getString(R.string.debug_toast_new_msg), Toast.LENGTH_LONG).show();
             }
 
             @Override

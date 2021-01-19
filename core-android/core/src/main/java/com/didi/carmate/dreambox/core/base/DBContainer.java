@@ -63,6 +63,7 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
             mNativeView.setLayoutParams(layoutParams);
         } else if (nodeType == NODE_TYPE.NODE_TYPE_ROOT) {
             mNativeView = onCreateView();
+            mNativeView.setId(DBConstants.DEFAULT_ID_ROOT);
             doBind(mNativeView, bindAttrOnly);
             // 根容器宽高DSL里定义的优先
             mNativeView.setLayoutParams(new ViewGroup.LayoutParams(width, height));
