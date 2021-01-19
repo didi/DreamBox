@@ -103,7 +103,7 @@
     DBlistModelV2*listModel = (DBlistModelV2*)self.model;
     NSString *src = [DBParser getRealValueByPathId:self.pathId andKey:listModel.src];
     if ([src isKindOfClass:[NSArray class]]) {
-        self.dataList = (NSArray *)src;;
+        self.dataList = (NSArray *)src;
         
         CGFloat contentH = [DBDefines db_getUnit:self.model.yogaLayout.height];
         CGFloat contentW = [DBDefines db_getUnit:self.model.yogaLayout.width];
@@ -113,7 +113,7 @@
 //        if(!(contentH > 0)){
 //            contentH = [UIScreen mainScreen].bounds.size.height;
 //        }
-//        
+//
         [self setFrame:CGRectMake(0, 0, contentW, contentH)];
         
         [self.collectView reloadData];
@@ -188,10 +188,11 @@
 
 - (DBContainerViewYoga *)vhContentViewWithIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *dict = self.dataList[indexPath.row];
-    [[DBPool shareDBPool] setObject:dict ToDBMetaPoolWithPathId:self.pathId];
+    [[DBPool shareDBPool] setObject:dict ToDBMetaPoolWithPathId:[NSString stringWithFormat:@"%@&%ld",self.pathId, indexPath.row]];
     DBRenderModel *model = [DBRenderModel modelWithDict:self.listModel.vh];
     
-    DBContainerViewYoga *contentView = (DBContainerViewYoga *)[DBRenderFactory renderViewWithRenderModel:model pathid:self.pathId];
+    DBContainerViewYoga *contentView = (DBContainerViewYoga *)[DBRenderFactory renderViewWithRenderModel:model pathid:[NSString stringWithFormat:@"%@&%ld",self.pathId, indexPath.row]];
+    [[DBPool shareDBPool] removeObjectFromMetaPoolWithPathId:[NSString stringWithFormat:@"%@&%ld",self.pathId, indexPath.row]];
     return contentView;
 }
 

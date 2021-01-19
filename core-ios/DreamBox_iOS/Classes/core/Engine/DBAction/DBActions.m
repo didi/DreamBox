@@ -30,7 +30,7 @@
 
 @implementation DBLogAction
 
-- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId{
+- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId frame:(CGRect)frame{
     NSString *accessKey = [[DBPool shareDBPool] getAccessKeyWithPathId:pathId];
     NSDictionary *logDict = [DBLogAction parseLogWithDict:originDict andPathId:pathId];
     [[DBWrapperManager sharedManager] logService:logDict accessKey:accessKey];
@@ -53,7 +53,7 @@
 
 @implementation DBNetAction
 
-- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId{
+- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId frame:(CGRect)frame{
 #if DEBUG
 //    NSString *key = [originDict objectForKey:@"to"];
 //    NSArray *students = @[@{
@@ -112,7 +112,7 @@
 
 @implementation DBTraceAction
 
-- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId{
+- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId frame:(CGRect)frame{
     NSString *accessKey = [[DBPool shareDBPool] getAccessKeyWithPathId:pathId];
     NSDictionary *traceDict = [DBTraceAction parseTraceWithDict:originDict andPathId:pathId];
     [[DBWrapperManager sharedManager] traceService:traceDict accessKey:accessKey];
@@ -155,7 +155,7 @@
 
 @implementation DBNavAction
 
-- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId{
+- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId frame:(CGRect)frame{
     NSString *accessKey = [[DBPool shareDBPool] getAccessKeyWithPathId:pathId];
     NSDictionary *onErrorDict = [originDict objectForKey:@"onError"];
     NSDictionary *onSuccessDict = [originDict objectForKey:@"onSuccess"];
@@ -180,7 +180,7 @@
 
 @implementation DBStorageAction
 
-- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId{
+- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId frame:(CGRect)frame{
     NSString *accessKey = [[DBPool shareDBPool] getAccessKeyWithPathId:pathId];
     NSDictionary *storageDict = [DBStorageAction parseStorageWithDict:originDict andPathId:pathId];
     [[DBWrapperManager sharedManager] storageService:storageDict accessKey:accessKey callback:^(NSDictionary * _Nonnull dict) {
@@ -206,7 +206,7 @@
 
 @implementation DBDialogAction
 
-- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId{
+- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId frame:(CGRect)frame{
     NSString *accessKey = [[DBPool shareDBPool] getAccessKeyWithPathId:pathId];
     NSDictionary *dialogDict = [DBDialogAction parseDialogWithDict:originDict andPathId:pathId];
     NSDictionary *onErrorDict = [originDict objectForKey:@"onError"];
@@ -238,7 +238,7 @@
 
 @implementation DBToastAction
 
-- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId{
+- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId frame:(CGRect)frame{
     NSString *accessKey = [[DBPool shareDBPool] getAccessKeyWithPathId:pathId];
     NSDictionary *toastDict = [DBToastAction parseToastWithDict:originDict andPathId:pathId];
     [[DBWrapperManager sharedManager] toastService:toastDict accessKey:accessKey];
@@ -262,7 +262,7 @@
 
 @implementation DBChangeMetaAction
 
-- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId{
+- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId frame:(CGRect)frame{
     if ([originDict db_hasKey:@"key"] && [originDict db_hasKey:@"value"]) {
         NSString *key = [originDict db_stringForKey:@"key" defaultValue:@""];
         NSString *value = [originDict db_stringForKey:@"value" defaultValue:@""];
@@ -277,7 +277,7 @@
 
 @implementation DBInvokeAction
 
-- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId{
+- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId frame:(CGRect)frame{
     NSString *finkey = [originDict objectForKey:@"alias"];
     
     NSDictionary *paramDict;
@@ -330,7 +330,7 @@
 
 @implementation DBClosePageAction
 
-- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId{
+- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId frame:(CGRect)frame{
     id vc = [self currentNC];
     if([vc isKindOfClass: [UINavigationController class]]) {
         [(UINavigationController *)vc popViewControllerAnimated:YES];
@@ -384,7 +384,7 @@
 
 @implementation DBSendEventAction
 
-- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId{
+- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId frame:(CGRect)frame{
     NSString *eventId = [originDict db_objectForKey:@"eid"];
     if(originDict && eventId.length > 0){
         DBTreeView *treeView = [[DBPool shareDBPool] getDBViewWithPathId:pathId];
@@ -403,7 +403,7 @@
 
 @implementation DBOnEventAction
 
-- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId{
+- (void)actWithDict:(NSDictionary*)originDict andPathId:(NSString *)pathId frame:(CGRect)frame{
     [[DBPool shareDBPool] setObject:originDict ToDBOnEventDictWithPathId:pathId];
 }
 

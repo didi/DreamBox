@@ -47,7 +47,6 @@
             "type": "yoga",
             "width": "fill",
             "_type": "layout",
-            "radius":"8dp",
             "children": [
                 {
                     "type": "yoga",

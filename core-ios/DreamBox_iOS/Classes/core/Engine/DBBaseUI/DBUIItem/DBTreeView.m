@@ -220,7 +220,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     //添加pathId与accessKey对应关系
     [[DBPool shareDBPool] setAccessKey:self.accessKey ToSearchAccessPoolWithPathId:self.pathTid];
     //添加pathId与tid对应关系
-    [[DBPool shareDBPool] setTid:self.tid ToSearchTidPoolWithPathId:self.pathId];
+    [[DBPool shareDBPool] setTid:self.tid ToSearchTidPoolWithPathId:self.pathTid];
     //pathTid与当前treeView的对应关系
     [[DBPool shareDBPool] setObject:self toViewMapTableWithPathId:self.pathTid];
     //添加到dbpool的meta池
@@ -230,7 +230,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     
     //绑定回调事件
     self.callBacks = treeModel.callbacks;
-    [DBCallBack bindView:self withCallBacks:self.callBacks pathId:pathId];
+    [DBCallBack bindView:self withCallBacks:self.callBacks pathId:self.pathTid];
     
     [self regiterOnEvent:treeModel.onEvent];
     [self handleChangeOn:treeModel.changeOn];

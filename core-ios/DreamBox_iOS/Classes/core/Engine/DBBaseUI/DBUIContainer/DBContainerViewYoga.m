@@ -19,35 +19,40 @@
 #import "DBValidJudge.h"
 #import "DBWrapperManager.h"
 #import "DBDefines.h"
+#import "DBCallBack.h"
 
 @implementation DBContainerViewYoga
 
 + (DBContainerView *)containerViewWithModel:(DBTreeModel *)model pathid:(NSString *)pathId delegate:(id<DBContainerViewDelegate>)delegate{
-    DBContainerViewYoga *container = [DBContainerViewYoga new];
+    DBTreeModelYoga *yogaModel = (DBTreeModelYoga *)model;
+    DBContainerViewYoga *container = [DBContainerViewYoga viewWithRenderModel:yogaModel.render pathid:pathId];
     container.containerDelegate = delegate;
     container.pathTid = pathId;
     container.treeModel = model;
-    DBTreeModelYoga *yogaModel = (DBTreeModelYoga *)model;
     container.renderModel = yogaModel.render;
     [container refreshImageWithSrc:yogaModel.render.background];
     [container flexBoxLayoutWithContainer:container renderModel:yogaModel.render];
     container.userInteractionEnabled = YES;
-//    [container makeContent];
     return container;
 }
 
 + (DBContainerView *)containerViewWithRenderModel:(DBRenderModel *)renderModel pathid:(NSString *)pathId delegate:(id<DBContainerViewDelegate>)delegate
 {
-    DBContainerViewYoga *container = [DBContainerViewYoga new];
+    DBContainerViewYoga *container = [DBContainerViewYoga viewWithRenderModel:renderModel pathid:pathId];
     container.containerDelegate = delegate;
     container.renderModel = renderModel;
     container.pathTid = pathId;
     [container flexBoxLayoutWithContainer:container renderModel:renderModel];
     container.userInteractionEnabled = YES;
-//    [container makeContent];
     return container;
 }
 
++ (DBContainerViewYoga *)viewWithRenderModel:(DBRenderModel *)renderModel pathid:(NSString *)pathId{
+    DBContainerViewYoga *view = [DBContainerViewYoga new];
+    view.callBacks = renderModel.callbacks;
+    [DBCallBack bindView:view withCallBacks:view.callBacks pathId:pathId];
+    return view;
+}
 
 - (void)setFrame:(CGRect)frame{
     if([self.renderModel.backgroundColor isEqual:@"#0ffabc"]){
@@ -111,8 +116,14 @@
 }
 
 - (void)reLayout{
-    [self.allRenderViewArray enumerateObjectsUsingBlock:^(DBBaseView *view, NSUInteger idx, BOOL * _Nonnull stop) {
-        [view reload];
+    [self.allRenderViewArray enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL * _Nonnull stop) {
+        if([view isKindOfClass:[DBContainerView class]]){
+            
+        } else {
+            if([view respondsToSelector:@selector(reload)]){
+                [view performSelector:@selector(reload)];
+            }
+        }
         [view.yoga markDirty];
     }];
     

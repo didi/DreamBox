@@ -22,7 +22,9 @@
             [view db_addTapGestureActionWithBlock:^(UITapGestureRecognizer * _Nonnull tapAction) {
                 UIWindow * window=[[[UIApplication sharedApplication] delegate] window];
                 CGRect rect=[view convertRect:view.bounds toView:window];
-                [DBParser circulationActionDict:callBack andPathId:pathId];
+                NSMutableDictionary *callBacksM = [NSMutableDictionary dictionaryWithDictionary:callBack];
+                [callBacksM db_setValue:[NSValue valueWithCGRect:rect] forKey:@"frame"];
+                [DBParser circulationActionDict:callBacksM andPathId:pathId];
             }];
         } else if([type isEqual:@"onVisible"]){
             [view setViewVisible:^{

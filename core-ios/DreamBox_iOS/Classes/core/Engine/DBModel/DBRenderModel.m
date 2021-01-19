@@ -11,7 +11,6 @@
 @implementation DBRenderModel
 
 + (DBRenderModel *)modelWithDict:(NSDictionary *)dict{
-//    DBRenderModel *model = [DBRenderModel new];
     DBRenderModel *model = (DBRenderModel *)[super modelWithDict:dict];
     
     model.yogaModel = [DBYogaModel modelWithDict:dict];
@@ -22,7 +21,7 @@
 //    model._type = [dict db_objectForKey:@"_type"];
 //    model.type = [dict db_objectForKey:@"type"];
 //    model.children = [dict db_objectForKey:@"children"];
-//
+//    
 //    model.width = [dict db_objectForKey:@"width"];
 //    model.height = [dict db_objectForKey:@"height"];
 //    model.radius = [dict db_objectForKey:@"radius"];

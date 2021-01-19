@@ -34,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) DBRecyclePool *recyclePool;
 @property (nonatomic, strong) NSMutableArray *allRenderViewArray;
 @property (nonatomic, strong) NSMutableArray *allRenderModelArray;
+@property (nonatomic, strong) NSArray *callBacks;
+
 
 + (DBContainerView *)containerViewWithModel:(DBTreeModel *)model pathid:(NSString *)pathId delegate:(id<DBContainerViewDelegate>)delegate;
 + (DBContainerView *)containerViewWithRenderModel:(DBRenderModel *)renderModel pathid:(NSString *)pathId delegate:(id<DBContainerViewDelegate>)delegate;

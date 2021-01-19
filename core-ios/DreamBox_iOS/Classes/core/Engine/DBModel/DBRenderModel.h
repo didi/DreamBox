@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DBRenderModel : DBViewModel
 
-
+//
 //@property (nonatomic, copy) NSString *backgroundColor;
 @property (nonatomic, copy) NSString *background;
 //@property (nonatomic, copy) NSString *_type;

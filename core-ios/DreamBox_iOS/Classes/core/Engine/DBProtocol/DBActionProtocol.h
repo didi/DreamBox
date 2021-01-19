@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @required
 
--(void)actWithDict:(NSDictionary *)dict andPathId:(NSString *)pathId;
+-(void)actWithDict:(NSDictionary *)dict andPathId:(NSString *)pathId frame:(CGRect)frame;
 
 @end
 

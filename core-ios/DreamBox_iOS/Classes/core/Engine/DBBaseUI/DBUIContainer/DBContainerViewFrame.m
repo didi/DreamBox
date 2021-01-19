@@ -12,11 +12,12 @@
 #import "DBDefines.h"
 #import "UIView+Yoga.h"
 #import "DBFrameLayout.h"
+#import "DBCallBack.h"
 
 @implementation DBContainerViewFrame
 
 + (DBContainerView *)containerViewWithRenderModel:(DBRenderModel *)renderModel pathid:(NSString *)pathId delegate:(nonnull id<DBContainerViewDelegate>)delegate{
-    DBContainerViewFrame *container = [DBContainerViewFrame new];
+    DBContainerViewFrame *container = [DBContainerViewFrame viewWithRenderModel:renderModel pathid:pathId];
     container.containerDelegate = delegate;
     container.pathTid = pathId;
     container.renderModel = renderModel;
@@ -24,6 +25,13 @@
     container.pathTid = pathId;
     container.userInteractionEnabled = YES;
     return container;
+}
+
++ (DBContainerViewFrame *)viewWithRenderModel:(DBRenderModel *)renderModel pathid:(NSString *)pathId{
+    DBContainerViewFrame *view = [DBContainerViewFrame new];
+    view.callBacks = renderModel.callbacks;
+    [DBCallBack bindView:view withCallBacks:view.callBacks pathId:pathId];
+    return view;
 }
 
 - (void)frameLayoutWithContainer:(UIView *)container renderModel:(DBRenderModel *)renderModel{
@@ -79,16 +87,4 @@
          ];
     }
 }
-
-
-
-//- (void)setUpFrameModel:(DBFrameModel *)frameModel inView:(UIView *)view {
-//    CGFloat x,y,w,h;
-//    x = [DBDefines db_getUnit:frameModel.marginLeft];
-//    y = [DBDefines db_getUnit:frameModel.marginTop];
-//    w = [DBDefines db_getUnit:frameModel.width];
-//    h = [DBDefines db_getUnit:frameModel.height];
-//    view.frame = CGRectMake(x, y, w, h);
-//}
-
 @end

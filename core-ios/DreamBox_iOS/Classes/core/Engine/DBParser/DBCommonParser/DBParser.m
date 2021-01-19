@@ -188,11 +188,12 @@
             for (NSInteger i = 0; i < arr.count; i++) {
                 NSString *key = arr[i];
                 NSDictionary *originDict = [action objectForKey:key];
+                NSValue *frame = [actionDict db_objectForKey:@"frame"];
                 if ([DBParser isHandleDependOn:originDict andPathId:pathId]) { return;}  //如果有dependOn依赖
                 Class cls = [[DBFactory sharedInstance] getActionClassByType:key];
                 DBActions *act = [[cls alloc] init];
-                if ([(NSObject<DBActionProtocol> *)act respondsToSelector:@selector(actWithDict:andPathId:)]) {
-                    [(NSObject<DBActionProtocol> *)act actWithDict:originDict andPathId:pathId];
+                if ([(NSObject<DBActionProtocol> *)act respondsToSelector:@selector(actWithDict:andPathId:frame:)]) {
+                    [(NSObject<DBActionProtocol> *)act actWithDict:originDict andPathId:pathId frame:[frame CGRectValue]];
                 }
             }
         }];
