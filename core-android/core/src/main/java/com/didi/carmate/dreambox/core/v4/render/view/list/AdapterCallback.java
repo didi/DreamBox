@@ -15,6 +15,6 @@ public abstract class AdapterCallback implements IAdapterCallback {
     public void onBindFooterView(ViewGroup rootView) {
     }
 
-    public void onBindItemView(ViewGroup itemRootView, JsonObject data) {
+    public void onBindItemView(ViewGroup itemRootView, JsonObject data, int position) {
     }
 }

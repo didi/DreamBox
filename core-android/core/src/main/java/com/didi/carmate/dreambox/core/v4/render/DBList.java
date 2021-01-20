@@ -100,8 +100,8 @@ public class DBList extends DBBaseView<DBListView> {
     }
 
     @Override
-    protected void onCallbackBind(final List<DBCallback> callbacks) {
-        super.onCallbackBind(callbacks);
+    protected void onCallbackBind(final List<DBCallback> callbacks, int position) {
+        super.onCallbackBind(callbacks, position);
 
         final DBListView nativeView = (DBListView) mNativeView;
         // 下拉动作事件触发
@@ -248,13 +248,13 @@ public class DBList extends DBBaseView<DBListView> {
         }
 
         @Override
-        public void onBindItemView(ViewGroup itemRoot, JsonObject data) {
+        public void onBindItemView(ViewGroup itemRoot, JsonObject data, int position) {
             if (null != mDBListVh) {
                 // 子节点属性处理
                 mDBListVh.setData(data);
                 mDBListVh.parserAttribute();
                 // 子节点渲染处理
-                mDBListVh.bindView(itemRoot, NODE_TYPE.NODE_TYPE_ADAPTER);
+                mDBListVh.bindView(itemRoot, NODE_TYPE.NODE_TYPE_ADAPTER, false, data, position);
             }
         }
     }

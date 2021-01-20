@@ -7,10 +7,12 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.CallSuper;
 
+import com.didi.carmate.dreambox.core.v4.R;
 import com.didi.carmate.dreambox.core.v4.action.IDBAction;
 import com.didi.carmate.dreambox.core.v4.data.DBData;
 import com.didi.carmate.dreambox.core.v4.render.DBChildren;
 import com.didi.carmate.dreambox.core.v4.utils.DBLogger;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,18 +61,25 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
      * 待改进，目前list vh里的view节点需要id属性，否则会重复创建对象
      */
     @Override
-    public void bindView(ViewGroup parentView, NODE_TYPE nodeType, boolean bindAttrOnly) {
+    public void bindView(ViewGroup parentView, NODE_TYPE nodeType, boolean bindAttrOnly,
+                         JsonObject data, int position) {
         if (id != DBConstants.DEFAULT_ID_VIEW && null != parentView && null != parentView.findViewById(id)) {
             mNativeView = parentView.findViewById(id);
-            doBind(mNativeView, bindAttrOnly);
+            mNativeView.setTag(R.id.tag_key_item_data, data);
+            mViews.put(position, mNativeView);
+
+            doBind(mNativeView, position, bindAttrOnly);
         } else {
             mNativeView = onCreateView(); // 回调子类View实现
-            doBind(mNativeView, bindAttrOnly);
+            mNativeView.setTag(R.id.tag_key_item_data, data);
+            mViews.put(position, mNativeView);
+
+            doBind(mNativeView, position, bindAttrOnly);
             addToParent(mNativeView, parentView);
         }
     }
 
-    private void doBind(View nativeView, boolean bindAttrOnly) {
+    private void doBind(View nativeView, int position, boolean bindAttrOnly) {
         if (bindAttrOnly) {
             onAttributesBind(getAttrs());
         } else {
@@ -86,7 +95,7 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
             onAttributesBind(getAttrs());
             // 绑定视图回调事件
             if (mCallbacks.size() > 0) {
-                onCallbackBind(mCallbacks);
+                onCallbackBind(mCallbacks, position);
             }
             // 绑定子视图
             if (mChildContainers.size() > 0) {
@@ -174,7 +183,7 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
     }
 
     @CallSuper
-    protected void onCallbackBind(List<DBCallback> callbacks) {
+    protected void onCallbackBind(List<DBCallback> callbacks, final int position) {
         for (final DBCallback callback : callbacks) {
             if ("onClick".equals(callback.getTagName())) {
                 mNativeView.setOnClickListener(new View.OnClickListener() {
@@ -182,7 +191,7 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
                     public void onClick(View v) {
                         List<DBAction> actions = callback.getActionNodes();
                         for (DBAction action : actions) {
-                            action.invoke();
+                            action.invoke(mViews.get(position));
                         }
                     }
                 });

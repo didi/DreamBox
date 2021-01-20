@@ -3,6 +3,7 @@ package com.didi.carmate.dreambox.core.v4.render;
 import android.view.ViewGroup;
 
 import com.didi.carmate.dreambox.core.v4.base.IDBNode;
+import com.google.gson.JsonObject;
 
 /**
  * author: chenjing
@@ -25,9 +26,9 @@ public interface IDBRender extends IDBNode {
         }
     }
 
-    void bindView(NODE_TYPE nodeType);
-
     void bindView(ViewGroup container, NODE_TYPE nodeType);
 
     void bindView(ViewGroup container, NODE_TYPE nodeType, boolean bindAttrOnly);
+
+    void bindView(ViewGroup container, NODE_TYPE nodeType, boolean bindAttrOnly, JsonObject data, int position);
 }

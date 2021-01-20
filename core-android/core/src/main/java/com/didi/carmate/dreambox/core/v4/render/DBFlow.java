@@ -100,7 +100,7 @@ public class DBFlow extends DBBaseView<DBFlowLayout> {
         }
 
         @Override
-        public void onBindItemView(ViewGroup itemRoot, JsonObject data) {
+        public void onBindItemView(ViewGroup itemRoot, JsonObject data, int position) {
             if (null == mFlowCell) {
                 DBLogger.e(mDBContext, "flow child can not be null.");
                 return;
@@ -110,7 +110,7 @@ public class DBFlow extends DBBaseView<DBFlowLayout> {
             mFlowCell.setData(data);
             mFlowCell.parserAttribute();
             // 子节点渲染处理
-            mFlowCell.bindView(itemRoot, NODE_TYPE.NODE_TYPE_ADAPTER);
+            mFlowCell.bindView(itemRoot, NODE_TYPE.NODE_TYPE_ADAPTER, false, data, position);
         }
     }
 

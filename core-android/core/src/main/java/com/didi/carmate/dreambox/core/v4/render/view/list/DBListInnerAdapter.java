@@ -63,7 +63,7 @@ public class DBListInnerAdapter extends RecyclerView.Adapter<DBListViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull DBListViewHolder holder, int position) {
         if (null != mAdapterCallback) {
-            mAdapterCallback.onBindItemView(holder.getRootView(), mListData.get(position));
+            mAdapterCallback.onBindItemView(holder.getRootView(), mListData.get(position), position);
         }
     }
 

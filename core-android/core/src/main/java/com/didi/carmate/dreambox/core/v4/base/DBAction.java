@@ -1,7 +1,11 @@
 package com.didi.carmate.dreambox.core.v4.base;
 
+import android.view.View;
+
+import com.didi.carmate.dreambox.core.v4.R;
 import com.didi.carmate.dreambox.core.v4.action.IDBAction;
 import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 import java.util.Map;
@@ -16,18 +20,39 @@ public abstract class DBAction extends DBNode implements IDBAction {
     }
 
     @Override
+    public void invoke(View view) {
+        _invoke(view);
+    }
+
+    @Override
     public void invoke() {
+        _invoke(null);
+    }
+
+    private void _invoke(View view) {
         Map<String, String> attrs = getAttrs();
         String dependOn = attrs.get("dependOn");
 
         if (DBUtils.isEmpty(dependOn)) {
-            doInvoke(attrs);
+            if (null == view) {
+                doInvoke(attrs);
+            } else {
+                doInvoke(attrs, view, (JsonObject) view.getTag(R.id.tag_key_item_data));
+            }
         } else {
             String[] keys = dependOn.split(";");
             if (keys.length == 1 && getBoolean(keys[0])) {
-                doInvoke(attrs);
+                if (null == view) {
+                    doInvoke(attrs);
+                } else {
+                    doInvoke(attrs, view, (JsonObject) view.getTag(R.id.tag_key_item_data));
+                }
             } else if (getBoolean(keys[0]) && getBoolean(keys[1])) {
-                doInvoke(attrs);
+                if (null == view) {
+                    doInvoke(attrs);
+                } else {
+                    doInvoke(attrs, view, (JsonObject) view.getTag(R.id.tag_key_item_data));
+                }
             }
         }
     }
@@ -43,5 +68,9 @@ public abstract class DBAction extends DBNode implements IDBAction {
         }
     }
 
-    protected abstract void doInvoke(Map<String, String> attrs);
+    protected void doInvoke(Map<String, String> attrs) {
+    }
+
+    protected void doInvoke(Map<String, String> attrs, View view, JsonObject data) {
+    }
 }

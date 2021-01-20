@@ -1,9 +1,15 @@
 package com.airk.dreamhouse;
 
+import android.view.View;
+
+import com.airk.dreamhouse.demo.R;
 import com.didi.carmate.dreambox.core.v4.base.DBAction;
+import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
+import com.google.gson.JsonObject;
 
+import java.util.List;
 import java.util.Map;
 
 public class CXAddCartAction extends DBAction {
@@ -12,17 +18,12 @@ public class CXAddCartAction extends DBAction {
     }
 
     @Override
-    protected void doInvoke(Map<String, String> attrs) {
-        final String src = getString(attrs.get("src"));
-//        final boolean isLong = getBoolean(attrs.get("long"));
-//
-//        if (null == src) {
-//            DBLogger.e(mDBContext, "[src] is null.");
-//            return;
-//        }
-//
-//        Toast toast = Wrapper.get(mDBContext.getAccessKey()).toast();
-//        toast.show(mDBContext.getContext(), src, isLong);
+    protected void doInvoke(Map<String, String> attrs, View view, JsonObject data) {
+        final List<JsonObject> array = getJsonObjectList(attrs.get("data"));
+        final JsonObject obj = getJsonObject(attrs.get("data"), data);
+        if (null != obj) {
+            obj.toString();
+        }
     }
 
     public static class NodeCreator implements INodeCreator {

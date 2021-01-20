@@ -83,7 +83,7 @@ public class DBLView extends DBNode {
     protected void onParserNodeFinished() {
         super.onParserNodeFinished();
 
-        mDBRender.bindView(NODE_TYPE_ROOT); // view结构的调用源头
+        mDBRender.bindView(null, NODE_TYPE_ROOT); // view结构的调用源头
         mDBRootView = (ViewGroup) mDBRender.getNativeView();
         if (null == mDBCoreView) {
             if (DBConstants.STYLE_ORIENTATION_V.equals(scroll)) {
@@ -103,7 +103,7 @@ public class DBLView extends DBNode {
      */
     public void invalidate() {
         mDBRender.parserAttribute(); // 视图节点部分属性放到此生命周期里解析，需要重新执行一遍
-        mDBRender.bindView(NODE_TYPE_ROOT);
+        mDBRender.bindView(null, NODE_TYPE_ROOT);
         mDBRender.renderFinish();
     }
 

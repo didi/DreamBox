@@ -13,5 +13,5 @@ public interface IAdapterCallback {
 
     void onBindFooterView(ViewGroup rootView);
 
-    void onBindItemView(ViewGroup itemRootView, JsonObject data);
+    void onBindItemView(ViewGroup itemRootView, JsonObject data, int position);
 }

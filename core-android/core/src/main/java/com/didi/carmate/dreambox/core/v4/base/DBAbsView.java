@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import static com.didi.carmate.dreambox.core.v4.base.DBConstants.ALIGN_SELF_STRE
 public abstract class DBAbsView<V extends View> extends DBBindView {
     private final Map<String, Integer> mapGravity = new HashMap<>();
 
+    protected SparseArray<View> mViews = new SparseArray<>(); // 待优化，暂时用下标记住和数据源的映射关系
     protected View mNativeView;
     // 通用属性
     protected int id = DBConstants.DEFAULT_ID_VIEW;

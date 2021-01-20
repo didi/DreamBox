@@ -7,9 +7,11 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.CallSuper;
 
+import com.didi.carmate.dreambox.core.v4.R;
 import com.didi.carmate.dreambox.core.v4.render.IDBContainer;
 import com.didi.carmate.dreambox.core.v4.render.IDBRender;
 import com.didi.carmate.dreambox.core.v4.utils.DBLogger;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 import java.util.Map;
@@ -33,29 +35,38 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
      */
 
     @Override
-    public void bindView(NODE_TYPE nodeType) {
-        bindView(null, nodeType);
+    public void bindView(ViewGroup container, NODE_TYPE nodeType) {
+        bindView(container, nodeType, false);
     }
 
     @Override
-    public void bindView(ViewGroup container, NODE_TYPE nodeType) {
-        bindView(container, nodeType, false);
+    public void bindView(ViewGroup container, NODE_TYPE nodeType, boolean bindAttrOnly) {
+        bindView(container, nodeType, bindAttrOnly, null, -1);
     }
 
     /**
      * 待改进，目前list vh里的view节点需要id属性，否则会重复创建对象
      */
     @Override
-    public void bindView(ViewGroup container, NODE_TYPE nodeType, boolean bindAttrOnly) {
+    public void bindView(ViewGroup container, NODE_TYPE nodeType, boolean bindAttrOnly, JsonObject data, int position) {
         if (id != DBConstants.DEFAULT_ID_VIEW && null != container && null != container.findViewById(id)) {
             mNativeView = container.findViewById(id);
+            mNativeView.setTag(R.id.tag_key_item_data, data);
+            mViews.put(position, mNativeView);
+
             doBind(mNativeView, bindAttrOnly);
         } else if (nodeType == NODE_TYPE.NODE_TYPE_NORMAL) {
             mNativeView = onCreateView(); // 回调子类View实现
+            mNativeView.setTag(R.id.tag_key_item_data, data);
+            mViews.put(position, mNativeView);
+
             doBind(mNativeView, bindAttrOnly);
             addToParent(mNativeView, container);
         } else if (nodeType == NODE_TYPE.NODE_TYPE_ADAPTER) {
             mNativeView = container; // 将每次的view对象赋值给容器节点，容器节点在adapter模式下公用的
+            mNativeView.setTag(R.id.tag_key_item_data, data);
+            mViews.put(position, mNativeView);
+
             doBind(mNativeView, bindAttrOnly);
             ViewGroup.LayoutParams layoutParams = mNativeView.getLayoutParams();
             layoutParams.width = width;
@@ -64,6 +75,9 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
         } else if (nodeType == NODE_TYPE.NODE_TYPE_ROOT) {
             mNativeView = onCreateView();
             mNativeView.setId(DBConstants.DEFAULT_ID_ROOT);
+            mNativeView.setTag(R.id.tag_key_item_data, data);
+            mViews.put(position, mNativeView);
+
             doBind(mNativeView, bindAttrOnly);
             // 根容器宽高DSL里定义的优先
             mNativeView.setLayoutParams(new ViewGroup.LayoutParams(width, height));
@@ -75,7 +89,8 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
         List<IDBNode> children = getChildren();
         for (IDBNode child : children) {
             if (child instanceof IDBRender) {
-                ((IDBRender) child).bindView((ViewGroup) mNativeView, NODE_TYPE.NODE_TYPE_NORMAL, bindAttrOnly);
+                ((IDBRender) child).bindView((ViewGroup) mNativeView, NODE_TYPE.NODE_TYPE_NORMAL, bindAttrOnly,
+                        data, position);
             }
         }
     }
