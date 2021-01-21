@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.didi.carmate.db.common.utils.DbApplication;
-import com.didi.carmate.dreambox.shell.DreamBoxView;
+import com.didi.carmate.dreambox.shell.v4.DreamBoxView;
 
 
 public class MainActivity extends AppCompatActivity {

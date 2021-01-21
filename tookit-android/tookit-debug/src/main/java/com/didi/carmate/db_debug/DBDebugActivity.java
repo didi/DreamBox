@@ -20,8 +20,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.didi.carmate.db.common.utils.DbViewUtil;
-import com.didi.carmate.dreambox.shell.DreamBox;
-import com.didi.carmate.dreambox.shell.DreamBoxView;
+import com.didi.carmate.dreambox.shell.v4.DreamBox;
+import com.didi.carmate.dreambox.shell.v4.DreamBoxView;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
