@@ -57,10 +57,11 @@ publishing {
                         }
                         if (it.version == 'unspecified') {
                             dependencyNode.appendNode('version', project.VERSION)
+                            dependencyNode.appendNode('artifactId', it.name + project.ARTIFACT_ID_VER)
                         } else {
                             dependencyNode.appendNode('version', it.version)
+                            dependencyNode.appendNode('artifactId', it.name)
                         }
-                        dependencyNode.appendNode('artifactId', it.name)
                     }
                 }
 
