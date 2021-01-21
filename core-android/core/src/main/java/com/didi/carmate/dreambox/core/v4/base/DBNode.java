@@ -54,6 +54,8 @@ public abstract class DBNode implements IDBNode {
     private IDBNode parent;
     private final List<IDBNode> children = new ArrayList<>();
     private JsonObject data;
+    private static final String ARR_TAG_START = "`";
+    private static final String ARR_TAG_END = "``";
 
     protected DBContext mDBContext;
 
@@ -179,7 +181,10 @@ public abstract class DBNode implements IDBNode {
             return "";
         }
 
-        Pattern p = Pattern.compile("\\$\\{[\\w\\.]+\\}");
+        rawKey = rawKey.replace("[", ARR_TAG_START);
+        rawKey = rawKey.replace("]", ARR_TAG_END);
+
+        Pattern p = Pattern.compile("\\$\\{[\\w\\.\\`]+\\}");
         Matcher m = p.matcher(rawKey);
         List<String> variableList = new ArrayList<>();
         while (m.find()) {
@@ -193,6 +198,38 @@ public abstract class DBNode implements IDBNode {
         return rawKey;
     }
 
+    private static class JsonArrayKey {
+        int pos = -1;
+        String key = "";
+    }
+
+    private JsonArrayKey getJsonArrayKey(String rawArrayKey) {
+        JsonArrayKey arrayKey = new JsonArrayKey();
+        int tagStart = rawArrayKey.indexOf(ARR_TAG_START);
+        int tagEnd = rawArrayKey.indexOf(ARR_TAG_END);
+        String strPos = rawArrayKey.substring(tagStart + 1, tagEnd);
+        arrayKey.key = rawArrayKey.substring(0, tagStart);
+        arrayKey.pos = Integer.parseInt(strPos);
+        return arrayKey;
+    }
+
+    private boolean isJsonArrayKey(String rawArrayKey) {
+        return rawArrayKey.contains(ARR_TAG_START) && rawArrayKey.contains(ARR_TAG_END);
+    }
+
+    private String getString(JsonArrayKey jsonArrayKey, JsonArray jsonArray) {
+        if (null != jsonArrayKey && jsonArrayKey.pos >= 0) {
+            if (null != jsonArray) {
+                JsonElement jsonElement = jsonArray.get(jsonArrayKey.pos);
+                if (jsonElement.isJsonPrimitive()) {
+                    return jsonElement.getAsString();
+                }
+            }
+        }
+        return "";
+    }
+
+    // 数组获取临时实现，待重构
     protected String getVariableString(String rawKey) {
         // 尝试从提供的数据源里拿
         if (null != data) {
@@ -204,7 +241,12 @@ public abstract class DBNode implements IDBNode {
             String variable = rawKey.substring(2, rawKey.length() - 1);
             String[] keys = variable.split("\\.");
             if (keys.length == 1) {
-                return mDBContext.getStringValue(variable);
+                if (isJsonArrayKey(keys[0])) {
+                    JsonArrayKey jsonArrayKey = getJsonArrayKey(keys[0]);
+                    return getString(jsonArrayKey, mDBContext.getJsonArray(jsonArrayKey.key));
+                } else {
+                    return mDBContext.getStringValue(keys[0]);
+                }
             } else {
                 // 全局对象池只支持简单的KV对，不支持多级对象
                 if (keys[0].equals(DBConstants.DATA_GLOBAL_PREFIX)) {
@@ -225,14 +267,34 @@ public abstract class DBNode implements IDBNode {
                     }
 
                     if (keys.length == 2) {
-                        JsonElement extValue = ext.get(keys[1]);
-                        if (extValue != null && extValue.isJsonPrimitive()) {
-                            jsonPrimitive = extValue.getAsJsonPrimitive();
+                        if (isJsonArrayKey(keys[1])) {
+                            JsonArrayKey jsonArrayKey = getJsonArrayKey(keys[1]);
+                            return getString(jsonArrayKey, ext.get(jsonArrayKey.key).getAsJsonArray());
+                        } else {
+                            JsonElement extValue = ext.get(keys[1]);
+                            if (null != extValue && extValue.isJsonPrimitive()) {
+                                jsonPrimitive = extValue.getAsJsonPrimitive();
+                            }
                         }
                     } else {
                         String[] keysExt = new String[keys.length - 1];
                         System.arraycopy(keys, 1, keysExt, 0, keysExt.length);
-                        jsonPrimitive = getNestJsonPrimitive(keysExt, ext.getAsJsonObject(keysExt[0]));
+
+                        JsonObject jsonObject = null;
+                        if (isJsonArrayKey(keysExt[0])) {
+                            JsonArrayKey jsonArrayKey = getJsonArrayKey(keysExt[0]);
+                            JsonElement jsonElement = ext.get(jsonArrayKey.key);
+                            if (null != jsonElement && jsonElement.isJsonArray()) {
+                                JsonArray jsonArray = jsonElement.getAsJsonArray();
+                                jsonElement = jsonArray.get(jsonArrayKey.pos);
+                                if (jsonElement.isJsonObject()) {
+                                    jsonObject = jsonElement.getAsJsonObject();
+                                }
+                            }
+                        } else {
+                            jsonObject = ext.getAsJsonObject(keysExt[0]);
+                        }
+                        jsonPrimitive = getNestJsonPrimitive(keysExt, jsonObject);
                     }
                 } else {
                     jsonPrimitive = getNestJsonPrimitive(keys, mDBContext.getJsonValue(keys[0]));
@@ -260,11 +322,28 @@ public abstract class DBNode implements IDBNode {
             String variable = rawKey.substring(2, rawKey.length() - 1);
 
             String[] keys = variable.split("\\.");
-            JsonPrimitive jsonPrimitive;
+            JsonElement jsonElement = null;
+            JsonPrimitive jsonPrimitive = null;
+
+            if (isJsonArrayKey(keys[0])) {
+                JsonArrayKey jsonArrayKey = getJsonArrayKey(keys[0]);
+                jsonElement = dict.get(jsonArrayKey.key);
+                if (null != jsonElement && jsonElement.isJsonArray()) {
+                    jsonElement = jsonElement.getAsJsonArray().get(jsonArrayKey.pos);
+                }
+            }
             if (keys.length == 1) {
-                jsonPrimitive = dict.getAsJsonPrimitive(variable);
+                if (isJsonArrayKey(keys[0])) {
+                    jsonPrimitive = (null != jsonElement) ? jsonElement.getAsJsonPrimitive() : null;
+                } else {
+                    jsonPrimitive = dict.getAsJsonPrimitive(variable);
+                }
             } else {
-                jsonPrimitive = getNestJsonPrimitive(keys, dict.getAsJsonObject(keys[0]));
+                if (isJsonArrayKey(keys[0])) {
+                    jsonPrimitive = getNestJsonPrimitive(keys, (null != jsonElement) ? jsonElement.getAsJsonObject() : null);
+                } else {
+                    jsonPrimitive = getNestJsonPrimitive(keys, dict.getAsJsonObject(keys[0]));
+                }
             }
             if (jsonPrimitive != null) {
                 return jsonPrimitive.getAsString();
@@ -492,6 +571,30 @@ public abstract class DBNode implements IDBNode {
         return jsonObjects;
     }
 
+    protected JsonArray getJsonArray(String rawKey) {
+        if (rawKey.startsWith(DBConstants.DATA_EXT_PREFIX)) {
+            return getJsonArray(rawKey, mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX));
+        } else {
+            return getJsonArray(rawKey, mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX));
+        }
+    }
+
+    protected JsonArray getJsonArray(String rawKey, JsonObject jsonObject) {
+        if (!DBUtils.isEmpty(rawKey) && rawKey.startsWith("${") && rawKey.endsWith("}")) {
+            String variable = rawKey.substring(2, rawKey.length() - 1);
+            String[] keys = variable.split("\\.");
+            if (keys.length == 1) {
+                JsonElement element = jsonObject.get(keys[0]);
+                if (element.isJsonArray()) {
+                    return element.getAsJsonArray();
+                }
+            } else {
+                return getNestJsonArray(keys, jsonObject);
+            }
+        }
+        return null;
+    }
+
     private JsonArray getNestJsonArray(String[] keys, JsonObject jsonObject) {
         String lastKey = keys[keys.length - 1]; // 最后一个key用来获取JsonArray对象
         String[] prefixKeys = Arrays.copyOf(keys, keys.length - 1); // 前面n-1个key用来获取JsonObject对象
@@ -527,7 +630,20 @@ public abstract class DBNode implements IDBNode {
             }
             tmpKeys.append(".").append(prefixKeys[i]);
             // type check
-            JsonElement jsonElement = jsonObject.get(prefixKeys[i]);
+            JsonElement jsonElement;
+            if (isJsonArrayKey(prefixKeys[i])) {
+                JsonArrayKey jsonArrayKey = getJsonArrayKey(prefixKeys[i]);
+                jsonElement = jsonObject.get(jsonArrayKey.key);
+                if (null != jsonElement && jsonElement.isJsonArray()) {
+                    JsonArray jsonArray = jsonElement.getAsJsonArray();
+                    jsonElement = jsonArray.get(jsonArrayKey.pos);
+                } else {
+                    jsonElement = null;
+                }
+            } else {
+                jsonElement = jsonObject.get(prefixKeys[i]);
+            }
+
             if (jsonElement instanceof JsonObject) {
                 jsonObject = (JsonObject) jsonElement;
             } else {

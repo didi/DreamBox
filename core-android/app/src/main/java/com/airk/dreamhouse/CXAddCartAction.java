@@ -7,22 +7,34 @@ import com.didi.carmate.dreambox.core.v4.base.DBAction;
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.List;
 import java.util.Map;
 
 public class CXAddCartAction extends DBAction {
+    private JsonElement jsonElement;
+
     private CXAddCartAction(DBContext dbContext) {
         super(dbContext);
     }
 
     @Override
+    protected void onParserAttribute(Map<String, String> attrs) {
+        super.onParserAttribute(attrs);
+
+        jsonElement = getJsonArray(attrs.get("data"));
+    }
+
+    @Override
     protected void doInvoke(Map<String, String> attrs, View view, JsonObject data) {
-        final List<JsonObject> array = getJsonObjectList(attrs.get("data"));
-        final JsonObject obj = getJsonObject(attrs.get("data"), data);
-        if (null != obj) {
-            obj.toString();
+        final JsonArray jsonArray;
+        if (null == data) {
+            jsonElement.getAsJsonArray();
+        } else {
+            jsonArray = getJsonArray(attrs.get("data"), data);
         }
     }
 
