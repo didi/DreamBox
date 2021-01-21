@@ -218,9 +218,30 @@ class _Converter:
             id_ = self.declared_ids[index]
             self.int_ids[id_] = str(index)
 
+    def _before_transform_interceptor(self):
+        root_layout = None
+        stack = [self.tree_root]
+        last_id = 0
+        while len(stack) > 0:
+            cur_node = stack.pop()
+            # 处理节点
+            t = type(cur_node)
+            if root_layout is None and t == LayoutNode:
+                root_layout = cur_node
+                root_layout.attrs['_id'] = last_id
+            elif isinstance(cur_node, ViewNode):
+                if '_id' not in cur_node.attrs:
+                    last_id += 1
+                    cur_node.attrs['_id'] = last_id
+            # end
+            if len(cur_node.children) > 0:
+                for c in cur_node.children:
+                    stack.append(c)
+
     def _transform(self):
         # 生成json树（dict）
         root_obj = None
+        self._before_transform_interceptor()
         if compareVersion(constant.TARGET_RUNTIME_VER, constant.RUNTIME_VER_3) <= 0:
             root_obj = self._gen_node_v3(self.tree_root)
         if compareVersion(constant.TARGET_RUNTIME_VER, constant.RUNTIME_VER_4) >= 0:
@@ -231,8 +252,8 @@ class _Converter:
             proguard_map = self._gen_proguard_json_map()
         if proguard_map is not None:
             obj.update(proguard_map)
-        if self.int_ids:
-            obj.update({'ids': self.int_ids})
+        # if self.int_ids:
+        #     obj.update({'ids': self.int_ids})
         return obj
 
     def _gen_proguard_json_map(self):

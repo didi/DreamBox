@@ -25,7 +25,6 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url properties.getProperty("LOCAL_REPO") }
         maven { url 'https://oss.sonatype.org/content/repositories/public/' }
         maven { url 'https://maven.aliyun.com/repository/public/' }
         maven { url 'https://maven.aliyun.com/repository/google/' }
