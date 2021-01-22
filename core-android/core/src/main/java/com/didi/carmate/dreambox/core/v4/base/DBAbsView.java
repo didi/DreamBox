@@ -21,6 +21,7 @@ import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
 import com.facebook.yoga.YogaAlign;
 import com.facebook.yoga.YogaEdge;
 import com.facebook.yoga.YogaNode;
+import com.facebook.yoga.YogaPositionType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +31,8 @@ import static com.didi.carmate.dreambox.core.v4.base.DBConstants.ALIGN_SELF_CENT
 import static com.didi.carmate.dreambox.core.v4.base.DBConstants.ALIGN_SELF_END;
 import static com.didi.carmate.dreambox.core.v4.base.DBConstants.ALIGN_SELF_START;
 import static com.didi.carmate.dreambox.core.v4.base.DBConstants.ALIGN_SELF_STRETCH;
+import static com.didi.carmate.dreambox.core.v4.base.DBConstants.POSITION_TYPE_ABSOLUTE;
+import static com.didi.carmate.dreambox.core.v4.base.DBConstants.POSITION_TYPE_RELATIVE;
 
 /**
  * author: chenjing
@@ -71,6 +74,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     protected float flexBasis;
     protected float flexBasisPercent;
     protected String alignSelf;
+    protected String position;
 
     protected DBAbsView(DBContext dbContext) {
         super(dbContext);
@@ -147,6 +151,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
             }
         }
         alignSelf = attrs.get("align-self");
+        position = attrs.get("position");
     }
 
     @CallSuper
@@ -292,6 +297,16 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
                     break;
                 case ALIGN_SELF_BASELINE:
                     node.setAlignSelf(YogaAlign.BASELINE);
+                    break;
+            }
+        }
+        if (null != position) {
+            switch (position) {
+                case POSITION_TYPE_RELATIVE:
+                    node.setPositionType(YogaPositionType.RELATIVE);
+                    break;
+                case POSITION_TYPE_ABSOLUTE:
+                    node.setPositionType(YogaPositionType.ABSOLUTE);
                     break;
             }
         }

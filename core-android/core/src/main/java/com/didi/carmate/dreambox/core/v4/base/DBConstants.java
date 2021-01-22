@@ -135,4 +135,7 @@ public class DBConstants {
     public static final String ALIGN_SELF_CENTER = "center";
     public static final String ALIGN_SELF_STRETCH = "stretch";
     public static final String ALIGN_SELF_BASELINE = "baseline";
+    // container:position type
+    public static final String POSITION_TYPE_ABSOLUTE = "absolute";
+    public static final String POSITION_TYPE_RELATIVE = "relative";
 }

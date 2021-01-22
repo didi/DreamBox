@@ -572,20 +572,35 @@ public abstract class DBNode implements IDBNode {
     }
 
     protected JsonArray getJsonArray(String rawKey) {
-        if (rawKey.startsWith(DBConstants.DATA_EXT_PREFIX)) {
-            return getJsonArray(rawKey, mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX));
-        } else {
-            return getJsonArray(rawKey, mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX));
+        rawKey = rawKey.replace("[", ARR_TAG_START);
+        rawKey = rawKey.replace("]", ARR_TAG_END);
+
+        if (!DBUtils.isEmpty(rawKey) && rawKey.startsWith("${") && rawKey.endsWith("}")) {
+            String variable = rawKey.substring(2, rawKey.length() - 1);
+            if (variable.startsWith(DBConstants.DATA_EXT_PREFIX)) {
+                return getJsonArray(rawKey, mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX));
+            } else {
+                return getJsonArray(rawKey, null);
+            }
         }
+        return null;
     }
 
     protected JsonArray getJsonArray(String rawKey, JsonObject jsonObject) {
+        rawKey = rawKey.replace("[", ARR_TAG_START);
+        rawKey = rawKey.replace("]", ARR_TAG_END);
+
         if (!DBUtils.isEmpty(rawKey) && rawKey.startsWith("${") && rawKey.endsWith("}")) {
             String variable = rawKey.substring(2, rawKey.length() - 1);
             String[] keys = variable.split("\\.");
             if (keys.length == 1) {
-                JsonElement element = jsonObject.get(keys[0]);
-                if (element.isJsonArray()) {
+                JsonElement element;
+                if (null == jsonObject) {
+                    element = mDBContext.getJsonArray(keys[0]);
+                } else {
+                    element = jsonObject.get(keys[0]);
+                }
+                if (null != element && element.isJsonArray()) {
                     return element.getAsJsonArray();
                 }
             } else {
@@ -605,11 +620,29 @@ public abstract class DBNode implements IDBNode {
                 return null;
             }
             tmpKeys.append(".").append(prefixKeys[i]);
-            JsonElement jsonElement = jsonObject.get(prefixKeys[i]);
+            JsonElement jsonElement;
+            if (isJsonArrayKey(prefixKeys[i])) {
+                JsonArrayKey jsonArrayKey = getJsonArrayKey(prefixKeys[i]);
+                jsonElement = jsonObject.get(jsonArrayKey.key);
+                if (null != jsonElement && jsonElement.isJsonArray()) {
+                    JsonArray jsonArray = jsonElement.getAsJsonArray();
+                    jsonElement = jsonArray.get(jsonArrayKey.pos);
+                } else {
+                    jsonElement = null;
+                }
+            } else {
+                jsonElement = jsonObject.get(prefixKeys[i]);
+            }
+
             if (jsonElement instanceof JsonObject) {
                 jsonObject = (JsonObject) jsonElement;
             } else {
-                throw new IllegalArgumentException("[" + tmpKeys.toString() + "]" + " must be a [JsonObject] in json data");
+                if (Wrapper.getInstance().debug) {
+                    throw new IllegalArgumentException("[" + tmpKeys.toString() + "]" + " must be a [JsonObject] in json data");
+                } else {
+                    reportParserDataFail();
+                    return null;
+                }
             }
             i++;
         }
