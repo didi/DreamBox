@@ -1,5 +1,7 @@
 package com.didi.carmate.dreambox.core.v4.action;
 
+import android.view.View;
+
 import com.didi.carmate.dreambox.core.v4.base.DBAction;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
 import com.didi.carmate.dreambox.core.v4.base.IDBNode;
@@ -36,6 +38,11 @@ public class DBTrace extends DBAction {
 
     @Override
     public void doInvoke(Map<String, String> attrs) {
+        doInvoke(attrs, null);
+    }
+
+    @Override
+    public void doInvoke(Map<String, String> attrs, View view) {
         String key = attrs.get("key");
 
         WrapperTrace trace = Wrapper.get(mDBContext.getAccessKey()).trace();

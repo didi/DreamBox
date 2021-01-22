@@ -9,9 +9,7 @@ import androidx.annotation.CallSuper;
 
 import com.didi.carmate.dreambox.core.v4.R;
 import com.didi.carmate.dreambox.core.v4.action.IDBAction;
-import com.didi.carmate.dreambox.core.v4.data.DBData;
 import com.didi.carmate.dreambox.core.v4.render.DBChildren;
-import com.didi.carmate.dreambox.core.v4.utils.DBLogger;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -68,18 +66,18 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
             mNativeView.setTag(R.id.tag_key_item_data, data);
             mViews.put(position, mNativeView);
 
-            doBind(mNativeView, position, bindAttrOnly);
+            doBind(mNativeView, bindAttrOnly, position);
         } else {
             mNativeView = onCreateView(); // 回调子类View实现
             mNativeView.setTag(R.id.tag_key_item_data, data);
             mViews.put(position, mNativeView);
 
-            doBind(mNativeView, position, bindAttrOnly);
+            doBind(mNativeView, bindAttrOnly, position);
             addToParent(mNativeView, parentView);
         }
     }
 
-    private void doBind(View nativeView, int position, boolean bindAttrOnly) {
+    private void doBind(View nativeView, boolean bindAttrOnly, int position) {
         if (bindAttrOnly) {
             onAttributesBind(getAttrs());
         } else {

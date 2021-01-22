@@ -1,5 +1,7 @@
 package com.didi.carmate.dreambox.core.v4.action;
 
+import android.view.View;
+
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 import com.didi.carmate.dreambox.wrapper.v4.Dialog;
@@ -18,6 +20,11 @@ public class DBDialog extends DBActionWithCallback {
 
     @Override
     protected void doInvoke(Map<String, String> attrs) {
+        doInvoke(attrs, null);
+    }
+
+    @Override
+    protected void doInvoke(Map<String, String> attrs, View view) {
         String title = getString(attrs.get("title"));
         String msg = getString(attrs.get("msg"));
         String positiveBtn = getString(attrs.get("positiveBtn"));

@@ -1,5 +1,7 @@
 package com.didi.carmate.dreambox.core.v4.action;
 
+import android.view.View;
+
 import com.didi.carmate.dreambox.core.v4.base.DBAction;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
@@ -20,6 +22,11 @@ public class DBToast extends DBAction {
 
     @Override
     protected void doInvoke(Map<String, String> attrs) {
+        doInvoke(attrs, null);
+    }
+
+    @Override
+    protected void doInvoke(Map<String, String> attrs, View view) {
         final String src = getString(attrs.get("src"));
         final boolean isLong = getBoolean(attrs.get("long"));
 

@@ -37,7 +37,12 @@ public abstract class DBAction extends DBNode implements IDBAction {
             if (null == view) {
                 doInvoke(attrs);
             } else {
-                doInvoke(attrs, view, (JsonObject) view.getTag(R.id.tag_key_item_data));
+                Object obj = view.getTag(R.id.tag_key_item_data);
+                if (null != obj) {
+                    doInvoke(attrs, view, (JsonObject) obj);
+                } else {
+                    doInvoke(attrs, view);
+                }
             }
         } else {
             String[] keys = dependOn.split(";");
@@ -45,13 +50,23 @@ public abstract class DBAction extends DBNode implements IDBAction {
                 if (null == view) {
                     doInvoke(attrs);
                 } else {
-                    doInvoke(attrs, view, (JsonObject) view.getTag(R.id.tag_key_item_data));
+                    Object obj = view.getTag(R.id.tag_key_item_data);
+                    if (null != obj) {
+                        doInvoke(attrs, view, (JsonObject) obj);
+                    } else {
+                        doInvoke(attrs, view);
+                    }
                 }
             } else if (getBoolean(keys[0]) && getBoolean(keys[1])) {
                 if (null == view) {
                     doInvoke(attrs);
                 } else {
-                    doInvoke(attrs, view, (JsonObject) view.getTag(R.id.tag_key_item_data));
+                    Object obj = view.getTag(R.id.tag_key_item_data);
+                    if (null != obj) {
+                        doInvoke(attrs, view, (JsonObject) obj);
+                    } else {
+                        doInvoke(attrs, view);
+                    }
                 }
             }
         }
@@ -69,6 +84,9 @@ public abstract class DBAction extends DBNode implements IDBAction {
     }
 
     protected void doInvoke(Map<String, String> attrs) {
+    }
+
+    protected void doInvoke(Map<String, String> attrs, View view) {
     }
 
     protected void doInvoke(Map<String, String> attrs, View view, JsonObject data) {

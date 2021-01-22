@@ -2,6 +2,7 @@ package com.didi.carmate.dreambox.core.v4.action;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.View;
 
 import com.didi.carmate.dreambox.core.v4.base.DBAction;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
@@ -20,6 +21,11 @@ public class DBClosePage extends DBAction {
 
     @Override
     protected void doInvoke(Map<String, String> attrs) {
+        doInvoke(attrs, null);
+    }
+
+    @Override
+    protected void doInvoke(Map<String, String> attrs, View view) {
         Context context = mDBContext.getContext();
         if (context instanceof Activity) {
             ((Activity) context).finish();

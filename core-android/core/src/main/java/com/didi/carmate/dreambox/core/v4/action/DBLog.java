@@ -1,5 +1,7 @@
 package com.didi.carmate.dreambox.core.v4.action;
 
+import android.view.View;
+
 import com.didi.carmate.dreambox.core.v4.base.DBAction;
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
@@ -22,6 +24,11 @@ public class DBLog extends DBAction {
 
     @Override
     protected void doInvoke(Map<String, String> attrs) {
+        doInvoke(attrs, null);
+    }
+
+    @Override
+    protected void doInvoke(Map<String, String> attrs, View view) {
         String level = attrs.get("level");
         String tag = attrs.get("tag");
         String msg = getString(attrs.get("msg"));

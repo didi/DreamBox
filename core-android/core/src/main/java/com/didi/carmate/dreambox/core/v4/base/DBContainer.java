@@ -13,6 +13,7 @@ import com.didi.carmate.dreambox.core.v4.render.IDBRender;
 import com.didi.carmate.dreambox.core.v4.utils.DBLogger;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,9 +23,28 @@ import java.util.Map;
  */
 public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> implements IDBContainer<V> {
     private Map<String, String> parentAttrs;
+    // View callback节点集合
+    private final List<DBCallback> mCallbacks = new ArrayList<>();
 
     public DBContainer(DBContext dbContext) {
         super(dbContext);
+    }
+
+    @Override
+    protected void onParserNode() {
+        super.onParserNode();
+
+        List<IDBNode> children = getChildren();
+        for (IDBNode child : children) {
+            if (child instanceof DBCallbacks) { // callback 集合
+                List<IDBNode> callbacks = child.getChildren();
+                for (IDBNode callback : callbacks) {
+                    if (callback instanceof DBCallback) {
+                        mCallbacks.add((DBCallback) callback);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -54,20 +74,20 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
             mNativeView.setTag(R.id.tag_key_item_data, data);
             mViews.put(position, mNativeView);
 
-            doBind(mNativeView, bindAttrOnly);
+            doBind(mNativeView, bindAttrOnly, position);
         } else if (nodeType == NODE_TYPE.NODE_TYPE_NORMAL) {
             mNativeView = onCreateView(); // 回调子类View实现
             mNativeView.setTag(R.id.tag_key_item_data, data);
             mViews.put(position, mNativeView);
 
-            doBind(mNativeView, bindAttrOnly);
+            doBind(mNativeView, bindAttrOnly, position);
             addToParent(mNativeView, container);
         } else if (nodeType == NODE_TYPE.NODE_TYPE_ADAPTER) {
             mNativeView = container; // 将每次的view对象赋值给容器节点，容器节点在adapter模式下公用的
             mNativeView.setTag(R.id.tag_key_item_data, data);
             mViews.put(position, mNativeView);
 
-            doBind(mNativeView, bindAttrOnly);
+            doBind(mNativeView, bindAttrOnly, position);
             ViewGroup.LayoutParams layoutParams = mNativeView.getLayoutParams();
             layoutParams.width = width;
             layoutParams.height = height;
@@ -78,7 +98,7 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
             mNativeView.setTag(R.id.tag_key_item_data, data);
             mViews.put(position, mNativeView);
 
-            doBind(mNativeView, bindAttrOnly);
+            doBind(mNativeView, bindAttrOnly, position);
             // 根容器宽高DSL里定义的优先
             mNativeView.setLayoutParams(new ViewGroup.LayoutParams(width, height));
         } else {
@@ -95,7 +115,7 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
         }
     }
 
-    private void doBind(View nativeView, boolean bindAttrOnly) {
+    private void doBind(View nativeView, boolean bindAttrOnly, int position) {
         if (!bindAttrOnly) {
             // id
             String rawId = getAttrs().get(DBConstants.UI_ID);
@@ -108,6 +128,10 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
         }
         // 绑定视图属性
         onAttributesBind(getAttrs());
+        // 绑定视图回调事件
+        if (mCallbacks.size() > 0) {
+            onCallbackBind(mCallbacks, position);
+        }
     }
 
     private void addToParent(View nativeView, ViewGroup container) {
@@ -146,6 +170,23 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
             mNativeView.setPadding(padding, padding, padding, padding);
         } else {
             mNativeView.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+        }
+    }
+
+    @CallSuper
+    protected void onCallbackBind(List<DBCallback> callbacks, final int position) {
+        for (final DBCallback callback : callbacks) {
+            if ("onClick".equals(callback.getTagName())) {
+                mNativeView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        List<DBAction> actions = callback.getActionNodes();
+                        for (DBAction action : actions) {
+                            action.invoke(mViews.get(position));
+                        }
+                    }
+                });
+            }
         }
     }
 
