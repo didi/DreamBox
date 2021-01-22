@@ -13,9 +13,11 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.CallSuper;
 
+import com.didi.carmate.dreambox.core.v4.data.DBData;
 import com.didi.carmate.dreambox.core.v4.render.view.DBFrameLayoutView;
 import com.didi.carmate.dreambox.core.v4.render.view.DBLinearLayoutView;
 import com.didi.carmate.dreambox.core.v4.render.view.DBYogaLayoutView;
+import com.didi.carmate.dreambox.core.v4.utils.DBLogger;
 import com.didi.carmate.dreambox.core.v4.utils.DBScreenUtils;
 import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
 import com.facebook.yoga.YogaAlign;
@@ -31,10 +33,6 @@ import static com.didi.carmate.dreambox.core.v4.base.DBConstants.ALIGN_SELF_CENT
 import static com.didi.carmate.dreambox.core.v4.base.DBConstants.ALIGN_SELF_END;
 import static com.didi.carmate.dreambox.core.v4.base.DBConstants.ALIGN_SELF_START;
 import static com.didi.carmate.dreambox.core.v4.base.DBConstants.ALIGN_SELF_STRETCH;
-import static com.didi.carmate.dreambox.core.v4.base.DBConstants.POSITION_BOTTOM;
-import static com.didi.carmate.dreambox.core.v4.base.DBConstants.POSITION_LEFT;
-import static com.didi.carmate.dreambox.core.v4.base.DBConstants.POSITION_RIGHT;
-import static com.didi.carmate.dreambox.core.v4.base.DBConstants.POSITION_TOP;
 import static com.didi.carmate.dreambox.core.v4.base.DBConstants.POSITION_TYPE_ABSOLUTE;
 import static com.didi.carmate.dreambox.core.v4.base.DBConstants.POSITION_TYPE_RELATIVE;
 
@@ -236,6 +234,45 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
 
     @CallSuper
     protected void onAttributesBind(final Map<String, String> attrs) {
+        // visibleOn
+        final String rawVisibleOn = attrs.get("visibleOn");
+        String visibleOn;
+        if (null == rawVisibleOn) {
+            visibleOn = "1";
+        } else {
+            visibleOn = getString(rawVisibleOn);
+        }
+        if ("-1".equals(visibleOn)) {
+            mNativeView.setVisibility(View.GONE);
+        } else if ("0".equals(visibleOn)) {
+            mNativeView.setVisibility(View.INVISIBLE);
+        } else {
+            mNativeView.setVisibility(View.VISIBLE);
+        }
+        if (null != rawVisibleOn) {
+            mDBContext.observeDataPool(new DBData.IDataObserver() {
+                @Override
+                public void onDataChanged(String key) {
+                    DBLogger.d(mDBContext, "key: " + key);
+                    if (null != mNativeView) {
+                        String visibleOn = getString(rawVisibleOn);
+                        if ("-1".equals(visibleOn)) {
+                            mNativeView.setVisibility(View.GONE);
+                        } else if ("0".equals(visibleOn)) {
+                            mNativeView.setVisibility(View.INVISIBLE);
+                        } else {
+                            mNativeView.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+
+                @Override
+                public String getKey() {
+                    return attrs.get("visibleOn");
+                }
+            });
+        }
+
         // background
         background = getString(attrs.get("background"));
         if (!DBUtils.isEmpty(background)) {

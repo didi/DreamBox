@@ -140,35 +140,6 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
     protected void onAttributesBind(final Map<String, String> attrs) {
         super.onAttributesBind(attrs);
 
-        // visibleOn
-        final String rawVisibleOn = attrs.get("visibleOn");
-        boolean visibleOn;
-        if (null == rawVisibleOn) {
-            visibleOn = true;
-        } else {
-            visibleOn = getBoolean(rawVisibleOn);
-        }
-        if (visibleOn) {
-            mNativeView.setVisibility(View.VISIBLE);
-        } else {
-            mNativeView.setVisibility(View.INVISIBLE);
-        }
-        if (null != rawVisibleOn) {
-            mDBContext.observeDataPool(new DBData.IDataObserver() {
-                @Override
-                public void onDataChanged(String key) {
-                    DBLogger.d(mDBContext, "key: " + key);
-                    if (null != mNativeView) {
-                        mNativeView.setVisibility(getBoolean(rawVisibleOn) ? View.VISIBLE : View.INVISIBLE);
-                    }
-                }
-
-                @Override
-                public String getKey() {
-                    return attrs.get("visibleOn");
-                }
-            });
-        }
         // changeOn
         String changeOn = attrs.get("changeOn");
         if (null != changeOn) {
