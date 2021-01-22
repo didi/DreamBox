@@ -138,4 +138,8 @@ public class DBConstants {
     // container:position type
     public static final String POSITION_TYPE_ABSOLUTE = "absolute";
     public static final String POSITION_TYPE_RELATIVE = "relative";
+    public static final String POSITION_LEFT = "left";
+    public static final String POSITION_TOP = "top";
+    public static final String POSITION_RIGHT = "right";
+    public static final String POSITION_BOTTOM = "bottom";
 }

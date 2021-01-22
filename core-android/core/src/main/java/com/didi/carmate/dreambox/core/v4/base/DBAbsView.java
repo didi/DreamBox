@@ -31,6 +31,10 @@ import static com.didi.carmate.dreambox.core.v4.base.DBConstants.ALIGN_SELF_CENT
 import static com.didi.carmate.dreambox.core.v4.base.DBConstants.ALIGN_SELF_END;
 import static com.didi.carmate.dreambox.core.v4.base.DBConstants.ALIGN_SELF_START;
 import static com.didi.carmate.dreambox.core.v4.base.DBConstants.ALIGN_SELF_STRETCH;
+import static com.didi.carmate.dreambox.core.v4.base.DBConstants.POSITION_BOTTOM;
+import static com.didi.carmate.dreambox.core.v4.base.DBConstants.POSITION_LEFT;
+import static com.didi.carmate.dreambox.core.v4.base.DBConstants.POSITION_RIGHT;
+import static com.didi.carmate.dreambox.core.v4.base.DBConstants.POSITION_TOP;
 import static com.didi.carmate.dreambox.core.v4.base.DBConstants.POSITION_TYPE_ABSOLUTE;
 import static com.didi.carmate.dreambox.core.v4.base.DBConstants.POSITION_TYPE_RELATIVE;
 
@@ -72,9 +76,16 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     protected float flexGrow;
     protected float flexShrink;
     protected float flexBasis;
-    protected float flexBasisPercent;
     protected String alignSelf;
+
+    protected String positionType;
     protected String position;
+    protected float positionDistance;
+    protected float positionDistancePercent;
+
+    protected float widthPercent;
+    protected float heightPercent;
+    protected float flexBasisPercent;
 
     protected DBAbsView(DBContext dbContext) {
         super(dbContext);
@@ -118,10 +129,30 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         paddingBottom = DBScreenUtils.processSize(mDBContext, attrs.get("paddingBottom"), DBConstants.DEFAULT_SIZE_EDGE);
 
         // 宽高
+        width = DBConstants.DEFAULT_SIZE_WIDTH;
         String w = attrs.get("width");
-        width = DBScreenUtils.processSize(mDBContext, w, DBConstants.DEFAULT_SIZE_WIDTH);
+        if (null != w) {
+            if (w.endsWith("%")) {
+                w = w.substring(0, w.length() - 1);
+                if (DBUtils.isNumeric(w)) {
+                    widthPercent = Float.parseFloat(w);
+                }
+            } else {
+                width = DBScreenUtils.processSize(mDBContext, w, DBConstants.DEFAULT_SIZE_WIDTH);
+            }
+        }
+        height = DBConstants.DEFAULT_SIZE_HEIGHT;
         String h = attrs.get("height");
-        height = DBScreenUtils.processSize(mDBContext, h, DBConstants.DEFAULT_SIZE_HEIGHT);
+        if (null != h) {
+            if (h.endsWith("%")) {
+                h = h.substring(0, h.length() - 1);
+                if (DBUtils.isNumeric(h)) {
+                    heightPercent = Float.parseFloat(h);
+                }
+            } else {
+                height = DBScreenUtils.processSize(mDBContext, h, DBConstants.DEFAULT_SIZE_HEIGHT);
+            }
+        }
 
         // 圆角
         radius = DBScreenUtils.processSize(mDBContext, attrs.get("radius"), 0);
@@ -151,7 +182,19 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
             }
         }
         alignSelf = attrs.get("align-self");
+        positionType = attrs.get("positionType");
         position = attrs.get("position");
+        String pd = attrs.get("positionDistance");
+        if (null != pd) {
+            if (pd.endsWith("%")) {
+                pd = pd.substring(0, pd.length() - 1);
+                if (DBUtils.isNumeric(pd)) {
+                    positionDistancePercent = Float.parseFloat(pd);
+                }
+            } else {
+                positionDistance = DBScreenUtils.processSize(mDBContext, pd, 0);
+            }
+        }
     }
 
     @CallSuper
@@ -281,6 +324,18 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         if (flexBasisPercent != 0) {
             node.setFlexBasisPercent(flexBasisPercent);
         }
+
+        if (width > 0) {
+            node.setWidth(width);
+        } else if (widthPercent != 0) {
+            node.setWidthPercent(widthPercent);
+        }
+        if (height > 0) {
+            node.setHeight(height);
+        } else if (heightPercent != 0) {
+            node.setHeightPercent(heightPercent);
+        }
+
         if (null != alignSelf) {
             switch (alignSelf) {
                 case ALIGN_SELF_START:
@@ -300,13 +355,45 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
                     break;
             }
         }
-        if (null != position) {
-            switch (position) {
+        if (null != positionType) {
+            switch (positionType) {
                 case POSITION_TYPE_RELATIVE:
                     node.setPositionType(YogaPositionType.RELATIVE);
                     break;
                 case POSITION_TYPE_ABSOLUTE:
                     node.setPositionType(YogaPositionType.ABSOLUTE);
+                    break;
+            }
+        }
+        if (null != position) {
+            switch (position) {
+                case POSITION_LEFT:
+                    if (positionDistancePercent > 0) {
+                        node.setPositionPercent(YogaEdge.LEFT, positionDistancePercent);
+                    } else {
+                        node.setPosition(YogaEdge.LEFT, positionDistance);
+                    }
+                    break;
+                case POSITION_TOP:
+                    if (positionDistancePercent > 0) {
+                        node.setPositionPercent(YogaEdge.TOP, positionDistancePercent);
+                    } else {
+                        node.setPosition(YogaEdge.TOP, positionDistance);
+                    }
+                    break;
+                case POSITION_RIGHT:
+                    if (positionDistancePercent > 0) {
+                        node.setPositionPercent(YogaEdge.RIGHT, positionDistancePercent);
+                    } else {
+                        node.setPosition(YogaEdge.RIGHT, positionDistance);
+                    }
+                    break;
+                case POSITION_BOTTOM:
+                    if (positionDistancePercent > 0) {
+                        node.setPositionPercent(YogaEdge.BOTTOM, positionDistancePercent);
+                    } else {
+                        node.setPosition(YogaEdge.BOTTOM, positionDistance);
+                    }
                     break;
             }
         }
