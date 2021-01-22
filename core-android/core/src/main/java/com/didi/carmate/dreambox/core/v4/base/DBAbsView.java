@@ -79,9 +79,14 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     protected String alignSelf;
 
     protected String positionType;
-    protected String position;
-    protected float positionDistance;
-    protected float positionDistancePercent;
+    protected float positionLeft;
+    protected float positionLeftPercent;
+    protected float positionTop;
+    protected float positionTopPercent;
+    protected float positionRight;
+    protected float positionRightPercent;
+    protected float positionBottom;
+    protected float positionBottomPercent;
 
     protected float widthPercent;
     protected float heightPercent;
@@ -183,16 +188,48 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         }
         alignSelf = attrs.get("align-self");
         positionType = attrs.get("positionType");
-        position = attrs.get("position");
-        String pd = attrs.get("positionDistance");
-        if (null != pd) {
-            if (pd.endsWith("%")) {
-                pd = pd.substring(0, pd.length() - 1);
-                if (DBUtils.isNumeric(pd)) {
-                    positionDistancePercent = Float.parseFloat(pd);
+        String posLeft = attrs.get("positionLeft");
+        if (null != posLeft) {
+            if (posLeft.endsWith("%")) {
+                posLeft = posLeft.substring(0, posLeft.length() - 1);
+                if (DBUtils.isNumeric(posLeft)) {
+                    positionLeftPercent = Float.parseFloat(posLeft);
                 }
             } else {
-                positionDistance = DBScreenUtils.processSize(mDBContext, pd, 0);
+                positionLeft = DBScreenUtils.processSize(mDBContext, posLeft, 0);
+            }
+        }
+        String posTop = attrs.get("positionTop");
+        if (null != posTop) {
+            if (posTop.endsWith("%")) {
+                posTop = posTop.substring(0, posTop.length() - 1);
+                if (DBUtils.isNumeric(posTop)) {
+                    positionTopPercent = Float.parseFloat(posTop);
+                }
+            } else {
+                positionTop = DBScreenUtils.processSize(mDBContext, posTop, 0);
+            }
+        }
+        String posRight = attrs.get("positionRight");
+        if (null != posRight) {
+            if (posRight.endsWith("%")) {
+                posRight = posRight.substring(0, posRight.length() - 1);
+                if (DBUtils.isNumeric(posRight)) {
+                    positionRightPercent = Float.parseFloat(posRight);
+                }
+            } else {
+                positionRight = DBScreenUtils.processSize(mDBContext, posRight, 0);
+            }
+        }
+        String posBottom = attrs.get("positionBottom");
+        if (null != posBottom) {
+            if (posBottom.endsWith("%")) {
+                posBottom = posBottom.substring(0, posBottom.length() - 1);
+                if (DBUtils.isNumeric(posBottom)) {
+                    positionBottomPercent = Float.parseFloat(posBottom);
+                }
+            } else {
+                positionBottom = DBScreenUtils.processSize(mDBContext, posBottom, 0);
             }
         }
     }
@@ -365,37 +402,25 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
                     break;
             }
         }
-        if (null != position) {
-            switch (position) {
-                case POSITION_LEFT:
-                    if (positionDistancePercent > 0) {
-                        node.setPositionPercent(YogaEdge.LEFT, positionDistancePercent);
-                    } else {
-                        node.setPosition(YogaEdge.LEFT, positionDistance);
-                    }
-                    break;
-                case POSITION_TOP:
-                    if (positionDistancePercent > 0) {
-                        node.setPositionPercent(YogaEdge.TOP, positionDistancePercent);
-                    } else {
-                        node.setPosition(YogaEdge.TOP, positionDistance);
-                    }
-                    break;
-                case POSITION_RIGHT:
-                    if (positionDistancePercent > 0) {
-                        node.setPositionPercent(YogaEdge.RIGHT, positionDistancePercent);
-                    } else {
-                        node.setPosition(YogaEdge.RIGHT, positionDistance);
-                    }
-                    break;
-                case POSITION_BOTTOM:
-                    if (positionDistancePercent > 0) {
-                        node.setPositionPercent(YogaEdge.BOTTOM, positionDistancePercent);
-                    } else {
-                        node.setPosition(YogaEdge.BOTTOM, positionDistance);
-                    }
-                    break;
-            }
+        if (positionLeftPercent > 0) {
+            node.setPositionPercent(YogaEdge.LEFT, positionLeftPercent);
+        } else if (positionLeft > 0) {
+            node.setPosition(YogaEdge.LEFT, positionLeft);
+        }
+        if (positionTopPercent > 0) {
+            node.setPositionPercent(YogaEdge.TOP, positionTopPercent);
+        } else if (positionTop > 0) {
+            node.setPosition(YogaEdge.TOP, positionTop);
+        }
+        if (positionRightPercent > 0) {
+            node.setPositionPercent(YogaEdge.RIGHT, positionRightPercent);
+        } else if (positionRight > 0) {
+            node.setPosition(YogaEdge.RIGHT, positionRight);
+        }
+        if (positionBottomPercent > 0) {
+            node.setPositionPercent(YogaEdge.BOTTOM, positionBottomPercent);
+        } else if (positionBottom > 0) {
+            node.setPosition(YogaEdge.BOTTOM, positionBottom);
         }
     }
 }
