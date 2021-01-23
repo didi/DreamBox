@@ -21,7 +21,7 @@ public class DBSpaceItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, RecyclerView parent,
                                @NonNull RecyclerView.State state) {
-        if (parent.getChildAdapterPosition(view) == 0) {
+        if (parent.getChildAdapterPosition(view) == 1) { // 第0个是指示器
             if (orientation == VERTICAL) {
                 outRect.top = space;
             } else {

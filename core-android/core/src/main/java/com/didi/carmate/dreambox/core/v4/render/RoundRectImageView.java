@@ -138,7 +138,8 @@ public class RoundRectImageView extends AppCompatImageView {
         bitmapShader.setLocalMatrix(matrix);
         paint.setShader(bitmapShader);
         //创建矩形区域并且预留出border
-        RectF rect = new RectF(border, border, outWidth - border, outHeight - border);
+//        RectF rect = new RectF(border, border, outWidth - border, outHeight - border);
+        RectF rect = new RectF(6, 6, outWidth - 6, outHeight - 6); // 预留几个像素
         //把传入的bitmap绘制到圆角矩形区域内
 //        canvas.drawRoundRect(rect, radius, radius, paint);
 

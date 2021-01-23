@@ -94,6 +94,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     protected float positionRightPercent;
     protected float positionBottom;
     protected float positionBottomPercent;
+    protected float aspectRatio;
 
     protected DBAbsView(DBContext dbContext) {
         super(dbContext);
@@ -258,6 +259,10 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
             } else {
                 positionBottom = DBScreenUtils.processSize(mDBContext, posBottom, 0);
             }
+        }
+        String ratio = attrs.get("aspectRatio");
+        if (null != ratio && DBUtils.isNumeric(ratio)) {
+            aspectRatio = Float.parseFloat(ratio);
         }
     }
 
@@ -497,6 +502,10 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
             node.setPositionPercent(YogaEdge.BOTTOM, positionBottomPercent);
         } else if (positionBottom > 0) {
             node.setPosition(YogaEdge.BOTTOM, positionBottom);
+        }
+
+        if (aspectRatio != 0) {
+            node.setAspectRatio(aspectRatio);
         }
     }
 }
