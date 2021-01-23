@@ -547,7 +547,19 @@ public abstract class DBNode implements IDBNode {
 
             String[] keys = variable.split("\\.");
             if (keys.length == 1) {
-                return dict.getAsJsonObject(keys[0]);
+                JsonElement element = null;
+                if (isJsonArrayKey(keys[0])) {
+                    JsonArrayKey jsonArrayKey = getJsonArrayKey(keys[0]);
+                    JsonElement arrElement = dict.get(jsonArrayKey.key);
+                    if (arrElement.isJsonArray()) {
+                        element = arrElement.getAsJsonArray().get(jsonArrayKey.pos);
+                    }
+                } else {
+                    element = dict.get(keys[0]);
+                }
+                if (null != element && element.isJsonObject()) {
+                    return element.getAsJsonObject();
+                }
             } else {
                 return getNestJsonObject(keys, dict.getAsJsonObject(keys[0]));
             }
