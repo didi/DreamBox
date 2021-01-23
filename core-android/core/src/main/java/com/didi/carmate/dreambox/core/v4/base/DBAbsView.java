@@ -47,8 +47,16 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     protected View mNativeView;
     // 通用属性
     protected int id = DBConstants.DEFAULT_ID_VIEW;
+
     protected int width;
+    protected float widthPercent;
+    protected int minWidth;
+    protected float minWidthPercent;
     protected int height;
+    protected float heightPercent;
+    protected int minHeight;
+    protected float minHeightPercent;
+
     protected String background; // 背景图片
     protected int radius; // 背景圆角半径
     protected int radiusLT; // 左上角圆角半径
@@ -74,6 +82,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     protected float flexGrow;
     protected float flexShrink;
     protected float flexBasis;
+    protected float flexBasisPercent;
     protected String alignSelf;
 
     protected String positionType;
@@ -85,10 +94,6 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     protected float positionRightPercent;
     protected float positionBottom;
     protected float positionBottomPercent;
-
-    protected float widthPercent;
-    protected float heightPercent;
-    protected float flexBasisPercent;
 
     protected DBAbsView(DBContext dbContext) {
         super(dbContext);
@@ -144,6 +149,18 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
                 width = DBScreenUtils.processSize(mDBContext, w, DBConstants.DEFAULT_SIZE_WIDTH);
             }
         }
+        minWidth = DBConstants.DEFAULT_SIZE_WIDTH;
+        String minW = attrs.get("minWidth");
+        if (null != minW) {
+            if (minW.endsWith("%")) {
+                minW = minW.substring(0, minW.length() - 1);
+                if (DBUtils.isNumeric(minW)) {
+                    minWidthPercent = Float.parseFloat(minW);
+                }
+            } else {
+                minWidth = DBScreenUtils.processSize(mDBContext, minW, DBConstants.DEFAULT_SIZE_WIDTH);
+            }
+        }
         height = DBConstants.DEFAULT_SIZE_HEIGHT;
         String h = attrs.get("height");
         if (null != h) {
@@ -154,6 +171,18 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
                 }
             } else {
                 height = DBScreenUtils.processSize(mDBContext, h, DBConstants.DEFAULT_SIZE_HEIGHT);
+            }
+        }
+        minHeight = DBConstants.DEFAULT_SIZE_HEIGHT;
+        String minH = attrs.get("minHeight");
+        if (null != minH) {
+            if (minH.endsWith("%")) {
+                minH = minH.substring(0, minH.length() - 1);
+                if (DBUtils.isNumeric(minH)) {
+                    minHeightPercent = Float.parseFloat(minH);
+                }
+            } else {
+                minHeight = DBScreenUtils.processSize(mDBContext, minH, DBConstants.DEFAULT_SIZE_HEIGHT);
             }
         }
 
@@ -404,10 +433,20 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         } else if (widthPercent != 0) {
             node.setWidthPercent(widthPercent);
         }
+        if (minWidth > 0) {
+            node.setMinWidth(minWidth);
+        } else if (minWidthPercent != 0) {
+            node.setMinWidthPercent(minWidthPercent);
+        }
         if (height > 0) {
             node.setHeight(height);
         } else if (heightPercent != 0) {
             node.setHeightPercent(heightPercent);
+        }
+        if (minHeight > 0) {
+            node.setMinHeight(minHeight);
+        } else if (minHeightPercent != 0) {
+            node.setMinHeightPercent(minHeightPercent);
         }
 
         if (null != alignSelf) {
