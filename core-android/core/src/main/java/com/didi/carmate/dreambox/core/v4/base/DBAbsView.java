@@ -86,14 +86,14 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     protected String alignSelf;
 
     protected String positionType;
-    protected float positionLeft;
-    protected float positionLeftPercent;
-    protected float positionTop;
-    protected float positionTopPercent;
-    protected float positionRight;
-    protected float positionRightPercent;
-    protected float positionBottom;
-    protected float positionBottomPercent;
+    protected float positionLeft = -1f;
+    protected float positionLeftPercent = -1f;
+    protected float positionTop = -1f;
+    protected float positionTopPercent = -1f;
+    protected float positionRight = -1f;
+    protected float positionRightPercent = -1f;
+    protected float positionBottom = -1f;
+    protected float positionBottomPercent = -1f;
     protected float aspectRatio;
 
     protected DBAbsView(DBContext dbContext) {
@@ -483,24 +483,24 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
                     break;
             }
         }
-        if (positionLeftPercent > 0) {
+        if (positionLeftPercent >= 0) {
             node.setPositionPercent(YogaEdge.LEFT, positionLeftPercent);
-        } else if (positionLeft > 0) {
+        } else if (positionLeft >= 0) {
             node.setPosition(YogaEdge.LEFT, positionLeft);
         }
-        if (positionTopPercent > 0) {
+        if (positionTopPercent >= 0) {
             node.setPositionPercent(YogaEdge.TOP, positionTopPercent);
-        } else if (positionTop > 0) {
+        } else if (positionTop >= 0) {
             node.setPosition(YogaEdge.TOP, positionTop);
         }
-        if (positionRightPercent > 0) {
+        if (positionRightPercent >= 0) {
             node.setPositionPercent(YogaEdge.RIGHT, positionRightPercent);
-        } else if (positionRight > 0) {
+        } else if (positionRight >= 0) {
             node.setPosition(YogaEdge.RIGHT, positionRight);
         }
-        if (positionBottomPercent > 0) {
+        if (positionBottomPercent >= 0) {
             node.setPositionPercent(YogaEdge.BOTTOM, positionBottomPercent);
-        } else if (positionBottom > 0) {
+        } else if (positionBottom >= 0) {
             node.setPosition(YogaEdge.BOTTOM, positionBottom);
         }
 
