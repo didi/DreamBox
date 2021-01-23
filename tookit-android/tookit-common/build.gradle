@@ -30,6 +30,6 @@ android {
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    api 'com.didiglobal.dreambox:dreambox-v4:0.4.1.1-SNAPSHOT'
+    api 'com.didiglobal.dreambox:dreambox-v4:0.4.1.7-SNAPSHOT'
     implementation "com.android.volley:volley:1.1.1"
 }

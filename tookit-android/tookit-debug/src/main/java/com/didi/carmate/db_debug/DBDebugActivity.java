@@ -177,6 +177,7 @@ public class DBDebugActivity extends AppCompatActivity implements View.OnClickLi
             }
         } else if (id == R.id.db_debug_bind) {
             bind();
+            finish();
         } else if (id == R.id.db_debug_refresh) {
             initData();
             close();
