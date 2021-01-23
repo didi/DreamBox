@@ -1,5 +1,7 @@
 package com.didi.carmate.dreambox.core.v4.base;
 
+import android.widget.Toast;
+
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.RestrictTo;
@@ -513,6 +515,9 @@ public abstract class DBNode implements IDBNode {
             return null;
         }
 
+        rawKey = rawKey.replace("[", ARR_TAG_START);
+        rawKey = rawKey.replace("]", ARR_TAG_END);
+
         if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
             String variable = rawKey.substring(2, rawKey.length() - 1);
 
@@ -533,6 +538,9 @@ public abstract class DBNode implements IDBNode {
         if (DBUtils.isEmpty(rawKey) || null == dict) {
             return null;
         }
+
+        rawKey = rawKey.replace("[", ARR_TAG_START);
+        rawKey = rawKey.replace("]", ARR_TAG_END);
 
         if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
             String variable = rawKey.substring(2, rawKey.length() - 1);
@@ -638,7 +646,9 @@ public abstract class DBNode implements IDBNode {
                 jsonObject = (JsonObject) jsonElement;
             } else {
                 if (Wrapper.getInstance().debug) {
-                    throw new IllegalArgumentException("[" + tmpKeys.toString() + "]" + " must be a [JsonObject] in json data");
+                    String err = "[" + tmpKeys.toString() + "]" + " must be a [JsonObject] in json data";
+                    Toast.makeText(mDBContext.getContext(), err, Toast.LENGTH_SHORT).show();
+//                    throw new IllegalArgumentException("[" + tmpKeys.toString() + "]" + " must be a [JsonObject] in json data");
                 } else {
                     reportParserDataFail();
                     return null;
@@ -691,7 +701,20 @@ public abstract class DBNode implements IDBNode {
 
         tmpKeys.append(".").append(lastKey);
         // last element type check
-        JsonElement jsonElement = jsonObject.get(lastKey);
+        JsonElement jsonElement;
+        if (isJsonArrayKey(lastKey)) {
+            JsonArrayKey jsonArrayKey = getJsonArrayKey(lastKey);
+            jsonElement = jsonObject.get(jsonArrayKey.key);
+            if (null != jsonElement && jsonElement.isJsonArray()) {
+                JsonArray jsonArray = jsonElement.getAsJsonArray();
+                jsonElement = jsonArray.get(jsonArrayKey.pos);
+            } else {
+                jsonElement = null;
+            }
+        } else {
+            jsonElement = jsonObject.get(lastKey);
+        }
+
         if (jsonElement instanceof JsonPrimitive) {
             return (JsonPrimitive) jsonElement;
         } else {
@@ -709,7 +732,20 @@ public abstract class DBNode implements IDBNode {
             }
             tmpKeys.append(".").append(keys[i]);
             // type check
-            JsonElement jsonElement = jsonObject.get(keys[i]);
+            JsonElement jsonElement;
+            if (isJsonArrayKey(keys[i])) {
+                JsonArrayKey jsonArrayKey = getJsonArrayKey(keys[i]);
+                jsonElement = jsonObject.get(jsonArrayKey.key);
+                if (null != jsonElement && jsonElement.isJsonArray()) {
+                    JsonArray jsonArray = jsonElement.getAsJsonArray();
+                    jsonElement = jsonArray.get(jsonArrayKey.pos);
+                } else {
+                    jsonElement = null;
+                }
+            } else {
+                jsonElement = jsonObject.get(keys[i]);
+            }
+
             if (jsonElement instanceof JsonObject) {
                 jsonObject = (JsonObject) jsonElement;
             } else {

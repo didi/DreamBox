@@ -29,6 +29,11 @@ public class CXAddCartAction extends DBAction {
     }
 
     @Override
+    protected void doInvoke(Map<String, String> attrs, View view) {
+        JsonObject jsonObject = getJsonObject(attrs.get("data"));
+    }
+
+    @Override
     protected void doInvoke(Map<String, String> attrs, View view, JsonObject data) {
         final JsonArray jsonArray;
         if (null == data) {
