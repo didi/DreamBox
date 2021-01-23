@@ -11,6 +11,8 @@ import com.didi.carmate.dreambox.core.v4.R;
 import com.didi.carmate.dreambox.core.v4.render.IDBContainer;
 import com.didi.carmate.dreambox.core.v4.render.IDBRender;
 import com.didi.carmate.dreambox.core.v4.utils.DBLogger;
+import com.facebook.yoga.YogaDisplay;
+import com.facebook.yoga.android.YogaLayout;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -153,6 +155,15 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
                 ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(width, height);
                 marginLayoutParams = layoutParams;
                 container.addView(nativeView, layoutParams);
+
+                // GONE处理
+                if (nativeView instanceof YogaLayout) {
+                    if (nativeView.getVisibility() == View.GONE) {
+                        ((YogaLayout) nativeView).getYogaNode().setDisplay(YogaDisplay.NONE);
+                    } else {
+                        ((YogaLayout) nativeView).getYogaNode().setDisplay(YogaDisplay.FLEX);
+                    }
+                }
             }
             if (margin > 0) {
                 marginLayoutParams.setMargins(margin, margin, margin, margin);

@@ -10,6 +10,8 @@ import androidx.annotation.CallSuper;
 import com.didi.carmate.dreambox.core.v4.R;
 import com.didi.carmate.dreambox.core.v4.action.IDBAction;
 import com.didi.carmate.dreambox.core.v4.render.DBChildren;
+import com.facebook.yoga.YogaDisplay;
+import com.facebook.yoga.android.YogaLayout;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -121,6 +123,15 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
                 ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(width, height);
                 marginLayoutParams = layoutParams;
                 container.addView(nativeView, layoutParams);
+
+                // GONE处理
+                if (container instanceof YogaLayout) {
+                    if (nativeView.getVisibility() == View.GONE) {
+                        ((YogaLayout) container).getYogaNodeForView(nativeView).setDisplay(YogaDisplay.NONE);
+                    } else {
+                        ((YogaLayout) container).getYogaNodeForView(nativeView).setDisplay(YogaDisplay.FLEX);
+                    }
+                }
             }
             if (margin > 0) {
                 marginLayoutParams.setMargins(margin, margin, margin, margin);

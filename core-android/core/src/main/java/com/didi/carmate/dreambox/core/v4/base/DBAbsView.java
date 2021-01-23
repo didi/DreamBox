@@ -19,6 +19,7 @@ import com.didi.carmate.dreambox.core.v4.render.view.DBLinearLayoutView;
 import com.didi.carmate.dreambox.core.v4.render.view.DBYogaLayoutView;
 import com.didi.carmate.dreambox.core.v4.utils.DBLogger;
 import com.didi.carmate.dreambox.core.v4.utils.DBScreenUtils;
+import com.didi.carmate.dreambox.core.v4.utils.DBThreadUtils;
 import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
 import com.facebook.yoga.YogaAlign;
 import com.facebook.yoga.YogaEdge;
@@ -289,14 +290,19 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
                 public void onDataChanged(String key) {
                     DBLogger.d(mDBContext, "key: " + key);
                     if (null != mNativeView) {
-                        String visibleOn = getString(rawVisibleOn);
-                        if ("-1".equals(visibleOn)) {
-                            mNativeView.setVisibility(View.GONE);
-                        } else if ("0".equals(visibleOn)) {
-                            mNativeView.setVisibility(View.INVISIBLE);
-                        } else {
-                            mNativeView.setVisibility(View.VISIBLE);
-                        }
+                        final String visibleOn = getString(rawVisibleOn);
+                        DBThreadUtils.runOnMain(new Runnable() {
+                            @Override
+                            public void run() {
+                                if ("-1".equals(visibleOn)) {
+                                    mNativeView.setVisibility(View.GONE);
+                                } else if ("0".equals(visibleOn)) {
+                                    mNativeView.setVisibility(View.INVISIBLE);
+                                } else {
+                                    mNativeView.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        });
                     }
                 }
 
