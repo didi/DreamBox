@@ -23,29 +23,29 @@ public class DBSpaceItemDecoration extends RecyclerView.ItemDecoration {
                                @NonNull RecyclerView.State state) {
         int position = parent.getChildAdapterPosition(view);
 
-        if (position > 0) { // 第0个是指示器, 第1个两边都加
-            if (position == 1) {
-                if (orientation == VERTICAL) {
-                    outRect.top = space;
-                } else {
-                    outRect.left = space;
-                }
-            }
-            if (orientation == VERTICAL) {
-                outRect.bottom = space;
-            } else {
-                outRect.right = space;
-            }
-        }
-
-//        if (position > 0) { // 第1个只加一边
-//            if (position != 1) {
+//        if (position > 0) { // 第0个是指示器, 第1个两边都加
+//            if (position == 1) {
 //                if (orientation == VERTICAL) {
 //                    outRect.top = space;
 //                } else {
 //                    outRect.left = space;
 //                }
 //            }
+//            if (orientation == VERTICAL) {
+//                outRect.bottom = space;
+//            } else {
+//                outRect.right = space;
+//            }
 //        }
+
+        if (position > 0) { // 第1个只加一边
+            if (position != 1) {
+                if (orientation == VERTICAL) {
+                    outRect.top = space;
+                } else {
+                    outRect.left = space;
+                }
+            }
+        }
     }
 }

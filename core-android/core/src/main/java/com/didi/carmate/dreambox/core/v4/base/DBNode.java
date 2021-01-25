@@ -195,7 +195,32 @@ public abstract class DBNode implements IDBNode {
             }
         }
         for (int i = 0; i < variableList.size(); i++) {
-            rawKey = rawKey.replace(variableList.get(i), getVariableString(variableList.get(i)));
+            rawKey = rawKey.replace(variableList.get(i), getSingleString(variableList.get(i)));
+        }
+        return rawKey;
+    }
+
+    /**
+     * 根据给定的key拿String数据
+     */
+    protected String getStringWithData(String rawKey, JsonObject jsonObject) {
+        if (DBUtils.isEmpty(rawKey)) {
+            return "";
+        }
+
+        rawKey = rawKey.replace("[", ARR_TAG_START);
+        rawKey = rawKey.replace("]", ARR_TAG_END);
+
+        Pattern p = Pattern.compile("\\$\\{[\\w\\.\\`]+\\}");
+        Matcher m = p.matcher(rawKey);
+        List<String> variableList = new ArrayList<>();
+        while (m.find()) {
+            if (!variableList.contains(m.group())) {
+                variableList.add(m.group());
+            }
+        }
+        for (int i = 0; i < variableList.size(); i++) {
+            rawKey = rawKey.replace(variableList.get(i), getSingleStringWithData(variableList.get(i), jsonObject));
         }
         return rawKey;
     }
@@ -232,10 +257,10 @@ public abstract class DBNode implements IDBNode {
     }
 
     // 数组获取临时实现，待重构
-    protected String getVariableString(String rawKey) {
+    private String getSingleString(String rawKey) {
         // 尝试从提供的数据源里拿
         if (null != data) {
-            return getVariableString(rawKey, data);
+            return getSingleStringWithData(rawKey, data);
         }
 
         // 尝试从meta、global pool、ext里拿
@@ -319,7 +344,7 @@ public abstract class DBNode implements IDBNode {
     /**
      * 根据给定的key从给定的字典数据源里拿String数据
      */
-    private String getVariableString(String rawKey, @NonNull JsonObject dict) {
+    private String getSingleStringWithData(String rawKey, @NonNull JsonObject dict) {
         if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
             String variable = rawKey.substring(2, rawKey.length() - 1);
 

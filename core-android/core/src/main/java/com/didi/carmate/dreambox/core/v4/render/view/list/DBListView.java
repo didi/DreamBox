@@ -205,95 +205,96 @@ public class DBListView extends RecyclerView {
         }
     }
 
-    /**
-     * 解决ViewPage横向滑动时，嵌套RecyclerView滑动冲突问题
-     */
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        int action = ev.getAction();
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                // 记录手指按下的位置
-                startY = ev.getY();
-                startX = ev.getX();
-                // 初始化标记
-                mIsVpDragger = false;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                // 如果viewpager正在拖拽中，那么不拦截它的事件，直接return false；
-                if (mIsVpDragger) {
-                    return false;
-                }
-
-                // 获取当前手指位置
-                float endY = ev.getY();
-                float endX = ev.getX();
-                float distanceX = Math.abs(endX - startX);
-                float distanceY = Math.abs(endY - startY);
-                // 如果X轴位移大于Y轴位移，那么将事件交给viewPager处理。
-                if (distanceX > mTouchSlop && distanceX > distanceY) {
-                    mIsVpDragger = true;
-                    return false;
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                // 初始化标记
-                mIsVpDragger = false;
-                break;
-        }
-        // 如果是Y轴位移大于X轴，事件交给swipeRefreshLayout处理。
-        return super.onInterceptTouchEvent(ev);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        if (mLastY == -1) {
-            mLastY = ev.getY();
-            mActivePointerId = ev.getPointerId(0);
-            sumOffSet = 0;
-        }
-        switch (ev.getActionMasked()) {
-            case MotionEvent.ACTION_DOWN:
-                mLastY = ev.getY();
-                mActivePointerId = ev.getPointerId(0);
-                sumOffSet = 0;
-                break;
-            case MotionEvent.ACTION_POINTER_DOWN:
-                final int index = ev.getActionIndex();
-                mActivePointerId = ev.getPointerId(index);
-                mLastY = (int) ev.getY(index);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                int pointerIndex = ev.findPointerIndex(mActivePointerId);
-                if (pointerIndex == -1) {
-                    pointerIndex = 0;
-                    mActivePointerId = ev.getPointerId(pointerIndex);
-                }
-                final int moveY = (int) ev.getY(pointerIndex);
-                final float deltaY = (moveY - mLastY) / DRAG_RATE;
-                mLastY = moveY;
-                sumOffSet += deltaY;
-                if (isOnTop() && mPullRefreshEnabled && !mRefreshing) {
-                    mRefreshHeader.onMove(deltaY, sumOffSet);
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                mLastY = -1; // reset
-                mActivePointerId = -1;
-                if (isOnTop() && mPullRefreshEnabled && !mRefreshing/*&& appbarState == AppBarStateChangeListener.State.EXPANDED*/) {
-                    if (mRefreshHeader != null && mRefreshHeader.onRelease()) {
-                        if (mRefreshListener != null) {
-                            mRefreshing = true;
-                            mLoaderView.setVisibility(GONE);
-                            mRefreshListener.onRefresh();
-                        }
-                    }
-                }
-                break;
-        }
-        return super.onTouchEvent(ev);
-    }
+// 和Item 点击事件冲突，占时先注释掉
+//    /**
+//     * 解决ViewPage横向滑动时，嵌套RecyclerView滑动冲突问题
+//     */
+//    @Override
+//    public boolean onInterceptTouchEvent(MotionEvent ev) {
+//        int action = ev.getAction();
+//        switch (action) {
+//            case MotionEvent.ACTION_DOWN:
+//                // 记录手指按下的位置
+//                startY = ev.getY();
+//                startX = ev.getX();
+//                // 初始化标记
+//                mIsVpDragger = false;
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                // 如果viewpager正在拖拽中，那么不拦截它的事件，直接return false；
+//                if (mIsVpDragger) {
+//                    return false;
+//                }
+//
+//                // 获取当前手指位置
+//                float endY = ev.getY();
+//                float endX = ev.getX();
+//                float distanceX = Math.abs(endX - startX);
+//                float distanceY = Math.abs(endY - startY);
+//                // 如果X轴位移大于Y轴位移，那么将事件交给viewPager处理。
+//                if (distanceX > mTouchSlop && distanceX > distanceY) {
+//                    mIsVpDragger = true;
+//                    return false;
+//                }
+//                break;
+//            case MotionEvent.ACTION_UP:
+//            case MotionEvent.ACTION_CANCEL:
+//                // 初始化标记
+//                mIsVpDragger = false;
+//                break;
+//        }
+//        // 如果是Y轴位移大于X轴，事件交给swipeRefreshLayout处理。
+//        return super.onInterceptTouchEvent(ev);
+//    }
+//
+//    @Override
+//    public boolean onTouchEvent(MotionEvent ev) {
+//        if (mLastY == -1) {
+//            mLastY = ev.getY();
+//            mActivePointerId = ev.getPointerId(0);
+//            sumOffSet = 0;
+//        }
+//        switch (ev.getActionMasked()) {
+//            case MotionEvent.ACTION_DOWN:
+//                mLastY = ev.getY();
+//                mActivePointerId = ev.getPointerId(0);
+//                sumOffSet = 0;
+//                break;
+//            case MotionEvent.ACTION_POINTER_DOWN:
+//                final int index = ev.getActionIndex();
+//                mActivePointerId = ev.getPointerId(index);
+//                mLastY = (int) ev.getY(index);
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                int pointerIndex = ev.findPointerIndex(mActivePointerId);
+//                if (pointerIndex == -1) {
+//                    pointerIndex = 0;
+//                    mActivePointerId = ev.getPointerId(pointerIndex);
+//                }
+//                final int moveY = (int) ev.getY(pointerIndex);
+//                final float deltaY = (moveY - mLastY) / DRAG_RATE;
+//                mLastY = moveY;
+//                sumOffSet += deltaY;
+//                if (isOnTop() && mPullRefreshEnabled && !mRefreshing) {
+//                    mRefreshHeader.onMove(deltaY, sumOffSet);
+//                }
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                mLastY = -1; // reset
+//                mActivePointerId = -1;
+//                if (isOnTop() && mPullRefreshEnabled && !mRefreshing/*&& appbarState == AppBarStateChangeListener.State.EXPANDED*/) {
+//                    if (mRefreshHeader != null && mRefreshHeader.onRelease()) {
+//                        if (mRefreshListener != null) {
+//                            mRefreshing = true;
+//                            mLoaderView.setVisibility(GONE);
+//                            mRefreshListener.onRefresh();
+//                        }
+//                    }
+//                }
+//                break;
+//        }
+//        return super.onTouchEvent(ev);
+//    }
 
     @Override
     protected boolean overScrollBy(int deltaX, int deltaY, int scrollX, int scrollY, int scrollRangeX, int scrollRangeY, int maxOverScrollX,

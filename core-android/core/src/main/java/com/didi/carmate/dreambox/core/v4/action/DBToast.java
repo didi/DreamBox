@@ -8,6 +8,7 @@ import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 import com.didi.carmate.dreambox.core.v4.utils.DBLogger;
 import com.didi.carmate.dreambox.wrapper.v4.Toast;
 import com.didi.carmate.dreambox.wrapper.v4.Wrapper;
+import com.google.gson.JsonObject;
 
 import java.util.Map;
 
@@ -27,7 +28,12 @@ public class DBToast extends DBAction {
 
     @Override
     protected void doInvoke(Map<String, String> attrs, View view) {
-        final String src = getString(attrs.get("src"));
+        doInvoke(attrs, view, null);
+    }
+
+    @Override
+    protected void doInvoke(Map<String, String> attrs, View view, JsonObject data) {
+        final String src = null == data ? getString(attrs.get("src")) : getStringWithData(attrs.get("src"), data);
         final boolean isLong = getBoolean(attrs.get("long"));
 
         if (null == src) {
