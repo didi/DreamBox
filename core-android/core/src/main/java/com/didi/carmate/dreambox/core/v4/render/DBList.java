@@ -97,6 +97,10 @@ public class DBList extends DBBaseView<DBListView> {
         } else {
             nativeView.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
         }
+
+        if (null != mInnerAdapter) {
+            mInnerAdapter.setData(src);
+        }
     }
 
     @Override
