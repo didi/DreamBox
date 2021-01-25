@@ -9,6 +9,7 @@ import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.didi.carmate.dreambox.core.v4.base.DBContainer;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +26,8 @@ public class DBListInnerAdapter extends RecyclerView.Adapter<DBListViewHolder> {
 
     public DBListInnerAdapter(List<JsonObject> listData, IAdapterCallback innerAdapterCallback,
                               String orientation, DBContainer<ViewGroup> itemViewContainer) {
-        mListData = listData;
+        mListData = new ArrayList<>();
+        mListData.addAll(listData);
         mAdapterCallback = innerAdapterCallback;
         mOrientation = orientation;
         mItemViewContainer = itemViewContainer;
