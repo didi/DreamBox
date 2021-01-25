@@ -181,12 +181,10 @@ public class DreamBoxView extends FrameLayout implements LifecycleOwner {
         });
     }
 
-
-    public void renderSync(@NonNull String accessKey, @NonNull String templateId,
-                           @Nullable OnRenderCallback callback) {
+    public void renderSync(@NonNull String accessKey, @NonNull String templateId, @NonNull String extData) {
         Context context = getContext();
         if (context instanceof FragmentActivity) {
-            renderSync(accessKey, templateId, null, callback, ((FragmentActivity) context).getLifecycle());
+            renderSync(accessKey, templateId, extData, null, ((FragmentActivity) context).getLifecycle());
         } else {
             throw new IllegalStateException("DreamBox need lifecycle to render");
         }
