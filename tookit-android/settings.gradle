@@ -6,3 +6,9 @@ include ':playground'
 include ':catalog-lib'
 include ':tookit-debug'
 include ':tookit-common'
+
+
+File configFile = file('./config.gradle')
+if (configFile.exists()) {
+    apply from: './config.gradle'
+}

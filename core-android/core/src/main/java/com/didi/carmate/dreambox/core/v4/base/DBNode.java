@@ -540,6 +540,10 @@ public abstract class DBNode implements IDBNode {
             return null;
         }
 
+        if (null != data) {
+            return getJsonObject(rawKey, data);
+        }
+
         rawKey = rawKey.replace("[", ARR_TAG_START);
         rawKey = rawKey.replace("]", ARR_TAG_END);
 
@@ -548,7 +552,20 @@ public abstract class DBNode implements IDBNode {
 
             String[] keys = variable.split("\\.");
             if (keys.length == 1) {
-                return mDBContext.getJsonValue(variable);
+                JsonElement element = null;
+                if (isJsonArrayKey(keys[0])) {
+                    JsonArrayKey jsonArrayKey = getJsonArrayKey(keys[0]);
+                    element = mDBContext.getJsonArray(jsonArrayKey.key);
+                    if (element.isJsonArray()) {
+                        element = element.getAsJsonArray().get(jsonArrayKey.pos);
+                    }
+                } else {
+                    element = mDBContext.getJsonValue(keys[0]);
+                }
+
+                if (null != element && element.isJsonObject()) {
+                    return element.getAsJsonObject();
+                }
             } else {
                 return getNestJsonObject(keys, mDBContext.getJsonValue(keys[0]));
             }

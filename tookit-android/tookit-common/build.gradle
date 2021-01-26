@@ -1,6 +1,9 @@
 apply plugin: 'com.android.library'
 apply from: '../upload.gradle'
-apply from: '../config.gradle'
+File configFile = file('../config.gradle')
+if (configFile.exists()) {
+    apply from: '../config.gradle'
+}
 
 android {
     compileSdkVersion COMPILE_SDK.toInteger()
@@ -33,9 +36,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation "com.android.volley:volley:1.1.1"
 
-    if (project.hasProperty('USE_AAR') && project.USE_AAR) {
+    if (!project.hasProperty('USE_AAR') || project.USE_AAR) {
         println 'compile method: DreamBox aar'
-        api 'com.didiglobal.dreambox:dreambox-v4:0.4.1.13-SNAPSHOT'
+        api 'com.didiglobal.dreambox:dreambox-v4:0.4.4'
     }else{
         println 'compile method: DreamBox source code'
         api(project(':shell'))
