@@ -240,6 +240,20 @@ public abstract class DBNode implements IDBNode {
         return arrayKey;
     }
 
+    private boolean checkJsonArray(String rawKey, JsonElement element, int pos) {
+        if (null == element) {
+            Wrapper.get(mDBContext.getAccessKey()).log().e("keys: " + rawKey + " -> element is null");
+            return false;
+        } else if (!element.isJsonArray()) {
+            Wrapper.get(mDBContext.getAccessKey()).log().e("keys: " + rawKey + " -> element is not JsonArray");
+            return false;
+        } else if (element.getAsJsonArray().size() <= pos) {
+            Wrapper.get(mDBContext.getAccessKey()).log().e("keys: " + rawKey + " -> index large than array size");
+            return false;
+        }
+        return true;
+    }
+
     private boolean isJsonArrayKey(String rawArrayKey) {
         return rawArrayKey.contains(ARR_TAG_START) && rawArrayKey.contains(ARR_TAG_END);
     }
@@ -270,7 +284,12 @@ public abstract class DBNode implements IDBNode {
             if (keys.length == 1) {
                 if (isJsonArrayKey(keys[0])) {
                     JsonArrayKey jsonArrayKey = getJsonArrayKey(keys[0]);
-                    return getString(jsonArrayKey, mDBContext.getJsonArray(jsonArrayKey.key));
+                    JsonElement element = mDBContext.getJsonArray(jsonArrayKey.key);
+                    if (checkJsonArray(rawKey, element, jsonArrayKey.pos)) {
+                        return getString(jsonArrayKey, element.getAsJsonArray());
+                    } else {
+                        return "";
+                    }
                 } else {
                     return mDBContext.getStringValue(keys[0]);
                 }
@@ -296,7 +315,12 @@ public abstract class DBNode implements IDBNode {
                     if (keys.length == 2) {
                         if (isJsonArrayKey(keys[1])) {
                             JsonArrayKey jsonArrayKey = getJsonArrayKey(keys[1]);
-                            return getString(jsonArrayKey, ext.get(jsonArrayKey.key).getAsJsonArray());
+                            JsonElement element = ext.get(jsonArrayKey.key);
+                            if (checkJsonArray(rawKey, element, jsonArrayKey.pos)) {
+                                return getString(jsonArrayKey, element.getAsJsonArray());
+                            } else {
+                                return "";
+                            }
                         } else {
                             JsonElement extValue = ext.get(keys[1]);
                             if (null != extValue && extValue.isJsonPrimitive()) {
@@ -310,12 +334,12 @@ public abstract class DBNode implements IDBNode {
                         JsonObject jsonObject = null;
                         if (isJsonArrayKey(keysExt[0])) {
                             JsonArrayKey jsonArrayKey = getJsonArrayKey(keysExt[0]);
-                            JsonElement jsonElement = ext.get(jsonArrayKey.key);
-                            if (null != jsonElement && jsonElement.isJsonArray()) {
-                                JsonArray jsonArray = jsonElement.getAsJsonArray();
-                                jsonElement = jsonArray.get(jsonArrayKey.pos);
-                                if (jsonElement.isJsonObject()) {
-                                    jsonObject = jsonElement.getAsJsonObject();
+                            JsonElement element = ext.get(jsonArrayKey.key);
+                            if (checkJsonArray(rawKey, element, jsonArrayKey.pos)) {
+                                JsonArray jsonArray = element.getAsJsonArray();
+                                element = jsonArray.get(jsonArrayKey.pos);
+                                if (element.isJsonObject()) {
+                                    jsonObject = element.getAsJsonObject();
                                 }
                             }
                         } else {
@@ -355,7 +379,7 @@ public abstract class DBNode implements IDBNode {
             if (isJsonArrayKey(keys[0])) {
                 JsonArrayKey jsonArrayKey = getJsonArrayKey(keys[0]);
                 jsonElement = dict.get(jsonArrayKey.key);
-                if (null != jsonElement && jsonElement.isJsonArray()) {
+                if (checkJsonArray(rawKey, jsonElement, jsonArrayKey.pos)) {
                     jsonElement = jsonElement.getAsJsonArray().get(jsonArrayKey.pos);
                 }
             }
@@ -363,7 +387,7 @@ public abstract class DBNode implements IDBNode {
                 if (isJsonArrayKey(keys[0])) {
                     jsonPrimitive = (null != jsonElement) ? jsonElement.getAsJsonPrimitive() : null;
                 } else {
-                    jsonPrimitive = dict.getAsJsonPrimitive(variable);
+                    jsonPrimitive = dict.getAsJsonPrimitive(keys[0]);
                 }
             } else {
                 if (isJsonArrayKey(keys[0])) {
@@ -556,7 +580,7 @@ public abstract class DBNode implements IDBNode {
                 if (isJsonArrayKey(keys[0])) {
                     JsonArrayKey jsonArrayKey = getJsonArrayKey(keys[0]);
                     element = mDBContext.getJsonArray(jsonArrayKey.key);
-                    if (element.isJsonArray()) {
+                    if (checkJsonArray(rawKey, element, jsonArrayKey.pos)) {
                         element = element.getAsJsonArray().get(jsonArrayKey.pos);
                     }
                 } else {
@@ -592,9 +616,9 @@ public abstract class DBNode implements IDBNode {
                 JsonElement element = null;
                 if (isJsonArrayKey(keys[0])) {
                     JsonArrayKey jsonArrayKey = getJsonArrayKey(keys[0]);
-                    JsonElement arrElement = dict.get(jsonArrayKey.key);
-                    if (arrElement.isJsonArray()) {
-                        element = arrElement.getAsJsonArray().get(jsonArrayKey.pos);
+                    element = dict.get(jsonArrayKey.key);
+                    if (checkJsonArray(rawKey, element, jsonArrayKey.pos)) {
+                        element = element.getAsJsonArray().get(jsonArrayKey.pos);
                     }
                 } else {
                     element = dict.get(keys[0]);
@@ -686,11 +710,9 @@ public abstract class DBNode implements IDBNode {
             if (isJsonArrayKey(prefixKeys[i])) {
                 JsonArrayKey jsonArrayKey = getJsonArrayKey(prefixKeys[i]);
                 jsonElement = jsonObject.get(jsonArrayKey.key);
-                if (null != jsonElement && jsonElement.isJsonArray()) {
+                if (checkJsonArray(tmpKeys.toString(), jsonElement, jsonArrayKey.pos)) {
                     JsonArray jsonArray = jsonElement.getAsJsonArray();
                     jsonElement = jsonArray.get(jsonArrayKey.pos);
-                } else {
-                    jsonElement = null;
                 }
             } else {
                 jsonElement = jsonObject.get(prefixKeys[i]);
@@ -727,15 +749,13 @@ public abstract class DBNode implements IDBNode {
             }
             tmpKeys.append(".").append(prefixKeys[i]);
             // type check
-            JsonElement jsonElement;
+            JsonElement jsonElement = null;
             if (isJsonArrayKey(prefixKeys[i])) {
                 JsonArrayKey jsonArrayKey = getJsonArrayKey(prefixKeys[i]);
                 jsonElement = jsonObject.get(jsonArrayKey.key);
-                if (null != jsonElement && jsonElement.isJsonArray()) {
+                if (checkJsonArray(tmpKeys.toString(), jsonElement, jsonArrayKey.pos)) {
                     JsonArray jsonArray = jsonElement.getAsJsonArray();
                     jsonElement = jsonArray.get(jsonArrayKey.pos);
-                } else {
-                    jsonElement = null;
                 }
             } else {
                 jsonElement = jsonObject.get(prefixKeys[i]);
@@ -755,15 +775,13 @@ public abstract class DBNode implements IDBNode {
 
         tmpKeys.append(".").append(lastKey);
         // last element type check
-        JsonElement jsonElement;
+        JsonElement jsonElement = null;
         if (isJsonArrayKey(lastKey)) {
             JsonArrayKey jsonArrayKey = getJsonArrayKey(lastKey);
             jsonElement = jsonObject.get(jsonArrayKey.key);
-            if (null != jsonElement && jsonElement.isJsonArray()) {
+            if (checkJsonArray(tmpKeys.toString(), jsonElement, jsonArrayKey.pos)) {
                 JsonArray jsonArray = jsonElement.getAsJsonArray();
                 jsonElement = jsonArray.get(jsonArrayKey.pos);
-            } else {
-                jsonElement = null;
             }
         } else {
             jsonElement = jsonObject.get(lastKey);
@@ -786,15 +804,13 @@ public abstract class DBNode implements IDBNode {
             }
             tmpKeys.append(".").append(keys[i]);
             // type check
-            JsonElement jsonElement;
+            JsonElement jsonElement = null;
             if (isJsonArrayKey(keys[i])) {
                 JsonArrayKey jsonArrayKey = getJsonArrayKey(keys[i]);
                 jsonElement = jsonObject.get(jsonArrayKey.key);
-                if (null != jsonElement && jsonElement.isJsonArray()) {
+                if (checkJsonArray(tmpKeys.toString(), jsonElement, jsonArrayKey.pos)) {
                     JsonArray jsonArray = jsonElement.getAsJsonArray();
                     jsonElement = jsonArray.get(jsonArrayKey.pos);
-                } else {
-                    jsonElement = null;
                 }
             } else {
                 jsonElement = jsonObject.get(keys[i]);
