@@ -51,9 +51,10 @@ public class DBList extends DBBaseView<DBListView> {
     private DBListAdapter mAdapter;
     private DBListInnerAdapter mInnerAdapter;
 
-    private boolean scrollListenerRegisted = false;
+    private boolean listenerRegistered = false;
 
     public interface OnScrollListener {
+        void onFirstBind(@NonNull RecyclerView view, @NonNull String templateId);
         void onScrolled(@NonNull RecyclerView view, @NonNull String templateId);
     }
 
@@ -226,9 +227,17 @@ public class DBList extends DBBaseView<DBListView> {
             mAdapter.addFooterView(listFooter.onCreateView());
         }
 
-        if (!scrollListenerRegisted) {
+        if (!listenerRegistered) {
+            if (DBContext.listScrollListeners != null) {
+                List<OnScrollListener> developerSetListeners = DBContext.listScrollListeners.get(mDBContext.getAccessKey());
+                if (developerSetListeners != null) {
+                    for (OnScrollListener listener : developerSetListeners) {
+                        listener.onFirstBind(nativeView, mDBContext.getTemplateId());
+                    }
+                }
+            }
             nativeView.addOnScrollListener(oneListener);
-            scrollListenerRegisted = true;
+            listenerRegistered = true;
         }
     }
 
