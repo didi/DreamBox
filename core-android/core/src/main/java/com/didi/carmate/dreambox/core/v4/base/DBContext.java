@@ -3,13 +3,19 @@ package com.didi.carmate.dreambox.core.v4.base;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+
 import com.didi.carmate.dreambox.core.v4.action.DBActionAliasItem;
 import com.didi.carmate.dreambox.core.v4.bridge.DBBridgeHandler;
 import com.didi.carmate.dreambox.core.v4.data.DBData;
 import com.didi.carmate.dreambox.core.v4.data.DBDataPool;
+import com.didi.carmate.dreambox.core.v4.render.DBList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +33,40 @@ public class DBContext {
     private final DBBridgeHandler mBridgeHandler;
     private final String mAccessKey;
     private final String mTemplateId;
+
+    @Nullable
+    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
+    public static Map<String, List<DBList.OnScrollListener>> listScrollListeners;
+
+    public static void addListScrollListener(@NonNull String accessKey, @NonNull DBList.OnScrollListener listener) {
+        if (listScrollListeners == null) {
+            listScrollListeners = new HashMap<>();
+        }
+        List<DBList.OnScrollListener> exist = listScrollListeners.get(accessKey);
+        if (exist == null) {
+            exist = new ArrayList<>();
+        }
+        exist.add(listener);
+        listScrollListeners.put(accessKey, exist);
+    }
+
+    public static void removeListScrollListener(@NonNull String accessKey, @NonNull DBList.OnScrollListener listener) {
+        if (listScrollListeners == null) {
+            return;
+        }
+        List<DBList.OnScrollListener> exist = listScrollListeners.get(accessKey);
+        if (exist == null) {
+            return;
+        }
+        exist.remove(listener);
+        listScrollListeners.put(accessKey, exist);
+        if (exist.size() == 0) {
+            listScrollListeners.remove(accessKey);
+        }
+        if (listScrollListeners.size() == 0) {
+            listScrollListeners = null;
+        }
+    }
 
     public DBContext(Application application, String accessKey, String templateId) {
         mApplication = application;

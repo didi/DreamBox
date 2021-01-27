@@ -3,7 +3,9 @@ package com.didi.carmate.dreambox.core.v4.render;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.didi.carmate.dreambox.core.v4.base.DBCallback;
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
@@ -48,6 +50,29 @@ public class DBList extends DBBaseView<DBListView> {
     // private int pageNext;
     private DBListAdapter mAdapter;
     private DBListInnerAdapter mInnerAdapter;
+
+    private boolean scrollListenerRegisted = false;
+
+    public interface OnScrollListener {
+        void onScrolled(@NonNull RecyclerView view, @NonNull String templateId);
+    }
+
+    private final RecyclerView.OnScrollListener oneListener = new RecyclerView.OnScrollListener() {
+
+        @Override
+        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            if (DBContext.listScrollListeners != null) {
+                List<OnScrollListener> developerSetListeners = DBContext.listScrollListeners.get(mDBContext.getAccessKey());
+                if (developerSetListeners != null) {
+                    for (OnScrollListener listener : developerSetListeners) {
+                        listener.onScrolled(recyclerView, mDBContext.getTemplateId());
+                    }
+                }
+            }
+        }
+
+    };
 
     private DBList(DBContext dbContext) {
         super(dbContext);
@@ -199,6 +224,11 @@ public class DBList extends DBBaseView<DBListView> {
         }
         if (null != listFooter) {
             mAdapter.addFooterView(listFooter.onCreateView());
+        }
+
+        if (!scrollListenerRegisted) {
+            nativeView.addOnScrollListener(oneListener);
+            scrollListenerRegisted = true;
         }
     }
 

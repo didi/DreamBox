@@ -9,7 +9,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 
 import com.didi.carmate.dreambox.core.v4.DBEngine;
+import com.didi.carmate.dreambox.core.v4.base.DBContext;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
+import com.didi.carmate.dreambox.core.v4.render.DBList;
 import com.didi.carmate.dreambox.wrapper.v4.Wrapper;
 import com.didi.carmate.dreambox.wrapper.v4.WrapperImpl;
 import com.didi.carmate.dreambox.wrapper.v4.inner.WrapperConfig;
@@ -85,6 +87,14 @@ public final class DreamBox {
      */
     public void putPoolData(@NonNull String accessKey, @NonNull String dataKey, @NonNull String dataValue) {
         DBEngine.getInstance().putGlobalProperty(accessKey, dataKey, dataValue);
+    }
+
+    public void addListScrollListener(@NonNull String accessKey, @NonNull DBList.OnScrollListener listener) {
+        DBContext.addListScrollListener(accessKey, listener);
+    }
+
+    public void removeListScrollListener(@NonNull String accessKey, @NonNull DBList.OnScrollListener listener) {
+        DBContext.removeListScrollListener(accessKey, listener);
     }
 
     @Nullable

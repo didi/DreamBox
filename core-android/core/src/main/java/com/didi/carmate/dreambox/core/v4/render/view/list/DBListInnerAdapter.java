@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.didi.carmate.dreambox.core.v4.R;
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.didi.carmate.dreambox.core.v4.base.DBContainer;
 import com.google.gson.JsonObject;
@@ -65,7 +66,9 @@ public class DBListInnerAdapter extends RecyclerView.Adapter<DBListViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull DBListViewHolder holder, int position) {
         if (null != mAdapterCallback) {
-            mAdapterCallback.onBindItemView(holder.getRootView(), mListData.get(position), position);
+            JsonObject j = mListData.get(position);
+            holder.getRootView().setTag(R.id.tag_key_view_attrs, j);
+            mAdapterCallback.onBindItemView(holder.getRootView(), j, position);
         }
     }
 

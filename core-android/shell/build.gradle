@@ -48,6 +48,7 @@ dependencies {
     api project(':simple-wrapper')
 
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }
 repositories {
     mavenCentral()
