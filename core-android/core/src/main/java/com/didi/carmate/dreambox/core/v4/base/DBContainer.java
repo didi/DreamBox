@@ -77,6 +77,10 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
             mViews.put(position, mNativeView);
 
             doBind(mNativeView, bindAttrOnly, position);
+
+            if ((container instanceof YogaLayout) && !(mNativeView instanceof YogaLayout)) {
+                ((YogaLayout) container).invalidate(mNativeView);
+            }
         } else if (nodeType == NODE_TYPE.NODE_TYPE_NORMAL) {
             mNativeView = onCreateView(); // 回调子类View实现
             mNativeView.setTag(R.id.tag_key_item_data, data);

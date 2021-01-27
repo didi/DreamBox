@@ -69,6 +69,10 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
             mViews.put(position, mNativeView);
 
             doBind(mNativeView, bindAttrOnly, position);
+
+            if ((parentView instanceof YogaLayout)) {
+                ((YogaLayout) parentView).invalidate(mNativeView);
+            }
         } else {
             mNativeView = onCreateView(); // 回调子类View实现
             mNativeView.setTag(R.id.tag_key_item_data, data);
