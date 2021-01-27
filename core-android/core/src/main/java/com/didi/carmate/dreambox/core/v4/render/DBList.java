@@ -46,6 +46,7 @@ public class DBList extends DBBaseView<DBListView> {
     // private int pageSize;
     // private int pageCount;
     // private int pageNext;
+    private DBListAdapter mAdapter;
     private DBListInnerAdapter mInnerAdapter;
 
     private DBList(DBContext dbContext) {
@@ -100,6 +101,9 @@ public class DBList extends DBBaseView<DBListView> {
 
         if (null != mInnerAdapter) {
             mInnerAdapter.setData(src);
+        }
+        if (null != mAdapter) {
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -174,7 +178,7 @@ public class DBList extends DBBaseView<DBListView> {
         // adapter
         IAdapterCallback mAdapterCallback = new ListAdapterCallback(listHeader, listVh, listFooter);
         mInnerAdapter = new DBListInnerAdapter(src, mAdapterCallback, orientation, listVh);
-        DBListAdapter mAdapter = new DBListAdapter(mDBContext, mInnerAdapter, mAdapterCallback, orientation,
+        mAdapter = new DBListAdapter(mDBContext, mInnerAdapter, mAdapterCallback, orientation,
                 listHeader != null, listFooter != null);
         nativeView.setAdapter(mAdapter);
 

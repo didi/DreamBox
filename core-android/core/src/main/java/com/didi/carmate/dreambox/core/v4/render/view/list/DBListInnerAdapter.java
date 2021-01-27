@@ -36,7 +36,6 @@ public class DBListInnerAdapter extends RecyclerView.Adapter<DBListViewHolder> {
     public void setData(List<JsonObject> listData) {
         mListData.clear();
         mListData.addAll(listData);
-        notifyDataSetChanged();
     }
 
     @NonNull
