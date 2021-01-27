@@ -1,7 +1,5 @@
 package com.didi.carmate.dreambox.core.v4.base;
 
-import android.widget.Toast;
-
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.RestrictTo;
@@ -303,13 +301,8 @@ public abstract class DBNode implements IDBNode {
                 if (keys[0].equals(DBConstants.DATA_EXT_PREFIX)) {
                     JsonObject ext = mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX);
                     if (null == ext) {
-                        Wrapper.get(mDBContext.getAccessKey()).log().e("[ext] node is empty, but use it in: [" + rawKey + "]");
-                        if (Wrapper.getInstance().debug) {
-                            return rawKey;
-                        } else {
-                            reportParserDataFail();
-                            return "";
-                        }
+                        // 外部数据因为可以异步设置，空是正常逻辑
+                        return "";
                     }
 
                     if (keys.length == 2) {
@@ -354,11 +347,11 @@ public abstract class DBNode implements IDBNode {
                     return jsonPrimitive.getAsString();
                 } else {
                     if (Wrapper.getInstance().debug) {
-                        return rawKey;
+                        Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
                     } else {
                         reportParserDataFail();
-                        return "";
                     }
+                    return "";
                 }
             }
         }
@@ -723,12 +716,11 @@ public abstract class DBNode implements IDBNode {
             } else {
                 if (Wrapper.getInstance().debug) {
                     String err = "[" + tmpKeys.toString() + "]" + " must be a [JsonObject] in json data";
-                    Toast.makeText(mDBContext.getContext(), err, Toast.LENGTH_SHORT).show();
-//                    throw new IllegalArgumentException("[" + tmpKeys.toString() + "]" + " must be a [JsonObject] in json data");
+                    Wrapper.get(mDBContext.getAccessKey()).log().e(err);
                 } else {
                     reportParserDataFail();
-                    return null;
                 }
+                return null;
             }
             i++;
         }
