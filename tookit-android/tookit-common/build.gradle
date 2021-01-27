@@ -38,7 +38,7 @@ dependencies {
 
     if (!project.hasProperty('USE_AAR') || project.USE_AAR) {
         println 'compile method: DreamBox aar'
-        api 'com.didiglobal.dreambox:dreambox-v4:0.4.4'
+        api 'com.didiglobal.dreambox:dreambox-v4:0.4.4.7'
     }else{
         println 'compile method: DreamBox source code'
         api(project(':shell'))
