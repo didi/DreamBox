@@ -41,6 +41,10 @@ dependencies {
         api 'com.didiglobal.dreambox:dreambox-v4:0.4.4.7'
     }else{
         println 'compile method: DreamBox source code'
-        api(project(':shell'))
+
+        api project(':shell')
+        api project(':wrapper')
+        api project(':simple-wrapper')
+        api project(':core')
     }
 }

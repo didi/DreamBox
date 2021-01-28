@@ -454,6 +454,10 @@ public abstract class DBNode implements IDBNode {
      * 根据给定的key从给定的字典数据源里拿String数据
      */
     protected boolean getBoolean(String rawKey, JsonObject dict) {
+        if (DBUtils.isEmpty(rawKey)) {
+            return false;
+        }
+
         if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
             String variable = rawKey.substring(2, rawKey.length() - 1);
 

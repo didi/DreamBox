@@ -42,6 +42,8 @@ public class DBList extends DBBaseView<DBListView> {
     private List<JsonObject> src;
     private int hSpace;
     private int vSpace;
+    private int edgeStart;
+    private int edgeEnd;
     private boolean pullRefresh;
     private boolean loadMore;
     // private int pageIndex;
@@ -55,6 +57,7 @@ public class DBList extends DBBaseView<DBListView> {
 
     public interface OnScrollListener {
         void onFirstBind(@NonNull RecyclerView view, @NonNull String templateId);
+
         void onScrolled(@NonNull RecyclerView view, @NonNull String templateId);
     }
 
@@ -117,6 +120,8 @@ public class DBList extends DBBaseView<DBListView> {
         src = getJsonObjectList(attrs.get("src"));
         hSpace = DBScreenUtils.processSize(mDBContext, attrs.get("hSpace"), 0);
         vSpace = DBScreenUtils.processSize(mDBContext, attrs.get("vSpace"), 0);
+        edgeStart = DBScreenUtils.processSize(mDBContext, attrs.get("edgeStart"), 0);
+        edgeEnd = DBScreenUtils.processSize(mDBContext, attrs.get("edgeEnd"), 0);
 
         final DBListView nativeView = (DBListView) mNativeView;
         if (pullRefresh || loadMore) {
@@ -212,10 +217,10 @@ public class DBList extends DBBaseView<DBListView> {
         LinearLayoutManager managerVertical = new LinearLayoutManager(mDBContext.getContext());
         if (orientation.equals(DBConstants.LIST_ORIENTATION_H)) {
             managerVertical.setOrientation(LinearLayoutManager.HORIZONTAL);
-            nativeView.addItemDecoration(new DBSpaceItemDecoration(hSpace, DBSpaceItemDecoration.HORIZONTAL));
+            nativeView.addItemDecoration(new DBSpaceItemDecoration(hSpace, DBSpaceItemDecoration.HORIZONTAL, edgeStart, edgeEnd));
         } else {
             managerVertical.setOrientation(LinearLayoutManager.VERTICAL);
-            nativeView.addItemDecoration(new DBSpaceItemDecoration(vSpace, DBSpaceItemDecoration.VERTICAL));
+            nativeView.addItemDecoration(new DBSpaceItemDecoration(vSpace, DBSpaceItemDecoration.VERTICAL, edgeStart, edgeEnd));
         }
         nativeView.setLayoutManager(managerVertical);
 
