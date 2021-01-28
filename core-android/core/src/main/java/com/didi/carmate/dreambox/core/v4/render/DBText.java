@@ -91,7 +91,6 @@ public class DBText<T extends TextView> extends DBBaseText<T> {
             } else {
                 paintFlags &= ~Paint.UNDERLINE_TEXT_FLAG;
             }
-            getNativeView().getPaint().setStrikeThruText();
             getNativeView().setPaintFlags(paintFlags);
         }
         // minWidth
