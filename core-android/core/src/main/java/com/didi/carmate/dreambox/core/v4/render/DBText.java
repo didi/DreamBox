@@ -2,6 +2,7 @@ package com.didi.carmate.dreambox.core.v4.render;
 
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
@@ -66,7 +67,7 @@ public class DBText<T extends TextView> extends DBBaseText<T> {
         }
         // style
         if (!DBUtils.isEmpty(style)) {
-            getNativeView().getPaint().setFlags(0);  // 取消设置的的划线
+            int paintFlags = getNativeView().getPaintFlags();
             switch (style) {
                 case DBConstants.STYLE_TXT_NORMAL:
                     getNativeView().setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
@@ -77,13 +78,21 @@ public class DBText<T extends TextView> extends DBBaseText<T> {
                 case DBConstants.STYLE_TXT_ITALIC:
                     getNativeView().setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));
                     break;
-                case DBConstants.STYLE_TXT_STRIKE:
-                    getNativeView().getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); //中划线
-                    break;
-                case DBConstants.STYLE_TXT_UNDERLINE:
-                    getNativeView().getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
-                    break;
             }
+            if (TextUtils.equals(style, DBConstants.STYLE_TXT_STRIKE)) {
+                //中划线
+                paintFlags |= Paint.STRIKE_THRU_TEXT_FLAG;
+            } else {
+                paintFlags &= ~Paint.STRIKE_THRU_TEXT_FLAG;
+            }
+            if (TextUtils.equals(style, DBConstants.STYLE_TXT_UNDERLINE)) {
+                //下划线
+                paintFlags |= Paint.UNDERLINE_TEXT_FLAG;
+            } else {
+                paintFlags &= ~Paint.UNDERLINE_TEXT_FLAG;
+            }
+            getNativeView().getPaint().setStrikeThruText();
+            getNativeView().setPaintFlags(paintFlags);
         }
         // minWidth
         if (minWidth != 0) {
