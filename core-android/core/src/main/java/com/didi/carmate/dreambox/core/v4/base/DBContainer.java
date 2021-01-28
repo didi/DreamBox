@@ -78,7 +78,7 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
 
             doBind(mNativeView, bindAttrOnly, position);
             ViewGroup.LayoutParams layoutParams = mNativeView.getLayoutParams();
-            layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+            layoutParams.width = width;
             layoutParams.height = height;
             mNativeView.setLayoutParams(layoutParams);
         } else if (id != DBConstants.DEFAULT_ID_VIEW && null != container && null != container.findViewById(id)) {

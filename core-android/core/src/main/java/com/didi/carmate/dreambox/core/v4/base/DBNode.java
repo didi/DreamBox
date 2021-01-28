@@ -728,7 +728,7 @@ public abstract class DBNode implements IDBNode {
             }
             i++;
         }
-        if (jsonObject == null) {
+        if (jsonObject == null || !(jsonObject.isJsonArray())) {
             return null;
         }
         return jsonObject.getAsJsonArray(lastKey);
