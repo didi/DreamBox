@@ -3,8 +3,8 @@ package com.didi.carmate.dreambox.core.v4.data;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * author: chenjing
@@ -17,7 +17,7 @@ public class DBDataPool {
     private final IDBData<JsonObject> dictDataPool = new DBData<>(); // 字典类型数据池
     private final IDBData<JsonArray> dictArrayDataPool = new DBData<>(); // 字典数组数据池
 
-    private final List<DBData.IDataObserver> observerList = new ArrayList<>();
+    private final List<DBData.IDataObserver> observerList = new CopyOnWriteArrayList<>();
 
     public DBDataPool() {
         // 接收任何key值变化产生的事件
