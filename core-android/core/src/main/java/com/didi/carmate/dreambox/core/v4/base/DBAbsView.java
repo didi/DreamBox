@@ -77,7 +77,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     protected int paddingRight;
 
     protected int borderWidth;
-    protected int borderColor;
+    protected String borderColor;
 
     protected int layoutGravity;
     protected int gravity;
@@ -140,6 +140,9 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         paddingTop = DBScreenUtils.processSize(mDBContext, attrs.get("paddingTop"), DBConstants.DEFAULT_SIZE_EDGE);
         paddingRight = DBScreenUtils.processSize(mDBContext, attrs.get("paddingRight"), DBConstants.DEFAULT_SIZE_EDGE);
         paddingBottom = DBScreenUtils.processSize(mDBContext, attrs.get("paddingBottom"), DBConstants.DEFAULT_SIZE_EDGE);
+
+        borderWidth = DBScreenUtils.processSize(mDBContext, attrs.get("borderWidth"), DBConstants.DEFAULT_SIZE_EDGE);
+        borderColor = attrs.get("borderColor");
 
         // 宽高
         width = DBConstants.DEFAULT_SIZE_WIDTH;

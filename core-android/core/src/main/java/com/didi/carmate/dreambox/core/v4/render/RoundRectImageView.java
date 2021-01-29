@@ -46,12 +46,13 @@ public class RoundRectImageView extends AppCompatImageView {
         };
     }
 
-    public void setBorder(int border, int color) {
+    public void setBorderWidth(int border) {
         this.border = border;
-        if (color > 0){
-            boarderPaint.setColor(color);
-        }
         boarderPaint.setStrokeWidth(border);
+    }
+
+    public void setBorderColor(int color) {
+        boarderPaint.setColor(color);
     }
 
     public void setRadius(int radius) {

@@ -1,6 +1,7 @@
 package com.didi.carmate.dreambox.core.v4.render;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -142,8 +143,11 @@ public class DBImage<T extends View> extends DBBaseView<T> {
             } else {
                 imageView.setRoundRadius(radiusLT, radiusRT, radiusRB, radiusLB);
             }
+            if (DBUtils.isColor(borderColor)) {
+                imageView.setBorderColor(Color.parseColor(borderColor));
+            }
             if (borderWidth > 0){
-                imageView.setBorder(borderWidth, borderColor);
+                imageView.setBorderWidth(borderWidth);
             }
             if (src.startsWith("http")) {
                 imageLoader.load(src, imageView);
