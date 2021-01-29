@@ -120,15 +120,10 @@ publishing {
     repositories {
         maven {
             name 'release'
-//            url 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
-//            credentials {
-//                username = properties.getProperty("oss.usr")
-//                password = properties.getProperty("oss.pwd")
-//            }
-            url properties.getProperty("release_repository_url")
+            url 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
             credentials {
-                username = properties.getProperty("username")
-                password = properties.getProperty("password")
+                username = properties.getProperty("oss.usr")
+                password = properties.getProperty("oss.pwd")
             }
         }
 
