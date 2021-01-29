@@ -4,6 +4,7 @@ import android.view.ViewGroup;
 
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 import com.didi.carmate.dreambox.core.v4.data.DBData;
 import com.didi.carmate.dreambox.core.v4.base.DBBaseView;
@@ -72,7 +73,7 @@ public class DBFlow extends DBBaseView<DBFlowLayout> {
     }
 
     @Override
-    protected void onDataChanged(final String key, final Map<String, String> attrs) {
+    protected void onDataChanged(final String key, final Map<String, String> attrs, final DBModel model) {
         mDBContext.observeDataPool(new DBData.IDataObserver() {
             @Override
             public void onDataChanged(String key) {
@@ -107,7 +108,6 @@ public class DBFlow extends DBBaseView<DBFlowLayout> {
             }
 
             // 子节点属性处理
-            mFlowCell.setData(data);
             mFlowCell.parserAttribute();
             // 子节点渲染处理
             mFlowCell.bindView(itemRoot, NODE_TYPE.NODE_TYPE_ADAPTER, false, data, position);

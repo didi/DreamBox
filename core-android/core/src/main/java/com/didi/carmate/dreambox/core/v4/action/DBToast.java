@@ -1,14 +1,12 @@
 package com.didi.carmate.dreambox.core.v4.action;
 
-import android.view.View;
-
 import com.didi.carmate.dreambox.core.v4.base.DBAction;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 import com.didi.carmate.dreambox.core.v4.utils.DBLogger;
 import com.didi.carmate.dreambox.wrapper.v4.Toast;
 import com.didi.carmate.dreambox.wrapper.v4.Wrapper;
-import com.google.gson.JsonObject;
 
 import java.util.Map;
 
@@ -27,14 +25,9 @@ public class DBToast extends DBAction {
     }
 
     @Override
-    protected void doInvoke(Map<String, String> attrs, View view) {
-        doInvoke(attrs, view, null);
-    }
-
-    @Override
-    protected void doInvoke(Map<String, String> attrs, View view, JsonObject data) {
-        final String src = null == data ? getString(attrs.get("src")) : getStringWithData(attrs.get("src"), data);
-        final boolean isLong = getBoolean(attrs.get("long"));
+    protected void doInvoke(Map<String, String> attrs, DBModel model) {
+        final String src = getString(attrs.get("src"), model);
+        final boolean isLong = getBoolean(attrs.get("long"), model);
 
         if (null == src) {
             DBLogger.e(mDBContext, "[src] is null.");

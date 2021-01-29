@@ -7,6 +7,7 @@ import androidx.annotation.CallSuper;
 
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.data.DBData;
 import com.didi.carmate.dreambox.core.v4.utils.DBLogger;
 import com.didi.carmate.dreambox.core.v4.utils.DBScreenUtils;
@@ -33,14 +34,14 @@ public abstract class DBBaseText<V extends TextView> extends DBBaseView<V> {
     }
 
     @Override
-    public void onAttributesBind(Map<String, String> attrs) {
-        super.onAttributesBind(attrs);
+    public void onAttributesBind(Map<String, String> attrs, DBModel model) {
+        super.onAttributesBind(attrs, model);
 
-        src = getString(attrs.get("src"));
-        String rawSizePool = getString(attrs.get("size"));
+        src = getString(attrs.get("src"), model);
+        String rawSizePool = getString(attrs.get("size"), model);
         size = DBScreenUtils.processSize(mDBContext, rawSizePool, DBConstants.DEFAULT_SIZE_TEXT);
-        color = getString(attrs.get("color"));
-        style = getString(attrs.get("style"));
+        color = getString(attrs.get("color"), model);
+        style = getString(attrs.get("style"), model);
         String rawEllipsize = attrs.get("ellipsize");
         if (null != rawEllipsize) {
             ellipsize = convertEllipsize(rawEllipsize);
@@ -52,13 +53,13 @@ public abstract class DBBaseText<V extends TextView> extends DBBaseView<V> {
     }
 
     @Override
-    protected void onDataChanged(final String key, final Map<String, String> attrs) {
+    protected void onDataChanged(final String key, final Map<String, String> attrs, final DBModel model) {
         mDBContext.observeDataPool(new DBData.IDataObserver() {
             @Override
             public void onDataChanged(String key) {
                 DBLogger.d(mDBContext, "key: " + key);
                 if (null != getNativeView()) {
-                    src = getString(attrs.get("src"));
+                    src = getString(attrs.get("src"), model);
                     getNativeView().setText(src);
                 }
             }

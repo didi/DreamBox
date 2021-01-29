@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
 import com.didi.carmate.dreambox.core.v4.base.DBContainer;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.render.view.DBYogaLayoutView;
 import com.facebook.yoga.YogaAlign;
 import com.facebook.yoga.YogaFlexDirection;
@@ -69,8 +70,8 @@ public class DBYogaLayout extends DBContainer<ViewGroup> {
     }
 
     @Override
-    protected void onAttributesBind(final Map<String, String> attrs) {
-        super.onAttributesBind(attrs);
+    protected void onAttributesBind(final Map<String, String> attrs, DBModel model) {
+        super.onAttributesBind(attrs, model);
 
         final DBYogaLayoutView yoga = (DBYogaLayoutView) mNativeView;
         if (null != flexDirection) {

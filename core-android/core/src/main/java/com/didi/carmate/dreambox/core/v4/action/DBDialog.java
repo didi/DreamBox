@@ -1,8 +1,7 @@
 package com.didi.carmate.dreambox.core.v4.action;
 
-import android.view.View;
-
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 import com.didi.carmate.dreambox.wrapper.v4.Dialog;
 import com.didi.carmate.dreambox.wrapper.v4.Wrapper;
@@ -24,11 +23,11 @@ public class DBDialog extends DBActionWithCallback {
     }
 
     @Override
-    protected void doInvoke(Map<String, String> attrs, View view) {
-        String title = getString(attrs.get("title"));
-        String msg = getString(attrs.get("msg"));
-        String positiveBtn = getString(attrs.get("positiveBtn"));
-        String negativeBtn = getString(attrs.get("negativeBtn"));
+    protected void doInvoke(Map<String, String> attrs, DBModel model) {
+        String title = getString(attrs.get("title"), model);
+        String msg = getString(attrs.get("msg"), model);
+        String positiveBtn = getString(attrs.get("positiveBtn"), model);
+        String negativeBtn = getString(attrs.get("negativeBtn"), model);
 
         Dialog dialog = Wrapper.get(mDBContext.getAccessKey()).dialog();
         Dialog.OnClickListener onPositive = new Dialog.OnClickListener() {

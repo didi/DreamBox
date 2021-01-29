@@ -1,9 +1,8 @@
 package com.didi.carmate.dreambox.core.v4.action;
 
-import android.view.View;
-
 import com.didi.carmate.dreambox.core.v4.base.DBAction;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 import com.google.gson.JsonObject;
 
@@ -48,12 +47,11 @@ public class DBInvoke extends DBAction {
     }
 
     @Override
-    protected void doInvoke(Map<String, String> attrs, View view) {
-        JsonObject jsonObject = getJsonObject(attrs.get("src"));
+    protected void doInvoke(Map<String, String> attrs, DBModel model) {
+        JsonObject jsonObject = getJsonObject(attrs.get("src"), model);
 
         if (null != aliasItem) {
-            aliasItem.setData(jsonObject); // 将数据源给到子元素
-            aliasItem.doInvoke(); // 实时获取子元素自身的数据，同时和上面的数据源做merge
+            aliasItem.doInvoke(model, jsonObject); // 实时获取子元素自身的数据，同时和上面的数据源做merge
         }
     }
 

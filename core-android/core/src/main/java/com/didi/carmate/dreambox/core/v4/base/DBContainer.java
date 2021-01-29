@@ -7,10 +7,8 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.CallSuper;
 
-import com.didi.carmate.dreambox.core.v4.R;
 import com.didi.carmate.dreambox.core.v4.render.IDBContainer;
 import com.didi.carmate.dreambox.core.v4.render.IDBRender;
-import com.didi.carmate.dreambox.core.v4.utils.DBLogger;
 import com.facebook.yoga.YogaDisplay;
 import com.facebook.yoga.android.YogaLayout;
 import com.google.gson.JsonObject;
@@ -73,43 +71,54 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
     public void bindView(ViewGroup container, NODE_TYPE nodeType, boolean bindAttrOnly, JsonObject data, int position) {
         if (nodeType == NODE_TYPE.NODE_TYPE_ADAPTER) {
             mNativeView = container; // 将每次的view对象赋值给容器节点，容器节点在adapter模式下公用的
-            mNativeView.setTag(R.id.tag_key_item_data, data);
-            mViews.put(position, mNativeView);
+            DBModel model = getModel(position);
+            model.setData(data);
+            model.setView(mNativeView);
 
-            doBind(mNativeView, bindAttrOnly, position);
+            doBind(model, bindAttrOnly);
             ViewGroup.LayoutParams layoutParams = mNativeView.getLayoutParams();
             layoutParams.width = width;
             layoutParams.height = height;
             mNativeView.setLayoutParams(layoutParams);
-        } else if (id != DBConstants.DEFAULT_ID_VIEW && null != container && null != container.findViewById(id)) {
-            mNativeView = container.findViewById(id);
-            mNativeView.setTag(R.id.tag_key_item_data, data);
-            mViews.put(position, mNativeView);
-
-            doBind(mNativeView, bindAttrOnly, position);
-
-            setContainerDisplay(mNativeView);
-            if ((container instanceof YogaLayout) && !(mNativeView instanceof YogaLayout)) {
-                ((YogaLayout) container).invalidate(mNativeView);
-            }
         } else if (nodeType == NODE_TYPE.NODE_TYPE_NORMAL) {
-            mNativeView = onCreateView(); // 回调子类View实现
-            mNativeView.setTag(R.id.tag_key_item_data, data);
-            mViews.put(position, mNativeView);
+            DBModel model = getModel(position);
 
-            doBind(mNativeView, bindAttrOnly, position);
-            addToParent(mNativeView, container);
+            // 取当前ViewID
+            int _id = DBConstants.DEFAULT_ID_VIEW;
+            String rawId = getAttrs().get(DBConstants.UI_ID);
+            if (null != rawId) {
+                _id = Integer.parseInt(rawId);
+            }
+
+            if (_id != DBConstants.DEFAULT_ID_VIEW && null != container && null != container.findViewById(_id)) {
+                mNativeView = container.findViewById(_id);
+                model.setView(mNativeView);
+                model.setData(data);
+
+                doBind(model, bindAttrOnly);
+                setContainerDisplay(mNativeView);
+                if ((container instanceof YogaLayout) && !(mNativeView instanceof YogaLayout)) {
+                    ((YogaLayout) container).invalidate(mNativeView);
+                }
+            } else {
+                mNativeView = onCreateView(); // 回调子类View实现
+                model.setId(bindId(mNativeView));
+                model.setView(mNativeView);
+                model.setData(data);
+
+                doBind(model, bindAttrOnly);
+                addToParent(mNativeView, container);
+            }
         } else if (nodeType == NODE_TYPE.NODE_TYPE_ROOT) {
             mNativeView = onCreateView();
-            mNativeView.setId(DBConstants.DEFAULT_ID_ROOT);
-            mNativeView.setTag(R.id.tag_key_item_data, data);
-            mViews.put(position, mNativeView);
+            DBModel model = getModel(position);
+            model.setId(DBConstants.DEFAULT_ID_ROOT);
+            model.setView(mNativeView);
+            model.setData(data);
 
-            doBind(mNativeView, bindAttrOnly, position);
+            doBind(model, bindAttrOnly);
             // 根容器宽高DSL里定义的优先
             mNativeView.setLayoutParams(new ViewGroup.LayoutParams(width, height));
-        } else {
-            DBLogger.e(mDBContext, "DBContainer::bindView, should not go here!");
         }
 
         // 递归子节点的bindView
@@ -122,22 +131,35 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
         }
     }
 
-    private void doBind(View nativeView, boolean bindAttrOnly, int position) {
+    private DBModel getModel(int position) {
+        DBModel model = mModels.get(position);
+        if (null == model) {
+            model = new DBModel();
+            mModels.put(position, model);
+        }
+        return model;
+    }
+
+    private int bindId(View nativeView) {
+        // id
+        String rawId = getAttrs().get(DBConstants.UI_ID);
+        if (null != rawId) {
+            id = Integer.parseInt(rawId);
+            nativeView.setId(id);
+        }
+        return id;
+    }
+
+    private void doBind(DBModel model, boolean bindAttrOnly) {
         if (!bindAttrOnly) {
-            // id
-            String rawId = getAttrs().get(DBConstants.UI_ID);
-            if (null != rawId) {
-                id = Integer.parseInt(rawId);
-                nativeView.setId(id);
-            }
             // layout 相关属性
             onParseLayoutAttr(getAttrs());
         }
         // 绑定视图属性
-        onAttributesBind(getAttrs());
+        onAttributesBind(getAttrs(), model);
         // 绑定视图回调事件
         if (mCallbacks.size() > 0) {
-            onCallbackBind(mCallbacks, position);
+            onCallbackBind(mCallbacks, model);
         }
     }
 
@@ -173,7 +195,7 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
         }
     }
 
-    private void setContainerDisplay(View nativeView){
+    private void setContainerDisplay(View nativeView) {
         if (nativeView instanceof YogaLayout) {
             if (nativeView.getVisibility() == View.GONE) {
                 ((YogaLayout) nativeView).getYogaNode().setDisplay(YogaDisplay.NONE);
@@ -184,8 +206,9 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
     }
 
     @Override
-    protected void onAttributesBind(final Map<String, String> attrs) {
-        super.onAttributesBind(attrs);
+    protected void onAttributesBind(final Map<String, String> attrs, DBModel model) {
+        super.onAttributesBind(attrs, model);
+
         if (padding > 0) {
             mNativeView.setPadding(padding, padding, padding, padding);
         } else {
@@ -194,7 +217,7 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
     }
 
     @CallSuper
-    protected void onCallbackBind(List<DBCallback> callbacks, final int position) {
+    protected void onCallbackBind(List<DBCallback> callbacks, final DBModel model) {
         for (final DBCallback callback : callbacks) {
             if ("onClick".equals(callback.getTagName())) {
                 mNativeView.setOnClickListener(new View.OnClickListener() {
@@ -202,7 +225,7 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
                     public void onClick(View v) {
                         List<DBAction> actions = callback.getActionNodes();
                         for (DBAction action : actions) {
-                            action.invoke(mViews.get(position));
+                            action.invoke(model);
                         }
                     }
                 });

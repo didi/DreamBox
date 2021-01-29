@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 import com.didi.carmate.dreambox.core.v4.data.DBData;
 import com.didi.carmate.dreambox.core.v4.utils.DBLogger;
@@ -40,7 +41,7 @@ public class DBImage<T extends View> extends DBBaseView<T> {
     public void onParserAttribute(Map<String, String> attrs) {
         super.onParserAttribute(attrs);
 
-        srcType = getString(attrs.get("srcType"));
+        srcType = getString(attrs.get("srcType"), null);
     }
 
     @Override
@@ -55,11 +56,11 @@ public class DBImage<T extends View> extends DBBaseView<T> {
     }
 
     @Override
-    public void onAttributesBind(Map<String, String> attrs) {
-        super.onAttributesBind(attrs);
+    public void onAttributesBind(Map<String, String> attrs, DBModel model) {
+        super.onAttributesBind(attrs, model);
 
-        src = getString(attrs.get("src"));
-        scaleType = getString(attrs.get("scaleType"));
+        src = getString(attrs.get("src"), model);
+        scaleType = getString(attrs.get("scaleType"), model);
         maxWidth = DBScreenUtils.processSize(mDBContext, attrs.get("maxWidth"), 0);
         maxHeight = DBScreenUtils.processSize(mDBContext, attrs.get("maxHeight"), 0);
 
@@ -68,12 +69,12 @@ public class DBImage<T extends View> extends DBBaseView<T> {
     }
 
     @Override
-    protected void onDataChanged(final String key, final Map<String, String> attrs) {
+    protected void onDataChanged(final String key, final Map<String, String> attrs, final DBModel model) {
         mDBContext.observeDataPool(new DBData.IDataObserver() {
             @Override
             public void onDataChanged(String key) {
                 DBLogger.d(mDBContext, "key: " + key);
-                src = getString(attrs.get("src"));
+                src = getString(attrs.get("src"), model);
                 loadImage(getNativeView());
             }
 

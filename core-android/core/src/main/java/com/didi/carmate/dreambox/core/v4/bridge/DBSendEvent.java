@@ -1,12 +1,11 @@
 package com.didi.carmate.dreambox.core.v4.bridge;
 
-import android.view.View;
-
 import com.didi.carmate.dreambox.core.v4.action.DBActionWithCallback;
 import com.didi.carmate.dreambox.core.v4.action.IDBAction;
 import com.didi.carmate.dreambox.core.v4.base.DBAction;
 import com.didi.carmate.dreambox.core.v4.base.DBCallbacks;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.IDBNode;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 
@@ -50,7 +49,7 @@ public class DBSendEvent extends DBActionWithCallback {
     }
 
     @Override
-    protected void doInvoke(Map<String, String> attrs, View view) {
+    protected void doInvoke(Map<String, String> attrs, DBModel model) {
         String eid = attrs.get("eid");
 
         DBBridgeHandler bridgeHandler = mDBContext.getBridgeHandler();

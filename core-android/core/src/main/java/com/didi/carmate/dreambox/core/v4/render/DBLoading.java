@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.didi.carmate.dreambox.core.v4.R;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
 import com.didi.carmate.dreambox.core.v4.base.DBBaseView;
@@ -43,8 +44,8 @@ public class DBLoading extends DBBaseView<View> {
     }
 
     @Override
-    public void onAttributesBind(Map<String, String> attrs) {
-        super.onAttributesBind(attrs);
+    public void onAttributesBind(Map<String, String> attrs, DBModel model) {
+        super.onAttributesBind(attrs, model);
 
         doRender();
     }

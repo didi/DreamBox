@@ -9,9 +9,11 @@ import android.widget.TextView;
 
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 import com.didi.carmate.dreambox.core.v4.utils.DBScreenUtils;
 import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
+import com.google.gson.JsonObject;
 
 import java.util.Map;
 
@@ -38,8 +40,8 @@ public class DBText<T extends TextView> extends DBBaseText<T> {
     }
 
     @Override
-    public void onAttributesBind(Map<String, String> attrs) {
-        super.onAttributesBind(attrs);
+    public void onAttributesBind(Map<String, String> attrs, DBModel model) {
+        super.onAttributesBind(attrs, model);
 
         minWidth = DBScreenUtils.processSize(mDBContext, attrs.get("minWidth"), 0);
         maxWidth = DBScreenUtils.processSize(mDBContext, attrs.get("maxWidth"), 0);

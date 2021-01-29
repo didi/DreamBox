@@ -1,9 +1,8 @@
 package com.didi.carmate.dreambox.core.v4.action;
 
-import android.view.View;
-
 import com.didi.carmate.dreambox.core.v4.base.DBAction;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 import com.didi.carmate.dreambox.core.v4.utils.DBLogger;
 import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
@@ -27,8 +26,8 @@ public class DBNav extends DBAction {
     }
 
     @Override
-    protected void doInvoke(Map<String, String> attrs, View view) {
-        String schema = getString(attrs.get("schema"));
+    protected void doInvoke(Map<String, String> attrs, DBModel model) {
+        String schema = getString(attrs.get("schema"),model);
 
         if (DBUtils.isEmpty(schema)) {
             DBLogger.e(mDBContext, "[schema] is null.");

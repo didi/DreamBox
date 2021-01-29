@@ -1,6 +1,6 @@
 package com.didi.carmate.dreambox.core.v4.action;
 
-import android.view.View;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 
 /**
  * author: chenjing
@@ -11,8 +11,9 @@ public interface IDBAction {
      * 执行某个节点
      */
     void invoke();
+
     /**
      * 执行某个节点
      */
-    void invoke(View view);
+    void invoke(DBModel model);
 }

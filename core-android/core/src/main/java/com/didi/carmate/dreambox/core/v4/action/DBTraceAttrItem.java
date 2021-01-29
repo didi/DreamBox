@@ -1,6 +1,7 @@
 package com.didi.carmate.dreambox.core.v4.action;
 
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.DBNode;
 import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
 
@@ -26,11 +27,11 @@ public class DBTraceAttrItem extends DBNode {
         this.attrs = attrs;
     }
 
-    public void doInvoke() {
+    public void doInvoke(DBModel model) {
         key = attrs.get("key");
-        value = getString(attrs.get("value"));
+        value = getString(attrs.get("value"), model);
         if (DBUtils.isEmpty(value)) {
-            value = String.valueOf(getInt(attrs.get("value")));
+            value = String.valueOf(getInt(attrs.get("value"), model));
         }
     }
 

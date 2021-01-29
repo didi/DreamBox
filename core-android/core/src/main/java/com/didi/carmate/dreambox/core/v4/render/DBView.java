@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 import com.didi.carmate.dreambox.core.v4.utils.DBScreenUtils;
 import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
@@ -41,8 +42,8 @@ public class DBView<T extends DBRichView> extends DBBaseView<T> {
     }
 
     @Override
-    public void onAttributesBind(Map<String, String> attrs) {
-        super.onAttributesBind(attrs);
+    public void onAttributesBind(Map<String, String> attrs, DBModel model) {
+        super.onAttributesBind(attrs, model);
 
         shape = attrs.get("shape");
         radius = DBScreenUtils.processSize(mDBContext, attrs.get("radius"), 0);
@@ -51,9 +52,9 @@ public class DBView<T extends DBRichView> extends DBBaseView<T> {
         radiusRB = DBScreenUtils.processSize(mDBContext, attrs.get("radiusRB"), 0);
         radiusLB = DBScreenUtils.processSize(mDBContext, attrs.get("radiusLB"), 0);
         borderWidth = DBScreenUtils.processSize(mDBContext, attrs.get("borderWidth"), 0);
-        borderColor = getString(attrs.get("borderColor"));
-        gradientColor = getString(attrs.get("gradientColor"));
-        gradientOrientation = getString(attrs.get("gradientOrientation"));
+        borderColor = getString(attrs.get("borderColor"), model);
+        gradientColor = getString(attrs.get("gradientColor"), model);
+        gradientOrientation = getString(attrs.get("gradientOrientation"), model);
 
         doRender(getNativeView());
     }

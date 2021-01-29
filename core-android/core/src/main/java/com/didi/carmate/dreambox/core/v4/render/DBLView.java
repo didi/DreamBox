@@ -10,6 +10,7 @@ import com.didi.carmate.dreambox.core.v4.base.DBCallback;
 import com.didi.carmate.dreambox.core.v4.base.DBCallbacks;
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.DBNode;
 import com.didi.carmate.dreambox.core.v4.base.IDBCoreView;
 import com.didi.carmate.dreambox.core.v4.base.IDBNode;
@@ -109,7 +110,7 @@ public class DBLView extends DBNode {
 
     public void bindData() {
         mDBRender.parserAttribute(); // 视图节点部分属性放到此生命周期里解析，需要重新执行一遍
-        mDBRender.bindView(mDBRootView, NODE_TYPE_ROOT, true);
+        mDBRender.bindView(mDBRootView, NODE_TYPE_ROOT, false); // 这里尝试设置为false
     }
 
     @Override
@@ -187,7 +188,7 @@ public class DBLView extends DBNode {
         }
 
         // dismissOn
-        if (null == dismissOn || getBoolean(dismissOn)) {
+        if (null == dismissOn || getBoolean(dismissOn, new DBModel())) {
             view.setVisibility(View.VISIBLE);
         } else {
             view.setVisibility(View.INVISIBLE);
@@ -200,7 +201,7 @@ public class DBLView extends DBNode {
                 public void onDataChanged(String key) {
                     DBLogger.d(mDBContext, "key: " + key);
                     if (null != mDBCoreView) {
-                        mDBCoreView.getView().setVisibility(getBoolean(dismissOn) ? View.GONE : View.VISIBLE);
+                        mDBCoreView.getView().setVisibility(getBoolean(dismissOn, new DBModel()) ? View.GONE : View.VISIBLE);
                     }
                 }
 

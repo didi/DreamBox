@@ -2,6 +2,7 @@ package com.didi.carmate.dreambox.core.v4.action;
 
 import com.didi.carmate.dreambox.core.v4.base.DBAction;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.DBNode;
 import com.didi.carmate.dreambox.core.v4.base.IDBNode;
 import com.google.gson.JsonObject;
@@ -48,11 +49,11 @@ public class DBActionAliasItem extends DBNode {
         }
     }
 
-    public void doInvoke() {
-        JsonObject srcJsonObject = getJsonObject(attrs.get("src"));
+    public void doInvoke(DBModel model, JsonObject parentData) {
+        JsonObject srcJsonObject = getJsonObject(attrs.get("src"), model);
         // invoke 的[src]属性拥有更高的优先级，key相同时覆盖此节点数据
-        if (null != srcJsonObject && null != getData()) {
-            setActionsData(combineJson(srcJsonObject, getData()));
+        if (null != srcJsonObject && null != model.getData()) {
+            setActionsData(combineJson(srcJsonObject, parentData));
         } else if (null != srcJsonObject) {
             setActionsData(srcJsonObject);
         }
@@ -80,7 +81,7 @@ public class DBActionAliasItem extends DBNode {
 
     private void setActionsData(JsonObject data) {
         for (DBAction action : mActionNodes) {
-            action.setData(data); // 将invoke[src]设置到action
+//            action.setData(data); // 将invoke[src]设置到action
         }
     }
 

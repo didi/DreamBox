@@ -2,8 +2,6 @@ package com.didi.carmate.dreambox.core.v4.base;
 
 import androidx.annotation.RestrictTo;
 
-import com.google.gson.JsonObject;
-
 import java.util.List;
 import java.util.Map;
 
@@ -67,16 +65,6 @@ public interface IDBNode {
      * 节点预处理完成后调用
      */
     void finishParserNode();
-
-    /**
-     * 设置数据对象
-     */
-    void setData(JsonObject jsonObject);
-
-    /**
-     * 获取数据对象
-     */
-    JsonObject getData();
 
     /**
      * 节点相关资源释放和清理

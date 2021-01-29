@@ -1,16 +1,14 @@
 package com.didi.carmate.dreambox.core.v4.action;
 
-import android.view.View;
-
 import com.didi.carmate.dreambox.core.v4.base.DBAction;
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 import com.didi.carmate.dreambox.core.v4.utils.DBLogger;
 import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
 import com.didi.carmate.dreambox.wrapper.v4.Log;
 import com.didi.carmate.dreambox.wrapper.v4.Wrapper;
-import com.google.gson.JsonObject;
 
 import java.util.Map;
 
@@ -29,15 +27,10 @@ public class DBLog extends DBAction {
     }
 
     @Override
-    protected void doInvoke(Map<String, String> attrs, View view) {
-        doInvoke(attrs, view, null);
-    }
-
-    @Override
-    protected void doInvoke(Map<String, String> attrs, View view, JsonObject data) {
+    protected void doInvoke(Map<String, String> attrs, DBModel model) {
         String level = attrs.get("level");
         String tag = attrs.get("tag");
-        String msg = getString(attrs.get("msg"));
+        String msg = getString(attrs.get("msg"), model);
 
         if (DBUtils.isEmpty(level)) {
             DBLogger.e(mDBContext, "[level] is null");

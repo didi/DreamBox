@@ -1,9 +1,8 @@
 package com.didi.carmate.dreambox.core.v4.action;
 
-import android.view.View;
-
 import com.didi.carmate.dreambox.core.v4.base.DBAction;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.IDBNode;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 import com.didi.carmate.dreambox.wrapper.v4.Wrapper;
@@ -42,7 +41,7 @@ public class DBTrace extends DBAction {
     }
 
     @Override
-    public void doInvoke(Map<String, String> attrs, View view) {
+    public void doInvoke(Map<String, String> attrs, DBModel model) {
         String key = attrs.get("key");
 
         WrapperTrace trace = Wrapper.get(mDBContext.getAccessKey()).trace();
@@ -52,12 +51,11 @@ public class DBTrace extends DBAction {
         if (attrItems.size() > 0) {
             for (int i = 0; i < attrItems.size(); i++) {
                 DBTraceAttrItem attrItem = attrItems.get(i);
-                attrItem.setData(getData()); // 将数据节点透传给子节点
-                attrItem.doInvoke();
+                attrItem.doInvoke(model);
                 traceAdder.add(attrItem.getKey(), attrItem.getValue());
             }
         } else { // 单个attr
-            traceAttr.doInvoke();
+            traceAttr.doInvoke(model);
             DBTraceAttrItem attrItem = traceAttr.getAttrItem();
             traceAdder.add(attrItem.getKey(), attrItem.getValue());
         }

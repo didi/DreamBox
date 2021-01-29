@@ -6,6 +6,7 @@ import android.graphics.drawable.shapes.RoundRectShape;
 
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 import com.didi.carmate.dreambox.core.v4.utils.DBScreenUtils;
 import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
@@ -37,8 +38,8 @@ public class DBProgress extends DBBaseView<DBProgressView> {
     public void onParserAttribute(Map<String, String> attrs) {
         super.onParserAttribute(attrs);
 
-        barBgColor = getString(attrs.get("barBgColor"));
-        barFgColor = getString(attrs.get("barFgColor"));
+        barBgColor = getString(attrs.get("barBgColor"), null);
+        barFgColor = getString(attrs.get("barFgColor"), null);
         patchType = attrs.get("patchType");
         if (!(DBConstants.STYLE_PATCH_TYPE_STRETCH.equals(patchType))
                 && !(DBConstants.STYLE_PATCH_TYPE_REPEAT.equals(patchType))) {
@@ -57,12 +58,12 @@ public class DBProgress extends DBBaseView<DBProgressView> {
     }
 
     @Override
-    public void onAttributesBind(Map<String, String> attrs) {
-        super.onAttributesBind(attrs);
+    public void onAttributesBind(Map<String, String> attrs, DBModel model) {
+        super.onAttributesBind(attrs, model);
 
-        value = getString(attrs.get("value"));
-        barBg = getString(attrs.get("barBg"));
-        barFg = getString(attrs.get("barFg"));
+        value = getString(attrs.get("value"), model);
+        barBg = getString(attrs.get("barBg"), model);
+        barFg = getString(attrs.get("barFg"), model);
 
         doRender();
     }

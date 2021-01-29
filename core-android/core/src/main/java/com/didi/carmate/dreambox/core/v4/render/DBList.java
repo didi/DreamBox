@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.didi.carmate.dreambox.core.v4.base.DBCallback;
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 import com.didi.carmate.dreambox.core.v4.data.DBData;
 import com.didi.carmate.dreambox.core.v4.render.view.list.DBSpaceItemDecoration;
@@ -88,8 +89,8 @@ public class DBList extends DBBaseView<DBListView> {
     }
 
     @Override
-    protected void onAttributesBind(Map<String, String> attrs) {
-        super.onAttributesBind(attrs);
+    protected void onAttributesBind(Map<String, String> attrs, DBModel model) {
+        super.onAttributesBind(attrs, model);
         // pullRefresh
         String rawPullRefresh = attrs.get("pullRefresh");
         if (DBUtils.isEmpty(rawPullRefresh)) {
@@ -139,8 +140,8 @@ public class DBList extends DBBaseView<DBListView> {
     }
 
     @Override
-    protected void onCallbackBind(final List<DBCallback> callbacks, int position) {
-        super.onCallbackBind(callbacks, position);
+    protected void onCallbackBind(final List<DBCallback> callbacks, DBModel model) {
+        super.onCallbackBind(callbacks, model);
 
         final DBListView nativeView = (DBListView) mNativeView;
         // 下拉动作事件触发
@@ -247,7 +248,7 @@ public class DBList extends DBBaseView<DBListView> {
     }
 
     @Override
-    protected void onDataChanged(final String key, final Map<String, String> attrs) {
+    protected void onDataChanged(final String key, final Map<String, String> attrs, DBModel model) {
         mDBContext.observeDataPool(new DBData.IDataObserver() {
             @Override
             public void onDataChanged(String key) {
@@ -303,7 +304,6 @@ public class DBList extends DBBaseView<DBListView> {
         public void onBindItemView(ViewGroup itemRoot, JsonObject data, int position) {
             if (null != mDBListVh) {
                 // 子节点属性处理
-                mDBListVh.setData(data);
                 mDBListVh.parserAttribute();
                 // 子节点渲染处理
                 mDBListVh.bindView(itemRoot, NODE_TYPE.NODE_TYPE_ADAPTER, false, data, position);

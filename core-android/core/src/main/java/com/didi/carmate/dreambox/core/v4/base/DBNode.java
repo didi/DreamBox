@@ -53,7 +53,6 @@ public abstract class DBNode implements IDBNode {
     private final Map<String, String> attrs = new HashMap<>();
     private IDBNode parent;
     private final List<IDBNode> children = new ArrayList<>();
-    private JsonObject data;
     private static final String ARR_TAG_START = "`";
     private static final String ARR_TAG_END = "``";
 
@@ -155,20 +154,6 @@ public abstract class DBNode implements IDBNode {
     }
 
     @Override
-    public void setData(JsonObject data) {
-        List<IDBNode> children = getChildren();
-        for (IDBNode child : children) {
-            child.setData(data);
-        }
-        this.data = data;
-    }
-
-    @Override
-    public JsonObject getData() {
-        return data;
-    }
-
-    @Override
     public void release() {
 
     }
@@ -176,7 +161,7 @@ public abstract class DBNode implements IDBNode {
     /**
      * 根据给定的key拿String数据
      */
-    protected String getString(String rawKey) {
+    protected String getString(String rawKey, DBModel model) {
         if (DBUtils.isEmpty(rawKey)) {
             return "";
         }
@@ -193,7 +178,11 @@ public abstract class DBNode implements IDBNode {
             }
         }
         for (int i = 0; i < variableList.size(); i++) {
-            rawKey = rawKey.replace(variableList.get(i), getSingleString(variableList.get(i)));
+            if (null == model || null == model.getData()) {
+                rawKey = rawKey.replace(variableList.get(i), getSingleString(variableList.get(i)));
+            } else {
+                rawKey = rawKey.replace(variableList.get(i), getSingleStringWithData(variableList.get(i), model.getData()));
+            }
         }
         return rawKey;
     }
@@ -270,11 +259,6 @@ public abstract class DBNode implements IDBNode {
 
     // 数组获取临时实现，待重构
     private String getSingleString(String rawKey) {
-        // 尝试从提供的数据源里拿
-        if (null != data) {
-            return getSingleStringWithData(rawKey, data);
-        }
-
         // 尝试从meta、global pool、ext里拿
         if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
             String variable = rawKey.substring(2, rawKey.length() - 1);
@@ -399,18 +383,21 @@ public abstract class DBNode implements IDBNode {
     /**
      * 根据给定的key拿boolean数据
      */
-    protected boolean getBoolean(String rawKey) {
+    protected boolean getBoolean(String rawKey, DBModel model) {
         if (DBUtils.isEmpty(rawKey)) {
             return false;
         }
 
         // 尝试从提供的数据源里拿
-        if (null != data) {
-            return getBoolean(rawKey, data);
+        if (null != model && null != model.getData()) {
+            return getBoolean(rawKey, model.getData());
         }
 
         // 尝试从meta、global pool、ext里拿
         if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
+            rawKey = rawKey.replace("[", ARR_TAG_START);
+            rawKey = rawKey.replace("]", ARR_TAG_END);
+
             String variable = rawKey.substring(2, rawKey.length() - 1);
 
             String[] keys = variable.split("\\.");
@@ -424,20 +411,23 @@ public abstract class DBNode implements IDBNode {
 
                 JsonPrimitive jsonPrimitive = null;
                 if (keys[0].equals(DBConstants.DATA_EXT_PREFIX)) {
-                    JsonObject ext = mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX);
-                    if (null == ext) {
+                    JsonObject extObj = mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX);
+                    if (null == extObj) {
                         Wrapper.get(mDBContext.getAccessKey()).log().e("[ext] node is empty, but use it in: [" + rawKey + "]");
                         return false;
                     }
                     if (keys.length == 2) {
-                        JsonElement extValue = ext.get(keys[1]);
+                        JsonElement extValue = extObj.get(keys[1]);
                         if (extValue.isJsonPrimitive()) {
                             jsonPrimitive = extValue.getAsJsonPrimitive();
                         }
                     } else {
                         String[] keysExt = new String[keys.length - 1];
                         System.arraycopy(keys, 1, keysExt, 0, keysExt.length);
-                        jsonPrimitive = getNestJsonPrimitive(keysExt, ext.getAsJsonObject(keysExt[0]));
+                        JsonElement element = getJsonElement(keysExt, extObj);
+                        if (element.isJsonPrimitive()) {
+                            jsonPrimitive = element.getAsJsonPrimitive();
+                        }
                     }
                 } else {
                     jsonPrimitive = getNestJsonPrimitive(keys, mDBContext.getJsonValue(keys[0]));
@@ -459,6 +449,9 @@ public abstract class DBNode implements IDBNode {
         }
 
         if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
+            rawKey = rawKey.replace("[", ARR_TAG_START);
+            rawKey = rawKey.replace("]", ARR_TAG_END);
+
             String variable = rawKey.substring(2, rawKey.length() - 1);
 
             String[] keys = variable.split("\\.");
@@ -478,7 +471,7 @@ public abstract class DBNode implements IDBNode {
     /**
      * 根据给定的key从data pool里拿int数据
      */
-    protected int getInt(String rawKey) {
+    protected int getInt(String rawKey, DBModel model) {
         if (DBUtils.isEmpty(rawKey)) {
             return -1;
         }
@@ -488,8 +481,8 @@ public abstract class DBNode implements IDBNode {
         }
 
         // 尝试从提供的数据源里拿
-        if (null != data) {
-            return getInt(rawKey, data);
+        if (null != model && null != model.getData()) {
+            return getInt(rawKey, model.getData());
         }
 
         // 尝试从meta、global pool、ext里拿
@@ -556,13 +549,13 @@ public abstract class DBNode implements IDBNode {
     /**
      * 根据给定的key从meta数据源里拿json对象
      */
-    protected JsonObject getJsonObject(String rawKey) {
+    protected JsonObject getJsonObject(String rawKey, DBModel model) {
         if (DBUtils.isEmpty(rawKey)) {
             return null;
         }
 
-        if (null != data) {
-            return getJsonObject(rawKey, data);
+        if (null != model && null != model.getData()) {
+            return getJsonObject(rawKey, model.getData());
         }
 
         rawKey = rawKey.replace("[", ARR_TAG_START);
@@ -634,13 +627,21 @@ public abstract class DBNode implements IDBNode {
         List<JsonObject> jsonObjects = new ArrayList<>();
 
         if (!DBUtils.isEmpty(rawKey) && rawKey.startsWith("${") && rawKey.endsWith("}")) {
-            JsonArray jsonArray;
+            rawKey = rawKey.replace("[", ARR_TAG_START);
+            rawKey = rawKey.replace("]", ARR_TAG_END);
+
+            JsonArray jsonArray = null;
             String variable = rawKey.substring(2, rawKey.length() - 1);
             String[] keys = variable.split("\\.");
             if (keys.length == 1) {
                 jsonArray = mDBContext.getJsonArray(variable);
             } else {
-                jsonArray = getNestJsonArray(keys, mDBContext.getJsonValue(keys[0]));
+                String[] keysExt = new String[keys.length - 1];
+                System.arraycopy(keys, 1, keysExt, 0, keysExt.length);
+                JsonElement element = getJsonElement(keysExt, mDBContext.getJsonValue(keys[0]));
+                if (element.isJsonArray()) {
+                    jsonArray = element.getAsJsonArray();
+                }
             }
             // 添加到数组
             if (jsonArray != null) {
@@ -821,6 +822,24 @@ public abstract class DBNode implements IDBNode {
             i++;
         }
         return jsonObject;
+    }
+
+    private JsonElement getJsonElement(String[] arrKeys, JsonObject sourceData) {
+        JsonElement jsonElement = sourceData;
+        int i = 0;
+        while (i < arrKeys.length) {
+            if (isJsonArrayKey(arrKeys[i])) {
+                JsonArrayKey jsonArrayKey = getJsonArrayKey(arrKeys[i]);
+                JsonElement tmpElement = jsonElement.getAsJsonObject().get(jsonArrayKey.key);
+                if (tmpElement.isJsonArray()) {
+                    jsonElement = tmpElement.getAsJsonArray().get(jsonArrayKey.pos);
+                }
+            } else {
+                jsonElement = jsonElement.getAsJsonObject().get(arrKeys[i]);
+            }
+            i++;
+        }
+        return jsonElement;
     }
 
     private void reportParserDataFail() {

@@ -44,7 +44,7 @@ import static com.didi.carmate.dreambox.core.v4.base.DBConstants.POSITION_TYPE_R
 public abstract class DBAbsView<V extends View> extends DBBindView {
     private final Map<String, Integer> mapGravity = new HashMap<>();
 
-    protected SparseArray<View> mViews = new SparseArray<>(); // 待优化，暂时用下标记住和数据源的映射关系
+    protected SparseArray<DBModel> mModels = new SparseArray<>(); // 待优化，数据源和位置的映射关系
     protected View mNativeView;
     // 通用属性
     protected int id = DBConstants.DEFAULT_ID_VIEW;
@@ -268,14 +268,14 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     }
 
     @CallSuper
-    protected void onAttributesBind(final Map<String, String> attrs) {
+    protected void onAttributesBind(final Map<String, String> attrs, final DBModel model) {
         // visibleOn
         final String rawVisibleOn = attrs.get("visibleOn");
         String visibleOn;
         if (null == rawVisibleOn) {
             visibleOn = "1";
         } else {
-            visibleOn = getString(rawVisibleOn);
+            visibleOn = getString(rawVisibleOn, model);
         }
         if ("-1".equals(visibleOn)) {
             mNativeView.setVisibility(View.GONE);
@@ -290,7 +290,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
                 public void onDataChanged(String key) {
                     DBLogger.d(mDBContext, "key: " + key);
                     if (null != mNativeView) {
-                        final String visibleOn = getString(rawVisibleOn);
+                        final String visibleOn = getString(rawVisibleOn, model);
                         DBThreadUtils.runOnMain(new Runnable() {
                             @Override
                             public void run() {
@@ -314,14 +314,14 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         }
 
         // background
-        background = getString(attrs.get("background"));
+        background = getString(attrs.get("background"), model);
         if (!DBUtils.isEmpty(background)) {
             Context context = mDBContext.getContext();
             int resId = context.getResources().getIdentifier(background, "drawable", context.getPackageName());
             mNativeView.setBackgroundResource(resId);
         }
         // backgroundColor
-        backgroundColor = getString(attrs.get("backgroundColor"));
+        backgroundColor = getString(attrs.get("backgroundColor"), model);
         if (DBUtils.isColor(backgroundColor)) {
             // 外矩形 左上、右上、右下、左下的圆角半径
             float[] outerRadiusAll = {radius, radius, radius, radius, radius, radius, radius, radius};
@@ -335,12 +335,12 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
             mNativeView.setBackground(bgDrawable);
         }
         // layoutGravity
-        String rawLayoutGravity = getString(attrs.get("layoutGravity"));
+        String rawLayoutGravity = getString(attrs.get("layoutGravity"), model);
         if (!DBUtils.isEmpty(rawLayoutGravity)) {
             layoutGravity = convertGravity(rawLayoutGravity);
         }
         // layoutGravity
-        String rawGravity = getString(attrs.get("gravity"));
+        String rawGravity = getString(attrs.get("gravity"), model);
         if (!DBUtils.isEmpty(rawGravity)) {
             gravity = convertGravity(rawGravity);
         }

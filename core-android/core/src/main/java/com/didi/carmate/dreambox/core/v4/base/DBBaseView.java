@@ -7,7 +7,6 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.CallSuper;
 
-import com.didi.carmate.dreambox.core.v4.R;
 import com.didi.carmate.dreambox.core.v4.action.IDBAction;
 import com.didi.carmate.dreambox.core.v4.render.DBChildren;
 import com.facebook.yoga.YogaDisplay;
@@ -63,48 +62,69 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
     @Override
     public void bindView(ViewGroup parentView, NODE_TYPE nodeType, boolean bindAttrOnly,
                          JsonObject data, int position) {
-        if (id != DBConstants.DEFAULT_ID_VIEW && null != parentView && null != parentView.findViewById(id)) {
-            mNativeView = parentView.findViewById(id);
-            mNativeView.setTag(R.id.tag_key_item_data, data);
-            mViews.put(position, mNativeView);
+        DBModel model = getModel(position);
 
-            doBind(mNativeView, bindAttrOnly, position);
+        // 取当前ViewID
+        int _id = DBConstants.DEFAULT_ID_VIEW;
+        String rawId = getAttrs().get(DBConstants.UI_ID);
+        if (null != rawId) {
+            _id = Integer.parseInt(rawId);
+        }
 
+        // 判断是否可以复用
+        if (_id != DBConstants.DEFAULT_ID_VIEW && null != parentView && null != parentView.findViewById(_id)) {
+            mNativeView = parentView.findViewById(_id);
+            model.setView(mNativeView);
+            model.setData(data);
+
+            doBind(model, bindAttrOnly);
             if ((parentView instanceof YogaLayout)) {
                 ((YogaLayout) parentView).invalidate(mNativeView);
             }
         } else {
             mNativeView = onCreateView(); // 回调子类View实现
-            mNativeView.setTag(R.id.tag_key_item_data, data);
-            mViews.put(position, mNativeView);
+            model.setId(bindId(mNativeView));
+            model.setView(mNativeView);
+            model.setData(data);
 
-            doBind(mNativeView, bindAttrOnly, position);
+            doBind(model, bindAttrOnly);
             addToParent(mNativeView, parentView);
         }
     }
 
-    private void doBind(View nativeView, boolean bindAttrOnly, int position) {
-        if (bindAttrOnly) {
-            onAttributesBind(getAttrs());
-        } else {
-            // id
-            String rawId = getAttrs().get(DBConstants.UI_ID);
-            if (null != rawId) {
-                id = Integer.parseInt(rawId);
-                nativeView.setId(id);
-            }
+    private DBModel getModel(int position) {
+        DBModel model = mModels.get(position);
+        if (null == model) {
+            model = new DBModel();
+            mModels.put(position, model);
+        }
+        return model;
+    }
+
+    private int bindId(View nativeView) {
+        // id
+        String rawId = getAttrs().get(DBConstants.UI_ID);
+        if (null != rawId) {
+            id = Integer.parseInt(rawId);
+            nativeView.setId(id);
+        }
+        return id;
+    }
+
+    private void doBind(DBModel model, boolean bindAttrOnly) {
+        if (!bindAttrOnly) {
             // layout 相关属性
             onParseLayoutAttr(getAttrs());
-            // 绑定视图属性
-            onAttributesBind(getAttrs());
-            // 绑定视图回调事件
-            if (mCallbacks.size() > 0) {
-                onCallbackBind(mCallbacks, position);
-            }
-            // 绑定子视图
-            if (mChildContainers.size() > 0) {
-                onChildrenBind(getAttrs(), mChildContainers);
-            }
+        }
+        // 绑定视图属性
+        onAttributesBind(getAttrs(), model);
+        // 绑定视图回调事件
+        if (mCallbacks.size() > 0) {
+            onCallbackBind(mCallbacks, model);
+        }
+        // 绑定子视图
+        if (mChildContainers.size() > 0) {
+            onChildrenBind(getAttrs(), mChildContainers);
         }
     }
 
@@ -150,24 +170,24 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
     }
 
     @Override
-    protected void onAttributesBind(final Map<String, String> attrs) {
-        super.onAttributesBind(attrs);
+    protected void onAttributesBind(final Map<String, String> attrs, DBModel model) {
+        super.onAttributesBind(attrs, model);
 
         // changeOn
         String changeOn = attrs.get("changeOn");
         if (null != changeOn) {
             String[] keys = changeOn.split("\\|");
             for (final String key : keys) {
-                onDataChanged(key, attrs);
+                onDataChanged(key, attrs, model);
             }
         }
     }
 
-    protected void onDataChanged(final String key, final Map<String, String> attrs) {
+    protected void onDataChanged(final String key, final Map<String, String> attrs, DBModel model) {
     }
 
     @CallSuper
-    protected void onCallbackBind(List<DBCallback> callbacks, final int position) {
+    protected void onCallbackBind(List<DBCallback> callbacks, final DBModel model) {
         for (final DBCallback callback : callbacks) {
             if ("onClick".equals(callback.getTagName())) {
                 mNativeView.setOnClickListener(new View.OnClickListener() {
@@ -175,7 +195,7 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
                     public void onClick(View v) {
                         List<DBAction> actions = callback.getActionNodes();
                         for (DBAction action : actions) {
-                            action.invoke(mViews.get(position));
+                            action.invoke(model);
                         }
                     }
                 });

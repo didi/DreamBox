@@ -3,6 +3,7 @@ package com.didi.carmate.dreambox.core.v4.action;
 import androidx.annotation.Nullable;
 
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
+import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 import com.didi.carmate.dreambox.wrapper.v4.Net;
 import com.didi.carmate.dreambox.wrapper.v4.Wrapper;
@@ -23,7 +24,12 @@ public class DBNet extends DBActionWithCallback {
 
     @Override
     protected void doInvoke(Map<String, String> attrs) {
-        final String url = getString(attrs.get("url"));
+        doInvoke(attrs, null);
+    }
+
+    @Override
+    protected void doInvoke(Map<String, String> attrs, DBModel model) {
+        final String url = getString(attrs.get("url"), model);
         final String to = attrs.get("to");
 
         Net net = Wrapper.get(mDBContext.getAccessKey()).net();
