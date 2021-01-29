@@ -146,7 +146,7 @@ public class DBImage<T extends View> extends DBBaseView<T> {
             if (DBUtils.isColor(borderColor)) {
                 imageView.setBorderColor(Color.parseColor(borderColor));
             }
-            if (borderWidth > 0){
+            if (borderWidth > 0) {
                 imageView.setBorderWidth(borderWidth);
             }
             if (src.startsWith("http")) {
