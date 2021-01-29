@@ -76,6 +76,9 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     protected int paddingLeft;
     protected int paddingRight;
 
+    protected int borderWidth;
+    protected int borderColor;
+
     protected int layoutGravity;
     protected int gravity;
 

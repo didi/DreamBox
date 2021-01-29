@@ -142,6 +142,9 @@ public class DBImage<T extends View> extends DBBaseView<T> {
             } else {
                 imageView.setRoundRadius(radiusLT, radiusRT, radiusRB, radiusLB);
             }
+            if (borderWidth > 0){
+                imageView.setBorder(borderWidth, borderColor);
+            }
             if (src.startsWith("http")) {
                 imageLoader.load(src, imageView);
             } else {

@@ -23,7 +23,6 @@ public class RoundRectImageView extends AppCompatImageView {
     private final Rect rectSrc = new Rect();
     private final Rect rectDest = new Rect();
     private final float[] mCorners;
-    private final Path mPath;
     private int border;
 
     public RoundRectImageView(Context context) {
@@ -39,8 +38,6 @@ public class RoundRectImageView extends AppCompatImageView {
         paint = new Paint();
         boarderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         boarderPaint.setColor(Color.GREEN);
-        boarderPaint.setStyle(Paint.Style.STROKE);
-        mPath = new Path();
         mCorners = new float[]{
                 0, 0,        // Top left radius in px
                 0, 0,        // Top right radius in px
@@ -49,8 +46,11 @@ public class RoundRectImageView extends AppCompatImageView {
         };
     }
 
-    public void setBorder(int border) {
+    public void setBorder(int border, int color) {
         this.border = border;
+        if (color > 0){
+            boarderPaint.setColor(color);
+        }
         boarderPaint.setStrokeWidth(border);
     }
 
@@ -137,21 +137,14 @@ public class RoundRectImageView extends AppCompatImageView {
         //给着色器配置matrix
         bitmapShader.setLocalMatrix(matrix);
         paint.setShader(bitmapShader);
-        //创建矩形区域并且预留出border
-        RectF rect = new RectF(border, border, outWidth - border, outHeight - border);
-        //把传入的bitmap绘制到圆角矩形区域内
-//        canvas.drawRoundRect(rect, radius, radius, paint);
-
-        mPath.addRoundRect(rect, mCorners, Path.Direction.CW);
-        canvas.drawPath(mPath, paint);
-
-
-        if (border > 0) {
-//            canvas.drawRoundRect(rect, radius, radius, boarderPaint);
-
-            mPath.addRoundRect(rect, mCorners, Path.Direction.CW);
-            canvas.drawPath(mPath, boarderPaint);
-        }
+        //创建边框矩形区域
+        Path borderPath = new Path();
+        borderPath.addRoundRect(new RectF(0, 0, outWidth, outHeight), mCorners, Path.Direction.CW);
+        canvas.drawPath(borderPath, boarderPaint);
+        //创建真实图片矩形区域
+        Path imagePath = new Path();
+        imagePath.addRoundRect(new RectF(border, border, outWidth - border, outHeight - border), mCorners, Path.Direction.CW);
+        canvas.drawPath(imagePath, paint);
         return desBitmap;
     }
 }
