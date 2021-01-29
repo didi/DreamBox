@@ -37,7 +37,7 @@ public class RoundRectImageView extends AppCompatImageView {
         super(context, attrs, defStyle);
         paint = new Paint();
         boarderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        boarderPaint.setColor(Color.GREEN);
+        boarderPaint.setColor(Color.TRANSPARENT);
         mCorners = new float[]{
                 0, 0,        // Top left radius in px
                 0, 0,        // Top right radius in px
