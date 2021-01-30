@@ -32,30 +32,71 @@ public class ExampleUnitTest {
 //        String content = readFileByLines("src/test/assets/test2.json");
 
         JsonObject sourceData = new Gson().fromJson(content, JsonObject.class);
-        String rawKey = "ext.data";
+        String rawKey = "ext.data[0].test";
         rawKey = rawKey.replace("[", ARR_TAG_START);
         rawKey = rawKey.replace("]", ARR_TAG_END);
         String[] arrKeys = rawKey.split("\\.");
         JsonElement jsonElement = getJsonElement(arrKeys, sourceData);
-        jsonElement.toString();
+        if(null != jsonElement){
+            System.out.println(jsonElement.toString());
+        }else{
+            System.out.println("key or source data error.");
+        }
     }
 
     private JsonElement getJsonElement(String[] arrKeys, JsonObject sourceData) {
+        if (null == arrKeys || arrKeys.length == 0 || null == sourceData) {
+            return null;
+        }
+
         JsonElement jsonElement = sourceData;
         int i = 0;
         while (i < arrKeys.length) {
             if (isJsonArrayKey(arrKeys[i])) {
                 JsonArrayKey jsonArrayKey = getJsonArrayKey(arrKeys[i]);
                 JsonElement tmpElement = jsonElement.getAsJsonObject().get(jsonArrayKey.key);
-                if (tmpElement.isJsonArray()) {
+                if (checkJsonArray(tmpElement, jsonArrayKey.pos)) {
                     jsonElement = tmpElement.getAsJsonArray().get(jsonArrayKey.pos);
+                } else {
+                    return null;
                 }
             } else {
                 jsonElement = jsonElement.getAsJsonObject().get(arrKeys[i]);
             }
+            if (null == jsonElement) {
+                return null;
+            }
             i++;
         }
         return jsonElement;
+    }
+
+    private JsonArrayKey getJsonArrayKey(String rawArrayKey) {
+        JsonArrayKey arrayKey = new JsonArrayKey();
+        int tagStart = rawArrayKey.indexOf(ARR_TAG_START);
+        int tagEnd = rawArrayKey.indexOf(ARR_TAG_END);
+        String strPos = rawArrayKey.substring(tagStart + 1, tagEnd);
+        arrayKey.key = rawArrayKey.substring(0, tagStart);
+        arrayKey.pos = Integer.parseInt(strPos);
+        return arrayKey;
+    }
+
+    private boolean checkJsonArray(JsonElement element, int pos) {
+        if (null == element) {
+            System.out.println("element is null");
+            return false;
+        } else if (!element.isJsonArray()) {
+            System.out.println("element is not JsonArray");
+            return false;
+        } else if (element.getAsJsonArray().size() <= pos) {
+            System.out.println("index large than array size");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isJsonArrayKey(String rawArrayKey) {
+        return rawArrayKey.contains(ARR_TAG_START) && rawArrayKey.contains(ARR_TAG_END);
     }
 
     private String readFileByLines(String fileName) {
@@ -75,33 +116,5 @@ public class ExampleUnitTest {
     private static class JsonArrayKey {
         int pos = -1;
         String key = "";
-    }
-
-    private JsonArrayKey getJsonArrayKey(String rawArrayKey) {
-        JsonArrayKey arrayKey = new JsonArrayKey();
-        int tagStart = rawArrayKey.indexOf(ARR_TAG_START);
-        int tagEnd = rawArrayKey.indexOf(ARR_TAG_END);
-        String strPos = rawArrayKey.substring(tagStart + 1, tagEnd);
-        arrayKey.key = rawArrayKey.substring(0, tagStart);
-        arrayKey.pos = Integer.parseInt(strPos);
-        return arrayKey;
-    }
-
-    private boolean checkJsonArray(String rawKey, JsonElement element, int pos) {
-        if (null == element) {
-            System.out.println("keys: " + rawKey + " -> element is null");
-            return false;
-        } else if (!element.isJsonArray()) {
-            System.out.println("keys: " + rawKey + " -> element is not JsonArray");
-            return false;
-        } else if (element.getAsJsonArray().size() <= pos) {
-            System.out.println("keys: " + rawKey + " -> index large than array size");
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isJsonArrayKey(String rawArrayKey) {
-        return rawArrayKey.contains(ARR_TAG_START) && rawArrayKey.contains(ARR_TAG_END);
     }
 }
