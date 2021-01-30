@@ -42,7 +42,7 @@ public class DBImage<T extends View> extends DBBaseView<T> {
     public void onParserAttribute(Map<String, String> attrs) {
         super.onParserAttribute(attrs);
 
-        srcType = getString(attrs.get("srcType"), null);
+        srcType = getString(attrs.get("srcType"));
     }
 
     @Override

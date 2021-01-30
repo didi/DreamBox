@@ -38,8 +38,8 @@ public class DBProgress extends DBBaseView<DBProgressView> {
     public void onParserAttribute(Map<String, String> attrs) {
         super.onParserAttribute(attrs);
 
-        barBgColor = getString(attrs.get("barBgColor"), null);
-        barFgColor = getString(attrs.get("barFgColor"), null);
+        barBgColor = getString(attrs.get("barBgColor"));
+        barFgColor = getString(attrs.get("barFgColor"));
         patchType = attrs.get("patchType");
         if (!(DBConstants.STYLE_PATCH_TYPE_STRETCH.equals(patchType))
                 && !(DBConstants.STYLE_PATCH_TYPE_REPEAT.equals(patchType))) {
