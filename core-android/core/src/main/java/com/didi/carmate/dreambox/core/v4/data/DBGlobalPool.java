@@ -9,8 +9,8 @@ import java.util.Map;
  */
 public class DBGlobalPool {
     // 全局数据池
-    private static Map<String, DBGlobalPool> mGlobalPool = new HashMap<>();
-    private Map<String, Object> mData = new HashMap<>();
+    private static final Map<String, DBGlobalPool> mGlobalPool = new HashMap<>();
+    private final Map<String, Object> mData = new HashMap<>();
 
     public static DBGlobalPool get(String accessKey) {
         DBGlobalPool globalPool = mGlobalPool.get(accessKey);

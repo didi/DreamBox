@@ -24,7 +24,7 @@ public class DBSendEventMsg extends DBNode {
         jsonObject = new JsonObject();
         Set<Map.Entry<String, String>> entries = attrs.entrySet();
         for (Map.Entry<String, String> entry : entries) {
-            String value = getString(entry.getValue(), null);
+            String value = getString(entry.getValue());
             jsonObject.add(entry.getKey(), new JsonPrimitive(value));
         }
     }
