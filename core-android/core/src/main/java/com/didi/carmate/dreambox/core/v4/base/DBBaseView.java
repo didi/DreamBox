@@ -78,6 +78,7 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
             model.setData(data);
 
             doBind(model, bindAttrOnly);
+            setViewDisplay(mNativeView, parentView);
             if ((parentView instanceof YogaLayout)) {
                 ((YogaLayout) parentView).invalidate(mNativeView);
             }
@@ -149,13 +150,7 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
                 container.addView(nativeView, layoutParams);
 
                 // GONE处理
-                if (container instanceof YogaLayout) {
-                    if (nativeView.getVisibility() == View.GONE) {
-                        ((YogaLayout) container).getYogaNodeForView(nativeView).setDisplay(YogaDisplay.NONE);
-                    } else {
-                        ((YogaLayout) container).getYogaNodeForView(nativeView).setDisplay(YogaDisplay.FLEX);
-                    }
-                }
+                setViewDisplay(nativeView, container);
             }
             if (margin > 0) {
                 marginLayoutParams.setMargins(margin, margin, margin, margin);
@@ -163,6 +158,16 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
                 marginLayoutParams.setMargins(marginLeft, marginTop, marginRight, marginBottom);
             }
             onViewAdded(container);
+        }
+    }
+
+    private void setViewDisplay(View nativeView, ViewGroup container) {
+        if (container instanceof YogaLayout) {
+            if (nativeView.getVisibility() == View.GONE) {
+                ((YogaLayout) container).getYogaNodeForView(nativeView).setDisplay(YogaDisplay.NONE);
+            } else {
+                ((YogaLayout) container).getYogaNodeForView(nativeView).setDisplay(YogaDisplay.FLEX);
+            }
         }
     }
 
