@@ -71,7 +71,7 @@ public class PlayGroundView extends FrameLayout {
                 addView(dreamBoxView);
             }
         }
-        dreamBoxView.setExtJsonStr(ext);
+        dreamBoxView.bindData(ext);
         return true;
     }
 }
