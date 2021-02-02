@@ -211,19 +211,17 @@ public abstract class DBNode implements IDBNode {
                     JsonElement element = getJsonElement(keysExt, mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX));
                     if (null != element && element.isJsonPrimitive()) {
                         return element.getAsJsonPrimitive().getAsString();
+                    } else {
+                        Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
                     }
                 } else {
                     JsonElement element = getJsonElement(keys, mDBContext.getJsonValue(keys[0]));
                     if (null != element && element.isJsonPrimitive()) {
                         return element.getAsJsonPrimitive().getAsString();
+                    } else {
+                        Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
                     }
                 }
-            }
-
-            if (Wrapper.getInstance().debug) {
-                Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
-            } else {
-                reportParserDataFail();
             }
             return "";
         }
@@ -241,13 +239,9 @@ public abstract class DBNode implements IDBNode {
             if (null != element && element.isJsonPrimitive()) {
                 return element.getAsJsonPrimitive().getAsString();
             } else {
-                if (Wrapper.getInstance().debug) {
-                    Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
-                } else {
-                    reportParserDataFail();
-                }
-                return "";
+                Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
             }
+            return "";
         }
         return rawKey;
     }
@@ -276,18 +270,19 @@ public abstract class DBNode implements IDBNode {
                     JsonElement element = getJsonElement(keysExt, mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX));
                     if (null != element && element.isJsonPrimitive()) {
                         return element.getAsString().equals("true");
-                    } else if (Wrapper.getInstance().debug) {
+                    } else {
                         Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
                     }
                 } else {
                     JsonElement element = getJsonElement(keys, mDBContext.getJsonValue(keys[0]));
                     if (null != element && element.isJsonPrimitive()) {
                         return element.getAsString().equals("true");
-                    } else if (Wrapper.getInstance().debug) {
+                    } else {
                         Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
                     }
                 }
             }
+            return false;
         }
         return "true".equals(rawKey);
     }
@@ -313,9 +308,10 @@ public abstract class DBNode implements IDBNode {
             JsonElement element = getJsonElement(keys, model.getData());
             if (null != element && element.isJsonPrimitive()) {
                 return element.getAsString().equals("true");
-            } else if (Wrapper.getInstance().debug) {
+            } else {
                 Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
             }
+            return false;
         }
         return "true".equals(rawKey);
     }
@@ -348,11 +344,15 @@ public abstract class DBNode implements IDBNode {
                     JsonElement element = getJsonElement(keysExt, mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX));
                     if (null != element && element.isJsonPrimitive()) {
                         return element.getAsInt();
+                    } else {
+                        Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
                     }
                 } else {
                     JsonElement element = getJsonElement(keys, mDBContext.getJsonValue(keys[0]));
                     if (null != element && element.isJsonPrimitive()) {
                         return element.getAsInt();
+                    } else {
+                        Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
                     }
                 }
             }
@@ -385,7 +385,7 @@ public abstract class DBNode implements IDBNode {
             JsonElement element = getJsonElement(keys, model.getData());
             if (null != element && element.isJsonPrimitive()) {
                 return element.getAsInt();
-            } else if (Wrapper.getInstance().debug) {
+            } else {
                 Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
             }
         }
@@ -415,14 +415,14 @@ public abstract class DBNode implements IDBNode {
                     JsonElement element = getJsonElement(keysExt, mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX));
                     if (null != element && element.isJsonObject()) {
                         return element.getAsJsonObject();
-                    } else if (Wrapper.getInstance().debug) {
+                    } else {
                         Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
                     }
                 } else {
                     JsonElement element = getJsonElement(keys, mDBContext.getJsonValue(keys[0]));
                     if (null != element && element.isJsonObject()) {
                         return element.getAsJsonObject();
-                    } else if (Wrapper.getInstance().debug) {
+                    } else {
                         Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
                     }
                 }
@@ -452,7 +452,7 @@ public abstract class DBNode implements IDBNode {
             JsonElement element = getJsonElement(keys, model.getData());
             if (null != element && element.isJsonObject()) {
                 return element.getAsJsonObject();
-            } else if (Wrapper.getInstance().debug) {
+            } else {
                 Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
             }
         }
@@ -479,16 +479,16 @@ public abstract class DBNode implements IDBNode {
                     String[] keysExt = new String[keys.length - 1];
                     System.arraycopy(keys, 1, keysExt, 0, keysExt.length);
                     JsonElement element = getJsonElement(keysExt, mDBContext.getJsonValue(keys[0]));
-                    if (element.isJsonArray()) {
+                    if (null != element && element.isJsonArray()) {
                         jsonArray = element.getAsJsonArray();
-                    } else if (Wrapper.getInstance().debug) {
+                    } else {
                         Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
                     }
                 } else {
                     JsonElement element = getJsonElement(keys, mDBContext.getJsonValue(keys[0]));
-                    if (element.isJsonArray()) {
+                    if (null != element && element.isJsonArray()) {
                         jsonArray = element.getAsJsonArray();
-                    } else if (Wrapper.getInstance().debug) {
+                    } else {
                         Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
                     }
                 }
@@ -523,16 +523,16 @@ public abstract class DBNode implements IDBNode {
                     String[] keysExt = new String[keys.length - 1];
                     System.arraycopy(keys, 1, keysExt, 0, keysExt.length);
                     JsonElement element = getJsonElement(keysExt, mDBContext.getJsonValue(keys[0]));
-                    if (element.isJsonArray()) {
+                    if (null != element && element.isJsonArray()) {
                         jsonArray = element.getAsJsonArray();
-                    } else if (Wrapper.getInstance().debug) {
+                    } else {
                         Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
                     }
                 } else {
                     JsonElement element = getJsonElement(keys, mDBContext.getJsonValue(keys[0]));
-                    if (element.isJsonArray()) {
+                    if (null != element && element.isJsonArray()) {
                         jsonArray = element.getAsJsonArray();
-                    } else if (Wrapper.getInstance().debug) {
+                    } else {
                         Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
                     }
                 }
@@ -550,9 +550,9 @@ public abstract class DBNode implements IDBNode {
             String variable = rawKey.substring(2, rawKey.length() - 1);
             String[] keys = variable.split("\\.");
             JsonElement element = getJsonElement(keys, model.getData());
-            if (element.isJsonArray()) {
+            if (null != element && element.isJsonArray()) {
                 jsonArray = element.getAsJsonArray();
-            } else if (Wrapper.getInstance().debug) {
+            } else {
                 Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
             }
         }
