@@ -1,15 +1,15 @@
 package com.didi.carmate.dreambox.core.v4.render.view;
 
 import android.util.AttributeSet;
+import android.widget.LinearLayout;
 
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
-import com.facebook.yoga.android.YogaLayout;
 
 /**
  * author: chenjing
  * date: 2020/5/22
  */
-public class DBLinearLayoutView extends YogaLayout {
+public class DBLinearLayoutView extends LinearLayout {
     private final DBContext mDBContext;
 
     public DBLinearLayoutView(DBContext dbContext) {

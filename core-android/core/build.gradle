@@ -1,8 +1,10 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
-apply from: "$project.rootDir/upload.gradle"
 
+if (file("$project.rootDir/upload.gradle").exists()) {
+    apply from: "$project.rootDir/upload.gradle"
+}
 android {
     compileSdkVersion rootProject.ext.targetSDK
 
