@@ -198,33 +198,34 @@ public abstract class DBNode implements IDBNode {
         if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
             String variable = rawKey.substring(2, rawKey.length() - 1);
             String[] keys = variable.split("\\.");
-            // 全局对象池只支持简单的KV对，不支持多级对象
-            if (keys[0].equals(DBConstants.DATA_GLOBAL_PREFIX)) {
-                return DBGlobalPool.get(mDBContext.getAccessKey()).getData(keys[1], String.class);
-            }
+            // 直接从meta里拿
             if (keys.length == 1) {
                 return mDBContext.getStringValue(keys[0]);
-            }
-
-            JsonElement element;
-            if (keys[0].equals(DBConstants.DATA_EXT_PREFIX)) {
-                String[] keysExt = new String[keys.length - 1];
-                System.arraycopy(keys, 1, keysExt, 0, keysExt.length);
-                element = getJsonElement(keysExt, mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX));
-            } else {
-                element = getJsonElement(keys, mDBContext.getJsonValue(keys[0]));
-            }
-
-            if (null != element && element.isJsonPrimitive()) {
-                return element.getAsJsonPrimitive().getAsString();
-            } else {
-                if (Wrapper.getInstance().debug) {
-                    Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
+            } else if (keys.length >= 2) {
+                // 尝试从global pool里拿,全局对象池只支持简单的KV对，不支持多级对象
+                if (keys[0].equals(DBConstants.DATA_GLOBAL_PREFIX)) {
+                    return DBGlobalPool.get(mDBContext.getAccessKey()).getData(keys[1], String.class);
+                } else if (keys[0].equals(DBConstants.DATA_EXT_PREFIX)) { // 尝试从ext里拿
+                    String[] keysExt = new String[keys.length - 1];
+                    System.arraycopy(keys, 1, keysExt, 0, keysExt.length);
+                    JsonElement element = getJsonElement(keysExt, mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX));
+                    if (null != element && element.isJsonPrimitive()) {
+                        return element.getAsJsonPrimitive().getAsString();
+                    }
                 } else {
-                    reportParserDataFail();
+                    JsonElement element = getJsonElement(keys, mDBContext.getJsonValue(keys[0]));
+                    if (null != element && element.isJsonPrimitive()) {
+                        return element.getAsJsonPrimitive().getAsString();
+                    }
                 }
-                return "";
             }
+
+            if (Wrapper.getInstance().debug) {
+                Wrapper.get(mDBContext.getAccessKey()).log().e("check rawKey: " + rawKey);
+            } else {
+                reportParserDataFail();
+            }
+            return "";
         }
         return rawKey;
     }
@@ -235,7 +236,6 @@ public abstract class DBNode implements IDBNode {
     private String getSingleStringWithData(String rawKey, @NonNull JsonObject dict) {
         if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
             String variable = rawKey.substring(2, rawKey.length() - 1);
-
             String[] keys = variable.split("\\.");
             JsonElement element = getJsonElement(keys, dict);
             if (null != element && element.isJsonPrimitive()) {
@@ -253,7 +253,39 @@ public abstract class DBNode implements IDBNode {
     }
 
     protected boolean getBoolean(String rawKey) {
-        return getBoolean(rawKey, null);
+        if (DBUtils.isEmpty(rawKey)) {
+            return false;
+        }
+
+        if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
+            rawKey = rawKey.replace("[", ARR_TAG_START);
+            rawKey = rawKey.replace("]", ARR_TAG_END);
+
+            String variable = rawKey.substring(2, rawKey.length() - 1);
+            String[] keys = variable.split("\\.");
+            if (keys.length == 1) {
+                // 尝试从meta里拿
+                return mDBContext.getBooleanValue(variable);
+            } else if (keys.length >= 2) {
+                // 尝试从global pool里拿,全局对象池只支持简单的KV对，不支持多级对象
+                if (keys[0].equals(DBConstants.DATA_GLOBAL_PREFIX)) {
+                    return DBGlobalPool.get(mDBContext.getAccessKey()).getData(keys[1], Boolean.class);
+                } else if (keys[0].equals(DBConstants.DATA_EXT_PREFIX)) { // 尝试从ext里拿
+                    String[] keysExt = new String[keys.length - 1];
+                    System.arraycopy(keys, 1, keysExt, 0, keysExt.length);
+                    JsonElement element = getJsonElement(keysExt, mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX));
+                    if (null != element && element.isJsonPrimitive()) {
+                        return element.getAsString().equals("true");
+                    }
+                } else {
+                    JsonElement element = getJsonElement(keys, mDBContext.getJsonValue(keys[0]));
+                    if (null != element && element.isJsonPrimitive()) {
+                        return element.getAsString().equals("true");
+                    }
+                }
+            }
+        }
+        return "true".equals(rawKey);
     }
 
     /**
@@ -264,30 +296,13 @@ public abstract class DBNode implements IDBNode {
             return false;
         }
 
-        // 尝试从meta、global pool、ext里拿
         if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
             rawKey = rawKey.replace("[", ARR_TAG_START);
             rawKey = rawKey.replace("]", ARR_TAG_END);
 
             String variable = rawKey.substring(2, rawKey.length() - 1);
             String[] keys = variable.split("\\.");
-            // 全局对象池只支持简单的KV对，不支持多级对象
-            if (keys[0].equals(DBConstants.DATA_GLOBAL_PREFIX)) {
-                return DBGlobalPool.get(mDBContext.getAccessKey()).getData(keys[1], Boolean.class);
-            }
-            if (keys.length == 1) {
-                return mDBContext.getBooleanValue(variable);
-            }
-
-            JsonElement element;
-            if (keys[0].equals(DBConstants.DATA_EXT_PREFIX)) {
-                String[] keysExt = new String[keys.length - 1];
-                System.arraycopy(keys, 1, keysExt, 0, keysExt.length);
-                element = getJsonElement(keysExt, mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX));
-            } else {
-                element = getJsonElement(keys, mDBContext.getJsonValue(keys[0]));
-            }
-
+            JsonElement element = getJsonElement(keys, model.getData());
             if (null != element && element.isJsonPrimitive()) {
                 return element.getAsString().equals("true");
             }
@@ -296,7 +311,40 @@ public abstract class DBNode implements IDBNode {
     }
 
     protected int getInt(String rawKey) {
-        return getInt(rawKey, null);
+        if (DBUtils.isEmpty(rawKey)) {
+            return -1;
+        }
+
+        if (DBUtils.isNumeric(rawKey)) {
+            return Integer.parseInt(rawKey);
+        }
+
+        if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
+            String variable = rawKey.substring(2, rawKey.length() - 1);
+            String[] keys = variable.split("\\.");
+            // 尝试从meta、global pool、ext里拿
+            if (keys.length == 1) {
+                return mDBContext.getIntValue(variable);
+            } else if (keys.length >= 2) {
+                // 尝试从global pool里拿,全局对象池只支持简单的KV对，不支持多级对象
+                if (keys[0].equals(DBConstants.DATA_GLOBAL_PREFIX)) {
+                    return DBGlobalPool.get(mDBContext.getAccessKey()).getData(keys[1], Integer.class);
+                } else if (keys[0].equals(DBConstants.DATA_EXT_PREFIX)) { // 尝试从ext里拿
+                    String[] keysExt = new String[keys.length - 1];
+                    System.arraycopy(keys, 1, keysExt, 0, keysExt.length);
+                    JsonElement element = getJsonElement(keysExt, mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX));
+                    if (null != element && element.isJsonPrimitive()) {
+                        return element.getAsInt();
+                    }
+                } else {
+                    JsonElement element = getJsonElement(keys, mDBContext.getJsonValue(keys[0]));
+                    if (null != element && element.isJsonPrimitive()) {
+                        return element.getAsInt();
+                    }
+                }
+            }
+        }
+        return -1;
     }
 
     /**
@@ -311,27 +359,10 @@ public abstract class DBNode implements IDBNode {
             return Integer.parseInt(rawKey);
         }
 
-        // 尝试从meta、global pool、ext里拿
         if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
             String variable = rawKey.substring(2, rawKey.length() - 1);
             String[] keys = variable.split("\\.");
-            // 全局对象池只支持简单的KV对，不支持多级对象
-            if (keys[0].equals(DBConstants.DATA_GLOBAL_PREFIX)) {
-                return DBGlobalPool.get(mDBContext.getAccessKey()).getData(keys[1], Integer.class);
-            }
-            if (keys.length == 1) {
-                return mDBContext.getIntValue(variable);
-            }
-
-            JsonElement element;
-            if (keys[0].equals(DBConstants.DATA_EXT_PREFIX)) {
-                String[] keysExt = new String[keys.length - 1];
-                System.arraycopy(keys, 1, keysExt, 0, keysExt.length);
-                element = getJsonElement(keysExt, mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX));
-            } else {
-                element = getJsonElement(keys, mDBContext.getJsonValue(keys[0]));
-            }
-
+            JsonElement element = getJsonElement(keys, model.getData());
             if (null != element && element.isJsonPrimitive()) {
                 return element.getAsInt();
             }
@@ -340,7 +371,37 @@ public abstract class DBNode implements IDBNode {
     }
 
     protected JsonObject getJsonObject(String rawKey) {
-        return getJsonObject(rawKey, null);
+        if (DBUtils.isEmpty(rawKey)) {
+            return null;
+        }
+        rawKey = rawKey.replace("[", ARR_TAG_START);
+        rawKey = rawKey.replace("]", ARR_TAG_END);
+
+        if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
+            String variable = rawKey.substring(2, rawKey.length() - 1);
+            String[] keys = variable.split("\\.");
+            if (keys.length == 1) {
+                return mDBContext.getJsonValue(variable);
+            } else if (keys.length >= 2) {
+                // 尝试从global pool里拿,全局对象池只支持简单的KV对，不支持多级对象
+                if (keys[0].equals(DBConstants.DATA_GLOBAL_PREFIX)) {
+                    return DBGlobalPool.get(mDBContext.getAccessKey()).getData(keys[1], JsonObject.class);
+                } else if (keys[0].equals(DBConstants.DATA_EXT_PREFIX)) { // 尝试从ext里拿
+                    String[] keysExt = new String[keys.length - 1];
+                    System.arraycopy(keys, 1, keysExt, 0, keysExt.length);
+                    JsonElement element = getJsonElement(keysExt, mDBContext.getJsonValue(DBConstants.DATA_EXT_PREFIX));
+                    if (null != element && element.isJsonObject()) {
+                        return element.getAsJsonObject();
+                    }
+                } else {
+                    JsonElement element = getJsonElement(keys, mDBContext.getJsonValue(keys[0]));
+                    if (null != element && element.isJsonObject()) {
+                        return element.getAsJsonObject();
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -356,12 +417,7 @@ public abstract class DBNode implements IDBNode {
         if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
             String variable = rawKey.substring(2, rawKey.length() - 1);
             String[] keys = variable.split("\\.");
-            JsonElement element;
-            if (null != model && null != model.getData()) {
-                element = getJsonElement(keys, model.getData());
-            } else {
-                element = getJsonElement(keys, mDBContext.getJsonValue(keys[0]));
-            }
+            JsonElement element = getJsonElement(keys, model.getData());
             if (null != element && element.isJsonObject()) {
                 return element.getAsJsonObject();
             }
@@ -381,12 +437,22 @@ public abstract class DBNode implements IDBNode {
             String[] keys = variable.split("\\.");
             if (keys.length == 1) {
                 jsonArray = mDBContext.getJsonArray(variable);
-            } else {
-                String[] keysExt = new String[keys.length - 1];
-                System.arraycopy(keys, 1, keysExt, 0, keysExt.length);
-                JsonElement element = getJsonElement(keysExt, mDBContext.getJsonValue(keys[0]));
-                if (element.isJsonArray()) {
-                    jsonArray = element.getAsJsonArray();
+            } else if (keys.length >= 2) {
+                // 尝试从global pool里拿,全局对象池只支持简单的KV对，不支持多级对象
+                if (keys[0].equals(DBConstants.DATA_GLOBAL_PREFIX)) {
+                    jsonArray = DBGlobalPool.get(mDBContext.getAccessKey()).getData(keys[1], JsonArray.class);
+                } else if (keys[0].equals(DBConstants.DATA_EXT_PREFIX)) { // 尝试从ext里拿
+                    String[] keysExt = new String[keys.length - 1];
+                    System.arraycopy(keys, 1, keysExt, 0, keysExt.length);
+                    JsonElement element = getJsonElement(keysExt, mDBContext.getJsonValue(keys[0]));
+                    if (element.isJsonArray()) {
+                        jsonArray = element.getAsJsonArray();
+                    }
+                } else {
+                    JsonElement element = getJsonElement(keys, mDBContext.getJsonValue(keys[0]));
+                    if (element.isJsonArray()) {
+                        jsonArray = element.getAsJsonArray();
+                    }
                 }
             }
             // 添加到数组
@@ -399,6 +465,54 @@ public abstract class DBNode implements IDBNode {
             }
         }
         return jsonObjects;
+    }
+
+    protected JsonArray getJsonArray(String rawKey) {
+        rawKey = rawKey.replace("[", ARR_TAG_START);
+        rawKey = rawKey.replace("]", ARR_TAG_END);
+
+        JsonArray jsonArray = null;
+        if (!DBUtils.isEmpty(rawKey) && rawKey.startsWith("${") && rawKey.endsWith("}")) {
+            String variable = rawKey.substring(2, rawKey.length() - 1);
+            String[] keys = variable.split("\\.");
+            if (keys.length == 1) {
+                jsonArray = mDBContext.getJsonArray(variable);
+            } else if (keys.length >= 2) {
+                // 尝试从global pool里拿,全局对象池只支持简单的KV对，不支持多级对象
+                if (keys[0].equals(DBConstants.DATA_GLOBAL_PREFIX)) {
+                    jsonArray = DBGlobalPool.get(mDBContext.getAccessKey()).getData(keys[1], JsonArray.class);
+                } else if (keys[0].equals(DBConstants.DATA_EXT_PREFIX)) { // 尝试从ext里拿
+                    String[] keysExt = new String[keys.length - 1];
+                    System.arraycopy(keys, 1, keysExt, 0, keysExt.length);
+                    JsonElement element = getJsonElement(keysExt, mDBContext.getJsonValue(keys[0]));
+                    if (element.isJsonArray()) {
+                        jsonArray = element.getAsJsonArray();
+                    }
+                } else {
+                    JsonElement element = getJsonElement(keys, mDBContext.getJsonValue(keys[0]));
+                    if (element.isJsonArray()) {
+                        jsonArray = element.getAsJsonArray();
+                    }
+                }
+            }
+        }
+        return jsonArray;
+    }
+
+    protected JsonArray getJsonArray(String rawKey, DBModel model) {
+        rawKey = rawKey.replace("[", ARR_TAG_START);
+        rawKey = rawKey.replace("]", ARR_TAG_END);
+
+        JsonArray jsonArray = null;
+        if (!DBUtils.isEmpty(rawKey) && rawKey.startsWith("${") && rawKey.endsWith("}")) {
+            String variable = rawKey.substring(2, rawKey.length() - 1);
+            String[] keys = variable.split("\\.");
+            JsonElement element = getJsonElement(keys, model.getData());
+            if (element.isJsonArray()) {
+                jsonArray = element.getAsJsonArray();
+            }
+        }
+        return jsonArray;
     }
 
     private JsonElement getJsonElement(String[] arrKeys, JsonElement jsonElement) {

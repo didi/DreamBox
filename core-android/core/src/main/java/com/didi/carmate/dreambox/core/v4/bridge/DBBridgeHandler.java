@@ -41,7 +41,7 @@ public class DBBridgeHandler {
             String key = onEvent.getMsgTo();
             if (!DBUtils.isEmpty(key)) {
                 if (eventData.startsWith("{") && eventData.endsWith("}")) { // 传递json对象字符串
-                    dbContext.setExtJsonObject(key, new Gson().fromJson(eventData, JsonObject.class));
+                    dbContext.setExtJsonObject(key, dbContext.getGson().fromJson(eventData, JsonObject.class));
                 } else {
                     dbContext.putStringValue(key, eventData); // 兼容传递普通字符串
                 }
@@ -69,7 +69,7 @@ public class DBBridgeHandler {
                     public void onCallback(String msgTo) {
                         String key = dbToNativeCallback.getMsgTo();
                         if (!DBUtils.isEmpty(key)) {
-                            dbContext.setExtJsonObject(key, new Gson().fromJson(msgTo, JsonObject.class));
+                            dbContext.setExtJsonObject(key, dbContext.getGson().fromJson(msgTo, JsonObject.class));
                         }
                         sendEvent.onCallback(); // action invoke
                     }

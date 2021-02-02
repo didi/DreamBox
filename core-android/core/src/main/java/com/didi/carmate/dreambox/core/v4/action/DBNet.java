@@ -37,7 +37,7 @@ public class DBNet extends DBActionWithCallback {
             @Override
             public void onSuccess(@Nullable String json) {
                 try {
-                    JsonObject jsonObject = new Gson().fromJson(json, JsonObject.class);
+                    JsonObject jsonObject = mDBContext.getGson().fromJson(json, JsonObject.class);
                     // 数据更新到数据池
                     if (null != to) {
                         mDBContext.putJsonValue(to, jsonObject);

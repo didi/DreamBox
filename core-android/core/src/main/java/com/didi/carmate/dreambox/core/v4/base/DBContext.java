@@ -12,6 +12,7 @@ import com.didi.carmate.dreambox.core.v4.bridge.DBBridgeHandler;
 import com.didi.carmate.dreambox.core.v4.data.DBData;
 import com.didi.carmate.dreambox.core.v4.data.DBDataPool;
 import com.didi.carmate.dreambox.core.v4.render.DBList;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -29,6 +30,7 @@ public class DBContext {
     private Context mCurrentContext;
     private DBTemplate mDBTemplate;
     private DBDataPool mDataPool;
+    private Gson mGson;
     private final Map<String, Integer> mViewIdMap = new HashMap<>();
     private final DBBridgeHandler mBridgeHandler;
     private final String mAccessKey;
@@ -74,6 +76,7 @@ public class DBContext {
         mTemplateId = templateId;
         mDataPool = new DBDataPool();
         mBridgeHandler = new DBBridgeHandler(this);
+        mGson = new Gson();
     }
 
     public String getAccessKey() {
@@ -223,6 +226,10 @@ public class DBContext {
 
     public DBBridgeHandler getBridgeHandler() {
         return mBridgeHandler;
+    }
+
+    public Gson getGson(){
+        return mGson;
     }
 
     public void release() {
