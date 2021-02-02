@@ -300,6 +300,10 @@ public abstract class DBNode implements IDBNode {
             return false;
         }
 
+        if (null == model || null == model.getData()) {
+            return getBoolean(rawKey);
+        }
+
         if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
             rawKey = rawKey.replace("[", ARR_TAG_START);
             rawKey = rawKey.replace("]", ARR_TAG_END);
@@ -326,6 +330,9 @@ public abstract class DBNode implements IDBNode {
         }
 
         if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
+            rawKey = rawKey.replace("[", ARR_TAG_START);
+            rawKey = rawKey.replace("]", ARR_TAG_END);
+
             String variable = rawKey.substring(2, rawKey.length() - 1);
             String[] keys = variable.split("\\.");
             // 尝试从meta、global pool、ext里拿
@@ -365,7 +372,14 @@ public abstract class DBNode implements IDBNode {
             return Integer.parseInt(rawKey);
         }
 
+        if (null == model || null == model.getData()) {
+            return getInt(rawKey);
+        }
+
         if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
+            rawKey = rawKey.replace("[", ARR_TAG_START);
+            rawKey = rawKey.replace("]", ARR_TAG_END);
+
             String variable = rawKey.substring(2, rawKey.length() - 1);
             String[] keys = variable.split("\\.");
             JsonElement element = getJsonElement(keys, model.getData());
@@ -382,10 +396,11 @@ public abstract class DBNode implements IDBNode {
         if (DBUtils.isEmpty(rawKey)) {
             return null;
         }
-        rawKey = rawKey.replace("[", ARR_TAG_START);
-        rawKey = rawKey.replace("]", ARR_TAG_END);
 
         if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
+            rawKey = rawKey.replace("[", ARR_TAG_START);
+            rawKey = rawKey.replace("]", ARR_TAG_END);
+
             String variable = rawKey.substring(2, rawKey.length() - 1);
             String[] keys = variable.split("\\.");
             if (keys.length == 1) {
@@ -423,10 +438,15 @@ public abstract class DBNode implements IDBNode {
         if (DBUtils.isEmpty(rawKey)) {
             return null;
         }
-        rawKey = rawKey.replace("[", ARR_TAG_START);
-        rawKey = rawKey.replace("]", ARR_TAG_END);
+
+        if (null == model || null == model.getData()) {
+            return getJsonObject(rawKey);
+        }
 
         if (rawKey.startsWith("${") && rawKey.endsWith("}")) {
+            rawKey = rawKey.replace("[", ARR_TAG_START);
+            rawKey = rawKey.replace("]", ARR_TAG_END);
+
             String variable = rawKey.substring(2, rawKey.length() - 1);
             String[] keys = variable.split("\\.");
             JsonElement element = getJsonElement(keys, model.getData());
@@ -486,11 +506,11 @@ public abstract class DBNode implements IDBNode {
     }
 
     protected JsonArray getJsonArray(String rawKey) {
-        rawKey = rawKey.replace("[", ARR_TAG_START);
-        rawKey = rawKey.replace("]", ARR_TAG_END);
-
         JsonArray jsonArray = null;
         if (!DBUtils.isEmpty(rawKey) && rawKey.startsWith("${") && rawKey.endsWith("}")) {
+            rawKey = rawKey.replace("[", ARR_TAG_START);
+            rawKey = rawKey.replace("]", ARR_TAG_END);
+
             String variable = rawKey.substring(2, rawKey.length() - 1);
             String[] keys = variable.split("\\.");
             if (keys.length == 1) {
@@ -522,11 +542,11 @@ public abstract class DBNode implements IDBNode {
     }
 
     protected JsonArray getJsonArray(String rawKey, DBModel model) {
-        rawKey = rawKey.replace("[", ARR_TAG_START);
-        rawKey = rawKey.replace("]", ARR_TAG_END);
-
         JsonArray jsonArray = null;
         if (!DBUtils.isEmpty(rawKey) && rawKey.startsWith("${") && rawKey.endsWith("}")) {
+            rawKey = rawKey.replace("[", ARR_TAG_START);
+            rawKey = rawKey.replace("]", ARR_TAG_END);
+
             String variable = rawKey.substring(2, rawKey.length() - 1);
             String[] keys = variable.split("\\.");
             JsonElement element = getJsonElement(keys, model.getData());
