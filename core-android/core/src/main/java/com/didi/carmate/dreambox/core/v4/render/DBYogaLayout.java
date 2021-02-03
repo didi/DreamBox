@@ -1,5 +1,6 @@
 package com.didi.carmate.dreambox.core.v4.render;
 
+import android.graphics.Color;
 import android.view.ViewGroup;
 
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
@@ -7,6 +8,7 @@ import com.didi.carmate.dreambox.core.v4.base.DBContext;
 import com.didi.carmate.dreambox.core.v4.base.DBContainer;
 import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.render.view.DBYogaLayoutView;
+import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
 import com.facebook.yoga.YogaAlign;
 import com.facebook.yoga.YogaFlexDirection;
 import com.facebook.yoga.YogaJustify;
@@ -165,6 +167,18 @@ public class DBYogaLayout extends DBContainer<ViewGroup> {
                     yoga.getYogaNode().setAlignContent(YogaAlign.SPACE_AROUND);
                     break;
             }
+        }
+
+        if (radius > 0) {
+            yoga.setRadius(radius);
+        } else {
+            yoga.setRoundRadius(radiusLT, radiusRT, radiusRB, radiusLB);
+        }
+        if (DBUtils.isColor(borderColor)) {
+            yoga.setBorderColor(Color.parseColor(borderColor));
+        }
+        if (borderWidth > 0) {
+            yoga.setBorderWidth(borderWidth);
         }
     }
 

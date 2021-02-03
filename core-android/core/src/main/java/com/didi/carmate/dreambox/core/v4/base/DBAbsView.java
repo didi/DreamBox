@@ -59,12 +59,16 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     protected float minHeightPercent;
 
     protected String background; // 背景图片
+    protected String backgroundColor; // 背景颜色
+
+    protected int borderWidth;
+    protected String borderColor;
     protected int radius; // 背景圆角半径
     protected int radiusLT; // 左上角圆角半径
     protected int radiusRT; // 右上角圆角半径
     protected int radiusRB; // 右下角圆角半径
     protected int radiusLB; // 左下角圆角半径
-    protected String backgroundColor; // 背景颜色
+
     protected int margin;
     protected int marginTop;
     protected int marginBottom;
@@ -75,9 +79,6 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     protected int paddingBottom;
     protected int paddingLeft;
     protected int paddingRight;
-
-    protected int borderWidth;
-    protected String borderColor;
 
     protected int layoutGravity;
     protected int gravity;
