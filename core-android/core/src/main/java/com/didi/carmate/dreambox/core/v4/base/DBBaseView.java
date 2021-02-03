@@ -89,6 +89,10 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
             model.setData(data);
 
             doBind(model, bindAttrOnly);
+            // 绑定子视图
+            if (mChildContainers.size() > 0) {
+                onChildrenBind(getAttrs(), mChildContainers);
+            }
             addToParent(mNativeView, parentView);
         }
     }
@@ -122,10 +126,6 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
         // 绑定视图回调事件
         if (mCallbacks.size() > 0) {
             onCallbackBind(mCallbacks, model);
-        }
-        // 绑定子视图
-        if (mChildContainers.size() > 0) {
-            onChildrenBind(getAttrs(), mChildContainers);
         }
     }
 
