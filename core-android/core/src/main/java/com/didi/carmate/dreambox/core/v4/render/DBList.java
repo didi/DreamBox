@@ -28,6 +28,7 @@ import com.didi.carmate.dreambox.core.v4.render.view.list.IRefreshListener;
 import com.didi.carmate.dreambox.core.v4.render.view.list.OnLoadMoreListener;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +41,7 @@ import static com.didi.carmate.dreambox.core.v4.base.DBConstants.PAYLOAD_LIST_VH
  */
 public class DBList extends DBBaseView<DBListView> {
     private String orientation;
-    private List<JsonObject> src;
+    private List<JsonObject> src = new ArrayList<>();
     private int hSpace;
     private int vSpace;
     private int edgeStart;

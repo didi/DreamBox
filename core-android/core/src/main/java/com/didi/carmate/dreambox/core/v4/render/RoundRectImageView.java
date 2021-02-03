@@ -123,6 +123,14 @@ public class RoundRectImageView extends AppCompatImageView {
         }
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
+
+        if (outWidth <= 0) {
+            outWidth = width;
+        }
+        if (outHeight <= 0) {
+            outHeight = height;
+        }
+
         float widthScale = outWidth * 1f / width;
         float heightScale = outHeight * 1f / height;
 

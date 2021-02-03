@@ -80,4 +80,8 @@ public class DBData<T> implements IDBData<T> {
     public T getData(String key) {
         return mDataPool.get(key);
     }
+
+    public int getSize() {
+        return mDataPool.size();
+    }
 }

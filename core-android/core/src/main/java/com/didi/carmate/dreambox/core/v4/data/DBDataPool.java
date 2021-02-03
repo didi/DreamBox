@@ -131,6 +131,12 @@ public class DBDataPool {
         booleanDataPool.changeData(key, value);
     }
 
+    public boolean isEmpty() {
+        return (stringDataPool.getSize()) == 0 && (intDataPool.getSize()) == 0 &&
+                (booleanDataPool.getSize()) == 0 && (dictDataPool.getSize()) == 0 &&
+                (dictArrayDataPool.getSize()) == 0;
+    }
+
     public void release() {
 
     }

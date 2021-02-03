@@ -31,6 +31,8 @@ public interface IDBData<T> {
      * @param key 属性key
      */
     T getData(String key);
+    
+    int getSize();
 
     /**
      * 暴露给外部，用来改版属性的值，同时触发property changed事件给观察者

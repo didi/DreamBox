@@ -228,8 +228,12 @@ public class DBContext {
         return mBridgeHandler;
     }
 
-    public Gson getGson(){
+    public Gson getGson() {
         return mGson;
+    }
+
+    public boolean isDataPoolEmpty() {
+        return null == mDataPool || mDataPool.isEmpty();
     }
 
     public void release() {

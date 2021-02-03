@@ -16,6 +16,7 @@ import com.didi.carmate.dreambox.core.v4.utils.DBLogger;
 import com.didi.carmate.dreambox.core.v4.utils.DBScreenUtils;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ import static com.didi.carmate.dreambox.core.v4.base.DBConstants.PAYLOAD_CELL;
  */
 public class DBFlow extends DBBaseView<DBFlowLayout> {
     private DBFlowAdapter<JsonObject> mAdapter;
-    private List<JsonObject> src;
+    private List<JsonObject> src = new ArrayList<>();
     private int hSpace;
     private int vSpace;
 
