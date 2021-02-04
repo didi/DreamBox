@@ -110,7 +110,7 @@ public class DBLView extends DBNode {
 
     public void bindData() {
         mDBRender.parserAttribute(); // 视图节点部分属性放到此生命周期里解析，需要重新执行一遍
-        mDBRender.bindView(mDBRootView, NODE_TYPE_ROOT, true); // 这里尝试设置为false
+        mDBRender.bindView(mDBRootView, NODE_TYPE_ROOT, false); // 这里尝试设置为false
     }
 
     @Override

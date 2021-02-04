@@ -18,11 +18,11 @@ public class DBYogaLayoutView extends YogaLayout {
     private final Path mPath;
     private final Path mBorderPath;
     private final Paint mPaint;
-    private final Paint mBoarderPaint;
+    private final Paint mBorderPaint;
     private final RectF mRect;
     private final RectF mBorderRect;
     private final float[] mCorners;
-    private int borderWidth;
+    private int mBorderWidth;
 
     public DBYogaLayoutView(DBContext dbContext) {
         this(dbContext, null);
@@ -41,9 +41,9 @@ public class DBYogaLayoutView extends YogaLayout {
         mPath = new Path();
         mRect = new RectF();
 
-        mBoarderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mBoarderPaint.setColor(Color.TRANSPARENT);
-        mBoarderPaint.setStyle(Paint.Style.STROKE);
+        mBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mBorderPaint.setColor(Color.TRANSPARENT);
+        mBorderPaint.setStyle(Paint.Style.STROKE);
         mBorderPath = new Path();
         mBorderRect = new RectF();
 
@@ -56,12 +56,12 @@ public class DBYogaLayoutView extends YogaLayout {
     }
 
     public void setBorderWidth(int borderWidth) {
-        this.borderWidth = borderWidth;
-        mBoarderPaint.setStrokeWidth(borderWidth);
+        mBorderWidth = borderWidth;
+        mBorderPaint.setStrokeWidth(borderWidth);
     }
 
     public void setBorderColor(int color) {
-        mBoarderPaint.setColor(color);
+        mBorderPaint.setColor(color);
     }
 
     public void setRadius(int radius) {
@@ -98,14 +98,14 @@ public class DBYogaLayoutView extends YogaLayout {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        mBorderPath.reset();
-        mBorderRect.set(0, 0, w, h);
-        mBorderPath.addRoundRect(mBorderRect, mCorners, Path.Direction.CW);
-
+        float padding = (float) mBorderWidth / 2; // 留一个内边距，否则部分边框绘制在控件外面，导致看不全
         mPath.reset();
-        mRect.set(borderWidth, borderWidth, w - borderWidth, h - borderWidth);
+        mRect.set(mBorderWidth, mBorderWidth, w - mBorderWidth, h - mBorderWidth);
         mPath.addRoundRect(mRect, mCorners, Path.Direction.CW);
-//        mPath.addRoundRect(mRect, 4, 4, Path.Direction.CW);
+
+        mBorderPath.reset();
+        mBorderRect.set(padding, padding, w - padding, h - padding);
+        mBorderPath.addRoundRect(mBorderRect, mCorners, Path.Direction.CW);
     }
 
     @Override
@@ -113,7 +113,7 @@ public class DBYogaLayoutView extends YogaLayout {
         canvas.save();
 
         //创建边框矩形区域
-        canvas.drawPath(mBorderPath, mBoarderPaint);
+        canvas.drawPath(mBorderPath, mBorderPaint);
         //创建真实图片矩形区域
         canvas.drawPath(mPath, mPaint);
 
