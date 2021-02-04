@@ -61,8 +61,8 @@ public class DBYogaLayout extends DBContainer<ViewGroup> {
     }
 
     @Override
-    protected void onParseLayoutAttr(Map<String, String> attrs) {
-        super.onParseLayoutAttr(attrs);
+    protected void onParseLayoutAttr(Map<String, String> attrs, DBModel model) {
+        super.onParseLayoutAttr(attrs, model);
 
         flexDirection = attrs.get(DBConstants.FLEX_DIRECTION);
         flexWrap = attrs.get(FLEX_WRAP);

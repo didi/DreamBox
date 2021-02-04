@@ -128,7 +128,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     }
 
     @CallSuper
-    protected void onParseLayoutAttr(Map<String, String> attrs) {
+    protected void onParseLayoutAttr(Map<String, String> attrs, DBModel model) {
         // 边距
         margin = DBScreenUtils.processSize(mDBContext, attrs.get("margin"), DBConstants.DEFAULT_SIZE_EDGE);
         marginLeft = DBScreenUtils.processSize(mDBContext, attrs.get("marginLeft"), DBConstants.DEFAULT_SIZE_EDGE);
@@ -142,8 +142,9 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         paddingRight = DBScreenUtils.processSize(mDBContext, attrs.get("paddingRight"), DBConstants.DEFAULT_SIZE_EDGE);
         paddingBottom = DBScreenUtils.processSize(mDBContext, attrs.get("paddingBottom"), DBConstants.DEFAULT_SIZE_EDGE);
 
-        borderWidth = DBScreenUtils.processSize(mDBContext, attrs.get("borderWidth"), DBConstants.DEFAULT_SIZE_EDGE);
-        borderColor = attrs.get("borderColor");
+        String bw = getString(attrs.get("borderWidth"));
+        borderWidth = DBScreenUtils.processSize(mDBContext, bw, DBConstants.DEFAULT_SIZE_EDGE);
+        borderColor = getString(attrs.get("borderColor"), model);
 
         // 宽高
         width = DBConstants.DEFAULT_SIZE_WIDTH;

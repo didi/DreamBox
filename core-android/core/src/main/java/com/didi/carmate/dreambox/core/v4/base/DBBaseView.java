@@ -119,7 +119,7 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
     private void doBind(DBModel model, boolean bindAttrOnly) {
         if (!bindAttrOnly) {
             // layout 相关属性
-            onParseLayoutAttr(getAttrs());
+            onParseLayoutAttr(getAttrs(), model);
         }
         // 绑定视图属性
         onAttributesBind(getAttrs(), model);
