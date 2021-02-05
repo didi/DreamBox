@@ -311,7 +311,6 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
             mDBContext.observeDataPool(new DBData.IDataObserver() {
                 @Override
                 public void onDataChanged(String key) {
-                    DBLogger.d(mDBContext, "key: " + key);
                     if (null != mNativeView) {
                         final String visibleOn = getString(rawVisibleOn, model);
                         DBThreadUtils.runOnMain(new Runnable() {

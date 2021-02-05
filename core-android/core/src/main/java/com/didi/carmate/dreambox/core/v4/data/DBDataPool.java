@@ -1,5 +1,6 @@
 package com.didi.carmate.dreambox.core.v4.data;
 
+import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -11,6 +12,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * date: 2020/4/30
  */
 public class DBDataPool {
+    private boolean dataNotifyLock;
+
     private final IDBData<String> stringDataPool = new DBData<>(); // 字符串数据池
     private final IDBData<Integer> intDataPool = new DBData<>(); // int型数据池
     private final IDBData<Boolean> booleanDataPool = new DBData<>(); // 布尔型数据池
@@ -24,6 +27,9 @@ public class DBDataPool {
         IDBData.IDataObserver dataObserver = new IDBData.IDataObserver() {
             @Override
             public void onDataChanged(String key) {
+                if (dataNotifyLock) {
+                    return;
+                }
                 for (IDBData.IDataObserver observer : observerList) {
                     if (observer.getKey().contains(key)) { // key路径是包含关系的，也进行通知
                         observer.onDataChanged(key);
@@ -56,7 +62,13 @@ public class DBDataPool {
     }
 
     public void putData(String key, JsonObject value) {
-        dictDataPool.addData(key, value);
+        if (DBConstants.DATA_EXT_PREFIX.equals(key)) {
+            dataNotifyLock = true;
+            dictDataPool.addData(key, value);
+            dataNotifyLock = false;
+        } else {
+            dictDataPool.addData(key, value);
+        }
     }
 
     public void putData(String key, JsonArray value) {

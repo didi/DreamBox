@@ -213,33 +213,13 @@ public class DreamBoxView extends FrameLayout implements LifecycleOwner {
         if (curCoreView == null) {
             this.storeExt = extJsonStr;
         } else {
+            if (TextUtils.equals(curExt, extJsonStr)) {
+                return;
+            }
             curExt = extJsonStr;
-            DBThreadUtils.runOnWork(new Runnable() {
-                @Override
-                public void run() {
-                    if (!TextUtils.equals(curExt, extJsonStr)) {
-                        // 防止异步线程时序不一致
-                        Log.w(TAG, "render ext is not same cur-" + curExt + "，this-" + extJsonStr);
-                        return;
-                    }
-                    if (curCoreView == null) {
-                        Log.w(TAG, "update ext but core view is empty，wait next render");
-                        return;
-                    }
-                    JsonObject ext = DBEngine.getInstance().extWrapper(extJsonStr);
-                    curCoreView.setExtData(ext);
-                    DBThreadUtils.runOnMain(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (curCoreView != null) {
-                                curCoreView.bindData();
-                            } else {
-                                Log.w(TAG, "reload render but core view is empty，wait next render");
-                            }
-                        }
-                    });
-                }
-            });
+            JsonObject ext = DBEngine.getInstance().extWrapper(extJsonStr);
+            curCoreView.setExtData(ext);
+            curCoreView.bindData();
         }
     }
 
