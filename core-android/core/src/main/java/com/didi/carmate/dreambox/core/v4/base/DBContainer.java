@@ -83,13 +83,6 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
         } else if (nodeType == NODE_TYPE.NODE_TYPE_NORMAL) {
             DBModel model = getModel(position);
 
-            // 取当前ViewID
-            int _id = DBConstants.DEFAULT_ID_VIEW;
-            String rawId = getAttrs().get(DBConstants.UI_ID);
-            if (null != rawId) {
-                _id = Integer.parseInt(rawId);
-            }
-
             if (_id != DBConstants.DEFAULT_ID_VIEW && null != container && null != container.findViewById(_id)) {
                 mNativeView = container.findViewById(_id);
                 model.setView(mNativeView);
@@ -102,7 +95,8 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
                 }
             } else {
                 mNativeView = onCreateView(); // 回调子类View实现
-                model.setId(bindId(mNativeView));
+                mNativeView.setId(_id);
+                model.setId(_id);
                 model.setView(mNativeView);
                 model.setData(data);
 
@@ -140,16 +134,6 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
             mModels.put(position, model);
         }
         return model;
-    }
-
-    private int bindId(View nativeView) {
-        // id
-        String rawId = getAttrs().get(DBConstants.UI_ID);
-        if (null != rawId) {
-            id = Integer.parseInt(rawId);
-            nativeView.setId(id);
-        }
-        return id;
     }
 
     private void doBind(DBModel model, boolean bindAttrOnly) {

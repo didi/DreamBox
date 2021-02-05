@@ -129,7 +129,7 @@ public class DBImage<T extends View> extends DBBaseView<T> {
     protected void loadImage(View view) {
         ImageLoader imageLoader = Wrapper.get(mDBContext.getAccessKey()).imageLoader();
         if (DBUtils.isEmpty(src)) {
-            Wrapper.get(mDBContext.getAccessKey()).log().e("src is empty");
+//            Wrapper.get(mDBContext.getAccessKey()).log().e("src is empty");
             return;
         }
 

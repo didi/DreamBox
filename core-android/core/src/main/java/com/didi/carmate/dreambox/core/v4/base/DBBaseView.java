@@ -64,13 +64,6 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
                          JsonObject data, int position) {
         DBModel model = getModel(position);
 
-        // 取当前ViewID
-        int _id = DBConstants.DEFAULT_ID_VIEW;
-        String rawId = getAttrs().get(DBConstants.UI_ID);
-        if (null != rawId) {
-            _id = Integer.parseInt(rawId);
-        }
-
         // 判断是否可以复用
         if (_id != DBConstants.DEFAULT_ID_VIEW && null != parentView && null != parentView.findViewById(_id)) {
             mNativeView = parentView.findViewById(_id);
@@ -84,7 +77,8 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
             }
         } else {
             mNativeView = onCreateView(); // 回调子类View实现
-            model.setId(bindId(mNativeView));
+            mNativeView.setId(_id);
+            model.setId(_id);
             model.setView(mNativeView);
             model.setData(data);
 
@@ -104,16 +98,6 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
             mModels.put(position, model);
         }
         return model;
-    }
-
-    private int bindId(View nativeView) {
-        // id
-        String rawId = getAttrs().get(DBConstants.UI_ID);
-        if (null != rawId) {
-            id = Integer.parseInt(rawId);
-            nativeView.setId(id);
-        }
-        return id;
     }
 
     private void doBind(DBModel model, boolean bindAttrOnly) {

@@ -47,7 +47,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     protected SparseArray<DBModel> mModels = new SparseArray<>(); // 待优化，数据源和位置的映射关系
     protected View mNativeView;
     // 通用属性
-    protected int id = DBConstants.DEFAULT_ID_VIEW;
+    protected int _id = DBConstants.DEFAULT_ID_VIEW;
 
     protected int width;
     protected float widthPercent;
@@ -119,28 +119,43 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         return null;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public View getNativeView() {
         return mNativeView;
+    }
+
+    @Override
+    protected void onParserAttribute(Map<String, String> attrs) {
+        super.onParserAttribute(attrs);
+
+        if (_id == DBConstants.DEFAULT_ID_VIEW) {
+            _id = View.generateViewId();
+        }
     }
 
     @CallSuper
     protected void onParseLayoutAttr(Map<String, String> attrs, DBModel model) {
         // 边距
-        margin = DBScreenUtils.processSize(mDBContext, attrs.get("margin"), DBConstants.DEFAULT_SIZE_EDGE);
-        marginLeft = DBScreenUtils.processSize(mDBContext, attrs.get("marginLeft"), DBConstants.DEFAULT_SIZE_EDGE);
-        marginTop = DBScreenUtils.processSize(mDBContext, attrs.get("marginTop"), DBConstants.DEFAULT_SIZE_EDGE);
-        marginRight = DBScreenUtils.processSize(mDBContext, attrs.get("marginRight"), DBConstants.DEFAULT_SIZE_EDGE);
-        marginBottom = DBScreenUtils.processSize(mDBContext, attrs.get("marginBottom"), DBConstants.DEFAULT_SIZE_EDGE);
+        String mg = getString(attrs.get("margin"));
+        margin = DBScreenUtils.processSize(mDBContext, mg, DBConstants.DEFAULT_SIZE_EDGE);
+        String mgLeft = attrs.get("marginLeft");
+        marginLeft = DBScreenUtils.processSize(mDBContext, mgLeft, DBConstants.DEFAULT_SIZE_EDGE);
+        String mgTop = attrs.get("marginTop");
+        marginTop = DBScreenUtils.processSize(mDBContext, mgTop, DBConstants.DEFAULT_SIZE_EDGE);
+        String mgRight = attrs.get("marginRight");
+        marginRight = DBScreenUtils.processSize(mDBContext, mgRight, DBConstants.DEFAULT_SIZE_EDGE);
+        String mgBottom = attrs.get("marginBottom");
+        marginBottom = DBScreenUtils.processSize(mDBContext, mgBottom, DBConstants.DEFAULT_SIZE_EDGE);
         // padding
-        padding = DBScreenUtils.processSize(mDBContext, attrs.get("padding"), DBConstants.DEFAULT_SIZE_EDGE);
-        paddingLeft = DBScreenUtils.processSize(mDBContext, attrs.get("paddingLeft"), DBConstants.DEFAULT_SIZE_EDGE);
-        paddingTop = DBScreenUtils.processSize(mDBContext, attrs.get("paddingTop"), DBConstants.DEFAULT_SIZE_EDGE);
-        paddingRight = DBScreenUtils.processSize(mDBContext, attrs.get("paddingRight"), DBConstants.DEFAULT_SIZE_EDGE);
-        paddingBottom = DBScreenUtils.processSize(mDBContext, attrs.get("paddingBottom"), DBConstants.DEFAULT_SIZE_EDGE);
+        String pd = attrs.get("padding");
+        padding = DBScreenUtils.processSize(mDBContext, pd, DBConstants.DEFAULT_SIZE_EDGE);
+        String pdLeft = attrs.get("paddingLeft");
+        paddingLeft = DBScreenUtils.processSize(mDBContext, pdLeft, DBConstants.DEFAULT_SIZE_EDGE);
+        String pdTop = attrs.get("paddingTop");
+        paddingTop = DBScreenUtils.processSize(mDBContext, pdTop, DBConstants.DEFAULT_SIZE_EDGE);
+        String pdRight = attrs.get("paddingRight");
+        paddingRight = DBScreenUtils.processSize(mDBContext, pdRight, DBConstants.DEFAULT_SIZE_EDGE);
+        String pdBottom = attrs.get("paddingBottom");
+        paddingBottom = DBScreenUtils.processSize(mDBContext, pdBottom, DBConstants.DEFAULT_SIZE_EDGE);
 
         String bw = getString(attrs.get("borderWidth"));
         borderWidth = DBScreenUtils.processSize(mDBContext, bw, DBConstants.DEFAULT_SIZE_EDGE);

@@ -32,19 +32,28 @@ public class DBScreenUtils {
         } else if (strSize.equals(DBConstants.FILL_TYPE_FILL)) {
             intSize = ViewGroup.LayoutParams.MATCH_PARENT;
         } else {
-            // [单位] 判断
+            // [单位]&数值 判断及单位容错，默认是dp
+            String rawSize;
+            String unit;
             int startIdx = strSize.length() - 2;
             if (startIdx < 1) {
-                Wrapper.get(dBContext.getAccessKey()).log().e("[size] error -> " + strSize);
-                return defaultSize;
+                if (DBUtils.isNumeric(strSize)) {
+                    rawSize = strSize;
+                    unit = DBConstants.UNIT_TYPE_DP;
+                } else {
+                    Wrapper.get(dBContext.getAccessKey()).log().e("[size] error -> " + strSize);
+                    return defaultSize;
+                }
+            } else {
+                rawSize = strSize.substring(0, strSize.length() - 2);
+                unit = strSize.substring(startIdx);
             }
-            String unit = strSize.substring(startIdx);
+
             if (!unit.equals(DBConstants.UNIT_TYPE_DP) && !unit.equals(DBConstants.UNIT_TYPE_PX)) {
                 Wrapper.get(dBContext.getAccessKey()).log().e("[unit] error -> " + strSize);
                 return intSize;
             }
-            // 数值判断
-            String rawSize = strSize.substring(0, strSize.length() - 2);
+
             // 负数判断
             boolean isNegative = false;
             String size;

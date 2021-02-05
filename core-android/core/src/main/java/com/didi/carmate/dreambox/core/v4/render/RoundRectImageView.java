@@ -17,17 +17,26 @@ import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
+import java.lang.ref.WeakReference;
+
 public class RoundRectImageView extends AppCompatImageView {
     private final Paint mImagePaint;
     private final Path mImagePath;
     private final RectF mImageRectF;
+
     private final Paint mBoarderPaint;
     private final Path mBorderPath;
     private final RectF mBorderRectF;
-    private final Rect mRectSrc = new Rect();
-    private final Rect mRectDest = new Rect();
+
+    private final Rect mRectSrc;
+    private final Rect mRectDest;
+    private final Canvas mCanvas;
+    private final Matrix mMatrix;
+    private WeakReference<Bitmap> mLastBitmap;
+
     private final float[] mCorners;
     private int mBorderWidth;
+    private int mLastDrawable;
 
     public RoundRectImageView(Context context) {
         this(context, null);
@@ -49,6 +58,10 @@ public class RoundRectImageView extends AppCompatImageView {
         mBorderPath = new Path();
         mBorderRectF = new RectF();
 
+        mRectSrc = new Rect();
+        mRectDest = new Rect();
+        mCanvas = new Canvas();
+        mMatrix = new Matrix();
         mCorners = new float[]{
                 0, 0,        // Top left radius in px
                 0, 0,        // Top right radius in px
@@ -102,13 +115,20 @@ public class RoundRectImageView extends AppCompatImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         Drawable drawable = getDrawable();
+
         if (null != drawable) {
-            Bitmap bitmap = getBitmapFromDrawable(drawable);
-            Bitmap b = getRoundBitmapByShader(bitmap, getWidth(), getHeight());
-            mRectSrc.set(0, 0, b.getWidth(), b.getHeight());
-            mRectDest.set(0, 0, getWidth(), getHeight());
-            mImagePaint.reset();
-            canvas.drawBitmap(b, mRectSrc, mRectDest, mImagePaint);
+            if (drawable.hashCode() == mLastDrawable) {
+                canvas.drawBitmap(mLastBitmap.get(), mRectSrc, mRectDest, mImagePaint);
+            } else {
+                Bitmap bitmap = getBitmapFromDrawable(drawable);
+                Bitmap b = getRoundBitmapByShader(bitmap, getWidth(), getHeight());
+                mRectSrc.set(0, 0, b.getWidth(), b.getHeight());
+                mRectDest.set(0, 0, getWidth(), getHeight());
+                canvas.drawBitmap(b, mRectSrc, mRectDest, mImagePaint);
+                mLastBitmap = new WeakReference<>(b);
+            }
+
+            mLastDrawable = drawable.hashCode();
         } else {
             super.onDraw(canvas);
         }
@@ -133,36 +153,35 @@ public class RoundRectImageView extends AppCompatImageView {
         }
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
-
         if (outWidth <= 0) {
             outWidth = width;
         }
         if (outHeight <= 0) {
             outHeight = height;
         }
-
         float widthScale = outWidth * 1f / width;
         float heightScale = outHeight * 1f / height;
 
-        Matrix matrix = new Matrix();
-        matrix.setScale(widthScale, heightScale);
+        mMatrix.setScale(widthScale, heightScale);
         //创建输出的bitmap
         Bitmap desBitmap = Bitmap.createBitmap(outWidth, outHeight, Bitmap.Config.ARGB_8888);
         //创建canvas并传入desBitmap，这样绘制的内容都会在desBitmap上
-        Canvas canvas = new Canvas(desBitmap);
+        mCanvas.setBitmap(desBitmap);
         //创建着色器
         BitmapShader bitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
         //给着色器配置matrix
-        bitmapShader.setLocalMatrix(matrix);
+        bitmapShader.setLocalMatrix(mMatrix);
         mImagePaint.setShader(bitmapShader);
-        //创建边框矩形区域
-        mBorderRectF.set(0, 0, outWidth, outHeight);
-        mBorderPath.addRoundRect(mBorderRectF, mCorners, Path.Direction.CW);
-        canvas.drawPath(mBorderPath, mBoarderPaint);
+
         //创建真实图片矩形区域
         mImageRectF.set(mBorderWidth, mBorderWidth, outWidth - mBorderWidth, outHeight - mBorderWidth);
         mImagePath.addRoundRect(mImageRectF, mCorners, Path.Direction.CW);
-        canvas.drawPath(mImagePath, mImagePaint);
+        mCanvas.drawPath(mImagePath, mImagePaint);
+        //创建边框矩形区域
+        mBorderRectF.set(0, 0, outWidth, outHeight);
+        mBorderPath.addRoundRect(mBorderRectF, mCorners, Path.Direction.CW);
+        mCanvas.drawPath(mBorderPath, mBoarderPaint);
+
         return desBitmap;
     }
 }
