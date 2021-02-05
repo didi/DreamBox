@@ -137,24 +137,24 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         // 边距
         String mg = getString(attrs.get("margin"));
         margin = DBScreenUtils.processSize(mDBContext, mg, DBConstants.DEFAULT_SIZE_EDGE);
-        String mgLeft = attrs.get("marginLeft");
+        String mgLeft = getString(attrs.get("marginLeft"));
         marginLeft = DBScreenUtils.processSize(mDBContext, mgLeft, DBConstants.DEFAULT_SIZE_EDGE);
-        String mgTop = attrs.get("marginTop");
+        String mgTop = getString(attrs.get("marginTop"));
         marginTop = DBScreenUtils.processSize(mDBContext, mgTop, DBConstants.DEFAULT_SIZE_EDGE);
-        String mgRight = attrs.get("marginRight");
+        String mgRight = getString(attrs.get("marginRight"));
         marginRight = DBScreenUtils.processSize(mDBContext, mgRight, DBConstants.DEFAULT_SIZE_EDGE);
-        String mgBottom = attrs.get("marginBottom");
+        String mgBottom = getString(attrs.get("marginBottom"));
         marginBottom = DBScreenUtils.processSize(mDBContext, mgBottom, DBConstants.DEFAULT_SIZE_EDGE);
         // padding
-        String pd = attrs.get("padding");
+        String pd = getString(attrs.get("padding"));
         padding = DBScreenUtils.processSize(mDBContext, pd, DBConstants.DEFAULT_SIZE_EDGE);
-        String pdLeft = attrs.get("paddingLeft");
+        String pdLeft = getString(attrs.get("paddingLeft"));
         paddingLeft = DBScreenUtils.processSize(mDBContext, pdLeft, DBConstants.DEFAULT_SIZE_EDGE);
-        String pdTop = attrs.get("paddingTop");
+        String pdTop = getString(attrs.get("paddingTop"));
         paddingTop = DBScreenUtils.processSize(mDBContext, pdTop, DBConstants.DEFAULT_SIZE_EDGE);
-        String pdRight = attrs.get("paddingRight");
+        String pdRight = getString(attrs.get("paddingRight"));
         paddingRight = DBScreenUtils.processSize(mDBContext, pdRight, DBConstants.DEFAULT_SIZE_EDGE);
-        String pdBottom = attrs.get("paddingBottom");
+        String pdBottom = getString(attrs.get("paddingBottom"));
         paddingBottom = DBScreenUtils.processSize(mDBContext, pdBottom, DBConstants.DEFAULT_SIZE_EDGE);
 
         String bw = getString(attrs.get("borderWidth"));
