@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.CallSuper;
 
@@ -17,14 +18,15 @@ import com.didi.carmate.dreambox.core.v4.data.DBData;
 import com.didi.carmate.dreambox.core.v4.render.view.DBFrameLayoutView;
 import com.didi.carmate.dreambox.core.v4.render.view.DBLinearLayoutView;
 import com.didi.carmate.dreambox.core.v4.render.view.DBYogaLayoutView;
-import com.didi.carmate.dreambox.core.v4.utils.DBLogger;
 import com.didi.carmate.dreambox.core.v4.utils.DBScreenUtils;
 import com.didi.carmate.dreambox.core.v4.utils.DBThreadUtils;
 import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
 import com.facebook.yoga.YogaAlign;
+import com.facebook.yoga.YogaDisplay;
 import com.facebook.yoga.YogaEdge;
 import com.facebook.yoga.YogaNode;
 import com.facebook.yoga.YogaPositionType;
+import com.facebook.yoga.android.YogaLayout;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -366,10 +368,18 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         if (!DBUtils.isEmpty(rawGravity)) {
             gravity = convertGravity(rawGravity);
         }
+
+        if (!(mNativeView instanceof YogaLayout)) {
+            if (padding > 0) {
+                mNativeView.setPadding(padding, padding, padding, padding);
+            } else {
+                mNativeView.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+            }
+        }
     }
 
     @CallSuper
-    protected void onViewAdded(ViewGroup parentView) {
+    protected void rebindAttributes(ViewGroup parentView) {
         if (parentView instanceof DBYogaLayoutView) {
             // YogaLayout
             bindAttributesInYogaLayout(parentView);
@@ -379,6 +389,54 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         } else if (parentView instanceof DBFrameLayoutView) {
             // FrameLayout
             bindAttributesInFrameLayout(parentView);
+        }
+    }
+
+    protected void addToParent(View nativeView, ViewGroup container) {
+        // DBLView里根节点调用bindView时container传null
+        // 适配List和Flow场景，native view 已经在adapter里创建好，且无需执行添加操作
+        if (null != container) {
+            if (container instanceof LinearLayout) {
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
+                layoutParams.gravity = layoutGravity;
+                setLayoutMargin(layoutParams);
+                container.addView(nativeView, layoutParams);
+            } else if (container instanceof FrameLayout) {
+                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(width, height);
+                layoutParams.gravity = layoutGravity;
+                setLayoutMargin(layoutParams);
+                container.addView(nativeView, layoutParams);
+            } else if (container instanceof YogaLayout) {
+                YogaLayout layout = (YogaLayout) container;
+                layout.addView(nativeView, -1, new ViewGroup.LayoutParams(width, height));
+                // GONE处理
+                setYogaDisplay(nativeView, container);
+            }
+        }
+    }
+
+    protected void setYogaDisplay(View nativeView, ViewGroup container) {
+        YogaNode nativeViewNode = null;
+        if (nativeView instanceof YogaLayout) {
+            nativeViewNode = ((YogaLayout) nativeView).getYogaNode();
+        } else if (container instanceof YogaLayout) {
+            nativeViewNode = ((YogaLayout) container).getYogaNodeForView(nativeView);
+        }
+
+        if (null != nativeViewNode) {
+            if (nativeView.getVisibility() == View.GONE) {
+                nativeViewNode.setDisplay(YogaDisplay.NONE);
+            } else {
+                nativeViewNode.setDisplay(YogaDisplay.FLEX);
+            }
+        }
+    }
+
+    protected void setLayoutMargin(ViewGroup.MarginLayoutParams marginLayoutParams) {
+        if (margin > 0) {
+            marginLayoutParams.setMargins(margin, margin, margin, margin);
+        } else {
+            marginLayoutParams.setMargins(marginLeft, marginTop, marginRight, marginBottom);
         }
     }
 
@@ -398,12 +456,9 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     }
 
     private void bindAttributesInLinearLayout(ViewGroup parentView) {
-
     }
 
     private void bindAttributesInFrameLayout(ViewGroup parentView) {
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mNativeView.getLayoutParams();
-        layoutParams.gravity = layoutGravity;
     }
 
     private void bindAttributesInYogaLayout(ViewGroup parentView) {
@@ -428,23 +483,25 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
             }
         }
 
-        if (padding > 0) {
-            node.setPadding(YogaEdge.LEFT, padding);
-            node.setPadding(YogaEdge.TOP, padding);
-            node.setPadding(YogaEdge.RIGHT, padding);
-            node.setPadding(YogaEdge.BOTTOM, padding);
-        } else {
-            if (paddingLeft != DBConstants.DEFAULT_SIZE_EDGE) {
-                node.setPadding(YogaEdge.LEFT, paddingLeft);
-            }
-            if (paddingTop != DBConstants.DEFAULT_SIZE_EDGE) {
-                node.setPadding(YogaEdge.TOP, paddingTop);
-            }
-            if (paddingRight != DBConstants.DEFAULT_SIZE_EDGE) {
-                node.setPadding(YogaEdge.RIGHT, paddingRight);
-            }
-            if (paddingBottom != DBConstants.DEFAULT_SIZE_EDGE) {
-                node.setPadding(YogaEdge.BOTTOM, paddingBottom);
+        if (mNativeView instanceof YogaLayout) {
+            if (padding > 0) {
+                node.setPadding(YogaEdge.LEFT, padding);
+                node.setPadding(YogaEdge.TOP, padding);
+                node.setPadding(YogaEdge.RIGHT, padding);
+                node.setPadding(YogaEdge.BOTTOM, padding);
+            } else {
+                if (paddingLeft != DBConstants.DEFAULT_SIZE_EDGE) {
+                    node.setPadding(YogaEdge.LEFT, paddingLeft);
+                }
+                if (paddingTop != DBConstants.DEFAULT_SIZE_EDGE) {
+                    node.setPadding(YogaEdge.TOP, paddingTop);
+                }
+                if (paddingRight != DBConstants.DEFAULT_SIZE_EDGE) {
+                    node.setPadding(YogaEdge.RIGHT, paddingRight);
+                }
+                if (paddingBottom != DBConstants.DEFAULT_SIZE_EDGE) {
+                    node.setPadding(YogaEdge.BOTTOM, paddingBottom);
+                }
             }
         }
 

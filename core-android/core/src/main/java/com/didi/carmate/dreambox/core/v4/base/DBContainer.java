@@ -3,13 +3,11 @@ package com.didi.carmate.dreambox.core.v4.base;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import androidx.annotation.CallSuper;
 
 import com.didi.carmate.dreambox.core.v4.render.IDBContainer;
 import com.didi.carmate.dreambox.core.v4.render.IDBRender;
-import com.facebook.yoga.YogaDisplay;
 import com.facebook.yoga.android.YogaLayout;
 import com.google.gson.JsonObject;
 
@@ -89,7 +87,8 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
                 model.setData(data);
 
                 doBind(model, bindAttrOnly);
-                setContainerDisplay(mNativeView);
+                rebindAttributes(container);
+                setYogaDisplay(mNativeView, container);
                 if ((container instanceof YogaLayout) && !(mNativeView instanceof YogaLayout)) {
                     ((YogaLayout) container).invalidate(mNativeView);
                 }
@@ -102,6 +101,7 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
 
                 doBind(model, bindAttrOnly);
                 addToParent(mNativeView, container);
+                rebindAttributes(container);
             }
         } else if (nodeType == NODE_TYPE.NODE_TYPE_ROOT) {
             if (null == mNativeView) {
@@ -146,59 +146,6 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
         // 绑定视图回调事件
         if (mCallbacks.size() > 0) {
             onCallbackBind(mCallbacks, model);
-        }
-    }
-
-    private void addToParent(View nativeView, ViewGroup container) {
-        // DBLView里根节点调用bindView时container传null
-        // 适配List和Flow场景，native view 已经在adapter里创建好，且无需执行添加操作
-        if (null != container) {
-            ViewGroup.MarginLayoutParams marginLayoutParams;
-            if (container instanceof LinearLayout) {
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
-                layoutParams.gravity = layoutGravity;
-                marginLayoutParams = layoutParams;
-                container.addView(nativeView, layoutParams);
-            } else if (container instanceof FrameLayout) {
-                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(width, height);
-                layoutParams.gravity = layoutGravity;
-                marginLayoutParams = layoutParams;
-                container.addView(nativeView, layoutParams);
-            } else {
-                ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(width, height);
-                marginLayoutParams = layoutParams;
-                container.addView(nativeView, layoutParams);
-
-                // GONE处理
-                setContainerDisplay(nativeView);
-            }
-            if (margin > 0) {
-                marginLayoutParams.setMargins(margin, margin, margin, margin);
-            } else {
-                marginLayoutParams.setMargins(marginLeft, marginTop, marginRight, marginBottom);
-            }
-            onViewAdded(container);
-        }
-    }
-
-    private void setContainerDisplay(View nativeView) {
-        if (nativeView instanceof YogaLayout) {
-            if (nativeView.getVisibility() == View.GONE) {
-                ((YogaLayout) nativeView).getYogaNode().setDisplay(YogaDisplay.NONE);
-            } else {
-                ((YogaLayout) nativeView).getYogaNode().setDisplay(YogaDisplay.FLEX);
-            }
-        }
-    }
-
-    @Override
-    protected void onAttributesBind(final Map<String, String> attrs, DBModel model) {
-        super.onAttributesBind(attrs, model);
-
-        if (padding > 0) {
-            mNativeView.setPadding(padding, padding, padding, padding);
-        } else {
-            mNativeView.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
         }
     }
 
