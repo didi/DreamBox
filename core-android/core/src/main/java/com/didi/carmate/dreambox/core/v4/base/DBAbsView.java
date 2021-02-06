@@ -370,11 +370,12 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         }
 
         if (!(mNativeView instanceof YogaLayout)) {
-            if (padding > 0) {
-                mNativeView.setPadding(padding, padding, padding, padding);
-            } else {
-                mNativeView.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
-            }
+            int left, top, right, bottom;
+            left = (paddingLeft == DBConstants.DEFAULT_SIZE_EDGE) ? padding : paddingLeft;
+            top = (paddingTop == DBConstants.DEFAULT_SIZE_EDGE) ? padding : paddingTop;
+            right = (paddingRight == DBConstants.DEFAULT_SIZE_EDGE) ? padding : paddingRight;
+            bottom = (paddingBottom == DBConstants.DEFAULT_SIZE_EDGE) ? padding : paddingBottom;
+            mNativeView.setPadding(left, top, right, bottom);
         }
     }
 
@@ -433,11 +434,12 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     }
 
     protected void setLayoutMargin(ViewGroup.MarginLayoutParams marginLayoutParams) {
-        if (margin > 0) {
-            marginLayoutParams.setMargins(margin, margin, margin, margin);
-        } else {
-            marginLayoutParams.setMargins(marginLeft, marginTop, marginRight, marginBottom);
-        }
+        int ml, mt, mr, mb;
+        ml = (marginLeft == DBConstants.DEFAULT_SIZE_EDGE) ? margin : marginLeft;
+        mt = (marginTop == DBConstants.DEFAULT_SIZE_EDGE) ? margin : marginTop;
+        mr = (marginRight == DBConstants.DEFAULT_SIZE_EDGE) ? margin : marginRight;
+        mb = (marginBottom == DBConstants.DEFAULT_SIZE_EDGE) ? margin : marginBottom;
+        marginLayoutParams.setMargins(ml, mt, mr, mb);
     }
 
     private int convertGravity(String gravity) {
@@ -463,46 +465,27 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
 
     private void bindAttributesInYogaLayout(ViewGroup parentView) {
         YogaNode node = ((DBYogaLayoutView) parentView).getYogaNodeForView(mNativeView);
-        if (margin > 0) {
-            node.setMargin(YogaEdge.LEFT, margin);
-            node.setMargin(YogaEdge.TOP, margin);
-            node.setMargin(YogaEdge.RIGHT, margin);
-            node.setMargin(YogaEdge.BOTTOM, margin);
-        } else {
-            if (marginLeft != DBConstants.DEFAULT_SIZE_EDGE) {
-                node.setMargin(YogaEdge.LEFT, marginLeft);
-            }
-            if (marginTop != DBConstants.DEFAULT_SIZE_EDGE) {
-                node.setMargin(YogaEdge.TOP, marginTop);
-            }
-            if (marginRight != DBConstants.DEFAULT_SIZE_EDGE) {
-                node.setMargin(YogaEdge.RIGHT, marginRight);
-            }
-            if (marginBottom != DBConstants.DEFAULT_SIZE_EDGE) {
-                node.setMargin(YogaEdge.BOTTOM, marginBottom);
-            }
-        }
+
+        int ml, mt, mr, mb;
+        ml = (marginLeft == DBConstants.DEFAULT_SIZE_EDGE) ? margin : marginLeft;
+        mt = (marginTop == DBConstants.DEFAULT_SIZE_EDGE) ? margin : marginTop;
+        mr = (marginRight == DBConstants.DEFAULT_SIZE_EDGE) ? margin : marginRight;
+        mb = (marginBottom == DBConstants.DEFAULT_SIZE_EDGE) ? margin : marginBottom;
+        node.setMargin(YogaEdge.LEFT, ml);
+        node.setMargin(YogaEdge.TOP, mt);
+        node.setMargin(YogaEdge.RIGHT, mr);
+        node.setMargin(YogaEdge.BOTTOM, mb);
 
         if (mNativeView instanceof YogaLayout) {
-            if (padding > 0) {
-                node.setPadding(YogaEdge.LEFT, padding);
-                node.setPadding(YogaEdge.TOP, padding);
-                node.setPadding(YogaEdge.RIGHT, padding);
-                node.setPadding(YogaEdge.BOTTOM, padding);
-            } else {
-                if (paddingLeft != DBConstants.DEFAULT_SIZE_EDGE) {
-                    node.setPadding(YogaEdge.LEFT, paddingLeft);
-                }
-                if (paddingTop != DBConstants.DEFAULT_SIZE_EDGE) {
-                    node.setPadding(YogaEdge.TOP, paddingTop);
-                }
-                if (paddingRight != DBConstants.DEFAULT_SIZE_EDGE) {
-                    node.setPadding(YogaEdge.RIGHT, paddingRight);
-                }
-                if (paddingBottom != DBConstants.DEFAULT_SIZE_EDGE) {
-                    node.setPadding(YogaEdge.BOTTOM, paddingBottom);
-                }
-            }
+            int left, top, right, bottom;
+            left = (paddingLeft == DBConstants.DEFAULT_SIZE_EDGE) ? padding : paddingLeft;
+            top = (paddingTop == DBConstants.DEFAULT_SIZE_EDGE) ? padding : paddingTop;
+            right = (paddingRight == DBConstants.DEFAULT_SIZE_EDGE) ? padding : paddingRight;
+            bottom = (paddingBottom == DBConstants.DEFAULT_SIZE_EDGE) ? padding : paddingBottom;
+            node.setPadding(YogaEdge.LEFT, left);
+            node.setPadding(YogaEdge.TOP, top);
+            node.setPadding(YogaEdge.RIGHT, right);
+            node.setPadding(YogaEdge.BOTTOM, bottom);
         }
 
         if (flexGrow != 0) {
