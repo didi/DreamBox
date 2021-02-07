@@ -183,7 +183,7 @@ public class DBLView extends DBNode {
         View view = mDBCoreView.getView();
         if (null == view.getLayoutParams()) {
             ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             view.setLayoutParams(lp);
         }
 

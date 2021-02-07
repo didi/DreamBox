@@ -216,7 +216,9 @@ public abstract class DBNode implements IDBNode {
 //                        Wrapper.get(mDBContext.getAccessKey()).log().e("getSingleString->check rawKey: " + rawKey);
 //                    }
                 } else {
-                    JsonElement element = getJsonElement(keys, mDBContext.getJsonValue(keys[0]));
+                    String[] subKeys = new String[keys.length - 1];
+                    System.arraycopy(keys, 1, subKeys, 0, subKeys.length);
+                    JsonElement element = getJsonElement(subKeys, mDBContext.getJsonValue(keys[0]));
                     if (null != element && element.isJsonPrimitive()) {
                         return element.getAsJsonPrimitive().getAsString();
                     }

@@ -120,4 +120,12 @@ public class DBYogaLayoutView extends YogaLayout {
         super.dispatchDraw(canvas);
         canvas.restore();
     }
+
+    @Override
+    public void requestLayout() {
+        if (!(getParent() instanceof YogaLayout) && null != getYogaNode()) {
+            getYogaNode().setHeight(-1);
+            super.requestLayout();
+        }
+    }
 }

@@ -55,6 +55,7 @@ public class RoundRectImageView extends AppCompatImageView {
 
         mBoarderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBoarderPaint.setColor(Color.TRANSPARENT);
+        mBoarderPaint.setStyle(Paint.Style.STROKE);
         mBorderPath = new Path();
         mBorderRectF = new RectF();
 

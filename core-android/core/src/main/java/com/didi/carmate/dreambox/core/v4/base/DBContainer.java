@@ -106,6 +106,7 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
         } else if (nodeType == NODE_TYPE.NODE_TYPE_ROOT) {
             if (null == mNativeView) {
                 mNativeView = onCreateView();
+                mNativeView.setId(DBConstants.DEFAULT_ID_ROOT);
             }
             DBModel model = getModel(position);
             model.setId(DBConstants.DEFAULT_ID_ROOT);
@@ -114,7 +115,13 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
 
             doBind(model, bindAttrOnly);
             // 根容器宽高DSL里定义的优先, 外出DreamBoxView是FrameLayout，所以使用FrameLayout.LayoutParams
-            mNativeView.setLayoutParams(new FrameLayout.LayoutParams(width, height));
+            FrameLayout.LayoutParams layoutParams;
+            if (null == mNativeView.getLayoutParams()) {
+                layoutParams = new FrameLayout.LayoutParams(width, height);
+            } else {
+                layoutParams = (FrameLayout.LayoutParams) mNativeView.getLayoutParams();
+            }
+            mNativeView.setLayoutParams(layoutParams);
         }
 
         // 递归子节点的bindView
