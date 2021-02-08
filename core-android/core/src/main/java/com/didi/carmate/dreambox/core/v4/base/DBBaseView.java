@@ -68,7 +68,7 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
             model.setData(data);
 
             doBind(model, bindAttrOnly);
-            rebindAttributes(parentView);
+            rebindAttributes(mNativeView, parentView);
             setYogaDisplay(mNativeView, parentView);
             if ((parentView instanceof YogaLayout)) {
                 ((YogaLayout) parentView).invalidate(mNativeView);
@@ -86,7 +86,7 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
                 onChildrenBind(getAttrs(), mChildContainers);
             }
             addToParent(mNativeView, parentView);
-            rebindAttributes(parentView);
+            rebindAttributes(mNativeView, parentView);
         }
     }
 

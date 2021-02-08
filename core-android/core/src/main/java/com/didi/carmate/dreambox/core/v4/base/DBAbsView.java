@@ -380,10 +380,16 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     }
 
     @CallSuper
-    protected void rebindAttributes(ViewGroup parentView) {
+    protected void rebindAttributes(View nativeView, ViewGroup parentView) {
         if (parentView instanceof DBYogaLayoutView) {
             // YogaLayout
-            bindAttributesInYogaLayout(parentView);
+            YogaNode yogaNode;
+            if (nativeView instanceof YogaLayout) {
+                yogaNode = ((YogaLayout) nativeView).getYogaNode();
+            } else {
+                yogaNode = ((YogaLayout) parentView).getYogaNodeForView(nativeView);
+            }
+            bindAttributesInYogaLayout(yogaNode);
         } else if (parentView instanceof DBLinearLayoutView) {
             // LinearLayout
             bindAttributesInLinearLayout(parentView);
@@ -463,9 +469,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     private void bindAttributesInFrameLayout(ViewGroup parentView) {
     }
 
-    private void bindAttributesInYogaLayout(ViewGroup parentView) {
-        YogaNode node = ((DBYogaLayoutView) parentView).getYogaNodeForView(mNativeView);
-
+    private void bindAttributesInYogaLayout(YogaNode node) {
         int ml, mt, mr, mb;
         ml = (marginLeft == DBConstants.DEFAULT_SIZE_EDGE) ? margin : marginLeft;
         mt = (marginTop == DBConstants.DEFAULT_SIZE_EDGE) ? margin : marginTop;
@@ -501,20 +505,20 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
             node.setFlexBasisPercent(flexBasisPercent);
         }
 
-        if (width > 0) {
-            node.setWidth(width);
-        } else if (widthPercent != 0) {
+        if (widthPercent != 0) {
             node.setWidthPercent(widthPercent);
+        } else {
+            node.setWidth(width);
+        }
+        if (heightPercent != 0) {
+            node.setHeightPercent(heightPercent);
+        } else {
+            node.setHeight(height);
         }
         if (minWidth > 0) {
             node.setMinWidth(minWidth);
         } else if (minWidthPercent != 0) {
             node.setMinWidthPercent(minWidthPercent);
-        }
-        if (height > 0) {
-            node.setHeight(height);
-        } else if (heightPercent != 0) {
-            node.setHeightPercent(heightPercent);
         }
         if (minHeight > 0) {
             node.setMinHeight(minHeight);

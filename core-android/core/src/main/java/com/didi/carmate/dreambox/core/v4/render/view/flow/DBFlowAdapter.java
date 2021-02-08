@@ -37,6 +37,10 @@ public class DBFlowAdapter<E> extends DBFlowLayout.FlowAdapter<E> {
     @Override
     View getView(int index) {
         ViewGroup rootView = mCellContainer.onCreateView();
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        rootView.setLayoutParams(lp);
         if (null != mAdapterCallback) {
             mAdapterCallback.onBindItemView(rootView, mDataList.get(index), index);
         }

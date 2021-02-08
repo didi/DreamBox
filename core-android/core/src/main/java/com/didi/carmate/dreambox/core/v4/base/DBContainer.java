@@ -75,9 +75,14 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
 
             doBind(model, bindAttrOnly);
             ViewGroup.LayoutParams layoutParams = mNativeView.getLayoutParams();
-            layoutParams.width = width;
-            layoutParams.height = height;
+            if (layoutParams.width < 0) {
+                layoutParams.width = width;
+            }
+            if (layoutParams.height < 0) {
+                layoutParams.height = height;
+            }
             mNativeView.setLayoutParams(layoutParams);
+//            rebindAttributes(mNativeView, container);
         } else if (nodeType == NODE_TYPE.NODE_TYPE_NORMAL) {
             DBModel model = getModel(position);
 
@@ -87,7 +92,7 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
                 model.setData(data);
 
                 doBind(model, bindAttrOnly);
-                rebindAttributes(container);
+                rebindAttributes(mNativeView, container);
                 setYogaDisplay(mNativeView, container);
                 if ((container instanceof YogaLayout) && !(mNativeView instanceof YogaLayout)) {
                     ((YogaLayout) container).invalidate(mNativeView);
@@ -101,7 +106,7 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
 
                 doBind(model, bindAttrOnly);
                 addToParent(mNativeView, container);
-                rebindAttributes(container);
+                rebindAttributes(mNativeView, container);
             }
         } else if (nodeType == NODE_TYPE.NODE_TYPE_ROOT) {
             if (null == mNativeView) {
@@ -114,14 +119,15 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
             model.setData(data);
 
             doBind(model, bindAttrOnly);
-            // 根容器宽高DSL里定义的优先, 外出DreamBoxView是FrameLayout，所以使用FrameLayout.LayoutParams
-            FrameLayout.LayoutParams layoutParams;
-            if (null == mNativeView.getLayoutParams()) {
-                layoutParams = new FrameLayout.LayoutParams(width, height);
-            } else {
-                layoutParams = (FrameLayout.LayoutParams) mNativeView.getLayoutParams();
-            }
-            mNativeView.setLayoutParams(layoutParams);
+//            // 根容器宽高DSL里定义的优先, 外出DreamBoxView是FrameLayout，所以使用FrameLayout.LayoutParams
+//            FrameLayout.LayoutParams layoutParams;
+//            if (null == mNativeView.getLayoutParams()) {
+//                layoutParams = new FrameLayout.LayoutParams(width, height);
+//            } else {
+//                layoutParams = (FrameLayout.LayoutParams) mNativeView.getLayoutParams();
+//            }
+//            mNativeView.setLayoutParams(layoutParams);
+            rebindAttributes(mNativeView, container);
         }
 
         // 递归子节点的bindView
