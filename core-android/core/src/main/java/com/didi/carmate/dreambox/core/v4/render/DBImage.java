@@ -138,11 +138,8 @@ public class DBImage<T extends View> extends DBBaseView<T> {
             imageLoader.load(src, ninePatchView);
         } else if (view instanceof RoundRectImageView) {
             RoundRectImageView imageView = (RoundRectImageView) view;
-            if (radius > 0) {
-                imageView.setRadius(radius);
-            } else {
-                imageView.setRoundRadius(radiusLT, radiusRT, radiusRB, radiusLB);
-            }
+            imageView.setRadius(radius);
+            imageView.setRoundRadius(radius, radiusLT, radiusRT, radiusRB, radiusLB);
             if (DBUtils.isColor(borderColor)) {
                 imageView.setBorderColor(Color.parseColor(borderColor));
             }

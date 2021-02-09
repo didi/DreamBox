@@ -35,8 +35,11 @@ public class RoundRectImageView extends AppCompatImageView {
     private WeakReference<Bitmap> mLastBitmap;
 
     private final float[] mCorners;
+    private float mCornerX, mCornerY;
     private int mBorderWidth;
     private int mLastDrawable;
+    private boolean mIsDrawCorner;
+    private boolean mIsDrawEachCorner;
 
     public RoundRectImageView(Context context) {
         this(context, null);
@@ -69,6 +72,7 @@ public class RoundRectImageView extends AppCompatImageView {
                 0, 0,        // Bottom right radius in px
                 0, 0         // Bottom left radius in px
         };
+        mCornerX = mCornerY = 0;
     }
 
     public void setBorderWidth(int borderWidth) {
@@ -81,32 +85,49 @@ public class RoundRectImageView extends AppCompatImageView {
     }
 
     public void setRadius(int radius) {
-        mCorners[0] = radius;
-        mCorners[1] = radius;
-        mCorners[2] = radius;
-        mCorners[3] = radius;
-        mCorners[4] = radius;
-        mCorners[5] = radius;
-        mCorners[6] = radius;
-        mCorners[7] = radius;
+        if (radius > 0) {
+            mCornerX = radius;
+            mCornerY = radius;
+            mIsDrawCorner = true;
+        }
     }
 
-    public void setRoundRadius(int lt, int rt, int rb, int lb) {
+    public void setRoundRadius(int radius, int lt, int rt, int rb, int lb) {
         if (lt != 0) {
             mCorners[0] = lt;
             mCorners[1] = lt;
+            mIsDrawCorner = true;
+            mIsDrawEachCorner = true;
+        } else {
+            mCorners[0] = radius;
+            mCorners[1] = radius;
         }
         if (rt != 0) {
             mCorners[2] = rt;
             mCorners[3] = rt;
+            mIsDrawCorner = true;
+            mIsDrawEachCorner = true;
+        } else {
+            mCorners[2] = radius;
+            mCorners[3] = radius;
         }
         if (rb != 0) {
             mCorners[4] = rb;
             mCorners[5] = rb;
+            mIsDrawCorner = true;
+            mIsDrawEachCorner = true;
+        } else {
+            mCorners[4] = radius;
+            mCorners[5] = radius;
         }
         if (lb != 0) {
             mCorners[6] = lb;
             mCorners[7] = lb;
+            mIsDrawCorner = true;
+            mIsDrawEachCorner = true;
+        } else {
+            mCorners[6] = radius;
+            mCorners[7] = radius;
         }
     }
 
@@ -115,21 +136,22 @@ public class RoundRectImageView extends AppCompatImageView {
      */
     @Override
     protected void onDraw(Canvas canvas) {
-        Drawable drawable = getDrawable();
+        if (mIsDrawCorner) {
+            Drawable drawable = getDrawable();
+            if (null != drawable) {
+                if (drawable.hashCode() == mLastDrawable) {
+                    canvas.drawBitmap(mLastBitmap.get(), mRectSrc, mRectDest, mImagePaint);
+                } else {
+                    Bitmap bitmap = getBitmapFromDrawable(drawable);
+                    Bitmap b = getRoundBitmapByShader(bitmap, getWidth(), getHeight());
+                    mRectSrc.set(0, 0, b.getWidth(), b.getHeight());
+                    mRectDest.set(0, 0, getWidth(), getHeight());
+                    canvas.drawBitmap(b, mRectSrc, mRectDest, mImagePaint);
+                    mLastBitmap = new WeakReference<>(b);
+                }
 
-        if (null != drawable) {
-            if (drawable.hashCode() == mLastDrawable) {
-                canvas.drawBitmap(mLastBitmap.get(), mRectSrc, mRectDest, mImagePaint);
-            } else {
-                Bitmap bitmap = getBitmapFromDrawable(drawable);
-                Bitmap b = getRoundBitmapByShader(bitmap, getWidth(), getHeight());
-                mRectSrc.set(0, 0, b.getWidth(), b.getHeight());
-                mRectDest.set(0, 0, getWidth(), getHeight());
-                canvas.drawBitmap(b, mRectSrc, mRectDest, mImagePaint);
-                mLastBitmap = new WeakReference<>(b);
+                mLastDrawable = drawable.hashCode();
             }
-
-            mLastDrawable = drawable.hashCode();
         } else {
             super.onDraw(canvas);
         }
@@ -176,11 +198,19 @@ public class RoundRectImageView extends AppCompatImageView {
 
         //创建真实图片矩形区域
         mImageRectF.set(mBorderWidth, mBorderWidth, outWidth - mBorderWidth, outHeight - mBorderWidth);
-        mImagePath.addRoundRect(mImageRectF, mCorners, Path.Direction.CW);
+        if (mIsDrawEachCorner) {
+            mImagePath.addRoundRect(mImageRectF, mCorners, Path.Direction.CW);
+        } else {
+            mImagePath.addRoundRect(mImageRectF, mCornerX, mCornerY, Path.Direction.CW);
+        }
         mCanvas.drawPath(mImagePath, mImagePaint);
         //创建边框矩形区域
         mBorderRectF.set(0, 0, outWidth, outHeight);
-        mBorderPath.addRoundRect(mBorderRectF, mCorners, Path.Direction.CW);
+        if (mIsDrawEachCorner) {
+            mBorderPath.addRoundRect(mBorderRectF, mCorners, Path.Direction.CW);
+        } else {
+            mBorderPath.addRoundRect(mBorderRectF, mCornerX, mCornerY, Path.Direction.CW);
+        }
         mCanvas.drawPath(mBorderPath, mBoarderPaint);
 
         return desBitmap;

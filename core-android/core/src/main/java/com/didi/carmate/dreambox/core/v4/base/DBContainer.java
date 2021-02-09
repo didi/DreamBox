@@ -92,7 +92,7 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
                 model.setData(data);
 
                 doBind(model, bindAttrOnly);
-                rebindAttributes(mNativeView, container);
+                rebindAttributes(nodeType, mNativeView, container);
                 setYogaDisplay(mNativeView, container);
                 if ((container instanceof YogaLayout) && !(mNativeView instanceof YogaLayout)) {
                     ((YogaLayout) container).invalidate(mNativeView);
@@ -105,8 +105,9 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
                 model.setData(data);
 
                 doBind(model, bindAttrOnly);
+                // 添加到父容器
                 addToParent(mNativeView, container);
-                rebindAttributes(mNativeView, container);
+                rebindAttributes(nodeType, mNativeView, container);
             }
         } else if (nodeType == NODE_TYPE.NODE_TYPE_ROOT) {
             if (null == mNativeView) {
@@ -119,15 +120,10 @@ public abstract class DBContainer<V extends ViewGroup> extends DBAbsView<V> impl
             model.setData(data);
 
             doBind(model, bindAttrOnly);
-//            // 根容器宽高DSL里定义的优先, 外出DreamBoxView是FrameLayout，所以使用FrameLayout.LayoutParams
-//            FrameLayout.LayoutParams layoutParams;
-//            if (null == mNativeView.getLayoutParams()) {
-//                layoutParams = new FrameLayout.LayoutParams(width, height);
-//            } else {
-//                layoutParams = (FrameLayout.LayoutParams) mNativeView.getLayoutParams();
-//            }
-//            mNativeView.setLayoutParams(layoutParams);
-            rebindAttributes(mNativeView, container);
+            if (null == mNativeView.getLayoutParams()) {
+                mNativeView.setLayoutParams(new FrameLayout.LayoutParams(width, height));
+            }
+            rebindAttributes(nodeType, mNativeView, container);
         }
 
         // 递归子节点的bindView

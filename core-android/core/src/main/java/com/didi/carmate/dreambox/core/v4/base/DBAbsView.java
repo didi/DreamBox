@@ -21,6 +21,8 @@ import com.didi.carmate.dreambox.core.v4.render.view.DBYogaLayoutView;
 import com.didi.carmate.dreambox.core.v4.utils.DBScreenUtils;
 import com.didi.carmate.dreambox.core.v4.utils.DBThreadUtils;
 import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
+import com.didi.carmate.dreambox.wrapper.v4.ImageLoader;
+import com.didi.carmate.dreambox.wrapper.v4.Wrapper;
 import com.facebook.yoga.YogaAlign;
 import com.facebook.yoga.YogaDisplay;
 import com.facebook.yoga.YogaEdge;
@@ -340,9 +342,14 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         // background
         background = getString(attrs.get("background"), model);
         if (!DBUtils.isEmpty(background)) {
-            Context context = mDBContext.getContext();
-            int resId = context.getResources().getIdentifier(background, "drawable", context.getPackageName());
-            mNativeView.setBackgroundResource(resId);
+            ImageLoader imageLoader = Wrapper.get(mDBContext.getAccessKey()).imageLoader();
+            if (background.startsWith("http")) {
+                imageLoader.load(background, mNativeView);
+            } else {
+                Context context = mDBContext.getContext();
+                int resId = context.getResources().getIdentifier(background, "drawable", context.getPackageName());
+                mNativeView.setBackgroundResource(resId);
+            }
         }
         // backgroundColor
         backgroundColor = getString(attrs.get("backgroundColor"), model);
@@ -380,45 +387,38 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
     }
 
     @CallSuper
-    protected void rebindAttributes(View nativeView, ViewGroup parentView) {
-        if (parentView instanceof DBYogaLayoutView) {
-            // YogaLayout
-            YogaNode yogaNode;
+    protected void rebindAttributes(NODE_TYPE nodeType, View nativeView, ViewGroup parentView) {
+        if (nodeType == NODE_TYPE.NODE_TYPE_ROOT) {
             if (nativeView instanceof YogaLayout) {
-                yogaNode = ((YogaLayout) nativeView).getYogaNode();
+                YogaNode yogaNode = ((YogaLayout) nativeView).getYogaNode();
+                bindAttributesInYogaLayout(yogaNode);
             } else {
-                yogaNode = ((YogaLayout) parentView).getYogaNodeForView(nativeView);
+                bindAttributesInFrameLayout(nativeView);
             }
+        } else if (parentView instanceof DBYogaLayoutView) {
+            YogaNode yogaNode = ((YogaLayout) parentView).getYogaNodeForView(nativeView);
             bindAttributesInYogaLayout(yogaNode);
         } else if (parentView instanceof DBLinearLayoutView) {
-            // LinearLayout
-            bindAttributesInLinearLayout(parentView);
+            bindAttributesInLinearLayout(nativeView);
         } else if (parentView instanceof DBFrameLayoutView) {
-            // FrameLayout
-            bindAttributesInFrameLayout(parentView);
+            bindAttributesInFrameLayout(nativeView);
         }
     }
 
-    protected void addToParent(View nativeView, ViewGroup container) {
-        // DBLView里根节点调用bindView时container传null
-        // 适配List和Flow场景，native view 已经在adapter里创建好，且无需执行添加操作
-        if (null != container) {
-            if (container instanceof LinearLayout) {
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
-                layoutParams.gravity = layoutGravity;
-                setLayoutMargin(layoutParams);
-                container.addView(nativeView, layoutParams);
-            } else if (container instanceof FrameLayout) {
-                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(width, height);
-                layoutParams.gravity = layoutGravity;
-                setLayoutMargin(layoutParams);
-                container.addView(nativeView, layoutParams);
-            } else if (container instanceof YogaLayout) {
-                YogaLayout layout = (YogaLayout) container;
-                layout.addView(nativeView, -1, new ViewGroup.LayoutParams(width, height));
-                // GONE处理
-                setYogaDisplay(nativeView, container);
-            }
+    protected void addToParent(View nativeView, ViewGroup parentView) {
+        if (parentView instanceof YogaLayout) {
+            YogaLayout layout = (YogaLayout) parentView;
+            layout.addView(nativeView, -1, new ViewGroup.LayoutParams(width, height));
+            // GONE处理
+            setYogaDisplay(nativeView, parentView);
+        } else if (parentView instanceof FrameLayout) {
+            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(width, height, layoutGravity);
+            setLayoutMargin(lp);
+            parentView.addView(nativeView, lp);
+        } else if (parentView instanceof LinearLayout) {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, height, layoutGravity);
+            setLayoutMargin(lp);
+            parentView.addView(nativeView, lp);
         }
     }
 
@@ -439,7 +439,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         }
     }
 
-    protected void setLayoutMargin(ViewGroup.MarginLayoutParams marginLayoutParams) {
+    private void setLayoutMargin(ViewGroup.MarginLayoutParams marginLayoutParams) {
         int ml, mt, mr, mb;
         ml = (marginLeft == DBConstants.DEFAULT_SIZE_EDGE) ? margin : marginLeft;
         mt = (marginTop == DBConstants.DEFAULT_SIZE_EDGE) ? margin : marginTop;
@@ -463,10 +463,32 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         return iGravity;
     }
 
-    private void bindAttributesInLinearLayout(ViewGroup parentView) {
+    private void bindAttributesInLinearLayout(View nativeView) {
+        LinearLayout.LayoutParams lp;
+        if (null != nativeView.getLayoutParams()) {
+            lp = (LinearLayout.LayoutParams) nativeView.getLayoutParams();
+            lp.width = width;
+            lp.height = height;
+            lp.gravity = layoutGravity;
+        } else {
+            lp = new LinearLayout.LayoutParams(width, height, layoutGravity);
+        }
+        setLayoutMargin(lp);
+        nativeView.setLayoutParams(lp);
     }
 
-    private void bindAttributesInFrameLayout(ViewGroup parentView) {
+    private void bindAttributesInFrameLayout(View nativeView) {
+        FrameLayout.LayoutParams lp;
+        if (null != nativeView.getLayoutParams()) {
+            lp = (FrameLayout.LayoutParams) nativeView.getLayoutParams();
+            lp.width = width;
+            lp.height = height;
+            lp.gravity = layoutGravity;
+        } else {
+            lp = new FrameLayout.LayoutParams(width, height, layoutGravity);
+        }
+        setLayoutMargin(lp);
+        nativeView.setLayoutParams(lp);
     }
 
     private void bindAttributesInYogaLayout(YogaNode node) {

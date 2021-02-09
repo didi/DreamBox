@@ -7,6 +7,7 @@ import androidx.annotation.CallSuper;
 
 import com.didi.carmate.dreambox.core.v4.action.IDBAction;
 import com.didi.carmate.dreambox.core.v4.render.DBChildren;
+import com.didi.carmate.dreambox.wrapper.v4.Wrapper;
 import com.facebook.yoga.android.YogaLayout;
 import com.google.gson.JsonObject;
 
@@ -19,8 +20,6 @@ import java.util.Map;
  * date: 2020/4/30
  */
 public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
-    //    private String backgroundUrl;
-
     // View callback节点集合
     private final List<DBCallback> mCallbacks = new ArrayList<>();
     private final List<DBContainer<ViewGroup>> mChildContainers = new ArrayList<>();
@@ -59,16 +58,21 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
     @Override
     public void bindView(ViewGroup parentView, NODE_TYPE nodeType, boolean bindAttrOnly,
                          JsonObject data, int position) {
+        if (null == parentView) {
+            Wrapper.get(mDBContext.getAccessKey()).log().e("parent is null!");
+            return;
+        }
+
         DBModel model = getModel(position);
 
         // 判断是否可以复用
-        if (_id != DBConstants.DEFAULT_ID_VIEW && null != parentView && null != parentView.findViewById(_id)) {
+        if (_id != DBConstants.DEFAULT_ID_VIEW && null != parentView.findViewById(_id)) {
             mNativeView = parentView.findViewById(_id);
             model.setView(mNativeView);
             model.setData(data);
 
             doBind(model, bindAttrOnly);
-            rebindAttributes(mNativeView, parentView);
+            rebindAttributes(nodeType, mNativeView, parentView);
             setYogaDisplay(mNativeView, parentView);
             if ((parentView instanceof YogaLayout)) {
                 ((YogaLayout) parentView).invalidate(mNativeView);
@@ -85,8 +89,9 @@ public abstract class DBBaseView<V extends View> extends DBAbsView<V> {
             if (mChildContainers.size() > 0) {
                 onChildrenBind(getAttrs(), mChildContainers);
             }
+            // 添加到父容器
             addToParent(mNativeView, parentView);
-            rebindAttributes(mNativeView, parentView);
+            rebindAttributes(nodeType, mNativeView, parentView);
         }
     }
 
