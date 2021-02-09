@@ -8,23 +8,23 @@
 
 #import "DBViewController.h"
 
-#import "DBTreeView.h"
-#import "DBParser.h"
-#import "DBService.h"
-#import "DBDefaultWrapper.h"
-#import "DBPreProcess.h"
-#import "DBService.h"
+#import "DBXTreeView.h"
+#import "DBXParser.h"
+#import "DBXService.h"
+#import "DBXDefaultWrapper.h"
+#import "DBXPreProcess.h"
+#import "DBXService.h"
 #import "DBDebugService.h"
-#import "DBFactory.h"
+#import "DBXFactory.h"
 #import "Masonry.h"
 
 @interface DBViewController ()
 
-@property (nonatomic,strong) DBTreeView *dbView;
+@property (nonatomic,strong) DBXTreeView *dbView;
 
-@property (nonatomic, strong) DBTreeView *DBResView;
+@property (nonatomic, strong) DBXTreeView *DBResView;
 
-@property (nonatomic, strong) DBTreeView *DBDiffView;
+@property (nonatomic, strong) DBXTreeView *DBDiffView;
 
 @end
 
@@ -45,11 +45,11 @@
 - (void)wrapperTest {
     NSString *mockDataString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"tmp1" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil];
 
-    [[DBFactory sharedInstance] registViewClass:NSClassFromString(@"DBAddCartButton") byType:@"AddCart"];
-    [[DBFactory sharedInstance] registModelClass:NSClassFromString(@"DBViewModel") byType:@"AddCart"];
+    [[DBXFactory sharedInstance] registViewClass:NSClassFromString(@"DBAddCartButton") byType:@"AddCart"];
+    [[DBXFactory sharedInstance] registModelClass:NSClassFromString(@"DBViewModel") byType:@"AddCart"];
     
     
-    DBTreeView *dbView = [[DBTreeView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 0)];
+    DBXTreeView *dbView = [[DBXTreeView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 0)];
     self.dbView = [dbView initWithJsonSting:mockDataString extMeta:nil accessKey:@"DEMO" tid:@"1"];
     [self.view addSubview:self.dbView];
     self.dbView.frame = CGRectMake(0, 100, self.dbView.frame.size.width, self.dbView.frame.size.height);

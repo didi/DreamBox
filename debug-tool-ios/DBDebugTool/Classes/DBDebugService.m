@@ -9,7 +9,7 @@
 #import "DBDebugService.h"
 #import "DBWssTest.h"
 #import "DBDebugViewController.h"
-#import "NSString+DBExtends.h"
+#import "NSString+DBXExtends.h"
 
 @interface DBDebugService()<DBWSSDelegate>
 @property (nonatomic,strong) NSString *currentData;
@@ -42,10 +42,11 @@
 {
     
     self.window=[[UIWindow  alloc] initWithFrame:CGRectMake(0, 200, 60, 60)];
-    self.window.windowLevel=1001;
+    self.window.windowLevel=UIWindowLevelAlert + 2;
     self.window.backgroundColor=[UIColor grayColor];
     self.window.layer.cornerRadius=20;
     self.window.layer.masksToBounds=YES;
+    self.window.hidden = NO;
     self.debugButton.userInteractionEnabled = YES;
     
     UIViewController *vc = [UIViewController new];
@@ -59,7 +60,6 @@
     [vc.view addSubview:self.debugButton];
     
     [self.window setRootViewController:vc];
-    [self.window makeKeyAndVisible];
     self.window.userInteractionEnabled = YES;
     
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(changePostion:)];
@@ -81,7 +81,8 @@
         self.debugVC = [DBDebugViewController new];
         id vc = [DBDebugService currentNC];
         if([vc isKindOfClass: [UINavigationController class]]) {
-            [(UINavigationController *)vc pushViewController:self.debugVC animated:YES];
+            UINavigationController *nvc =(UINavigationController *)vc;
+            [nvc.topViewController presentViewController:self.debugVC animated:YES completion:nil];
         } else if ([vc isKindOfClass: [UIViewController class]]) {
             [(UIViewController *)vc presentViewController:self.debugVC animated:YES completion:nil];
         }
@@ -94,7 +95,19 @@
         NSAssert(0, @"未获取到导航控制器");
         return nil;
     }
-    UIViewController *rootViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
+    if (window.windowLevel != UIWindowLevelNormal) {
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for(UIWindow * tmpWin in windows) {
+            if (tmpWin.windowLevel == UIWindowLevelNormal) {
+                window = tmpWin;
+                break;
+            }
+        }
+    }
+    
+    UIViewController *rootViewController = window.rootViewController;
     return [self getCurrentNCFrom:rootViewController];
 }
 
