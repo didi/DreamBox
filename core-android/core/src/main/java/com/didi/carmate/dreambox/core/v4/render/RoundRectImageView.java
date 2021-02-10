@@ -13,6 +13,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatImageView;
@@ -37,9 +38,11 @@ public class RoundRectImageView extends AppCompatImageView {
     private final float[] mCorners;
     private float mCornerX, mCornerY;
     private int mBorderWidth;
+    private int mBorderPadding;
     private int mLastDrawable;
     private boolean mIsDrawCorner;
     private boolean mIsDrawEachCorner;
+    private boolean mConfig565;
 
     public RoundRectImageView(Context context) {
         this(context, null);
@@ -77,6 +80,7 @@ public class RoundRectImageView extends AppCompatImageView {
 
     public void setBorderWidth(int borderWidth) {
         mBorderWidth = borderWidth;
+        mBorderPadding = mBorderWidth / 2;
         mBoarderPaint.setStrokeWidth(borderWidth);
     }
 
@@ -163,8 +167,19 @@ public class RoundRectImageView extends AppCompatImageView {
     private Bitmap getBitmapFromDrawable(Drawable drawable) {
         int width = drawable.getIntrinsicWidth();
         int height = drawable.getIntrinsicHeight();
-        Bitmap bitmap = Bitmap.createBitmap(width, height, drawable
-                .getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
+        Bitmap.Config config;
+        if (drawable.getOpacity() != PixelFormat.OPAQUE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                config = Bitmap.Config.ARGB_8888;
+            } else {
+                config = Bitmap.Config.RGB_565;
+                mConfig565 = true;
+            }
+        } else {
+            config = Bitmap.Config.RGB_565;
+            mConfig565 = true;
+        }
+        Bitmap bitmap = Bitmap.createBitmap(width, height, config);
         Canvas canvas = new Canvas(bitmap);
         drawable.draw(canvas);
         return bitmap;
@@ -187,7 +202,7 @@ public class RoundRectImageView extends AppCompatImageView {
 
         mMatrix.setScale(widthScale, heightScale);
         //创建输出的bitmap
-        Bitmap desBitmap = Bitmap.createBitmap(outWidth, outHeight, Bitmap.Config.ARGB_8888);
+        Bitmap desBitmap = Bitmap.createBitmap(outWidth, outHeight, mConfig565 ? Bitmap.Config.RGB_565 : Bitmap.Config.ARGB_8888);
         //创建canvas并传入desBitmap，这样绘制的内容都会在desBitmap上
         mCanvas.setBitmap(desBitmap);
         //创建着色器
@@ -203,15 +218,19 @@ public class RoundRectImageView extends AppCompatImageView {
         } else {
             mImagePath.addRoundRect(mImageRectF, mCornerX, mCornerY, Path.Direction.CW);
         }
+//        mCanvas.drawColor(Color.WHITE);
         mCanvas.drawPath(mImagePath, mImagePaint);
+
         //创建边框矩形区域
-        mBorderRectF.set(0, 0, outWidth, outHeight);
-        if (mIsDrawEachCorner) {
-            mBorderPath.addRoundRect(mBorderRectF, mCorners, Path.Direction.CW);
-        } else {
-            mBorderPath.addRoundRect(mBorderRectF, mCornerX, mCornerY, Path.Direction.CW);
+        if (mBorderWidth > 0) {
+            mBorderRectF.set(mBorderPadding, mBorderPadding, outWidth - mBorderPadding, outHeight - mBorderPadding);
+            if (mIsDrawEachCorner) {
+                mBorderPath.addRoundRect(mBorderRectF, mCorners, Path.Direction.CW);
+            } else {
+                mBorderPath.addRoundRect(mBorderRectF, mCornerX, mCornerY, Path.Direction.CW);
+            }
+            mCanvas.drawPath(mBorderPath, mBoarderPaint);
         }
-        mCanvas.drawPath(mBorderPath, mBoarderPaint);
 
         return desBitmap;
     }
