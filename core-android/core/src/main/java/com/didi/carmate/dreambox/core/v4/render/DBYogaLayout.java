@@ -4,8 +4,8 @@ import android.graphics.Color;
 import android.view.ViewGroup;
 
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
-import com.didi.carmate.dreambox.core.v4.base.DBContext;
 import com.didi.carmate.dreambox.core.v4.base.DBContainer;
+import com.didi.carmate.dreambox.core.v4.base.DBContext;
 import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.render.view.DBYogaLayoutView;
 import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
@@ -169,11 +169,8 @@ public class DBYogaLayout extends DBContainer<ViewGroup> {
             }
         }
 
-        if (radius > 0) {
-            yoga.setRadius(radius);
-        } else {
-            yoga.setRoundRadius(radiusLT, radiusRT, radiusRB, radiusLB);
-        }
+        yoga.setRadius(radius);
+        yoga.setRoundRadius(radius, radiusLT, radiusRT, radiusRB, radiusLB);
         if (DBUtils.isColor(borderColor)) {
             yoga.setBorderColor(Color.parseColor(borderColor));
         }
@@ -184,6 +181,6 @@ public class DBYogaLayout extends DBContainer<ViewGroup> {
 
     @Override
     public DBYogaLayoutView onCreateView() {
-        return new DBYogaLayoutView(mDBContext);
+        return new DBYogaLayoutView(mDBContext.getContext());
     }
 }

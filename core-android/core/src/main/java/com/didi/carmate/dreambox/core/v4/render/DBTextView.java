@@ -1,29 +1,27 @@
-package com.didi.carmate.dreambox.core.v4.render.view;
+package com.didi.carmate.dreambox.core.v4.render;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
+
 import com.didi.carmate.dreambox.core.v4.base.DBBorderCorner;
-import com.facebook.yoga.android.YogaLayout;
 
 /**
- * author: chenjing
- * date: 2020/5/22
+ * Author: chenjing
+ * Date: 2021/2/16 11:45 AM
  */
-public class DBYogaLayoutView extends YogaLayout {
+public class DBTextView extends AppCompatTextView {
     private final DBBorderCorner mBorderCorner;
 
-    public DBYogaLayoutView(Context context) {
+    public DBTextView(Context context) {
         this(context, null);
     }
 
-    public DBYogaLayoutView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public DBYogaLayoutView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    public DBTextView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
 
         mBorderCorner = new DBBorderCorner();
     }
@@ -54,22 +52,12 @@ public class DBYogaLayoutView extends YogaLayout {
     @Override
     public void draw(Canvas canvas) {
         if (mBorderCorner.isDrawCorner()) {
-//            android.util.Log.d("TMP_TEST", "draw corner: " + this);
             int save = canvas.save();
             mBorderCorner.draw(canvas, getWidth(), getHeight());
             super.draw(canvas);
             canvas.restoreToCount(save);
         } else {
-//            android.util.Log.d("TMP_TEST", "not draw corner: " + this);
             super.draw(canvas);
         }
     }
-
-//    @Override
-//    public void requestLayout() {
-//        if (!(getParent() instanceof YogaLayout) && null != getYogaNode()) {
-//            getYogaNode().setHeight(LayoutParams.WRAP_CONTENT);
-//        }
-//        super.requestLayout();
-//    }
 }

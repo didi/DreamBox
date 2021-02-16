@@ -27,17 +27,17 @@ public class DBLoadingFooter extends DBYogaLayoutView implements ILoadMoreFooter
     private String noNetWorkHint;
 
     public DBLoadingFooter(DBContext dbContext) {
-        super(dbContext);
+        super(dbContext.getContext());
         init();
     }
 
     public DBLoadingFooter(DBContext dbContext, AttributeSet attrs) {
-        super(dbContext, attrs);
+        super(dbContext.getContext(), attrs);
         init();
     }
 
     public DBLoadingFooter(DBContext dbContext, AttributeSet attrs, int defStyleAttr) {
-        super(dbContext, attrs, defStyleAttr);
+        super(dbContext.getContext(), attrs, defStyleAttr);
         init();
     }
 

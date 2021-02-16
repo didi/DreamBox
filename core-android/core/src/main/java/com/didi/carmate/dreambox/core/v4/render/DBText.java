@@ -1,11 +1,11 @@
 package com.didi.carmate.dreambox.core.v4.render;
 
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.TextView;
 
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
@@ -13,7 +13,6 @@ import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 import com.didi.carmate.dreambox.core.v4.utils.DBScreenUtils;
 import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
-import com.google.gson.JsonObject;
 
 import java.util.Map;
 
@@ -24,7 +23,7 @@ import java.util.Map;
  * 第三方可扩展此类，<T> 为第三方扩展时需提供给DBText用的native对象，具体做法：
  * 第三方视图节点继承 DBText 并覆写 onGetParentNativeView 方法并返回类型为 <T> 的对象即可
  */
-public class DBText<T extends TextView> extends DBBaseText<T> {
+public class DBText<T extends DBTextView> extends DBBaseText<T> {
     private int minWidth;
     private int maxWidth;
     private int minHeight;
@@ -36,7 +35,7 @@ public class DBText<T extends TextView> extends DBBaseText<T> {
 
     @Override
     protected View onCreateView() {
-        return new TextView(mDBContext.getContext());
+        return new DBTextView(mDBContext.getContext());
     }
 
     @Override
@@ -54,31 +53,32 @@ public class DBText<T extends TextView> extends DBBaseText<T> {
     protected void bindAttribute() {
         super.bindAttribute();
 
+        DBTextView nativeView = (DBTextView) getNativeView();
         // text
         if (!DBUtils.isEmpty(src)) {
             src = src.replace("\\n", "\n");
-            getNativeView().setText(src);
+            nativeView.setText(src);
         }
         // color
         if (DBUtils.isColor(color)) {
-            getNativeView().setTextColor(DBUtils.parseColor(this, color));
+            nativeView.setTextColor(DBUtils.parseColor(this, color));
         }
         // size
         if (size != DBConstants.DEFAULT_SIZE_TEXT) {
-            getNativeView().setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+            nativeView.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
         }
         // style
         if (!DBUtils.isEmpty(style)) {
-            int paintFlags = getNativeView().getPaintFlags();
+            int paintFlags = nativeView.getPaintFlags();
             switch (style) {
                 case DBConstants.STYLE_TXT_NORMAL:
-                    getNativeView().setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                    nativeView.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
                     break;
                 case DBConstants.STYLE_TXT_BOLD:
-                    getNativeView().setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                    nativeView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                     break;
                 case DBConstants.STYLE_TXT_ITALIC:
-                    getNativeView().setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));
+                    nativeView.setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));
                     break;
             }
             if (TextUtils.equals(style, DBConstants.STYLE_TXT_STRIKE)) {
@@ -93,23 +93,31 @@ public class DBText<T extends TextView> extends DBBaseText<T> {
             } else {
                 paintFlags &= ~Paint.UNDERLINE_TEXT_FLAG;
             }
-            getNativeView().setPaintFlags(paintFlags);
+            nativeView.setPaintFlags(paintFlags);
         }
         // minWidth
         if (minWidth != 0) {
-            getNativeView().setMinWidth(minWidth);
+            nativeView.setMinWidth(minWidth);
         }
         // maxWidth
         if (maxWidth != 0) {
-            getNativeView().setMaxWidth(maxWidth);
+            nativeView.setMaxWidth(maxWidth);
         }
         // minHeight
         if (minHeight != 0) {
-            getNativeView().setMinHeight(minHeight);
+            nativeView.setMinHeight(minHeight);
         }
         // maxHeight
         if (maxHeight != 0) {
-            getNativeView().setMaxHeight(maxHeight);
+            nativeView.setMaxHeight(maxHeight);
+        }
+        nativeView.setRadius(radius);
+        nativeView.setRoundRadius(radius, radiusLT, radiusRT, radiusRB, radiusLB);
+        if (DBUtils.isColor(borderColor)) {
+            nativeView.setBorderColor(Color.parseColor(borderColor));
+        }
+        if (borderWidth > 0) {
+            nativeView.setBorderWidth(borderWidth);
         }
     }
 

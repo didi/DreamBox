@@ -2,9 +2,6 @@ package com.didi.carmate.dreambox.core.v4.base;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RoundRectShape;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.View;
@@ -354,16 +351,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         // backgroundColor
         backgroundColor = getString(attrs.get("backgroundColor"), model);
         if (DBUtils.isColor(backgroundColor)) {
-            // 外矩形 左上、右上、右下、左下的圆角半径
-            float[] outerRadiusAll = {radius, radius, radius, radius, radius, radius, radius, radius};
-            float[] outerRadius = {radiusLT, radiusLT, radiusRT, radiusRT, radiusRB, radiusRB, radiusLB, radiusLB};
-            // 背景drawable
-            RoundRectShape bgShape = new RoundRectShape(radius != 0 ? outerRadiusAll : outerRadius, null, null);
-            ShapeDrawable bgDrawable = new ShapeDrawable(bgShape);
-            bgDrawable.getPaint().setColor(Color.parseColor(backgroundColor));
-            bgDrawable.getPaint().setAntiAlias(true);
-            bgDrawable.getPaint().setStyle(Paint.Style.FILL_AND_STROKE);//描边
-            mNativeView.setBackground(bgDrawable);
+            mNativeView.setBackgroundColor(Color.parseColor(backgroundColor));
         }
         // layoutGravity
         String rawLayoutGravity = getString(attrs.get("layoutGravity"), model);

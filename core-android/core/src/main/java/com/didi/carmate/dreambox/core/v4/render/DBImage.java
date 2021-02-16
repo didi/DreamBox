@@ -5,15 +5,15 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.didi.carmate.dreambox.core.v4.base.DBBaseView;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
 import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
 import com.didi.carmate.dreambox.core.v4.data.DBData;
+import com.didi.carmate.dreambox.core.v4.render.view.DBPatchDotNineView;
 import com.didi.carmate.dreambox.core.v4.utils.DBLogger;
 import com.didi.carmate.dreambox.core.v4.utils.DBScreenUtils;
 import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
-import com.didi.carmate.dreambox.core.v4.base.DBBaseView;
-import com.didi.carmate.dreambox.core.v4.render.view.DBPatchDotNineView;
 import com.didi.carmate.dreambox.wrapper.v4.ImageLoader;
 import com.didi.carmate.dreambox.wrapper.v4.Wrapper;
 
