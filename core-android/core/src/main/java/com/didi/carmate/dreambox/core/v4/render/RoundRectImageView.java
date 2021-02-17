@@ -2,7 +2,6 @@ package com.didi.carmate.dreambox.core.v4.render;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
@@ -11,18 +10,10 @@ import com.didi.carmate.dreambox.core.v4.base.DBBorderCorner;
 public class RoundRectImageView extends AppCompatImageView {
     private final DBBorderCorner mBorderCorner;
 
-    public RoundRectImageView(Context context) {
-        this(context, null);
-    }
+    public RoundRectImageView(Context context, DBBorderCorner borderCorner) {
+        super(context);
 
-    public RoundRectImageView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public RoundRectImageView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-
-        mBorderCorner = new DBBorderCorner();
+        mBorderCorner = borderCorner;
     }
 
     public void setBorderColor(int color) {
@@ -41,6 +32,10 @@ public class RoundRectImageView extends AppCompatImageView {
         mBorderCorner.setRoundRadius(radius, lt, rt, rb, lb);
     }
 
+    public void clipOutline(DBBorderCorner.DBViewOutline clipOutline) {
+        mBorderCorner.clipOutline(this, clipOutline);
+    }
+
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
@@ -50,7 +45,7 @@ public class RoundRectImageView extends AppCompatImageView {
 
     @Override
     public void draw(Canvas canvas) {
-        if (mBorderCorner.isDrawCorner()) {
+        if (mBorderCorner.isDrawEachCorner()) {
             int save = canvas.save();
             mBorderCorner.draw(canvas, getWidth(), getHeight());
             super.draw(canvas);

@@ -2,9 +2,7 @@ package com.didi.carmate.dreambox.core.v4.render;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.AttributeSet;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.didi.carmate.dreambox.core.v4.base.DBBorderCorner;
@@ -16,14 +14,10 @@ import com.didi.carmate.dreambox.core.v4.base.DBBorderCorner;
 public class DBTextView extends AppCompatTextView {
     private final DBBorderCorner mBorderCorner;
 
-    public DBTextView(Context context) {
-        this(context, null);
-    }
+    public DBTextView(Context context, DBBorderCorner borderCorner) {
+        super(context);
 
-    public DBTextView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-
-        mBorderCorner = new DBBorderCorner();
+        mBorderCorner = borderCorner;
     }
 
     public void setBorderColor(int color) {
@@ -42,6 +36,10 @@ public class DBTextView extends AppCompatTextView {
         mBorderCorner.setRoundRadius(radius, lt, rt, rb, lb);
     }
 
+    public void clipOutline(DBBorderCorner.DBViewOutline clipOutline) {
+        mBorderCorner.clipOutline(this, clipOutline);
+    }
+
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
@@ -51,7 +49,7 @@ public class DBTextView extends AppCompatTextView {
 
     @Override
     public void draw(Canvas canvas) {
-        if (mBorderCorner.isDrawCorner()) {
+        if (mBorderCorner.isDrawEachCorner()) {
             int save = canvas.save();
             mBorderCorner.draw(canvas, getWidth(), getHeight());
             super.draw(canvas);

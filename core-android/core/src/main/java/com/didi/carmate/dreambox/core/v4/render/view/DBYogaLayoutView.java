@@ -2,7 +2,6 @@ package com.didi.carmate.dreambox.core.v4.render.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.AttributeSet;
 
 import com.didi.carmate.dreambox.core.v4.base.DBBorderCorner;
 import com.facebook.yoga.android.YogaLayout;
@@ -14,18 +13,10 @@ import com.facebook.yoga.android.YogaLayout;
 public class DBYogaLayoutView extends YogaLayout {
     private final DBBorderCorner mBorderCorner;
 
-    public DBYogaLayoutView(Context context) {
-        this(context, null);
-    }
+    public DBYogaLayoutView(Context context, DBBorderCorner borderCorner) {
+        super(context);
 
-    public DBYogaLayoutView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public DBYogaLayoutView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-
-        mBorderCorner = new DBBorderCorner();
+        mBorderCorner = borderCorner;
     }
 
     public void setBorderColor(int color) {
@@ -44,6 +35,10 @@ public class DBYogaLayoutView extends YogaLayout {
         mBorderCorner.setRoundRadius(radius, lt, rt, rb, lb);
     }
 
+    public void clipOutline(DBBorderCorner.DBViewOutline clipOutline) {
+        mBorderCorner.clipOutline(this, clipOutline);
+    }
+
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
@@ -53,14 +48,12 @@ public class DBYogaLayoutView extends YogaLayout {
 
     @Override
     public void draw(Canvas canvas) {
-        if (mBorderCorner.isDrawCorner()) {
-//            android.util.Log.d("TMP_TEST", "draw corner: " + this);
+        if (mBorderCorner.isDrawEachCorner()) {
             int save = canvas.save();
             mBorderCorner.draw(canvas, getWidth(), getHeight());
             super.draw(canvas);
             canvas.restoreToCount(save);
         } else {
-//            android.util.Log.d("TMP_TEST", "not draw corner: " + this);
             super.draw(canvas);
         }
     }

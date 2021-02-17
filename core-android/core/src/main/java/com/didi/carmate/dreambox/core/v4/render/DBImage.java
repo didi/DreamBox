@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.didi.carmate.dreambox.core.v4.base.DBBaseView;
+import com.didi.carmate.dreambox.core.v4.base.DBBorderCorner;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
 import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
@@ -33,9 +34,14 @@ public class DBImage<T extends View> extends DBBaseView<T> {
     protected String src;
     protected String srcType;
     protected String scaleType;
+    private final DBBorderCorner mBorderCorner;
+    private final DBBorderCorner.DBViewOutline mClipOutline;
 
     protected DBImage(DBContext dbContext) {
         super(dbContext);
+
+        mBorderCorner = new DBBorderCorner();
+        mClipOutline = new DBBorderCorner.DBViewOutline();
     }
 
     @Override
@@ -51,7 +57,7 @@ public class DBImage<T extends View> extends DBBaseView<T> {
         if ("ninePatch".equals(srcType)) {
             view = new DBPatchDotNineView(mDBContext.getContext());
         } else {
-            view = new RoundRectImageView(mDBContext.getContext());
+            view = new RoundRectImageView(mDBContext.getContext(), mBorderCorner);
         }
         return view;
     }
@@ -146,6 +152,9 @@ public class DBImage<T extends View> extends DBBaseView<T> {
             if (borderWidth > 0) {
                 imageView.setBorderWidth(borderWidth);
             }
+            mClipOutline.setClipOutline(radius);
+            imageView.clipOutline(mClipOutline);
+
             if (src.startsWith("http")) {
                 imageLoader.load(src, imageView);
             } else {

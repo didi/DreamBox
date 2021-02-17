@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 
+import com.didi.carmate.dreambox.core.v4.base.DBBorderCorner;
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
 import com.didi.carmate.dreambox.core.v4.base.DBModel;
@@ -28,14 +29,19 @@ public class DBText<T extends DBTextView> extends DBBaseText<T> {
     private int maxWidth;
     private int minHeight;
     private int maxHeight;
+    private final DBBorderCorner mBorderCorner;
+    private final DBBorderCorner.DBViewOutline mClipOutline;
 
     protected DBText(DBContext dbContext) {
         super(dbContext);
+
+        mBorderCorner = new DBBorderCorner();
+        mClipOutline = new DBBorderCorner.DBViewOutline();
     }
 
     @Override
     protected View onCreateView() {
-        return new DBTextView(mDBContext.getContext());
+        return new DBTextView(mDBContext.getContext(), mBorderCorner);
     }
 
     @Override
@@ -119,6 +125,8 @@ public class DBText<T extends DBTextView> extends DBBaseText<T> {
         if (borderWidth > 0) {
             nativeView.setBorderWidth(borderWidth);
         }
+        mClipOutline.setClipOutline(radius);
+        nativeView.clipOutline(mClipOutline);
     }
 
     public static String getNodeTag() {

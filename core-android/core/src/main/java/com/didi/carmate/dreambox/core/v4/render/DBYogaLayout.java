@@ -3,6 +3,7 @@ package com.didi.carmate.dreambox.core.v4.render;
 import android.graphics.Color;
 import android.view.ViewGroup;
 
+import com.didi.carmate.dreambox.core.v4.base.DBBorderCorner;
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.didi.carmate.dreambox.core.v4.base.DBContainer;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
@@ -55,9 +56,19 @@ public class DBYogaLayout extends DBContainer<ViewGroup> {
     private String justifyContent;
     private String alignItems;
     private String alignContent;
+    private final DBBorderCorner mBorderCorner;
+    private final DBBorderCorner.DBViewOutline mClipOutline;
 
     public DBYogaLayout(DBContext dbContext) {
         super(dbContext);
+
+        mBorderCorner = new DBBorderCorner();
+        mClipOutline = new DBBorderCorner.DBViewOutline();
+    }
+
+    @Override
+    public DBYogaLayoutView onCreateView() {
+        return new DBYogaLayoutView(mDBContext.getContext(), mBorderCorner);
     }
 
     @Override
@@ -177,10 +188,7 @@ public class DBYogaLayout extends DBContainer<ViewGroup> {
         if (borderWidth > 0) {
             yoga.setBorderWidth(borderWidth);
         }
-    }
-
-    @Override
-    public DBYogaLayoutView onCreateView() {
-        return new DBYogaLayoutView(mDBContext.getContext());
+        mClipOutline.setClipOutline(radius);
+        yoga.clipOutline(mClipOutline);
     }
 }

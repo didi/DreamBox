@@ -1,7 +1,6 @@
 package com.didi.carmate.dreambox.core.v4.render.view.list;
 
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
@@ -9,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.didi.carmate.dreambox.core.v4.base.DBBorderCorner;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
 
 /**
@@ -110,7 +110,7 @@ public class DBListView extends RecyclerView {
         }
 
         if (mLoadMoreEnabled) {
-            setLoadMoreFooter(new DBLoadingFooter(mDBContext), false);
+            setLoadMoreFooter(new DBLoadingFooter(mDBContext, new DBBorderCorner()), false);
         }
     }
 

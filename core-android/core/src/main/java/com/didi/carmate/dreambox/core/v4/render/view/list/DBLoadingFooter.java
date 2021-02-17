@@ -1,13 +1,13 @@
 package com.didi.carmate.dreambox.core.v4.render.view.list;
 
 import android.text.TextUtils;
-import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.TextView;
 
 import com.didi.carmate.dreambox.core.v4.R;
+import com.didi.carmate.dreambox.core.v4.base.DBBorderCorner;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
 import com.didi.carmate.dreambox.core.v4.render.view.DBCircleLoading;
 import com.didi.carmate.dreambox.core.v4.render.view.DBYogaLayoutView;
@@ -26,18 +26,8 @@ public class DBLoadingFooter extends DBYogaLayoutView implements ILoadMoreFooter
     private String noMoreHint;
     private String noNetWorkHint;
 
-    public DBLoadingFooter(DBContext dbContext) {
-        super(dbContext.getContext());
-        init();
-    }
-
-    public DBLoadingFooter(DBContext dbContext, AttributeSet attrs) {
-        super(dbContext.getContext(), attrs);
-        init();
-    }
-
-    public DBLoadingFooter(DBContext dbContext, AttributeSet attrs, int defStyleAttr) {
-        super(dbContext.getContext(), attrs, defStyleAttr);
+    public DBLoadingFooter(DBContext dbContext, DBBorderCorner borderCorner) {
+        super(dbContext.getContext(), borderCorner);
         init();
     }
 

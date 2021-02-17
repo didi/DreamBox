@@ -35,7 +35,7 @@ task clean(type: Delete) {
 }
 
 ext {
-    minSDK = 17
+    minSDK = 21
     targetSDK = 28
     appCompat = '1.1.0'
     fragment = '1.1.0'

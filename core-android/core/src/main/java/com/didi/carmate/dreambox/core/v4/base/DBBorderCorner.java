@@ -1,9 +1,12 @@
 package com.didi.carmate.dreambox.core.v4.base;
 
 import android.graphics.Canvas;
+import android.graphics.Outline;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.view.View;
+import android.view.ViewOutlineProvider;
 
 /**
  * Author: chenjing
@@ -114,6 +117,13 @@ public class DBBorderCorner {
         }
     }
 
+    public void clipOutline(View view, DBBorderCorner.DBViewOutline clipOutline) {
+        if (mIsDrawCorner && !mIsDrawEachCorner) {
+            view.setOutlineProvider(clipOutline);
+            view.setClipToOutline(true);
+        }
+    }
+
     public void dispatchDraw(Canvas canvas, int width, int height) {
         if (mBorderWidth > 0) {
 //            android.util.Log.d("TMP_TEST", "draw border");
@@ -132,27 +142,31 @@ public class DBBorderCorner {
 //        }
     }
 
-    public boolean isDrawCorner() {
-        return mIsDrawCorner;
+    public boolean isDrawEachCorner() {
+        return mIsDrawEachCorner;
     }
 
     public void draw(Canvas canvas, int width, int height) {
         mClipRectF.set(0, 0, width, height);
-        if (mIsDrawEachCorner) {
 //            android.util.Log.d("TMP_TEST", "draw each corner");
-            if (mBorderWidth > 0) {
-                mClipPath.addRoundRect(mClipRectF, mClipCorners, Path.Direction.CW);
-            } else {
-                mClipPath.addRoundRect(mClipRectF, mCorners, Path.Direction.CW);
-            }
+        if (mBorderWidth > 0) {
+            mClipPath.addRoundRect(mClipRectF, mClipCorners, Path.Direction.CW);
         } else {
-//            android.util.Log.d("TMP_TEST", "draw same corner");
-            if (mBorderWidth > 0) {
-                mClipPath.addRoundRect(mClipRectF, mCornerX + 2, mCornerY + 2, Path.Direction.CW);
-            } else {
-                mClipPath.addRoundRect(mClipRectF, mCornerX, mCornerY, Path.Direction.CW);
-            }
+            mClipPath.addRoundRect(mClipRectF, mCorners, Path.Direction.CW);
         }
         canvas.clipPath(mClipPath);
+    }
+
+    public static class DBViewOutline extends ViewOutlineProvider {
+        private int radius;
+
+        public void setClipOutline(int radius) {
+            this.radius = radius;
+        }
+
+        @Override
+        public void getOutline(View view, Outline outline) {
+            outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), radius);
+        }
     }
 }
