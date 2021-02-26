@@ -14,15 +14,15 @@
 
 ```xml
 <dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://db-xsd.oss-cn-beijing.aliyuncs.com/dbl.xsd">
-    <render>
+    <layout type="yoga">
         <text src="Hello DreamBox!"></text>
-    </render>
+    </layout>
 </dbl>
 ```
 
 经过编译器编译后产生：
 ```
-db806418fdb1cbab87eff1954afc3add000100000000000000000000ewogImRibCI6IHsKICAicmVuZGVyIjogWwogICB7CiAgICAic3JjIjogIkhlbGxvIERyZWFtQm94ISIsCiAgICAidHlwZSI6ICJ0ZXh0IgogICB9CiAgXQogfQp9
+77bbcf98612c8c7375107937020b9f26000400000000000000000000ewogImRibCI6IHsKICAibGF5b3V0IjogewogICAidHlwZSI6ICJ5b2dhIiwKICAgIl9pZCI6IDAsCiAgICJfdHlwZSI6ICJsYXlvdXQiLAogICAiY2hpbGRyZW4iOiBbCiAgICB7CiAgICAgInNyYyI6ICJIZWxsbyBEcmVhbUJveCEiLAogICAgICJfaWQiOiAxLAogICAgICJfdHlwZSI6ICJ0ZXh0IgogICAgfQogICBdCiAgfQogfQp9
 ```
 
 ### 内置模板

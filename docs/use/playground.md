@@ -27,16 +27,15 @@ pod install
 1. 前提条件：环境准备就绪 详见[环境准备](environment.md)、[CLI使用说明](cli.md)
 2. 将以下代码保存为demo.xml文件
     ```xml
-    <dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-        <meta hello_text="Hello DreamBox!" right_btn_visible="false" img_src="https://images.unsplash.com/photo-1593642531955-b62e17bdaa9c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80" />
-        <render>
-            <text id="tv1" src="${hello_text}" leftToLeft="parent" rightToRight="parent"></text>
-            <text id="tv2" src="ToBottom of Hello text" marginTop="33dp" topToTop="tv1"></text>
-            <button src="Center Button" topToBottom="tv2" leftToLeft="parent"></button>
-            <text src="Center Text" leftToLeft="parent" rightToRight="parent" topToTop="parent" bottomToBottom="parent"></text>
-            <image src="${img_src}" leftToLeft="parent" bottomToBottom="parent" width="150dp" height="150dp"></image>
-        </render>
-    </dbl>
+<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <meta hello_text="Hello DreamBox!" right_btn_visible="false" img_src="https://images.unsplash.com/photo-1593642531955-b62e17bdaa9c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80" />
+    <layout type="yoga" height="fill" width="fill" >
+        <text id="tv1" src="${hello_text}"/>
+        <text id="tv2" src="ToBottom of Hello text" marginTop="33dp"/>
+        <text src="Center Text" positionType="absolute" positionTop="50%" marginBottom="10dp" />
+        <image src="${img_src}" positionType="absolute" positionLeft="0dp" positionBottom="0dp" width="150dp" height="150dp"/>
+    </layout>
+</dbl>
     ```
 3. 启动长链接服务
     ```

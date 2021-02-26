@@ -22,7 +22,7 @@ allprojects {
 ##### 2.  在对应模块的 build.gradle 中增加依赖即可
 ````
 dependencies {
-    api 'com.didiglobal.carmate:dreambox:0.3.1'
+    api 'com.didiglobal.carmate:dreambox:0.4.1'
 }
 ````
 
@@ -69,7 +69,7 @@ pod 'DreamBox_iOS', :git => 'https://github.com/didi/DreamBox/core-ios'
 本地终端执行`pip3 install dmb-cli`，安装成功后命令行执行`dmb-cli`，若看到如下内容则安装成功：
 ```
 > dmb-cli -v
-DreamBox CLI Version: 3.1.10 , for RUNTIME: 0.3
+DreamBox CLI Version: 4.1.2 , for RUNTIME: 0.3
 ```
 
 #### 更新CLI
