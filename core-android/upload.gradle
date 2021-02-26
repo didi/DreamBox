@@ -129,10 +129,10 @@ publishing {
 
         maven {
             name 'snapshot'
-            url properties.getProperty("snapshot_repository_url")
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
             credentials {
-                username = properties.getProperty("username")
-                password = properties.getProperty("password")
+                username = properties.getProperty("oss.usr")
+                password = properties.getProperty("oss.pwd")
             }
         }
     }
