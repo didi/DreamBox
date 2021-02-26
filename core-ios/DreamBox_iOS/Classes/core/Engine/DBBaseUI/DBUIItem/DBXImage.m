@@ -13,7 +13,7 @@
 #import "DBXWrapperManager.h"
 #import "DBXPool.h"
 #import "DBXImageLoader.h"
-#import "Masonry.h"
+#import <Masonry/Masonry.h>
 #import "UIImage+DBXExtends.h"
 
 @interface DBXImage()
@@ -24,7 +24,7 @@
 @implementation DBXImage
 
 #pragma mark - DBXViewProtocol
--(void)onCreateView{
+- (void)onCreateView{
     [super onCreateView];
     
     _imageView = [UIImageView new];

@@ -7,7 +7,16 @@
 
 #import "DBXViewProtocol.h"
 #import "DBXViewModel.h"
-#import "Masonry.h"
+#import <Masonry/Masonry.h>
+
+@class DBXBaseView;
+
+@protocol DBXBaseViewDelegate <NSObject>
+
+@optional
+
+- (void)handleClickView:(DBXBaseView *)baseView actionParam:(NSDictionary *)actionParam;
+@end
 
 @interface DBXBaseView : UIView <DBXViewProtocol>
 
@@ -19,6 +28,15 @@
 @property (nonatomic ,copy) NSString *modelID;//string
 
 @property (nonatomic, strong) NSArray *callBacks;
+
+
+@property (nonatomic ,strong) NSDictionary *onClick;//string
+@property (nonatomic ,strong) NSDictionary *onVisible;
+@property (nonatomic ,strong) NSDictionary *onInvisible;
+@property (nonatomic ,weak) id<DBXBaseViewDelegate> baseViewDelegate;
+
+@property (nonatomic, strong) DBXViewModel *model;
+
 
 - (void)handleChangeOn:(NSString *)changeOnstr;
 @end

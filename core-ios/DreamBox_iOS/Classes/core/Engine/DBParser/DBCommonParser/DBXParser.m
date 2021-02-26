@@ -22,7 +22,7 @@
 #import "DBXActionProtocol.h"
 #import "DBXWrapperManager.h"
 #import "DBXActions.h"
-#import "Masonry.h"
+#import <Masonry/Masonry.h>
 #import "DBXCallBack.h"
 #import "NSArray+DBXExtends.h"
 #import "DBXFlexBoxLayout.h"
@@ -144,7 +144,7 @@
     
     //处理回调
     view.callBacks = model.callbacks;
-    [[DBXCallBack shareInstance] bindView:view withCallBacks:view.callBacks pathId:view.pathId];
+    [DBXCallBack bindView:view withCallBacks:view.callBacks pathId:view.pathId];
 
     return view;
 }
@@ -246,31 +246,38 @@
     NSMutableString *finalValue = [[NSMutableString alloc] initWithString:key];
 
     //字符串操作较密集，增加try-catch防崩
-    @try {
-        //正则匹配出${X}字符
-        NSError *error;
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(\\$)\\S*?(\\})"  options:NSRegularExpressionCaseInsensitive error:&error];
-        NSArray *matchs = [regex matchesInString:key options:0 range:NSMakeRange(0, [key length])];
-        //顺序用真实值替换掉${X}
-        if(matchs.count > 0){
-            for(NSTextCheckingResult *result in matchs){
-                NSRange range = result.range;
-                NSString *originKey = [key substringWithRange:range];
-                NSString *realValue = [self getRealValueByPathId:pathId andOriginKey:originKey];
-                if([realValue isKindOfClass:[NSString class]]){
-                    finalValue = [finalValue stringByReplacingOccurrencesOfString:originKey withString:realValue].mutableCopy;
-                } else{
-                    return realValue;
+    if([key containsString:@"${"]){
+        @try {
+            //正则匹配出${X}字符
+            NSError *error;
+            
+            NSArray *matchs = [[DBXPool shareDBPool].regex matchesInString:key options:0 range:NSMakeRange(0, [key length])];
+            //顺序用真实值替换掉${X}
+            if(matchs.count > 0){
+                for(NSTextCheckingResult *result in matchs){
+                    NSRange range = result.range;
+                    NSString *originKey = [key substringWithRange:range];
+                    NSString *realValue = [self getRealValueByPathId:pathId andOriginKey:originKey];
+                    if([realValue isKindOfClass:[NSString class]]){
+                        finalValue = [finalValue stringByReplacingOccurrencesOfString:originKey withString:realValue].mutableCopy;
+                    } else{
+                        return realValue;
+                    }
                 }
             }
-        }
-        return finalValue;
-    } @catch (NSException *exception) {
+        } @catch (NSException *exception) {
 #if DEBUG
-        NSAssert(NO, @"解析src数据异常，请排查相关json");
+            NSAssert(NO, @"解析src数据异常，请排查相关json");
 #endif
-        return finalValue;
+            return finalValue;
+        }
     }
+    else {
+        finalValue = [self getRealValueByPathId:pathId andOriginKey:key];
+    }
+    
+    return finalValue;
+    
 }
 
 

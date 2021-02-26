@@ -8,7 +8,7 @@
 
 #import "DBXImageLoader.h"
 #import "DBXHelper.h"
-#import "SDWebImage.h"
+#import <SDWebImage/SDWebImage.h>
 
 @interface DBXImageLoader()
 

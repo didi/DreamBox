@@ -7,7 +7,7 @@
 
 #import "DBXLoading.h"
 #import "DBXValidJudge.h"
-#import "Masonry.h"
+#import <Masonry/Masonry.h>
 #import "NSArray+DBXExtends.h"
 
 @interface DBXActivityLoading : UIImageView

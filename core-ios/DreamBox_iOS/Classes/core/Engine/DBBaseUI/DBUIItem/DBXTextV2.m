@@ -10,14 +10,14 @@
 #import "UIColor+DBXColor.h"
 #import "DBXParser.h"
 #import "DBXHelper.h"
-#import "Masonry.h"
+#import <Masonry/Masonry.h>
 #import "DBXPool.h"
 #import "UIView+DBXStrike.h"
 #import "DBXValidJudge.h"
 #import "NSArray+DBXExtends.h"
 
 @interface DBXTextV2()
-@property (nonatomic, strong) NSMutableArray *kvoArrM;
+//@property (nonatomic, strong) NSMutableArray *kvoArrM;
 @end
 
 @implementation DBXTextV2
@@ -30,6 +30,18 @@
     if(self.textModel.src){
         [self handleChangeOn:self.textModel.changeOn];
     }
+
+    [self refreshText];
+}
+
+#pragma mark - inherited
+- (void)reload{
+    [self refreshText];
+    //刷新size
+}
+
+#pragma mark - privateMethods
+- (void)refreshText{
     
     if(self.textModel.maxLines){
         self.numberOfLines = self.textModel.maxLines.integerValue;
@@ -58,18 +70,7 @@
         NSString *color = [DBXParser getRealValueByPathId:self.pathId andKey:self.textModel.color];
         self.textColor = [UIColor db_colorWithHexString:color];
     }
-
-    [self refreshText];
-}
-
-#pragma mark - inherited
-- (void)reload{
-    [self refreshText];
-    //刷新size
-}
-
-#pragma mark - privateMethods
-- (void)refreshText{
+    
     NSString *src = [DBXParser getRealValueByPathId:self.pathId andKey:self.textModel.src];
     if ([DBXValidJudge isValidString:src]) {
         self.text = [self p_replaceLine:src];
@@ -134,23 +135,23 @@
 }
 
 - (void)dealloc{
-    if(self.kvoArrM.count > 0){
-        NSDictionary *metaDict = [DBXParser getMetaDictByPathId:_pathId];
-        [self.kvoArrM enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [metaDict removeObserver:self forKeyPath:obj];
-        }];
-        [self.kvoArrM removeAllObjects];
-    }
+//    if(self.kvoArrM.count > 0){
+//        NSDictionary *metaDict = [DBXParser getMetaDictByPathId:_pathId];
+//        [self.kvoArrM enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//            [metaDict removeObserver:self forKeyPath:obj];
+//        }];
+//        [self.kvoArrM removeAllObjects];
+//    }
 }
 
 - (void)handleChangeOn:(NSString *)changeOnstr
 {
-    NSDictionary *metaDict = [DBXParser getMetaDictByPathId:_pathId];
-    if (!changeOnstr) {
-        return;
-    }
-    [metaDict addObserver:self forKeyPath:changeOnstr options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
-    [self.kvoArrM db_addObject:changeOnstr];
+//    NSDictionary *metaDict = [DBXParser getMetaDictByPathId:_pathId];
+//    if (!changeOnstr) {
+//        return;
+//    }
+//    [metaDict addObserver:self forKeyPath:changeOnstr options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+//    [self.kvoArrM db_addObject:changeOnstr];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
@@ -160,12 +161,12 @@
     }
 }
 
-- (NSMutableArray *)kvoArrM{
-    if(!_kvoArrM){
-        _kvoArrM = [NSMutableArray new];
-    }
-    return _kvoArrM;
-}
+//- (NSMutableArray *)kvoArrM{
+//    if(!_kvoArrM){
+//        _kvoArrM = [NSMutableArray new];
+//    }
+//    return _kvoArrM;
+//}
 
 //展示时触发block中存储的事件
 -(void)willMoveToSuperview:(UIView *)newSuperview

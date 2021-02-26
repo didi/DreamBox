@@ -10,7 +10,7 @@
 #import "DBXYogaModel.h"
 #import "UIColor+DBXColor.h"
 #import "DBXFactory.h"
-#import "UIView+Yoga.h"
+#import <YogaKit/UIView+Yoga.h>
 #import "DBXPool.h"
 #import "DBXFlexBoxLayout.h"
 #import "DBXContainerViewFrame.h"
@@ -120,6 +120,7 @@
 
 #pragma mark -- 重载逻辑
 - (void)reLoadData{
+    
     NSString *color = [DBXParser getRealValueByPathId:self.pathTid andKey:self.renderModel.backgroundColor];
     self.backgroundColor = [UIColor db_colorWithHexString:color];
     
@@ -128,10 +129,21 @@
         NSString *_type = [dict objectForKey:@"_type"];
         if([_type isEqual:@"layout"]){
             DBXRenderModel *subRenderModel = [DBXRenderModel modelWithDict:dict];
+            UIView *view = [self.subViewsDict objectForKey:subRenderModel.modelID];
+            if([view respondsToSelector:@selector(setPathTid:)]){
+                [view performSelector:@selector(setPathTid:) withObject:self.pathTid];
+                [DBXCallBack bindView:view withCallBacks:subRenderModel.callbacks pathId:self.pathTid];
+            }
             [self relayoutWithViewModel:subRenderModel];
         } else {
             Class cls = [[DBXFactory sharedInstance] getModelClassByType:_type];
             DBXViewModel *viewModel = [cls modelWithDict:dict];
+            UIView *view = [self.subViewsDict objectForKey:viewModel.modelID];
+            if([view respondsToSelector:@selector(setPathId:)]){
+                [view performSelector:@selector(setPathId:) withObject:self.pathTid];
+                [DBXCallBack bindView:view withCallBacks:viewModel.callbacks pathId:self.pathTid];
+            }
+            
             [self relayoutWithViewModel:viewModel];
         }
     }
@@ -192,7 +204,7 @@
 + (DBXContainerViewYoga *)viewWithRenderModel:(DBXRenderModel *)renderModel pathid:(NSString *)pathId{
     DBXContainerViewYoga *view = [DBXContainerViewYoga new];
     view.callBacks = renderModel.callbacks;
-    [[DBXCallBack shareInstance] bindView:view withCallBacks:view.callBacks pathId:pathId];
+    [DBXCallBack bindView:view withCallBacks:view.callBacks pathId:pathId];
     return view;
 }
 

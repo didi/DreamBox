@@ -26,10 +26,10 @@
 #import "DBXFactory.h"
 #import "NSDictionary+DBXExtends.h"
 #import "DBXDeugSignView.h"
-#import "Masonry.h"
+#import <Masonry/Masonry.h>
 #import "DBXCallBack.h"
 #import "NSArray+DBXExtends.h"
-#import "UIView+Yoga.h"
+#import <YogaKit/UIView+Yoga.h>
 #import "DBXFlexBoxLayout.h"
 #import "DBXDefines.h"
 #import "DBXYogaModel.h"
@@ -52,7 +52,6 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
 @property (nonatomic ,copy, readwrite) NSString *accessKey;
 @property (nonatomic, strong) NSDictionary*extData;
 @property (nonatomic, copy) NSString *tid; //模版id
-@property (nonatomic, copy) NSString *pathTid; //模版id
 
 @property (nonatomic, strong) DBXTreeModel *treeModel;
 @property (nonatomic, strong) NSMutableArray *allRenderViewArray;
@@ -74,13 +73,13 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
 #pragma mark - Public
 - (void)dealloc{
     //释放掉所有资源
-    [[DBXPool shareDBPool] removeAccessKeyAndTidDict:self.accessKey andTid:self.tid];
-    [[DBXPool shareDBPool] removeAccessKeyWithPathId:self.pathId];
-    [[DBXPool shareDBPool] removeTidWithPathId:self.pathId];
-    [[DBXPool shareDBPool] removeObjectFromMetaPoolWithPathId:self.pathId];
-    [[DBXPool shareDBPool] removeObjectFromDBExtPoolWithPathId:self.pathId];
-    [[DBXPool shareDBPool] removeOnEventDictWithPathId:self.pathId];
-    [[DBXPool shareDBPool] removeObjectFromAliasPoolWithPathId:self.pathId];
+//    [[DBXPool shareDBPool] removeAccessKeyAndTidDict:self.accessKey andTid:self.tid];
+//    [[DBXPool shareDBPool] removeAccessKeyWithPathId:self.pathTid];
+//    [[DBXPool shareDBPool] removeTidWithPathId:self.pathTid];
+//    [[DBXPool shareDBPool] removeObjectFromMetaPoolWithPathId:self.pathTid];
+//    [[DBXPool shareDBPool] removeObjectFromDBExtPoolWithPathId:self.pathTid];
+//    [[DBXPool shareDBPool] removeOnEventDictWithPathId:self.pathTid];
+//    [[DBXPool shareDBPool] removeObjectFromAliasPoolWithPathId:self.pathTid];
 }
 
 - (NSString *)pathIdWithTid:(NSString *)tid accessKey:(NSString *)accessKey {
@@ -233,7 +232,7 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     DBXTreeModelYoga *yogaModel = (DBXTreeModelYoga *)treeModel;
     //绑定回调事件
     self.callBacks = [yogaModel.render.callbacks mutableCopy];
-    [[DBXCallBack shareInstance] bindView:self withCallBacks:self.callBacks pathId:self.pathTid];
+    [DBXCallBack bindView:self withCallBacks:self.callBacks pathId:self.pathTid];
     
     
     if([yogaModel.render.yogaModel.width isEqualToString:@"fill"]){
@@ -281,6 +280,8 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
 
 #pragma mark - privateMethods 构建时调用
 - (void)bindExtensionMetaData:(NSDictionary *)ext {
+    self.bgView.pathTid = self.pathTid;
+    [DBXCallBack bindView:self withCallBacks:self.callBacks pathId:self.pathTid];
     [self.bgView reloadWithExtDict:ext];
 }
 
@@ -344,26 +345,6 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
     }
     self.metaDict = [metaDict mutableCopy];
 }
-
-#pragma mark - 事件相关
-////添加展示需要处理的事件节点
-//-(void)handleOnVisible:(NSDictionary *)onVisibleDict
-//{
-//    __weak typeof(self) weakSelf = self;
-//    [self setViewVisible:^{
-//        [DBXParser circulationActionDict:onVisibleDict andPathId:weakSelf.pathTid];
-//    }];
-//}
-//
-////处理消失逻辑
-//-(void)handleOnInVisible:(NSDictionary *)onInVisibleDict
-//{
-//    __weak typeof(self) weakSelf = self;
-//    
-//    [self setViewInVisible:^{
-//        [DBXParser circulationActionDict:onInVisibleDict andPathId:weakSelf.pathTid];
-//    }];
-//}
 
 //ChangeOn监控
 -(void)handleChangeOn:(NSString *)changeOnstr

@@ -9,7 +9,7 @@
 #import "DBXFrameModel.h"
 #import "DBXDefines.h"
 #import "DBXRenderModel.h"
-#import "UIView+Yoga.h"
+#import <YogaKit/UIView+Yoga.h>
 #import "DBXFrameLayout.h"
 #import "DBXCallBack.h"
 #import "UIColor+DBXColor.h"
@@ -31,7 +31,7 @@
 + (DBXContainerViewFrame *)viewWithRenderModel:(DBXRenderModel *)renderModel pathid:(NSString *)pathId{
     DBXContainerViewFrame *view = [DBXContainerViewFrame new];
     view.callBacks = renderModel.callbacks;
-    [[DBXCallBack shareInstance] bindView:view withCallBacks:view.callBacks pathId:pathId];
+    [DBXCallBack bindView:view withCallBacks:view.callBacks pathId:pathId];
     return view;
 }
 

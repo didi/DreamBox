@@ -48,6 +48,14 @@
     return dbPool;
 }
 
+-(NSRegularExpression *)regex{
+    if(!_regex){
+        NSError *error = nil;
+        _regex = [NSRegularExpression regularExpressionWithPattern:@"(\\$)\\S*?(\\})"  options:NSRegularExpressionCaseInsensitive error:&error];
+    }
+    return _regex;
+}
+
 #pragma mark - accessKey列表，accessKey - tid列表
 - (void)setAllAccessKeyAndTidDict:(NSString *)accessKey andTid:(NSString *)tid {
     if (!tid || !accessKey) {

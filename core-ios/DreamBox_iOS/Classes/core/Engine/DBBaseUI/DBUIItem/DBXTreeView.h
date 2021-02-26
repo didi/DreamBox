@@ -19,6 +19,7 @@ typedef void(^DBTreeEventBlock)(NSString *evendID, NSDictionary *paramDict, NSDi
 
 @interface DBXTreeView : DBXView
  
+@property (nonatomic, copy) NSString *pathTid; //模版id
 @property (nonatomic ,copy, readonly) NSString *accessKey;
 //根据Tid
 - (void)loadWithTemplateId:(NSString *)tid accessKey:(NSString *)accessKey extData:(NSDictionary *)ext completionBlock:(DBTreeRenderBlock)completionBlock;

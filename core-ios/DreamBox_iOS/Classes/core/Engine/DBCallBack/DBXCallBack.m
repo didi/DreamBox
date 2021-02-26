@@ -13,28 +13,23 @@
 
 @implementation DBXCallBack
 
-+ (instancetype)shareInstance {
-    static DBXCallBack *__sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        __sharedInstance = [[DBXCallBack alloc] init];
-    });
-    return __sharedInstance;
-}
-
-
-- (void)bindView:(UIView *)view withCallBacks:(NSArray *)callBacks pathId:(NSString *)pathId{
-    __weak typeof(view) weakView = view;
-    
-    for(NSDictionary *callBack in [callBacks mutableCopy]){
++ (void)bindView:(UIView *)view withCallBacks:(NSArray *)callBacks pathId:(NSString *)pathId{
+    for(NSDictionary *callBack in callBacks){
         NSString *type = [callBack db_objectForKey:@"_type"];
         if([type isEqual:@"onClick"]){
+            __weak typeof(view) weakView = view;
             [view db_addTapGestureActionWithBlock:^(UITapGestureRecognizer * _Nonnull tapAction) {
                 UIWindow * window=[[[UIApplication sharedApplication] delegate] window];
-                CGRect rect=[view convertRect:view.bounds toView:window];
+                CGRect rect=[weakView convertRect:weakView.bounds toView:window];
                 NSMutableDictionary *callBacksM = [NSMutableDictionary dictionaryWithDictionary:callBack];
                 [callBacksM db_setValue:[NSValue valueWithCGRect:rect] forKey:@"frame"];
-                [DBXParser circulationActionDict:callBacksM andPathId:pathId];
+                NSString *pathID = nil;
+                if([weakView respondsToSelector:@selector(pathTid)]){
+                    pathID = [weakView performSelector:@selector(pathTid)];
+                } else if([weakView respondsToSelector:@selector(pathId)]) {
+                    pathID = [weakView performSelector:@selector(pathId)];
+                }
+                [DBXParser circulationActionDict:callBacksM andPathId:pathID];
             }];
         } else if([type isEqual:@"onVisible"]){
             [view setViewVisible:^{
@@ -54,9 +49,9 @@
             }
         }
 //        else if([type isEqual:@"onSuccess"]){
-//            
+//
 //        } else if([type isEqual:@"onError"]){
-//            
+//
 //        }
     }
 }

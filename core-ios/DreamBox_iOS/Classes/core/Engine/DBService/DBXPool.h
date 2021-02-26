@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DBXPool : NSObject
 
+@property (nonatomic, strong) NSRegularExpression *regex;
+
 +(instancetype)shareDBPool;
 
 
