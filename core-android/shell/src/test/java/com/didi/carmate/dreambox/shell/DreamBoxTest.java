@@ -1,8 +1,8 @@
 package com.didi.carmate.dreambox.shell;
 
-import org.junit.Test;
+import com.didi.carmate.dreambox.shell.v4.DreamBox;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class DreamBoxTest {
     @Test

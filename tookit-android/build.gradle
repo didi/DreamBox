@@ -4,6 +4,7 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 buildscript {
+    ext.kotlin_version = '1.3.71'
 
     repositories {
         maven { url 'https://maven.aliyun.com/repository/public/' }
@@ -15,6 +16,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -25,7 +27,6 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url properties.getProperty("LOCAL_REPO") }
         maven { url 'https://oss.sonatype.org/content/repositories/public/' }
         maven { url 'https://maven.aliyun.com/repository/public/' }
         maven { url 'https://maven.aliyun.com/repository/google/' }
@@ -46,3 +47,22 @@ task clean(type: Delete) {
 }
 
 
+ext {
+    minSDK = 16
+    targetSDK = 28
+    appCompat = '1.1.0'
+    fragment = '1.1.0'
+    extJunit = '1.1.1'
+    junit = '4.12'
+    testrunner = '1.0.2'
+    testCore = '1.2.0'
+    espresso = '3.2.0'
+    volley = '1.1.1'
+    constraint = '1.1.3'
+    glide = '4.11.0'
+    ktx = '1.3.0-beta01'
+    roboletric = '4.3.1'
+    gson_version = '2.8.5'
+    constraint_layout_version = '1.1.3'
+    recycleview_version = '1.0.0'
+}

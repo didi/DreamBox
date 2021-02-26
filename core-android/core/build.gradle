@@ -1,8 +1,10 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
-apply from: "$project.rootDir/upload.gradle"
 
+if (file("$project.rootDir/upload.gradle").exists()) {
+    apply from: "$project.rootDir/upload.gradle"
+}
 android {
     compileSdkVersion rootProject.ext.targetSDK
 
@@ -46,9 +48,9 @@ dependencies {
     api "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
     implementation "androidx.recyclerview:recyclerview:$recycleview_version"
 
-    implementation 'com.facebook.yoga.android:yoga-layout:1.16.0'
+    api 'com.facebook.yoga.android:yoga-layout:1.16.0'
     implementation 'com.facebook.soloader:soloader:0.9.0'
-    implementation 'com.facebook.fbjni:fbjni:0.0.2'
+    implementation 'com.facebook.fbjni:fbjni-java-only:0.0.3'
 }
 repositories {
     mavenCentral()

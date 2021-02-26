@@ -1,1 +1,5 @@
 /build
+/src/main/assets/compile
+/src/main/assets/data
+/src/main/assets/xml
+/src/main/assets/json

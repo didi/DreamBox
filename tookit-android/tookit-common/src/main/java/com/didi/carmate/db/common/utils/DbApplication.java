@@ -2,7 +2,7 @@ package com.didi.carmate.db.common.utils;
 
 import android.app.Application;
 
-import com.didi.carmate.dreambox.shell.DreamBox;
+import com.didi.carmate.dreambox.shell.v4.DreamBox;
 
 
 public class DbApplication extends Application {

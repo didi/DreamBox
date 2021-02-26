@@ -7,14 +7,14 @@
 //
 
 #import "DBDebugViewController.h"
-#import "DBTreeView.h"
-#import "DBPreProcess.h"
+#import "DBXTreeView.h"
+#import "DBXPreProcess.h"
 #import "DBDropListView.h"
 #import "DBQRScanVC.h"
 #import "DBDebugService.h"
-#import "DBPool.h"
+#import "DBXPool.h"
 #import "Masonry.h"
-#import "NSString+DBExtends.h"
+#import "NSString+DBXExtends.h"
 
 static CGFloat DBWSSDemoTopMargin = 30;
 static CGFloat DBWSSDemoLeftMargin = 16;
@@ -38,7 +38,7 @@ static CGFloat DBButtonMargin = 20;
 @property (nonatomic,strong) UIButton *dropBtn;
 @property (nonatomic,strong) UIButton *dropBtn1;
 @property (nonatomic,strong) NSDictionary *ATDic;
-@property (nonatomic,strong) DBTreeView *dbView;
+@property (nonatomic,strong) DBXTreeView *dbView;
 
 @end
 
@@ -85,7 +85,7 @@ static CGFloat DBButtonMargin = 20;
 }
 
 - (void)loadDBData{
-    _ATDic = [[DBPool shareDBPool] getAccessKeyAndTidDict];
+    _ATDic = [[DBXPool shareDBPool] getAccessKeyAndTidDict];
     NSArray *AccessKeyArr = [_ATDic allKeys];
     [self.dropList setSelections:AccessKeyArr];
 }
@@ -115,7 +115,7 @@ static CGFloat DBButtonMargin = 20;
     }
 
     if(self.textField.text.length > 0){
-        DBTreeView *view = [[DBPool shareDBPool] getDBViewWithTid:templateId andAccessKey:accessKey];
+        DBXTreeView *view = [[DBXPool shareDBPool] getDBViewWithTid:templateId andAccessKey:accessKey];
         if(!view){
             [self alertWithMessage:@"取不到与当前accessKey、templateId对应的DBView"];
         }
@@ -169,7 +169,7 @@ static CGFloat DBButtonMargin = 20;
 - (void)setUpDBViewWithMetaData:(NSString *)data ext:(NSDictionary *)ext {
     self.dbView = [DBDebugService shareInstance].dbView;
     if(!self.dbView){
-        self.dbView = [[DBTreeView alloc] init];
+        self.dbView = [[DBXTreeView alloc] init];
         [self.view addSubview:self.dbView];
         self.dbView.backgroundColor = [UIColor whiteColor];
         self.dbView.layer.borderWidth = 0.5;
@@ -184,9 +184,6 @@ static CGFloat DBButtonMargin = 20;
         //刷新，暂无刷新接口，用重建代替
         [self.dbView reloadWithData:data extMeta:ext];
     }
-    
-    self.dbView.frame = CGRectMake(DBButtonMargin, CGRectGetMaxY(self.textField.frame) + 10, self.view.frame.size.width - 2*DBWSSDemoLeftMargin, DBWSSDemoHeight);
-
     [self.dbView reloadTreeView];
 }
 

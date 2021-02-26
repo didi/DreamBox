@@ -1,0 +1,4 @@
+ext {
+    // 使用 aar 或 源码依赖
+    USE_AAR = false
+}

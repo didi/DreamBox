@@ -33,9 +33,9 @@ publishing {
         upload(MavenPublication) {
             groupId project.GROUP_ID
             artifactId project.ARTIFACT_ID
-            version project.VERSION
+            version project.DB_VERSION
 
-            if (!project.VERSION.endsWith('-SNAPSHOT')) {
+            if (!project.DB_VERSION.endsWith('-SNAPSHOT')) {
                 artifact(sourceJar)
             }
             artifact("$buildDir/outputs/aar/$ARTIFACT_ID-release.aar")
@@ -56,11 +56,12 @@ publishing {
                             dependencyNode.appendNode('groupId', it.group)
                         }
                         if (it.version == 'unspecified') {
-                            dependencyNode.appendNode('version', project.VERSION)
+                            dependencyNode.appendNode('version', project.DB_VERSION)
+                            dependencyNode.appendNode('artifactId', it.name + project.ARTIFACT_ID_VER)
                         } else {
                             dependencyNode.appendNode('version', it.version)
+                            dependencyNode.appendNode('artifactId', it.name)
                         }
-                        dependencyNode.appendNode('artifactId', it.name)
                     }
                 }
 
@@ -95,7 +96,7 @@ publishing {
                 scmNode.appendNode('url', "https://github.com/didi/dreambox.git")
             }
 
-            if (!project.VERSION.endsWith('-SNAPSHOT')) {
+            if (!project.DB_VERSION.endsWith('-SNAPSHOT')) {
                 artifact(file("$buildDir/outputs/aar/$ARTIFACT_ID-release.aar.asc")) {
                     classifier = null
                     extension = 'aar.asc'

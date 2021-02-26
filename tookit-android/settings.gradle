@@ -6,3 +6,20 @@ include ':playground'
 include ':catalog-lib'
 include ':tookit-debug'
 include ':tookit-common'
+
+
+File configFile = file('./config.gradle')
+if (configFile.exists()) {
+    apply from: './config.gradle'
+}
+
+if (!USE_AAR) {
+    include ':shell'
+    project(":shell").projectDir = new File("../core-android/shell")
+    include ':wrapper'
+    project(":wrapper").projectDir = new File("../core-android/wrapper")
+    include ':simple-wrapper'
+    project(":simple-wrapper").projectDir = new File("../core-android/simple-wrapper")
+    include ':core'
+    project(":core").projectDir = new File("../core-android/core")
+}

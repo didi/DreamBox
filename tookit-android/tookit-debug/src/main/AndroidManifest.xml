@@ -10,7 +10,7 @@
     <application
         android:allowBackup="true">
         <activity
-            android:name=".DebugActivity"
+            android:name=".DBDebugActivity"
             android:launchMode="singleInstance"
             android:label="DB调试工具"
             android:icon="@drawable/dream_box_logo"

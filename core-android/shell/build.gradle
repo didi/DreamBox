@@ -1,8 +1,9 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
-apply from: "$project.rootDir/upload.gradle"
-
+if (file("$project.rootDir/upload.gradle").exists()) {
+    apply from: "$project.rootDir/upload.gradle"
+}
 android {
     compileSdkVersion rootProject.ext.targetSDK
 
@@ -13,7 +14,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
 
-        versionName VERSION
+        versionName DB_VERSION
     }
 
     buildTypes {
@@ -48,6 +49,7 @@ dependencies {
     api project(':simple-wrapper')
 
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }
 repositories {
     mavenCentral()

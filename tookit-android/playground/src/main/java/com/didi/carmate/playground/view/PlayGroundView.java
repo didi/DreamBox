@@ -10,7 +10,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.didi.carmate.dreambox.shell.DreamBoxView;
+import com.didi.carmate.dreambox.shell.v4.DreamBoxView;
 
 import static com.didi.carmate.db.common.utils.DbApplication.ACCESS_KEY;
 
@@ -71,7 +71,7 @@ public class PlayGroundView extends FrameLayout {
                 addView(dreamBoxView);
             }
         }
-        dreamBoxView.setExtJsonStr(ext);
+        dreamBoxView.bindData(ext);
         return true;
     }
 }

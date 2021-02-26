@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tag_key_item_data" type="id" />
+    <item name="tag_key_view_attrs" type="id" />
+</resources>
