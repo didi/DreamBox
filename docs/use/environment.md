@@ -76,5 +76,9 @@ DreamBox CLI Version: 4.1.2 , for RUNTIME: 0.3
 ```
 pip3 install --upgrade dmb-cli
 ```
+也可 [点此](https://pt-starfile.didistatic.com/static/starfile/node20210227/895f1e95e30aba5dd56d6f2ccf768b57/892SqmUspf1614395415159.zip) 下载压缩包，解压后在命令行
+```
+ pip3 install 拖入压缩文件
+```
 
 > 更多关于CLI的使用说明参见[命令行工具使用说明](cli/README.md)
