@@ -1,21 +1,17 @@
-<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
- >
-    <meta aa="hello"/>
-	<render>
-        <text id="btn"  width="180dp" height="50dp" topToTop="parent" leftToLeft="parent" rightToRight="parent"  
-        marginTop="30dp" size="14dp" src="click me, 我是net" backgroundColor="#cccccc" gravity="center">
-        <onClick>
-            <net url="https://static.didialift.com/pinche/gift/resource/9c2turieie-1604892128300-mock_db_data.json" to="net_result" >
-                <onSuccess>
-                    <toast src="数据获取成功" />
-                </onSuccess>
-                <onError>
-                    <toast src="网络数据获取失败" />
-                </onError>
-            </net>
-        </onClick>
+<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <layout type="yoga" width="fill" height="fill" align-items="center">
+        <text width="180dp" height="50dp" marginTop="30dp" size="14dp" src="click me, 我是net" backgroundColor="#cccccc" gravity="center">
+            <onClick>
+                <net url="https://static.didialift.com/pinche/gift/resource/9c2turieie-1604892128300-mock_db_data.json" to="net_result">
+                    <onSuccess>
+                        <toast src="数据获取成功" />
+                    </onSuccess>
+                    <onError>
+                        <toast src="网络数据获取失败" />
+                    </onError>
+                </net>
+            </onClick>
         </text>
-        <text  width="fill" topToBottom="btn" leftToLeft="parent" rightToRight="parent"
-        marginTop="30dp" size="14dp" src="${net_result.school}" gravity="center"  changeOn="net_result" />
-    </render>
+        <text width="100%" marginTop="30dp" size="14dp" src="${net_result.school}" gravity="center" changeOn="net_result" />
+    </layout>
 </dbl>

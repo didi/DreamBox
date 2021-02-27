@@ -1,14 +1,11 @@
 <dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <meta confirm="我是变更前的数据:1234567" />
-    <render>
-        <text id="btn" width="180dp" height="50dp" topToTop="parent" leftToLeft="parent" rightToRight="parent" marginTop="100dp" size="14dp" src="click me,变更数据" backgroundColor="#cccccc" gravity="center">
+    <layout type="yoga" align-items="center" width="fill">
+        <text width="180dp" height="50dp" marginTop="100dp" size="14dp" src="click me,变更数据" backgroundColor="#cccccc" gravity="center">
             <onClick>
                 <changeMeta key="confirm" value="我是变更后的数据:7654321" />
             </onClick>
         </text>
-        <text  width="fill" height="50dp" topToBottom="btn" leftToLeft="parent"
-            rightToRight="parent" marginTop="50dp" size="14dp" src="${confirm}"  gravity="center"
-             changeOn="confirm">
-        </text>
-    </render>
+        <text width="180dp" height="50dp" marginTop="50dp" size="14dp" src="${confirm}" gravity="center" changeOn="confirm" backgroundColor="#cccccc"/>
+    </layout>
 </dbl>

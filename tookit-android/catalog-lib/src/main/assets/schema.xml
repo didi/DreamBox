@@ -1,12 +1,9 @@
-<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   >
-    <meta/>
-    <render>
-        <text  src="click me,跳转" width="180dp" height="50dp" topToTop="parent" leftToLeft="parent" rightToRight="parent"
-        marginTop="30dp" size="14dp" backgroundColor="#cccccc" gravity="center">
-			<onClick>
-                <nav schema="https://www.baidu.com"/>
+<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <layout type="yoga" width="fill" height="fill" align-items="center">
+        <text src="click me,跳转" width="180dp" height="50dp" marginTop="30dp" size="14dp" backgroundColor="#cccccc" gravity="center">
+            <onClick>
+                <nav schema="https://www.baidu.com" />
             </onClick>
         </text>
-    </render>
+    </layout>
 </dbl>

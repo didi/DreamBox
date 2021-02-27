@@ -1,19 +1,16 @@
-<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
- >
-    <meta/> 
-	<render>
-        <text id="btn"  width="180dp" height="50dp" topToTop="parent" leftToLeft="parent" rightToRight="parent"  
-        marginTop="30dp" size="14dp" src="click me, 我是dialog" backgroundColor="#cccccc" gravity="center">
-        <onClick>
-            <dialog  title="我是标题"  msg="我是内容，街舞3的王一博有点帅啊!" positiveBtn="确定" negativeBtn="取消">
-                <onPositive>
-                    <toast  src="点击了确定"/>
-                </onPositive>
-                <onNegative>
-                    <toast  src="点击了取消"/>
-                </onNegative>
-            </dialog>
-        </onClick>
-        </text>  
-	</render>
+<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <layout type="yoga" width="fill" align-items="center">
+        <text id="btn" width="180dp" height="50dp" marginTop="30dp" size="14dp" src="click me, 我是dialog" backgroundColor="#cccccc" gravity="center">
+            <onClick>
+                <dialog title="我是标题" msg="我是内容，街舞3的王一博有点帅啊!" positiveBtn="确定" negativeBtn="取消">
+                    <onPositive>
+                        <toast src="点击了确定" />
+                    </onPositive>
+                    <onNegative>
+                        <toast src="点击了取消" />
+                    </onNegative>
+                </dialog>
+            </onClick>
+        </text>
+    </layout>
 </dbl>

@@ -1,31 +1,17 @@
-<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://db-xsd.oss-cn-beijing.aliyuncs.com/dbl.xsd">
-    <meta bgImg="https://static.didialift.com/pinche/gift/resource/a1btha00uvo-1596181723746-db_progress_bg_01.9.png"
-        fgImg="https://static.didialift.com/pinche/gift/resource/pubvqug1brg-1596181817219-db_progress_fg_01.9.png" />
-    <render>
-        <text gravity="center" id="btn1" leftToLeft="parent" marginTop="60dp" rightToRight="parent" size="14dp"
-            src="默认patchType" topToTop="parent" />
-        <progress barBg="${bgImg}" barFg="${fgImg}" height="10dp" id="pro1" leftToLeft="parent" marginTop="10dp"
-            rightToRight="parent" topToBottom="btn1" value="40" width="220dp" />
-        <text gravity="center" id="btn2" leftToLeft="parent" marginTop="30dp" rightToRight="parent" size="14dp"
-            src="patchType:stretch" topToBottom="pro1" />
-        <progress barBg="${bgImg}" barFg="${fgImg}" height="10dp" id="pro2" leftToLeft="parent" marginTop="10dp"
-            patchType="stretch" rightToRight="parent" topToBottom="btn2" value="60" width="220dp" />
-        <text gravity="center" id="btn3" leftToLeft="parent" marginTop="30dp" rightToRight="parent" size="14dp"
-            src="patchType:repeat" topToBottom="pro2" />
-        <progress barBg="${bgImg}" barFg="${fgImg}" height="10dp" id="pro3" leftToLeft="parent" marginTop="10dp"
-            patchType="repeat" rightToRight="parent" topToBottom="btn3" value="80" width="220dp" />
-        <text gravity="center" id="btn4" leftToLeft="parent" marginTop="30dp" rightToRight="parent" size="14dp"
-            src="wrap属性" topToBottom="pro3" />
-        <progress barBg="${bgImg}" barFg="${fgImg}" height="10dp" id="pro4" leftToLeft="parent" marginTop="10dp"
-            patchType="repeat" rightToRight="parent" topToBottom="btn4" value="80" width="wrap" />
-        <text gravity="center" id="btn5" leftToLeft="parent" marginTop="30dp" rightToRight="parent" size="14dp"
-            src="fill属性" topToBottom="pro4" />
-        <progress barBg="${bgImg}" barFg="${fgImg}" height="10dp" id="pro5" leftToLeft="parent" marginTop="10dp"
-            patchType="repeat" rightToRight="parent" topToBottom="btn5" value="80" width="fill" />
-        <text gravity="center" id="btn6" leftToLeft="parent" marginTop="30dp" rightToRight="parent" size="14dp"
-            src="color progress" topToBottom="pro5" />
-        <progress barBgColor="#CCCCCC" barFgColor="#789789" height="10dp" id="pro6" leftToLeft="parent" marginTop="10dp"
-            patchType="repeat" rightToRight="parent" topToBottom="btn6" value="80" width="fill" />
-    </render>
+<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <meta bgImg="https://static.didialift.com/pinche/gift/resource/a1btha00uvo-1596181723746-db_progress_bg_01.9.png" fgImg="https://static.didialift.com/pinche/gift/resource/pubvqug1brg-1596181817219-db_progress_fg_01.9.png" />
+    <layout type="yoga" width="fill" height="fill" paddingLeft="10dp" paddingRight="10dp">
+        <text gravity="center" marginTop="60dp" size="14dp" src="默认patchType" />
+        <progress barBg="${bgImg}" barFg="${fgImg}" height="12dp" marginTop="10dp" value="40" width="220dp" />
+        <text gravity="center" marginTop="30dp" size="14dp" src="patchType:stretch" />
+        <progress barBg="${bgImg}" barFg="${fgImg}" height="12dp" marginTop="10dp" patchType="stretch" value="60" width="220dp" />
+        <text gravity="center" marginTop="30dp" size="14dp" src="patchType:repeat" />
+        <progress barBg="${bgImg}" barFg="${fgImg}" height="12dp" marginTop="10dp" patchType="repeat" value="80" width="220dp" />
+        <text gravity="center" marginTop="30dp" rightToRight="parent" size="14dp" src="wrap属性" />
+        <progress barBg="${bgImg}" barFg="${fgImg}" height="12dp" marginTop="10dp" patchType="repeat" value="80" width="wrap" />
+        <text gravity="center" marginTop="30dp" rightToRight="parent" size="14dp" src="fill属性" />
+        <progress barBg="${bgImg}" barFg="${fgImg}" height="12dp" marginTop="10dp" patchType="repeat" value="80" width="fill" />
+        <text gravity="center" marginTop="30dp" rightToRight="parent" size="14dp" src="color progress" />
+        <progress barBgColor="#CCCCCC" barFgColor="#789789" height="12dp" marginTop="10dp" patchType="repeat" value="80" width="fill" />
+    </layout>
 </dbl>

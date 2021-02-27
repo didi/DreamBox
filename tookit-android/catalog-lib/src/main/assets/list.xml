@@ -1,29 +1,34 @@
 <dbl>
-    <meta />
-    <render>
-        <list backgroundColor="#EEEEEE" bottomToBottom="parent" id="stud_list" leftToLeft="parent" marginBottom="0dp"
-            marginTop="0dp" orientation="vertical" rightToRight="parent" src="${ext.db_list}" topToTop="parent"
-            width="fill" height="fill">
-            <header>
-                <text gravity="center" height="60dp" leftToLeft="parent" rightToRight="parent" src="I'm header View"
-                    width="fill" />
-            </header>
-            <vh>
-                <view backgroundColor="#666666" height="1px" topToTop="parent" width="fill" />
-                <image bottomToBottom="parent" height="40dp" id="img" leftToLeft="parent" marginBottom="15dp"
-                    marginLeft="20dp" marginTop="15dp" src="${img}" topToTop="parent" width="40dp" />
-                <text style="bold" color="#333333" id="title" leftToRight="img" marginLeft="12dp" marginTop="-2dp"
-                    size="16dp" src="${title}" topToTop="img" />
-                <text color="#999999" id="sub_title" leftToRight="img" marginLeft="12dp" marginTop="8dp" size="12dp"
-                    src="${subtitle}" topToBottom="title" />
-                <image bottomToBottom="parent" height="wrap" id="arrow" marginRight="30dp" rightToRight="parent"
-                    src="${arrow}" topToTop="parent" width="10dp" />
-            </vh>
-            <footer>
+    <meta>
+        <db_list img="https://static.didialift.com/pinche/gift/resource/b78l9o67vr4-1594955096192-qian.png" title="主标题主标题" subtitle="这是一段描述，四字弟弟超级帅" arrow="https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png" />
+        <db_list img="https://static.didialift.com/pinche/gift/resource/93oa0rfhol-1594955150780-changyongluxian.png" title="主标题主标题" subtitle="这是一段描述，四字弟弟超级帅" arrow="https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png" />
+        <db_list img="https://static.didialift.com/pinche/gift/resource/b78l9o67vr4-1594955096192-qian.png" title="主标题主标题" subtitle="这是一段描述，易洋千玺超级帅" arrow="https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png" />
+        <db_list img="https://static.didialift.com/pinche/gift/resource/93oa0rfhol-1594955150780-changyongluxian.png" title="主标题主标题" subtitle="这是一段描述，欢迎使用DB列表" arrow="https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png" />
+        <db_list img="https://static.didialift.com/pinche/gift/resource/b78l9o67vr4-1594955096192-qian.png" title="主标题主标题" subtitle="这是一段描述，四字弟弟超级帅" arrow="https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png" />
+        <db_list img="https://static.didialift.com/pinche/gift/resource/93oa0rfhol-1594955150780-changyongluxian.png" title="主标题主标题" subtitle="这是一段描述，四字弟弟超级帅" arrow="https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png" />
+        <db_list img="https://static.didialift.com/pinche/gift/resource/b78l9o67vr4-1594955096192-qian.png" title="主标题主标题" subtitle="这是一段描述，易洋千玺超级帅" arrow="https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png" />
+        <db_list img="https://static.didialift.com/pinche/gift/resource/93oa0rfhol-1594955150780-changyongluxian.png" title="主标题主标题" subtitle="这是一段描述，欢迎使用DB列表" arrow="https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png" />
+        <db_list img="https://static.didialift.com/pinche/gift/resource/b78l9o67vr4-1594955096192-qian.png" title="主标题主标题" subtitle="这是一段描述，四字弟弟超级帅" arrow="https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png" />
+        <db_list img="https://static.didialift.com/pinche/gift/resource/93oa0rfhol-1594955150780-changyongluxian.png" title="主标题主标题" subtitle="这是一段描述，四字弟弟超级帅" arrow="https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png" />
+        <db_list img="https://static.didialift.com/pinche/gift/resource/b78l9o67vr4-1594955096192-qian.png" title="主标题主标题" subtitle="这是一段描述，易洋千玺超级帅" arrow="https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png" />
+        <db_list img="https://static.didialift.com/pinche/gift/resource/93oa0rfhol-1594955150780-changyongluxian.png" title="主标题主标题" subtitle="这是一段描述，欢迎使用DB列表" arrow="https://static.didialift.com/pinche/gift/resource/nm78nn24srg-1596768708081-bts_home_ctr_top_content_arrow.png" />
+    </meta>
+    <layout type="yoga" width="fill" height="fill">
+        <list backgroundColor="#EEEEEE" bottomToBottom="parent" id="stud_list" leftToLeft="parent" marginBottom="0dp" marginTop="0dp" orientation="vertical" rightToRight="parent" src="${db_list}" topToTop="parent" width="fill" height="fill">
+            <layout type="yoga" payload="header">
+                <text gravity="center" height="60dp" leftToLeft="parent" rightToRight="parent" src="I'm header View" width="fill" />
+            </layout>
+            <layout type="yoga" payload="vh">
+                <view backgroundColor="#666666" height="1px" width="100%" />
+                <image positionType="absolute" positionLeft="20dp" positionTop="50%" marginTop="-20dp" src="${img}" width="40dp" height="40dp" />
+                <text style="bold" color="#333333" marginLeft="72dp" marginTop="10dp" size="16dp" src="${title}" />
+                <text color="#999999" marginLeft="72dp" marginTop="8dp" marginBottom="10dp" size="12dp" src="${subtitle}" />
+                <image positionType="absolute" positionTop="50%" marginTop="-5dp" positionRight="30dp" aspectRatio="1" marginBottom="10dp" src="${arrow}" height="10dp" />
+            </layout>
+            <layout type="yoga" payload="footer">
                 <view backgroundColor="#666666" height="1px" id="line" topToTop="parent" width="fill" />
-                <text gravity="center" height="60dp" leftToLeft="parent" rightToRight="parent" src="I'm footer View"
-                    topToBottom="line" width="fill" />
-            </footer>
+                <text gravity="center" height="60dp" leftToLeft="parent" rightToRight="parent" src="I'm footer View" topToBottom="line" width="fill" />
+            </layout>
         </list>
-    </render>
+    </layout>
 </dbl>

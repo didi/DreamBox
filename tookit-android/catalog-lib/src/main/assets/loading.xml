@@ -1,11 +1,9 @@
 <dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<meta />
-	<render>
-		<text id="circle_text" src="默认样式(圆圈样式)" leftToLeft="parent" rightToRight="parent" topToTop="parent" marginTop="120dp" />
-		<loading id="circle_loading" width="50dp" height="50dp" leftToLeft="parent" rightToRight="parent" topToTop="circle_text" marginTop="30dp" style="circle" />
+	<layout type="yoga" width="fill" height="fill" align-items="center">
+		<text src="默认样式(圆圈样式)" marginTop="120dp" />
+		<loading width="50dp" height="50dp" marginTop="30dp" style="circle" />
 
-		<text id="circle_dot" src="点样式" leftToLeft="parent" rightToRight="parent" topToTop="circle_loading" marginTop="100dp" />
-
-		<loading width="100dp" height="100dp" leftToLeft="parent" rightToRight="parent" topToBottom="circle_dot" marginTop="30dp" style="dot" />
-	</render>
+		<text src="点样式" marginTop="100dp" />
+		<loading width="50dp" height="100dp" marginTop="30dp" style="dot" />
+	</layout>
 </dbl>
