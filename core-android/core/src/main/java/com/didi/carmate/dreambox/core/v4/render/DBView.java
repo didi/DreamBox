@@ -5,14 +5,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 
+import com.didi.carmate.dreambox.core.v4.base.DBBaseView;
+import com.didi.carmate.dreambox.core.v4.base.DBBorderCorner;
 import com.didi.carmate.dreambox.core.v4.base.DBConstants;
 import com.didi.carmate.dreambox.core.v4.base.DBContext;
 import com.didi.carmate.dreambox.core.v4.base.DBModel;
 import com.didi.carmate.dreambox.core.v4.base.INodeCreator;
-import com.didi.carmate.dreambox.core.v4.utils.DBScreenUtils;
-import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
-import com.didi.carmate.dreambox.core.v4.base.DBBaseView;
 import com.didi.carmate.dreambox.core.v4.render.view.DBRichView;
+import com.didi.carmate.dreambox.core.v4.utils.DBUtils;
 
 import java.util.Map;
 
@@ -21,38 +21,27 @@ import java.util.Map;
  * date: 2020/4/30
  */
 public class DBView<T extends DBRichView> extends DBBaseView<T> {
-    private String shape; // 绘制形状
-    private int radius; // 圆角半径
-    private int radiusLT; // 左上角圆角半径
-    private int radiusRT; // 右上角圆角半径
-    private int radiusRB; // 右下角圆角半径
-    private int radiusLB; // 左下角圆角半径
-    private int borderWidth; // 边框宽度
-    private String borderColor; // 边框颜色
     private String gradientColor; // 过渡颜色
     private String gradientOrientation; // 过渡色方向
+    private final DBBorderCorner mBorderCorner;
+    private final DBBorderCorner.DBViewOutline mClipOutline;
 
     private DBView(DBContext dbContext) {
         super(dbContext);
+
+        mBorderCorner = new DBBorderCorner();
+        mClipOutline = new DBBorderCorner.DBViewOutline();
     }
 
     @Override
     protected View onCreateView() {
-        return new DBRichView(mDBContext.getContext());
+        return new DBRichView(mDBContext.getContext(), mBorderCorner);
     }
 
     @Override
     public void onAttributesBind(Map<String, String> attrs, DBModel model) {
         super.onAttributesBind(attrs, model);
 
-        shape = attrs.get("shape");
-        radius = DBScreenUtils.processSize(mDBContext, attrs.get("radius"), 0);
-        radiusLT = DBScreenUtils.processSize(mDBContext, attrs.get("radiusLT"), 0);
-        radiusRT = DBScreenUtils.processSize(mDBContext, attrs.get("radiusRT"), 0);
-        radiusRB = DBScreenUtils.processSize(mDBContext, attrs.get("radiusRB"), 0);
-        radiusLB = DBScreenUtils.processSize(mDBContext, attrs.get("radiusLB"), 0);
-        borderWidth = DBScreenUtils.processSize(mDBContext, attrs.get("borderWidth"), 0);
-        borderColor = getString(attrs.get("borderColor"), model);
         gradientColor = getString(attrs.get("gradientColor"), model);
         gradientOrientation = getString(attrs.get("gradientOrientation"), model);
 
@@ -62,22 +51,18 @@ public class DBView<T extends DBRichView> extends DBBaseView<T> {
     private void doRender(DBRichView richView) {
         // 覆写父类背景颜色
         richView.setBackgroundColor(Color.TRANSPARENT);
-        if (radius != 0) {
-            richView.setRoundRadius(radius, radius, radius, radius);
-        } else {
-            richView.setRoundRadius(radiusLT, radiusRT, radiusRB, radiusLB);
+
+        richView.setRadius(radius);
+        richView.setRoundRadius(radius, radiusLT, radiusRT, radiusRB, radiusLB);
+        if (DBUtils.isColor(borderColor)) {
+            richView.setBorderColor(Color.parseColor(borderColor));
         }
-//        // pressed颜色
-//        richView.setPressed(false);
-//        richView.setCoverColor(Color.parseColor("#66AAAA"));
-        // 边框宽度
         if (borderWidth > 0) {
             richView.setBorderWidth(borderWidth);
         }
-        // 边框颜色
-        if (DBUtils.isColor(borderColor)) {
-            richView.setBorderColor(DBUtils.parseColor(this, borderColor));
-        }
+        mClipOutline.setClipOutline(radius);
+        richView.clipOutline(mClipOutline);
+
         // 背景色
         int[] colors = null;
         boolean checkColorsOK = false;
@@ -109,18 +94,11 @@ public class DBView<T extends DBRichView> extends DBBaseView<T> {
             }
             // 过渡颜色
             dynamicDrawable.setColors(colors);
-            richView.setImageDrawable(dynamicDrawable);
+            richView.setBackground(dynamicDrawable);
         } else if (!DBUtils.isEmpty(backgroundColor)) {
-            richView.setImageDrawable(new ColorDrawable(Color.parseColor(backgroundColor)));
+            richView.setBackground(new ColorDrawable(Color.parseColor(backgroundColor)));
         } else {
-            richView.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
-        }
-
-        // 形状
-        if (DBConstants.STYLE_VIEW_SHAPE_CIRCLE.equals(shape)) {
-            richView.setShape(DBRichView.SHAPE_CIRCLE);
-        } else {
-            richView.setShape(DBRichView.SHAPE_REC);
+            richView.setBackground(new ColorDrawable(Color.TRANSPARENT));
         }
     }
 

@@ -39,18 +39,18 @@ public class DBCallback extends DBNode implements IDBCallback {
         super.onParserNodeFinished();
 
         // 在DBLView的onParserNode里解析完DBActionAlias节点后，才能获取到alias相关内容
-        List<IDBNode> children = getChildren();
-        if (children.size() > 0) {
-            DBActions actions = (DBActions) children.get(0);
-            children = actions.getChildren();
-            for (IDBNode child : children) {
-                if (child instanceof DBInvoke) { // 获取invoke action
-                    DBActionAliasItem aliasItem = ((DBInvoke) child).getAliasItem();
-                    List<DBAction> actionNodes = aliasItem.getActionNodes();
-                    mActionNodes.addAll(actionNodes);
-                }
-            }
-        }
+//        List<IDBNode> children = getChildren();
+//        if (children.size() > 0) {
+//            DBActions actions = (DBActions) children.get(0);
+//            children = actions.getChildren();
+//            for (IDBNode child : children) {
+//                if (child instanceof DBInvoke) { // 获取invoke action
+//                    DBActionAliasItem aliasItem = ((DBInvoke) child).getAliasItem();
+//                    List<DBAction> actionNodes = aliasItem.getActionNodes();
+//                    mActionNodes.addAll(actionNodes);
+//                }
+//            }
+//        }
     }
 
     @Override

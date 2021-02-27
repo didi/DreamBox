@@ -53,9 +53,13 @@ public class DBActionAliasItem extends DBNode {
         JsonObject srcJsonObject = getJsonObject(attrs.get("src"), model);
         // invoke 的[src]属性拥有更高的优先级，key相同时覆盖此节点数据
         if (null != srcJsonObject && null != model.getData()) {
-            setActionsData(combineJson(srcJsonObject, parentData));
+            model.setData(combineJson(srcJsonObject, parentData));
         } else if (null != srcJsonObject) {
-            setActionsData(srcJsonObject);
+            model.setData(srcJsonObject);
+        }
+
+        for (DBAction action : mActionNodes) {
+            action.invoke(model);
         }
     }
 
@@ -77,12 +81,6 @@ public class DBActionAliasItem extends DBNode {
 
     public List<DBAction> getActionNodes() {
         return mActionNodes;
-    }
-
-    private void setActionsData(JsonObject data) {
-        for (DBAction action : mActionNodes) {
-//            action.setData(data); // 将invoke[src]设置到action
-        }
     }
 
     /**
