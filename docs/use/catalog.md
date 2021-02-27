@@ -6,7 +6,7 @@ DB的demo APP，DSL编写快速入门，同时作为DB准出，包含DB视图节
 
 扫码下载：
 
-![](../assets/catalog_android.png ':size=20%')
+![](../assets/catalog_androidv2.png ':size=20%')
 
 App内容：
 

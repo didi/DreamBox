@@ -18,7 +18,7 @@ pod install
 
 扫码下载：
 
-![](../assets/playgroundv2.png ':size=30%')
+![](../assets/playgroundv3.png ':size=30%')
 
 
 ### 二、使用
