@@ -13,7 +13,7 @@ DreamBox布局从v0.4开始由约束布局替换为flexbox布局，底层采用y
 
 ### 常规属性
 
-#### Added in v0.3
+#### Added in v0.1
 
 - `id` 表示此视图节点的唯一ID，属性值为字符串类型。`<dbl>`根节点的ID在DSL中以`parent`表示，Runtime中以0表示
 - `marginLeft` 外部左边距
