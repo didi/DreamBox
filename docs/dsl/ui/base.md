@@ -44,8 +44,8 @@ DreamBox布局从v0.4开始由约束布局替换为flexbox布局，底层采用y
 
 #### Added in v0.4
 
-- `width` 增加支持百分比
-- `height` 增加支持百分比
+- `width` 增加支持百分比方式
+- `height` 增加支持百分比方式
 - `background` 设置本地/远程背景图片
 - `borderWidth` 设置边框宽度
 - `borderColor` 设置边框颜色
@@ -61,7 +61,7 @@ DreamBox布局从v0.4开始由约束布局替换为flexbox布局，底层采用y
 - `paddingRight` 单独设置右内边距，优先级高于`padding`
 - `paddingBottom` 单独设置下内边距，优先级高于`padding`
 
-父容器是flexbox类型时(<layout type="yoga">)，UI节点如下属性生效，具体可参考[布局逻辑](https://didi.github.io/DreamBox/#/dsl/layout_logic)里相关内容
+父容器是flexbox类型时，即`<layout type="yoga">`，UI节点如下属性才生效，具体可参考[布局逻辑](https://didi.github.io/DreamBox/#/dsl/layout_logic)里相关内容
 
 - `flexGrow` 设置弹性扩展比例
 - `flexShrink` 设置弹性收缩比例
