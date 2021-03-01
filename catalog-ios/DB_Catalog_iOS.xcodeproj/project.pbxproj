@@ -65,6 +65,8 @@
 		0A77BBE624DBE2AC007EFD26 /* closePage.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0A77BBBD24DBE2AB007EFD26 /* closePage.xml */; };
 		0A7FA6E924D9335D00827564 /* DBCTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7FA6E824D9335D00827564 /* DBCTopView.m */; };
 		0A7FA6EC24D9343300827564 /* DBCCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7FA6EB24D9343300827564 /* DBCCodeView.m */; };
+		0A84937925ECD9C7007EEB29 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A84937825ECD9C7007EEB29 /* test.swift */; };
+		0A84937F25ECD9DE007EEB29 /* test.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0A84937D25ECD9DE007EEB29 /* test.mm */; };
 		0AA5C10224E3988C002D9E9F /* list.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5C10124E3988B002D9E9F /* list.json */; };
 		0AA5C10424E398B5002D9E9F /* flow.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5C10324E398B5002D9E9F /* flow.json */; };
 		D5F94AB44B8B897917119AA4 /* libPods-DB_Catalog_iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A5DF8F2F71840AD5246FAB10 /* libPods-DB_Catalog_iOS.a */; };
@@ -165,6 +167,10 @@
 		0A7FA6E824D9335D00827564 /* DBCTopView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBCTopView.m; sourceTree = "<group>"; };
 		0A7FA6EA24D9343300827564 /* DBCCodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBCCodeView.h; sourceTree = "<group>"; };
 		0A7FA6EB24D9343300827564 /* DBCCodeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBCCodeView.m; sourceTree = "<group>"; };
+		0A84937725ECD9C7007EEB29 /* DB_Catalog_iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DB_Catalog_iOS-Bridging-Header.h"; sourceTree = "<group>"; };
+		0A84937825ECD9C7007EEB29 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
+		0A84937D25ECD9DE007EEB29 /* test.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = test.mm; sourceTree = "<group>"; };
+		0A84937E25ECD9DE007EEB29 /* test.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = test.hpp; sourceTree = "<group>"; };
 		0AA5C10124E3988B002D9E9F /* list.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = list.json; sourceTree = "<group>"; };
 		0AA5C10324E398B5002D9E9F /* flow.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = flow.json; sourceTree = "<group>"; };
 		396D37EF0A5714B016693D77 /* Pods-DB_Catalog_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DB_Catalog_iOS.release.xcconfig"; path = "Target Support Files/Pods-DB_Catalog_iOS/Pods-DB_Catalog_iOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -257,6 +263,10 @@
 				0A27A43524CE772C00F42DCB /* LaunchScreen.storyboard */,
 				0A27A43824CE772C00F42DCB /* Info.plist */,
 				0A27A43924CE772C00F42DCB /* main.m */,
+				0A84937825ECD9C7007EEB29 /* test.swift */,
+				0A84937725ECD9C7007EEB29 /* DB_Catalog_iOS-Bridging-Header.h */,
+				0A84937D25ECD9DE007EEB29 /* test.mm */,
+				0A84937E25ECD9DE007EEB29 /* test.hpp */,
 			);
 			path = DB_Catalog_iOS;
 			sourceTree = "<group>";
@@ -443,6 +453,7 @@
 				TargetAttributes = {
 					0A27A42324CE772800F42DCB = {
 						CreatedOnToolsVersion = 11.6;
+						LastSwiftMigration = 1210;
 					};
 					0A27A43E24CE772C00F42DCB = {
 						CreatedOnToolsVersion = 11.6;
@@ -594,7 +605,9 @@
 				0A27A47124CEF3F100F42DCB /* DBCViewNodeController.m in Sources */,
 				0A27A42F24CE772800F42DCB /* DBCatalogViewController.m in Sources */,
 				0A27A42924CE772800F42DCB /* AppDelegate.m in Sources */,
+				0A84937925ECD9C7007EEB29 /* test.swift in Sources */,
 				0A27A43A24CE772C00F42DCB /* main.m in Sources */,
+				0A84937F25ECD9DE007EEB29 /* test.mm in Sources */,
 				0A1BB5CF24CFD04C009808B0 /* DBCBaseTemplateController.m in Sources */,
 				0A7FA6EC24D9343300827564 /* DBCCodeView.m in Sources */,
 				0A7FA6E924D9335D00827564 /* DBCTopView.m in Sources */,
@@ -772,6 +785,7 @@
 			baseConfigurationReference = 5FAB754AAAC2B86CC77501E2 /* Pods-DB_Catalog_iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9QJEE45VU7;
 				INFOPLIST_FILE = DB_Catalog_iOS/Info.plist;
@@ -781,6 +795,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rac.111;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "DB_Catalog_iOS/DB_Catalog_iOS-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -790,6 +807,7 @@
 			baseConfigurationReference = 396D37EF0A5714B016693D77 /* Pods-DB_Catalog_iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9QJEE45VU7;
 				INFOPLIST_FILE = DB_Catalog_iOS/Info.plist;
@@ -799,6 +817,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rac.111;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "DB_Catalog_iOS/DB_Catalog_iOS-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -806,6 +826,7 @@
 		0A27A45724CE772C00F42DCB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DB_Catalog_iOSTests/Info.plist;
@@ -825,6 +846,7 @@
 		0A27A45824CE772C00F42DCB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DB_Catalog_iOSTests/Info.plist;
@@ -844,6 +866,7 @@
 		0A27A45A24CE772C00F42DCB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DB_Catalog_iOSUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -861,6 +884,7 @@
 		0A27A45B24CE772C00F42DCB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DB_Catalog_iOSUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

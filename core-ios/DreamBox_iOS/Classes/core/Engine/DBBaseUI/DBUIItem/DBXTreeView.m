@@ -239,6 +239,10 @@ typedef void(^DBAliasBlock)(NSDictionary *src);
         yogaModel.render.yogaModel.width = [NSString stringWithFormat:@"%f", self.frame.size.width];
     }
     
+    if([yogaModel.render.yogaModel.height isEqualToString:@"fill"]){
+        yogaModel.render.yogaModel.height = [NSString stringWithFormat:@"%f", self.frame.size.height];
+    }
+    
     self.bgView = [DBXRenderFactory renderViewWithTreeModel:yogaModel pathid:self.pathTid];
     self.bgView.userInteractionEnabled = YES;
     [self addSubview:self.bgView];

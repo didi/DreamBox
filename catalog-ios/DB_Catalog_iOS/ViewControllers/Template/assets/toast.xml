@@ -1,11 +1,9 @@
 <dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    
-    <render>
-        <text  width="180dp" height="50dp" topToTop="parent" leftToLeft="parent" rightToRight="parent"
-            marginTop="30dp" size="14dp" src="click me, 我是toast" backgroundColor="#cccccc" gravity="center">
-			<onClick>
+    <layout type="yoga" width="fill" height="fill" align-items="center">
+        <text width="180dp" height="50dp" marginTop="30dp" size="14dp" src="click me, 我是toast" backgroundColor="#cccccc" gravity="center">
+            <onClick>
                 <toast src="我是toast！" />
             </onClick>
-		</text>
-    </render>
+        </text>
+    </layout>
 </dbl>

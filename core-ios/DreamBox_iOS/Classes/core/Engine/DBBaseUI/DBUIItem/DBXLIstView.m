@@ -219,6 +219,12 @@
     [[DBXPool shareDBPool] setObject:dict ToDBMetaPoolWithPathId:[NSString stringWithFormat:@"%@&%ld",self.pathId, indexPath.row]];
     DBXRenderModel *model = [DBXRenderModel modelWithDict:self.listModel.vh];
     
+    if([self.listModel.orientation isEqualToString:@"horizontal"]){
+        model.yogaModel.height = [NSString stringWithFormat:@"%f", self.frame.size.height];
+    } else {
+        model.yogaModel.width = [NSString stringWithFormat:@"%f", self.frame.size.width];
+    }
+    
     DBXContainerViewYoga *contentView = (DBXContainerViewYoga *)[DBXRenderFactory renderViewWithRenderModel:model pathid:[NSString stringWithFormat:@"%@&%ld",self.pathId, indexPath.row]];
 //    [[DBXPool shareDBPool] removeObjectFromMetaPoolWithPathId:[NSString stringWithFormat:@"%@&%ld",self.pathId, indexPath.row]];
     return contentView;
@@ -248,6 +254,13 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
 
     DBXRenderModel *model = [DBXRenderModel modelWithDict:self.listModel.header];
+    
+    if([self.listModel.orientation isEqualToString:@"horizontal"]){
+        model.yogaModel.height = [NSString stringWithFormat:@"%f", self.frame.size.height];
+    } else {
+        model.yogaModel.width = [NSString stringWithFormat:@"%f", self.frame.size.width];
+    }
+    
     DBXContainerViewYoga *header = (DBXContainerViewYoga *)[DBXRenderFactory renderViewWithRenderModel:model pathid:self.pathId];
 
     if(header){
@@ -261,6 +274,11 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
     
     DBXRenderModel *model = [DBXRenderModel modelWithDict:self.listModel.footer];
+    if([self.listModel.orientation isEqualToString:@"horizontal"]){
+        model.yogaModel.height = [NSString stringWithFormat:@"%f", self.frame.size.height];
+    } else {
+        model.yogaModel.width = [NSString stringWithFormat:@"%f", self.frame.size.width];
+    }
     DBXContainerViewYoga *footer = (DBXContainerViewYoga *)[DBXRenderFactory renderViewWithRenderModel:model pathid:self.pathId];
     if(footer){
         _footerView = footer;

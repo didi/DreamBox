@@ -1,20 +1,59 @@
-<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://db-xsd.oss-cn-beijing.aliyuncs.com/dbl.xsd">
-    <meta bg="https://static.didialift.com/pinche/gift/resource/3p5vf8r9d68-1596784035946-tag_bg.png" />
-    <render>
-        <flow bSpace="10dp" hSpace="5dp" id="flow1" leftToLeft="parent" rightToRight="parent" src="${ext.tabs}"
-            width="0">
-            <cell>
-                <text backgroundColor="#56634567" bottomToBottom="parent" id="item_name" leftToLeft="parent" marginBottom="5dp"
-                    marginLeft="5dp" marginRight="5dp" marginTop="5dp" rightToRight="parent" src="${title}"
-                    topToTop="parent" />
-                <!--            <view id="item_bg" leftToLeft="item_name" rightToRight="item_name"-->
-                <!--                topToTop="item_name" bottomToBottom="item_name" radius ="5dp" backgroundColor="#56634567"/>-->
-            </cell>
+<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <meta bg="https://static.didialift.com/pinche/gift/resource/3p5vf8r9d68-1596784035946-tag_bg.png">
+        <tabs title="干净整洁" />
+        <tabs title="有礼貌" />
+        <tabs title="神准时" />
+        <tabs title="车技一流有种漂移的赶脚" />
+        <tabs title="干净整洁" />
+        <tabs title="有礼貌" />
+        <tabs title="车内有异味" />
+        <tabs title="车技一流" />
+        <tabs title="干净整洁" />
+        <tabs title="喜欢问东问西" />
+        <tabs title="准时" />
+        <tabs title="车技一流" />
+        <tabs title="干净整洁" />
+        <tabs title="性暗示" />
+        <tabs title="准时" />
+        <tabs title="车技一流" />
+        <tabs title="干净整洁" />
+        <tabs title="有礼貌" />
+        <tabs title="神准时" />
+        <tabs title="车技一流有种漂移的赶脚" />
+        <tabs title="干净整洁" />
+        <tabs title="有礼貌" />
+        <tabs title="车内有异味" />
+        <tabs title="车技一流" />
+        <tabs title="干净整洁" />
+        <tabs title="喜欢问东问西" />
+        <tabs title="准时" />
+        <tabs title="车技一流" />
+        <tabs title="干净整洁" />
+        <tabs title="性暗示" />
+        <tabs title="准时" />
+        <tabs title="车技一流" />
+        <tabs title="干净整洁" />
+        <tabs title="有礼貌" />
+        <tabs title="神准时" />
+        <tabs title="车技一流有种漂移的赶脚" />
+        <tabs title="干净整洁" />
+        <tabs title="有礼貌" />
+        <tabs title="车内有异味" />
+        <tabs title="车技一流" />
+        <tabs title="干净整洁" />
+        <tabs title="喜欢问东问西" />
+        <tabs title="准时" />
+        <tabs title="车技一流" />
+        <tabs title="干净整洁" />
+        <tabs title="性暗示" />
+        <tabs title="准时" />
+        <tabs title="车技一流" />
+    </meta>
+    <layout type="yoga" width="fill" height="fill">
+        <flow vSpace="10dp" hSpace="5dp" src="${tabs}" width="100%">
+            <layout type="yoga" payload="cell">
+                <text backgroundColor="#56634567" marginBottom="5dp" marginLeft="5dp" marginRight="5dp" marginTop="5dp" src="${title}" />
+            </layout>
         </flow>
-        <!--        <flow  id="flow2" topToBottom="flow1" src="${ext.tabs}"  hSpace="10dp" bSpace="10dp" >-->
-        <!--            <text src="${title}" marginTop="5dp" topToBottom="parent"-->
-        <!--            leftToLeft="parent" rightToRight="parent" backgroundColor="#cccccc"/>-->
-        <!--         </flow>-->
-    </render>
+    </layout>
 </dbl>

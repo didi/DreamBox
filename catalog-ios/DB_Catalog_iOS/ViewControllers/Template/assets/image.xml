@@ -1,25 +1,22 @@
 <dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <meta content_image="https://static.didialift.com/pinche/gift/resource/%E8%BD%A6%E4%B8%BB-im_710x264.png.png" />
-	<render>
-		<image id="crop_image" backgroundColor="#000000" src="${content_image}" width="100dp" height="50dp" leftToLeft="parent" topToTop="parent" marginLeft="10dp" marginTop="30dp" scaleType="crop" />
+    <layout type="yoga" width="fill" height="fill">
+        <image id="crop_image" radius="5dp" backgroundColor="#000000" src="${content_image}" width="100dp" height="50dp" marginLeft="10dp" marginTop="30dp" scaleType="crop" />
+        <text src="scaleTypeCrop" size="16dp" color="#212E33" style="bold" />
 
-        <text  src="scaleTypeCrop" topToTop="crop_image" bottomToBottom="crop_image" leftToRight="crop_image" marginLeft="32dp"  size="16dp" color="#212E33" style="bold"/>
-        
-        <image id="inside_image" backgroundColor="#000000" src="${content_image}" width="100dp" height="50dp" leftToLeft="parent" topToBottom="crop_image" marginLeft="10dp" marginTop="20dp" scaleType="inside" />
+        <image id="inside_image" radius="5dp" radiusRT="10dp" borderWidth="2dp" borderColor="#FF0000" backgroundColor="#000000" src="${content_image}" width="100dp" height="50dp" marginLeft="10dp" marginTop="20dp" scaleType="inside" />
+        <text src="scaleTypeInside" size="16dp" color="#212E33" style="bold" />
 
-        <text  src="scaleTypeInside" topToTop="inside_image" bottomToBottom="inside_image" leftToRight="inside_image" marginLeft="32dp"  size="16dp" color="#212E33" style="bold"/>
-        
-        <image id="fix_image" backgroundColor="#000000" src="${content_image}" width="100dp" height="50dp" leftToLeft="parent" topToBottom="inside_image" marginLeft="10dp" marginTop="20dp" scaleType="fitXY" />
+        <image id="fix_image" radius="5dp" radiusRT="20dp" backgroundColor="#000000" src="${content_image}" width="100dp" height="50dp" marginLeft="10dp" marginTop="20dp" scaleType="fitXY" />
+        <text src="scaleTypeFixXY" topToTop="fix_image" size="16dp" color="#212E33" style="bold" />
 
-		<text  src="scaleTypeFixXY" topToTop="fix_image" bottomToBottom="fix_image" leftToRight="fix_image" marginLeft="32dp"  size="16dp" color="#212E33" style="bold"/>
+        <image id="fill_image" backgroundColor="#000000" src="${content_image}" width="fill" height="50dp" leftToLeft="parent" topToBottom="fix_image" marginTop="30dp" />
 
-        <image id="fill_image" backgroundColor="#000000" src="${content_image}" width="fill" height="50dp" leftToLeft="parent" topToBottom="fix_image"  marginTop="30dp"  />
+        <text id="fill_text" src="宽度fill" marginTop="5dp" size="16dp" color="#212E33" style="bold" />
 
-        <text  id="fill_text" src="宽度fill" topToBottom="fill_image" leftToLeft="parent" rightToRight="parent" marginTop="5dp"  size="16dp" color="#212E33" style="bold"/>
+        <image id="wrap_image" backgroundColor="#000000" src="${content_image}" width="wrap" height="50dp" marginTop="30dp" />
 
-        <image id="wrap_image" backgroundColor="#000000" src="${content_image}" width="wrap" height="50dp" leftToLeft="parent" rightToRight="parent" topToBottom="fill_text"  marginTop="30dp"  />
+        <text src="宽度wrap" marginTops="5dp" size="16dp" color="#212E33" style="bold" />
 
-        <text  src="宽度wrap" topToBottom="wrap_image" leftToLeft="parent" rightToRight="parent" marginTops="5dp"  size="16dp" color="#212E33" style="bold"/>
-
-    </render>
+    </layout>
 </dbl>

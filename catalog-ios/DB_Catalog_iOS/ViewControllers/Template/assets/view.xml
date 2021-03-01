@@ -1,21 +1,14 @@
-<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
- >
-    <meta/>
-	<render>
-        <view id="background" width="wrap" height="50dp" topToTop="parent" leftToLeft="parent" rightToRight="parent"
-        marginTop="60dp" backgroundColor="#56135468"/>
+<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <layout type="yoga" width="fill" height="fill" align-items="center">
+                <view height="50dp" marginTop="60dp" backgroundColor="#56135468" />
 
-        <view id="radius" width="180dp" height="50dp" leftToLeft="parent" rightToRight="parent"
-        marginTop="20dp" topToBottom="background" radius ="5dp" backgroundColor="#56634567"/>
+                <view width="180dp" height="50dp" marginTop="20dp" radius="5dp" backgroundColor="#56634567" />
 
-        <view id="border" width="180dp" height="50dp" leftToLeft="parent" rightToRight="parent"
-        marginTop="20dp" topToBottom="radius" borderWidth ="2dp" borderColor="#56457634" backgroundColor="#56cccccc"/>
+                <view width="180dp" height="50dp" marginTop="20dp" borderWidth="2dp" borderColor="#56457634" backgroundColor="#56cccccc" />
 
-        <view id="gradientColor" width="180dp" height="50dp" leftToLeft="parent" rightToRight="parent"
-        marginTop="20dp" topToBottom="border"  gradientColor="#56123456-#56269869-#56269869"/>
+                <view width="180dp" height="50dp" marginTop="20dp" gradientColor="#56123456-#56269869-#56269869" />
 
-        <view id="gradientOrientation" width="180dp" height="50dp" leftToLeft="parent" rightToRight="parent"
-        marginTop="20dp" topToBottom="gradientColor"  gradientColor="#56123456-#56269869-#56269869" gradientOrientation="vertical"/>
+                <view width="180dp" height="50dp" marginTop="20dp" gradientColor="#56123456-#56269869-#56269869" gradientOrientation="horizontal" />
 
-	</render>
+        </layout>
 </dbl>

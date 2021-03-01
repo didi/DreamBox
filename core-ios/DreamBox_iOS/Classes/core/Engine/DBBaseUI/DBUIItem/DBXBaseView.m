@@ -16,18 +16,20 @@
 
 @interface DBXBaseView()
 
+@property (nonatomic, strong) NSMutableArray *kvoArrM;
+
 @end
 
 @implementation DBXBaseView
 
 - (void)dealloc{
-//    if(self.kvoArrM.count > 0){
-//        NSDictionary *metaDict = [DBXParser getMetaDictByPathId:_pathId];
-//        [self.kvoArrM enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//            [metaDict removeObserver:self forKeyPath:obj];
-//        }];
-//        [self.kvoArrM removeAllObjects];
-//    }
+    if(self.kvoArrM.count > 0){
+        NSDictionary *metaDict = [DBXParser getMetaDictByPathId:_pathId];
+        [self.kvoArrM enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [metaDict removeObserver:self forKeyPath:obj];
+        }];
+        [self.kvoArrM removeAllObjects];
+    }
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -106,12 +108,12 @@
 
 - (void)handleChangeOn:(NSString *)changeOnstr
 {
-//    NSDictionary *metaDict = [DBXParser getMetaDictByPathId:_pathId];
-//    if (!changeOnstr) {
-//        return;
-//    }
-//    [metaDict addObserver:self forKeyPath:changeOnstr options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
-//    [self.kvoArrM db_addObject:changeOnstr];
+    NSDictionary *metaDict = [DBXParser getMetaDictByPathId:_pathId];
+    if (!changeOnstr) {
+        return;
+    }
+    [metaDict addObserver:self forKeyPath:changeOnstr options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    [self.kvoArrM db_addObject:changeOnstr];
 }
 
 - (void)reload {
@@ -125,12 +127,12 @@
     }
 }
 
-//- (NSMutableArray *)kvoArrM{
-//    if(!_kvoArrM){
-//        _kvoArrM = [NSMutableArray new];
-//    }
-//    return _kvoArrM;
-//}
+- (NSMutableArray *)kvoArrM{
+    if(!_kvoArrM){
+        _kvoArrM = [NSMutableArray new];
+    }
+    return _kvoArrM;
+}
 
 //展示时触发block中存储的事件
 -(void)willMoveToSuperview:(UIView *)newSuperview

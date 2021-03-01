@@ -11,7 +11,7 @@
 #define kDBCNaviBarHeight  (CGRectGetHeight([[UIApplication sharedApplication] statusBarFrame]) + CGRectGetHeight(self.navigationController.navigationBar.frame))
 
 #import "DBCBaseTemplateController.h"
-#import "DBTreeView.h"
+#import "DBXTreeView.h"
 #import "DBCTopView.h"
 #import "DBCCodeView.h"
 #import "Masonry.h"
@@ -24,7 +24,7 @@
 @property (nonatomic, assign) DBCTopViewSelectedType type;
 @property (nonatomic, strong) DBCTopView *topView;
 @property (nonatomic, strong) DBCCodeView *codeView;
-@property (nonatomic, strong) DBTreeView *treeView;
+@property (nonatomic, strong) DBXTreeView *treeView;
 
 @end
 
@@ -51,8 +51,7 @@
         [strongSelf p_switch];
     };
     
-    
-    self.treeView = [[DBTreeView alloc] initWithFrame:CGRectMake(0, kDBCTopViewH, self.view.frame.size.width, self.view.frame.size.height - kDBCTopViewH - kDBCNaviBarHeight)];
+    self.treeView = [[DBXTreeView alloc] initWithFrame:CGRectMake(0, kDBCTopViewH, self.view.frame.size.width, self.view.frame.size.height - kDBCTopViewH - kDBCNaviBarHeight)];
     
 
     

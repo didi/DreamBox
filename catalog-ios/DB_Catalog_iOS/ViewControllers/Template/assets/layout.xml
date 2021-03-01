@@ -1,39 +1,29 @@
-<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
- >
-    <meta/>
-	<render>
-        <text id="l1"  width="60dp" height="30dp" topToTop="parent" leftToLeft="parent" color="#c56784"
-        marginTop="5dp"  marginLeft="5dp" src="左上角" backgroundColor="#eeeeee" gravity="center"/>
+<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <meta />
+    <layout type="yoga" width="fill" height="fill">
+        <text id="l1" width="60dp" height="30dp" color="#c56784" marginTop="5dp" marginLeft="5dp" src="左上角" backgroundColor="#eeeeee" gravity="center" />
 
-        <text id="l2"  width="60dp" height="30dp" leftToLeft="parent" rightToRight="parent" color="#c56784"
-        marginTop="5dp" topToTop="parent"  src="顶部居中" backgroundColor="#eeeeee" gravity="center"/>
+        <text id="l2" align-self="center" width="60dp" height="30dp" color="#c56784" positionType="absolute" positionTop="5dp" src="顶部居中" backgroundColor="#eeeeee" gravity="center" />
 
-        <text id="l3"  width="60dp" height="30dp"  rightToRight="parent"   marginRight="5dp" color="#c56784"
-        marginTop="5dp" topToTop="parent"  src="右上角" backgroundColor="#eeeeee" gravity="center"/>
+        <text id="l3" width="60dp" height="30dp" positionType="absolute" positionTop="5dp" positionRight="5dp" color="#c56784" src="右上角" backgroundColor="#eeeeee" gravity="center" />
 
-        <text id="l5"  width="100dp" height="30dp" leftToLeft="parent" rightToRight="parent" color="#c56784"
-         topToTop="parent" bottomToBottom="parent" src="我是基准对象" backgroundColor="#eeeeee" gravity="center"/>
+        <layout type="yoga" positionType="absolute" positionTop="50%" marginTop="-100dp" width="100%" height="200dp">
+            <text id="l6" align-self="flex-start" positionType="absolute" positionTop="50%" marginTop="-15dp" width="100dp" height="30dp" src="基准对象左边" backgroundColor="#eeeeee" gravity="center" color="#c56784" />
 
-        <text id="l6"  rightToLeft="l5" marginRight="5dp"   topToTop="l5" bottomToBottom="l5"
-        src="基准对象左边" backgroundColor="#eeeeee" gravity="center" color="#c56784"/>
+            <text id="l7" align-self="flex-end" positionType="absolute" positionTop="50%" marginTop="-15dp" width="100dp" height="30dp" src="基准对象右边" backgroundColor="#eeeeee" gravity="center" color="#c56784" />
 
-        <text id="l7"  leftToRight="l5" marginLeft="5dp"   topToTop="l5" bottomToBottom="l5"
-        src="基准对象右边" backgroundColor="#eeeeee" gravity="center" color="#c56784"/>
-    
-        <text id="l8"  bottomToTop="l5" marginBottom="5dp"  leftToLeft="l5" rightToRight="l5"
-        src="基准对象上边" backgroundColor="#eeeeee" gravity="center" color="#c56784"/>
+            <text id="l5" align-self="center" positionType="absolute" positionTop="50%" marginTop="-15dp" width="100dp" height="30dp" color="#c56784" src="我是基准对象" backgroundColor="#eeeeee" gravity="center" />
 
-        <text id="l9"  topToBottom="l5"  marginTop="5dp"  leftToLeft="l5" rightToRight="l5"
-        src="基准对象下边" backgroundColor="#eeeeee" gravity="center" color="#c56784"/>
+            <text id="l8" align-self="center" positionType="absolute" positionTop="0dp" width="100dp" height="30dp" src="基准对象上边" backgroundColor="#eeeeee" gravity="center" color="#c56784" />
 
-        <text id="l10"  width="60dp" height="30dp" bottomToBottom="parent" leftToLeft="parent" color="#c56784"
-            marginBottom="5dp"  marginLeft="5dp" src="左下角" backgroundColor="#eeeeee" gravity="center"/>
+            <text id="l9" align-self="center" positionType="absolute" positionBottom="0dp" width="100dp" height="30dp" src="基准对象下边" backgroundColor="#eeeeee" gravity="center" color="#c56784" />
+        </layout>
 
-        <text id="l11"  width="60dp" height="30dp" leftToLeft="parent" rightToRight="parent" color="#c56784"
-            marginBottom="5dp" bottomToBottom="parent"  src="底部居中" backgroundColor="#eeeeee" gravity="center"/>
+        <text id="l10" width="60dp" height="30dp" color="#c56784" positionType="absolute" positionLeft="5dp" positionBottom="5dp" src="左下角" backgroundColor="#eeeeee" gravity="center" />
 
-        <text id="l12"  width="60dp" height="30dp"  rightToRight="parent"   marginRight="5dp" color="#c56784"
-            marginBottom="5dp" bottomToBottom="parent"  src="右下角" backgroundColor="#eeeeee" gravity="center"/>
+        <text id="l11" align-self="center" width="60dp" height="30dp" color="#c56784" positionType="absolute" positionBottom="5dp" src="底部居中" backgroundColor="#eeeeee" gravity="center" />
 
-	</render>
+        <text id="l12" width="60dp" height="30dp" color="#c56784" positionType="absolute" positionRight="5dp" positionBottom="5dp" src="右下角" backgroundColor="#eeeeee" gravity="center" />
+
+    </layout>
 </dbl>

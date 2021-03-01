@@ -1,12 +1,9 @@
-<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
- >
-    <meta/> 
-	<render>
-        <text id="btn"  width="180dp" height="50dp" topToTop="parent" leftToLeft="parent" rightToRight="parent"  
-        marginTop="30dp" size="14dp" src="click me, 关闭当前页面" backgroundColor="#cccccc" gravity="center">
-        <onClick>
-            <closePage/>
-        </onClick>
-        </text>  
-	</render>
+<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <layout type="yoga" width="fill" align-items="center">
+        <text width="180dp" height="50dp" marginTop="30dp" size="14dp" src="click me, 关闭当前页面" backgroundColor="#cccccc" gravity="center">
+            <onClick>
+                <closePage />
+            </onClick>
+        </text>
+    </layout>
 </dbl>

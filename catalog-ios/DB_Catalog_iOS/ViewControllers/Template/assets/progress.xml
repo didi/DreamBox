@@ -1,29 +1,17 @@
-<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
- >
-    <meta bgImg="https://static.didialift.com/pinche/gift/resource/a1btha00uvo-1596181723746-db_progress_bg_01.9.png"
-          fgImg="https://static.didialift.com/pinche/gift/resource/pubvqug1brg-1596181817219-db_progress_fg_01.9.png"/>
-	<render>
-        <text id="btn1"  topToTop="parent" leftToLeft="parent" rightToRight="parent"  
-        marginTop="60dp" size="14dp" src="默认patchType"  gravity="center"/>
-        <progress id="pro1" width="220dp" height="10dp" topToBottom="btn1" leftToLeft="parent" rightToRight="parent"
-        marginTop="10dp" value="40" barBg="${bgImg}" barFg="${fgImg}"/>
-        <text id="btn2"  topToBottom="pro1" leftToLeft="parent" rightToRight="parent"  
-        marginTop="30dp" size="14dp" src="patchType:stretch"  gravity="center"/>
-        <progress id="pro2" width="220dp" height="10dp" topToBottom="btn2" leftToLeft="parent" rightToRight="parent"
-        marginTop="10dp" value="60" barBg="${bgImg}" barFg="${fgImg}" patchType="stretch"/>
-        <text id="btn3"  topToBottom="pro2"  leftToLeft="parent" rightToRight="parent"  
-        marginTop="30dp" size="14dp" src="patchType:repeat"  gravity="center"/>
-        <progress id="pro3" width="220dp" height="10dp" topToBottom="btn3" leftToLeft="parent" rightToRight="parent"
-        marginTop="10dp" value="80" barBg="${bgImg}" barFg="${fgImg}"  patchType="repeat"/>
-        <text id="btn4"  topToBottom="pro3"  leftToLeft="parent" rightToRight="parent"
-            marginTop="30dp" size="14dp" src="wrap属性"  gravity="center"/>
-        <progress id="pro4" width="wrap" height="10dp" topToBottom="btn4" leftToLeft="parent" rightToRight="parent"
-            marginTop="10dp" value="80" barBg="${bgImg}" barFg="${fgImg}"  patchType="repeat"/>
-        <text id="btn5"  topToBottom="pro4"  leftToLeft="parent" rightToRight="parent"
-            marginTop="30dp" size="14dp" src="fill属性"  gravity="center"/>
-        <progress id="pro5" width="fill" height="10dp" topToBottom="btn5" leftToLeft="parent" rightToRight="parent"
-            marginTop="10dp" value="80" barBg="${bgImg}" barFg="${fgImg}"  patchType="repeat"/>
-
-
-	</render>
+<dbl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <meta bgImg="https://static.didialift.com/pinche/gift/resource/a1btha00uvo-1596181723746-db_progress_bg_01.9.png" fgImg="https://static.didialift.com/pinche/gift/resource/pubvqug1brg-1596181817219-db_progress_fg_01.9.png" />
+    <layout type="yoga" width="fill" height="fill" paddingLeft="10dp" paddingRight="10dp">
+        <text gravity="center" marginTop="60dp" size="14dp" src="默认patchType" />
+        <progress barBg="${bgImg}" barFg="${fgImg}" height="12dp" marginTop="10dp" value="40" width="220dp" />
+        <text gravity="center" marginTop="30dp" size="14dp" src="patchType:stretch" />
+        <progress barBg="${bgImg}" barFg="${fgImg}" height="12dp" marginTop="10dp" patchType="stretch" value="60" width="220dp" />
+        <text gravity="center" marginTop="30dp" size="14dp" src="patchType:repeat" />
+        <progress barBg="${bgImg}" barFg="${fgImg}" height="12dp" marginTop="10dp" patchType="repeat" value="80" width="220dp" />
+        <text gravity="center" marginTop="30dp" rightToRight="parent" size="14dp" src="wrap属性" />
+        <progress barBg="${bgImg}" barFg="${fgImg}" height="12dp" marginTop="10dp" patchType="repeat" value="80" width="wrap" />
+        <text gravity="center" marginTop="30dp" rightToRight="parent" size="14dp" src="fill属性" />
+        <progress barBg="${bgImg}" barFg="${fgImg}" height="12dp" marginTop="10dp" patchType="repeat" value="80" width="fill" />
+        <text gravity="center" marginTop="30dp" rightToRight="parent" size="14dp" src="color progress" />
+        <progress barBgColor="#CCCCCC" barFgColor="#789789" height="12dp" marginTop="10dp" patchType="repeat" value="80" width="fill" />
+    </layout>
 </dbl>
