@@ -10,7 +10,8 @@ flexbox方式实现上，为保证稳定性和一致性，底层采用了被广�
 
 ## 2. 布局属性
 
-### 2.1 容器支持的属性
+### 2.1 容器支持的布局相关的属性
+
 - flex-direction
     -flex-direction
     -row
@@ -42,7 +43,7 @@ flexbox方式实现上，为保证稳定性和一致性，底层采用了被广�
     - space-between
     - space-around
 
-### 2.2 子元素支持的属性
+### 2.2 子元素支持的布局相关的属性
 - 宽
     - key: width
     - value: 固定值，例：20dp; 百分比，例：50%
