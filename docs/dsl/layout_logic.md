@@ -13,11 +13,11 @@ flexbox方式实现上，为保证稳定性和一致性，底层采用了被广�
 ### 2.1 容器支持的布局相关的属性
 
 - flex-direction
-    -flex-direction
-    -row
-    -column
-    -row-reverse
-    -column-reverse
+    - flex-direction
+    - row
+    - column
+    - row-reverse
+    - column-reverse
 - flex-wrap
     - wrap
     - nowrap
@@ -44,6 +44,7 @@ flexbox方式实现上，为保证稳定性和一致性，底层采用了被广�
     - space-around
 
 ### 2.2 子元素支持的布局相关的属性
+
 - 宽
     - key: width
     - value: 固定值，例：20dp; 百分比，例：50%
@@ -79,10 +80,10 @@ flexbox方式实现上，为保证稳定性和一致性，底层采用了被广�
     - value: absolute 相对布局，relative 绝对布局
 - 绝对布局方式，左对齐及左边距
     - key: positionLeft
-    - value: 固定值，例：20dp; 百分比，例：50%
+    - value: 固定值，例：0dp; 百分比，例：50%
 - 绝对布局方式，顶部对齐及顶部边距
     - key: positionTop
-    - value: 固定值，例：20dp; 百分比，例：50%
+    - value: 固定值，例：0dp; 百分比，例：50%
 - 绝对布局方式，右对齐及右边距
     - key: positionRight
     - value: 固定值，例：20dp; 百分比，例：50%
