@@ -10,7 +10,7 @@ DB的demo APP，DSL编写快速入门，同时作为DB准出，包含DB视图节
 
 App内容：
 
-![](../assets/catalog_app1.png ':size=20%')![](../assets/catalog_app2.png ':size=20%')![](../assets/catalog_app3.png ':size=20%')
+![](../assets/catalog_app1.png ':size=20%')![](../assets/catalog_app2.png ':size=20%')![](../assets/catalog_app3.png ':size=20%')![](../assets/catalog_app4.png ':size=20%')
 
 #### iOS ：
 
