@@ -129,17 +129,28 @@ public class DBConstants {
     public static final String ALIGN_CONTENT_STRETCH = "stretch";
     public static final String ALIGN_CONTENT_S_BETWEEN = "space-between";
     public static final String ALIGN_CONTENT_S_AROUND = "space-around";
+
+    // item:flex-grow
+    public static final String FLEX_GROW = "flex-grow";
+    // item:flex-shrink
+    public static final String FLEX_SHRINK = "flex-shrink";
+    // item:flex-basis
+    public static final String FLEX_BASIS = "flex-basis";
     // item:align-self
+    public static final String ALIGN_SELF = "align-self";
     public static final String ALIGN_SELF_START = "flex-start";
     public static final String ALIGN_SELF_END = "flex-end";
     public static final String ALIGN_SELF_CENTER = "center";
     public static final String ALIGN_SELF_STRETCH = "stretch";
     public static final String ALIGN_SELF_BASELINE = "baseline";
-    // container:position type
+    // container:position
+    public static final String POSITION_TYPE = "positionType";
     public static final String POSITION_TYPE_ABSOLUTE = "absolute";
     public static final String POSITION_TYPE_RELATIVE = "relative";
-    public static final String POSITION_LEFT = "left";
-    public static final String POSITION_TOP = "top";
-    public static final String POSITION_RIGHT = "right";
-    public static final String POSITION_BOTTOM = "bottom";
+    public static final String POSITION_LEFT = "positionLeft";
+    public static final String POSITION_TOP = "positionTop";
+    public static final String POSITION_RIGHT = "positionRight";
+    public static final String POSITION_BOTTOM = "positionBottom";
+    // item:aspect-ratio
+    public static final String ASPECT_RATIO = "aspectRatio";
 }

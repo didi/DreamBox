@@ -220,15 +220,15 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
         radiusLB = DBScreenUtils.processSize(mDBContext, attrs.get("radiusLB"), 0);
 
         // YogaLayout属性
-        String fg = attrs.get("flex-grow");
+        String fg = attrs.get(DBConstants.FLEX_GROW);
         if (DBUtils.isNumeric(fg)) {
             flexGrow = Float.parseFloat(fg);
         }
-        String fs = attrs.get("flex-shrink");
+        String fs = attrs.get(DBConstants.FLEX_SHRINK);
         if (DBUtils.isNumeric(fs)) {
             flexShrink = Float.parseFloat(fs);
         }
-        String fb = attrs.get("flex-basis");
+        String fb = attrs.get(DBConstants.FLEX_BASIS);
         if (null != fb) {
             if (fb.endsWith("%")) {
                 fb = fb.substring(0, fb.length() - 1);
@@ -239,9 +239,9 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
                 flexBasis = DBScreenUtils.processSize(mDBContext, fb, 0);
             }
         }
-        alignSelf = attrs.get("align-self");
-        positionType = attrs.get("positionType");
-        String posLeft = attrs.get("positionLeft");
+        alignSelf = attrs.get(DBConstants.ALIGN_SELF);
+        positionType = attrs.get(DBConstants.POSITION_TYPE);
+        String posLeft = attrs.get(DBConstants.POSITION_LEFT);
         if (null != posLeft) {
             if (posLeft.endsWith("%")) {
                 posLeft = posLeft.substring(0, posLeft.length() - 1);
@@ -252,7 +252,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
                 positionLeft = DBScreenUtils.processSize(mDBContext, posLeft, 0);
             }
         }
-        String posTop = attrs.get("positionTop");
+        String posTop = attrs.get(DBConstants.POSITION_TOP);
         if (null != posTop) {
             if (posTop.endsWith("%")) {
                 posTop = posTop.substring(0, posTop.length() - 1);
@@ -263,7 +263,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
                 positionTop = DBScreenUtils.processSize(mDBContext, posTop, 0);
             }
         }
-        String posRight = attrs.get("positionRight");
+        String posRight = attrs.get(DBConstants.POSITION_RIGHT);
         if (null != posRight) {
             if (posRight.endsWith("%")) {
                 posRight = posRight.substring(0, posRight.length() - 1);
@@ -274,7 +274,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
                 positionRight = DBScreenUtils.processSize(mDBContext, posRight, 0);
             }
         }
-        String posBottom = attrs.get("positionBottom");
+        String posBottom = attrs.get(DBConstants.POSITION_BOTTOM);
         if (null != posBottom) {
             if (posBottom.endsWith("%")) {
                 posBottom = posBottom.substring(0, posBottom.length() - 1);
@@ -285,7 +285,7 @@ public abstract class DBAbsView<V extends View> extends DBBindView {
                 positionBottom = DBScreenUtils.processSize(mDBContext, posBottom, 0);
             }
         }
-        String ratio = attrs.get("aspectRatio");
+        String ratio = attrs.get(DBConstants.ASPECT_RATIO);
         if (null != ratio && DBUtils.isNumeric(ratio)) {
             aspectRatio = Float.parseFloat(ratio);
         }
