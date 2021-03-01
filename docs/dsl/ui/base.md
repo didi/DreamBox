@@ -1,12 +1,12 @@
 ## 视图节点（UI Element）
 
-所有视图节点在`<dbl>`下被`<render>`包裹，以便于编辑和理解。
+所有视图节点在`<dbl>`下被`<layout type="yoga">`包裹，以便于编辑和理解。
 
 Added in v0.1
 
 ### 设计
 
-DreamBox的渲染设计思想参照Android约束布局，内部子节点采用上下左右的相对关系达成最终的布局。
+DreamBox布局从v0.4开始由约束布局替换为flexbox布局，底层采用yoga实现。`layout`节点为容器节点，通过`layout`节点的`type`属性指定具体布局类型，目前只支持`yoga`，将来可通过扩展此属性实现更多布局类型。
 
 ### 属性
 
@@ -18,10 +18,10 @@ DreamBox的渲染设计思想参照Android约束布局，内部子节点采用�
 ##### 常规属性
 
 - `id` 表示此视图节点的唯一ID，属性值为字符串类型。`<dbl>`根节点的ID在DSL中以`parent`表示，Runtime中以0表示
-- `marginTop` 外部上边距
-- `marginBottom` 外部下边距
 - `marginLeft` 外部左边距
+- `marginTop` 外部上边距
 - `marginRight` 外部右边距
+- `marginBottom` 外部下边距
 - `backgroundColor` ARGB格式的背景色色值，以`#`开头，至少6位RGB码（无透明度）
 - `width` 可选自：
   - `wrap`（默认）自适应 内置组件自适应规规则
@@ -41,24 +41,51 @@ DreamBox的渲染设计思想参照Android约束布局，内部子节点采用�
 - `visibleOn` 属性值接受元数据中的bool值，若给定key的数据变为true则展示（所有视图默认为可见）
 
 ##### Added in v0.3
+
 - `userInteractionEnabled`是否允许用户交互，默认为false
 
-##### 布局约束属性
+##### Added in v0.4
 
-- `leftToLeft` 值为其他视图节点的ID，说明当前视图的左边以指定ID的左边为准
-- `leftToRight` 值为其他视图节点的ID，说明当前视图的左边以指定ID的右边为准
-- `rightToRight` 值为其他视图节点的ID，说明当前视图的右边以指定ID的右边为准
-- `rightToLeft` 值为其他视图节点的ID，说明当前视图的右边以指定ID的左边为准
-- `topToTop` 值为其他视图节点的ID，说明当前视图的上边以指定ID的上边为准
-- `topToBottom` 值为其他视图节点的ID，说明当前视图的上边以指定ID的下边为准
-- `bottomToTop` 值为其他视图节点的ID，说明当前视图的下边以指定ID的上边为准
-- `bottomToBottom` 值为其他视图节点的ID，说明当前视图的下边以指定ID的下边为准
+- `width` 增加支持百分比
+- `height` 增加支持百分比
+- `background` 设置本地/远程背景图片
+- `borderWidth` 设置边框宽度
+- `borderColor` 设置边框颜色
+- `radius` 设置四个角圆角
+- `radiusLT` 单独设置左上角圆角，优先级高于`radius`
+- `radiusRT` 单独设置右上角圆角，优先级高于`radius`
+- `radiusRB` 单独设置右下角圆角，优先级高于`radius`
+- `radiusLB` 单独设置左下角圆角，优先级高于`radius`
+- `margin` 设置左上右下外边距，v0.4之前的marginLeft、marginTop、marginRight、marginBottom优先级高于margin
+- `padding` 设置左上右下内边距
+- `paddingLeft` 单独设置左内边距，优先级高于`padding`
+- `paddingTop` 单独设置上内边距，优先级高于`padding`
+- `paddingRight` 单独设置右内边距，优先级高于`padding`
+- `paddingBottom` 单独设置下内边距，优先级高于`padding`
 
-> 举例：在视图宽高为wrap的情况下，若视图A的左边、右边分别视图B的左边、右边为准，也可以理解为视图A与B的垂直中心线对齐。上下对齐即横向中心线对齐
+父容器是flexbox类型时(<layout type="yoga">)，UI节点如下属性生效，具体可参考[布局逻辑](https://didi.github.io/DreamBox/#/dsl/layout_logic)里相关内容
+
+- `flexGrow` 设置弹性扩展比例
+- `flexShrink` 设置弹性收缩比例
+- `flexBasis` 设置弹性伸缩基准值
+- `alignSelf` 设置元素在侧轴的对齐方式
+  - `flex-start` 上/左对齐
+  - `flex-end` 右/下对齐
+  - `center` 居中
+  - `stretch` 主轴方向拉伸
+  - `baseline` 基线对齐
+- `positionType` 位置排列方式
+  - `relative` 默认
+  - `absolute` 绝对布局方式，采用此方式时，positionLeft/positionTop/positionRight/positionBottom 生效
+- `positionLeft` 设置左边对齐及左边距
+- `positionTop` 设置顶部对齐及顶部边距
+- `positionRight` 设置右边对齐及右边距
+- `positionBottom` 设置底部对齐及底部边距
+- `aspectRatio` 设置宽高比
 
 #### 特殊说明
 
-后边所介绍的子节点中，有这样一条规则：如果这个视图节点拥有`src`属性，则同时具备`srcMock`属性。此属性含义与`src`属性一致，功能用于mock测试，所以在数据的优先级上高于`src`。CLI将保证`srcMock`属性在发布前的编译过程中被移除掉，不影响线上效果。
+无
 
 ### 子节点
 

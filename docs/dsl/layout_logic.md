@@ -8,7 +8,21 @@
 
 flexbox方式实现上，为保证稳定性和一致性，底层采用了被广泛使用的yoga作为布局引擎的实现。
 
-## 2. 布局属性
+## 2. 布局容器属性
+
+`layout`节点即为容器节点，`type="yoga"` 表示容器节点为`flexbox`容器，`type`属性取值目前只支持`yoga`属性，将来可以通过扩展`type`类型，实现其他容器类型
+
+```
+<dbl>
+    <layout type="yoga" flex-direction="column">
+        <image width="100dp" height="60dp" />
+        <text width="100%" height="20%" />
+        <layout type="yoga" flex-direction="row">
+            ......
+        </layout>
+    </layout>
+</dbl>
+```
 
 ### 2.1 容器支持的布局相关的属性
 
@@ -66,7 +80,7 @@ flexbox方式实现上，为保证稳定性和一致性，底层采用了被广�
 - 弹性扩展
     - key: flex-grow
     - value: float型，例：1，2.5
-- 弹性扩收缩
+- 弹性收缩
     - key: flex-shrink
     - value: float型，例：1，2.5
 - 弹性伸缩基准值
