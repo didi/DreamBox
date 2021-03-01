@@ -2,20 +2,18 @@
 
 所有视图节点在`<dbl>`下被`<layout type="yoga">`包裹，以便于编辑和理解。
 
-Added in v0.1
-
 ### 设计
 
 DreamBox布局从v0.4开始由约束布局替换为flexbox布局，底层采用yoga实现。`layout`节点为容器节点，通过`layout`节点的`type`属性指定具体布局类型，目前只支持`yoga`，将来可通过扩展此属性实现更多布局类型。
 
-### 属性
-
-##### 尺寸单位
+### 尺寸单位
 
 - `px`像素
 - `dp`根据屏幕密度计算的单位，方便适配。计算规则：720P下的像素值除以2为对应的dp值，1080P下则除以3
 
-##### 常规属性
+### 常规属性
+
+#### Added in v0.3
 
 - `id` 表示此视图节点的唯一ID，属性值为字符串类型。`<dbl>`根节点的ID在DSL中以`parent`表示，Runtime中以0表示
 - `marginLeft` 外部左边距
@@ -40,11 +38,11 @@ DreamBox布局从v0.4开始由约束布局替换为flexbox布局，底层采用y
 - `height` 同`width`
 - `visibleOn` 属性值接受元数据中的bool值，若给定key的数据变为true则展示（所有视图默认为可见）
 
-##### Added in v0.3
+#### Added in v0.3
 
 - `userInteractionEnabled`是否允许用户交互，默认为false
 
-##### Added in v0.4
+#### Added in v0.4
 
 - `width` 增加支持百分比
 - `height` 增加支持百分比
@@ -83,7 +81,7 @@ DreamBox布局从v0.4开始由约束布局替换为flexbox布局，底层采用y
 - `positionBottom` 设置底部对齐及底部边距
 - `aspectRatio` 设置宽高比
 
-#### 特殊说明
+### 特殊说明
 
 无
 
