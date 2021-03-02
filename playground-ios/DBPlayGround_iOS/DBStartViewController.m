@@ -8,11 +8,11 @@
 
 #import "DBStartViewController.h"
 #import "DBWssTest.h"
-#import "DBTreeView.h"
-#import "DBPreProcess.h"
+#import "DBXTreeView.h"
+#import "DBXPreProcess.h"
 #import "DBQRScanVC.h"
 #import "Masonry.h"
-#import "NSString+DBExtends.h"
+#import "NSString+DBXExtends.h"
 
 static CGFloat DBWSSDemoHeight = 600;
 static CGFloat DBButtonHeight = 25;
@@ -21,7 +21,7 @@ static CGFloat DBVerticalMargin = 10;
 
 @interface DBStartViewController ()<DBWSSDelegate>
 
-@property (nonatomic,strong) DBTreeView *dbView;
+@property (nonatomic,strong) DBXTreeView *dbView;
 @property (nonatomic,strong) UIButton *scanBtn;
 @property (nonatomic,strong) UIButton *connectBtn;
 @property (nonatomic,strong) UIButton *refreshBtn;
@@ -69,7 +69,7 @@ static CGFloat DBVerticalMargin = 10;
 - (void)setUpDBViewWithMetaData:(NSString *)data ext:(NSDictionary *)ext {
     
     if(!self.dbView){
-        self.dbView = [[DBTreeView alloc] init];
+        self.dbView = [[DBXTreeView alloc] init];
         [self.view addSubview:self.dbView];
         self.dbView.backgroundColor = [UIColor whiteColor];
         self.dbView.layer.borderWidth = 0.5;
